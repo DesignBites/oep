@@ -1,0 +1,10 @@
+django>=3.0
+gunicorn
+pillow
+django-crispy-forms
+boto3
+six
+django-storages
+django-ses
+python-slugify
+django-recaptcha
