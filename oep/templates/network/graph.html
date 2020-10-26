@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static tz %}
+{% load i18n static crispy_forms_tags %}
 
 
 {% block head %}
@@ -26,30 +26,14 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="">
-							<span class="badge badge-pill badge-info">1</span>
-							{% trans "Organizational" %}
+					{% for code, name in relation_groups %}
+					<li class="nav-item group-tab">
+						<a class="nav-link" href="#{{ name }}">
+							<span class="badge badge-pill badge-secondary tab-pill">{{ forloop.counter }}</span>
+							{{ name }}
 						</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="">
-							<span class="badge badge-pill badge-secondary">2</span>
-							{% trans "Creative" %}
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="">
-							<span class="badge badge-pill badge-secondary">3</span>
-							{% trans "Social" %}
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="">
-							<span class="badge badge-pill badge-secondary">4</span>
-							{% trans "Polarity" %}
-						</a>
-					</li>
+					{% endfor %}
 				</ul>
 
 				<ul class="navbar-nav mr-auto">
@@ -58,12 +42,17 @@
 						  {% trans "More" %}
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a id="btnAddNode" class="dropdown-item" href="#">
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal">
 								{% trans "Add entity" %}
 							</a>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal">
+								{% trans "Remove entity" %}
+							</a>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="">
 								{% trans "Filter" %}
 							</a>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="">
 								{% trans "Export" %}
 							</a>
@@ -90,6 +79,38 @@
 
 	</div>
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+			{% trans "Add an entity" %}
+		</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+		  <form id="formAddNode">
+			  {{ add_node_form|crispy }}
+		  </form>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAddNode" >
+			{% trans "Add entity" %}
+		</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 
@@ -97,36 +118,51 @@
 
 <script>
 
-    var s = new sigma('canvas');
+	$(window).on('hashchange', function( e ) {
+		console.log(window.location.hash);
+		var $pill = $('a[href="' + window.location.hash + '"]').find('span');
+		$('.tab-pill').removeClass('badge-info').addClass('badge-secondary');
+		$pill.removeClass('badge-secondary').addClass('badge-info');
+	} );
+
+	var relation_type_palette = {{ relation_type_palette|safe }};
+
+    var s = new sigma('canvas',
+		settings = {
+			minNodeSize: 10,
+			maxNodeSize: 100
+		}
+    );
+    var i = 0;
 
     s.graph.addNode({
       // Main attributes:
-      id: 'n0',
-      label: 'You',
+      id: i,
+      label: '{% trans "You" %}',
       // Display attributes:
       x: 10,
       y: 10,
-      size: 1,
+      size: 3,
       color: '#f00'
     })
 	s.refresh();
+	i += 1;
 
     $('#btnAddNode').click(function () {
 		s.graph.addNode({
-		  // Main attributes:
-		  id: 'n1',
-		  label: 'World !',
-		  // Display attributes:
-		  x: 1,
-		  y: 1,
-		  size: 1,
-		  color: '#00f'
+		  id: i,
+		  label: $('#id_name').val(),
+		  x: Math.floor(400 * Math.random()),
+		  y: Math.floor(400 * Math.random()),
+		  size: $('#id_size').val(),
+		  color: relation_type_palette[$('#id_relation_type').val()]
 		}).addEdge({
-		  id: 'e0',
-		  // Reference extremities:
-		  source: 'n0',
-		  target: 'n1'
+		  id: 'e' + i,
+		  source: 0,
+		  target: i,
+		  color: relation_type_palette[$('#id_relation_type').val()]
 		});
+		i += 1;
 	    s.refresh();
 
     });
