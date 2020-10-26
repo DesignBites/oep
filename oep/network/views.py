@@ -7,10 +7,6 @@ class EntityForm(forms.Form):
     name = forms.CharField()
     size = forms.ChoiceField(choices=ORGANIZATION_SIZES)
     relation_type_choices = []
-    for group_code, group_name in RELATION_GROUPS:
-        relation_type_choices.append(
-            (group_name, [(rt.id, rt.name) for rt in RelationType.objects.filter(group=group_code)])
-        )
     relation_type = forms.ChoiceField(choices=relation_type_choices)
 
 
