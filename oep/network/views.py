@@ -33,7 +33,13 @@ class EntityForm(forms.Form):
 def graph(request):
     return render(request, 'network/graph.html', {
         'relation_groups': RELATION_GROUPS,
-        'relation_type_palette': {rt.id: rt.color for rt in RelationType.objects.all()},
+        'relation_types': {
+            rt.id: {
+                'color': rt.color,
+                'name': rt.name,
+            }
+            for rt in RelationType.objects.all()
+        },
         'add_node_form': EntityForm(),
     })
 
