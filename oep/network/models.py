@@ -60,7 +60,7 @@ class RelationType(models.Model):
     description = models.CharField(max_length=100, blank=True, null=True)
     color = models.CharField(max_length=7, blank=True, null=True, default='#ccc')
     directional = models.BooleanField(default=True)
-    order = models.PositiveSmallIntegerField()
+    order = models.PositiveSmallIntegerField(blank=True)
 
     def __str__(self):
         return self.name
@@ -80,3 +80,4 @@ class RelationType(models.Model):
 
     class Meta:
         ordering = ('group', 'order',)
+        unique_together = (('group', 'order'),)
