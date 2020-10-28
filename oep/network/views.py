@@ -52,11 +52,13 @@ def graph(request):
             'name': rt.name,
         }
     group_first_relation = []
-    for group_name in relation_types_grouped.keys():
-        group_first_relation.append((
-            group_name,
-            list(relation_types_grouped[group_name].keys())[0]
-        ))
+    for group_name in relation_groups.values():
+        relation_types = relation_types_grouped.get(group_name)
+        if relation_types:
+            group_first_relation.append((
+                group_name,
+                list(relation_types.keys())[0]
+            ))
     return render(request, 'network/graph.html', {
         'relation_groups': relation_groups,
         'group_first_relation': group_first_relation,

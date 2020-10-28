@@ -151,16 +151,20 @@
 					</div>
 
 					<div class="modal-footer">
-{{ relation_type.group_next }}
+
+						{% if not forloop.last %}
+
+						<button type="button" class="btn btn-primary" id="btnAddGroupNode"
+							data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}" data-dismiss="modal">
+							{% trans "Next" %}
+						</button>
+
+						{% else %}
+
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">
 							{% trans "Close" %}
 						</button>
 
-						{% if not forloop.last %}
-						<button type="button" class="btn btn-primary" id="btnAddGroupNode"
-							data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}">
-							{% trans "Next" %}
-						</button>
 						{% endif %}
 					</div>
 				</div>
