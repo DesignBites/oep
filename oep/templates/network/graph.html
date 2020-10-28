@@ -140,9 +140,11 @@
 							{{ relation_type.question }}
 						</h6>
 
+						{% if relation_type.description %}
 						<p>
 							{{ relation_type.description }}
 						</p>
+						{% endif %}
 
 						<form id="formAddGroupNode">
 							{{ add_stakeholder_form|crispy }}
