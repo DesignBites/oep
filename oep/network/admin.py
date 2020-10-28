@@ -19,4 +19,5 @@ class PurposeAdmin(admin.ModelAdmin):
 
 @admin.register(RelationType)
 class RelationTypeAdmin(admin.ModelAdmin):
-    list_display = ['group', 'name']
+    list_display = ['group', 'name', 'order']
+    list_editable = ['order']

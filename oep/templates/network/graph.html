@@ -31,9 +31,9 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 				<ul class="navbar-nav mr-auto">
-					{% for code, name in relation_groups %}
+					{% for name, first_relation in group_first_relation %}
 					<li class="nav-item group-tab">
-						<a class="nav-link" href="#{{ name }}">
+						<a class="nav-link" href="#{{ name }}" data-toggle="modal" data-target="#modalAddEntity-{{ first_relation }}">
 							<span class="badge badge-pill badge-secondary tab-pill">{{ forloop.counter }}</span>
 							{{ name }}
 						</a>
@@ -48,10 +48,10 @@
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
-								{% trans "Add entity" %}
+								{% trans "Add a stakeholder" %}
 							</a>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
-								{% trans "Remove entity" %}
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddRelation">
+								{% trans "Add a relation" %}
 							</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="">
@@ -85,13 +85,13 @@
 	</div>
 
 
-<div class="modal fade" id="modalAddEntity" tabindex="-1" role="dialog" aria-labelledby="modalAddEntity" aria-hidden="true">
+<div class="modal fade" id="modalAddEntity" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="modalAddEntity">
-			{% trans "Add a new entity" %}
+        <h5 class="modal-title">
+			{% trans "Add a new stakeholder" %}
 		</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -116,6 +116,62 @@
   </div>
 </div>
 
+
+{% for group_name, relation_types in relation_types_grouped.items %}
+
+	{% for relation_type in relation_types.values %}
+
+		<div class="modal {% if forloop.first %}fade{% endif %}" id="modalAddEntity-{{ relation_type.id }}" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">
+							{% blocktrans %}{{ group_name }} stakeholders{% endblocktrans %}
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+
+						<h6>
+							{{ relation_type.question }}
+						</h6>
+
+						<p>
+							{{ relation_type.description }}
+						</p>
+
+						<form id="formAddGroupNode">
+							{{ add_stakeholder_form|crispy }}
+						</form>
+
+					</div>
+
+					<div class="modal-footer">
+{{ relation_type.group_next }}
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">
+							{% trans "Close" %}
+						</button>
+
+						{% if not forloop.last %}
+						<button type="button" class="btn btn-primary" id="btnAddGroupNode"
+							data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}">
+							{% trans "Next" %}
+						</button>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% endfor %}
+
+{% endfor %}
+
+
 {% endblock %}
 
 
@@ -130,13 +186,11 @@
 		$pill.removeClass('badge-secondary').addClass('badge-info');
 	} );
 
-	var relation_types = {{ relation_types|safe }};
+	var relation_types = {{ relation_types_flat|safe }};
 
 	function layoutOptimize(s) {
-
 		//Start the ForceAtlas2 algorithm to optimize network layout
 		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
-
 		//Set time interval to allow layout algorithm to converge on a good state
 		var t = 0;
 		var interval = setInterval(function() {
@@ -161,8 +215,10 @@
 			edgeLabelSize: 'proportional'
 		}
     });
+
     var listener = s.configNoverlap({});
 	s.startNoverlap();
+
     let dragListener = sigma.plugins.dragNodes(s, s.renderers[0])
 
     var i = 0;

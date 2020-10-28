@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
+from django.utils.functional import cached_property
 
 
 RELATION_GROUPS = (
@@ -12,8 +13,8 @@ RELATION_GROUPS = (
 
 ORGANIZATION_SIZES = (
     (1, _('Less than 5 employees')),
-    (5, _('5 - 9 employees')),
-    (10, _('10 or more employees')),
+    (2, _('5 - 9 employees')),
+    (3, _('10 or more employees')),
 )
 
 
@@ -41,6 +42,13 @@ class Map(models.Model):
             'id': self.id,
         })
 
+    def get_nodes(self):
+        return {
+            1: 'aaa',
+            2: 'bbb',
+            3: 'ccc',
+        }
+
 
 class RelationType(models.Model):
     group = models.CharField(
@@ -52,6 +60,23 @@ class RelationType(models.Model):
     description = models.CharField(max_length=100, blank=True, null=True)
     color = models.CharField(max_length=7, blank=True, null=True, default='#ccc')
     directional = models.BooleanField(default=True)
+    order = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.name
+
+    def save(self, **kwargs):
+        if not self.order:
+            self.order = RelationType.objects.filter(group=self.group).count() + 1
+        super().save(kwargs)
+
+    @cached_property
+    def group_next(self):
+        return RelationType.objects.filter(group=self.group).filter(order__gt=self.order).order_by('order').first()
+
+    @cached_property
+    def group_prev(self):
+        return RelationType.objects.filter(group=self.group).filter(order__lt=self.order).order_by('-order').first()
+
+    class Meta:
+        ordering = ('group', 'order',)

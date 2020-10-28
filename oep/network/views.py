@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.shortcuts import render
 from django import forms
 from django.utils.translation import ugettext as _
@@ -30,17 +31,39 @@ class EntityForm(forms.Form):
     ))
 
 
+class StakeholderForm(forms.Form):
+    name = forms.CharField(label=_('Name of the stakeholder'))
+    size = forms.ChoiceField(label=_('Size of the stakeholder'), choices=ORGANIZATION_SIZES)
+    weight = forms.ChoiceField(label=_('We interact'), choices=(
+        (3, _('Regularly')),
+        (2, _('Sometimes')),
+        (1, _('Rarely')),
+    ))
+
+
 def graph(request):
+    relation_groups = dict(RELATION_GROUPS)
+    relation_types_grouped = defaultdict(dict)
+    relation_types_flat = {}
+    for rt in RelationType.objects.all():
+        relation_types_grouped[relation_groups[rt.group]][rt.id] = rt
+        relation_types_flat[rt.id] = {
+            'color': rt.color,
+            'name': rt.name,
+        }
+    group_first_relation = []
+    for group_name in relation_types_grouped.keys():
+        group_first_relation.append((
+            group_name,
+            list(relation_types_grouped[group_name].keys())[0]
+        ))
     return render(request, 'network/graph.html', {
-        'relation_groups': RELATION_GROUPS,
-        'relation_types': {
-            rt.id: {
-                'color': rt.color,
-                'name': rt.name,
-            }
-            for rt in RelationType.objects.all()
-        },
+        'relation_groups': relation_groups,
+        'group_first_relation': group_first_relation,
+        'relation_types_grouped': dict(relation_types_grouped),
+        'relation_types_flat': relation_types_flat,
         'add_node_form': EntityForm(),
+        'add_stakeholder_form': StakeholderForm(),
     })
 
 
