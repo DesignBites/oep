@@ -86,7 +86,7 @@
 				<ul class="navbar-nav mr-auto" id="ulGroups">
 					{% for name, first_relation in group_first_relation %}
 					<li class="nav-item group-tab">
-						<a class="nav-link" href="#{{ name }}" data-target="#modalAddEntity-{{ first_relation }}">
+						<a class="nav-link" href="#" data-target="#modalAddEntity-{{ first_relation }}">
 							<span class="badge badge-pill badge-secondary tab-pill">{{ forloop.counter }}</span>
 							{{ name }}
 						</a>
@@ -155,39 +155,42 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 
-			<div class="modal-header">
-				<h5 class="modal-title">
-					{% trans "Welcome to the Stakeholder Mapper" %}
-				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
+			<form id="formMapCreate" method="post" action="{% url 'graph_create' %}">
 
-			<div class="modal-body">
+				<div class="modal-header">
+					<h5 class="modal-title">
+						{% trans "Welcome to the Stakeholder Mapper" %}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 
-				<p>
-					{% trans "To support you in identifying and selecting potential collaborators, let’s start by getting to know you." %}
-				</p>
+				<div class="modal-body">
 
-				<form id="formMap">
+					<p>
+						{% trans "To support you in identifying and selecting potential collaborators, let’s start by getting to know you." %}
+					</p>
+
 					{{ map_form|crispy }}
-				</form>
 
-			</div>
+				</div>
 
-			<div class="modal-footer">
+				<div class="modal-footer">
 
-				<button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-					data-toggle="modal" data-target="#modalUploadMap">
-					{% trans "Upload an existing map" %}
-				</button>
+					<button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+						data-toggle="modal" data-target="#modalUploadMap">
+						{% trans "Upload map" %}
+					</button>
 
-				<button type="button" class="btn btn-primary" id="btnInitMap" data-dismiss="modal">
-					{% trans "Initiate network map" %}
-				</button>
+					<button type="submit" class="btn btn-primary">
+						{% trans "Create map" %}
+					</button>
 
-			</div>
+				</div>
+
+			</form>
+
 		</div>
 	</div>
 </div>
@@ -303,14 +306,14 @@
 		placement: 'top'
 	});
 
-	$('.group-tab').click(function( e ) {
-		var $pill = $('a[href="' + window.location.hash + '"]').find('span');
+	$('.group-tab').click(function(e) {
+		var $pill = $(this).find('span');
 		$('.tab-pill').removeClass('badge-info').addClass('badge-secondary');
 		$pill.removeClass('badge-secondary').addClass('badge-info');
 		var $modal = $($(this).find('a').data('target'));
 		$popoverInitial.popover('hide').popover('disable');
 		$modal.modal('show');
-	} );
+	});
 
 	var relation_types = {{ relation_types_flat|safe }};
 
@@ -355,7 +358,9 @@
 
 	{% endif %}
 
-	$('#btnInitMap').click(function() {
+	$('#formMapCreate').submit(function(e) {
+		e.preventDefault();
+
 		s.graph.addNode({
 		  // Main attributes:
 		  id: i,
@@ -372,6 +377,29 @@
 		}));
 		s.refresh();
 		i += 1;
+
+		$.post("{% url "graph_create" %}", $("#formMapCreate").serialize()).done(function(data) {
+
+			var map_id = data.id;
+			var graphData = JSON.stringify({
+				id: map_id,
+				graph: { nodes: s.graph.nodes(), edges: s.graph.edges() }
+			})
+
+			console.log(graphData);
+
+			$.ajax({
+				type: 'POST',
+				url: '{% url "graph_update" %}',
+				data: graphData,
+				contentType: "application/json",
+				dataType: 'json',
+				success: function(data) { console.log('data: ' + data); }
+			});
+
+		});
+
+		$('#modalInitMap').modal('hide');
 		$popoverInitial.popover('show');
 	});
 

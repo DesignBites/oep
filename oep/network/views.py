@@ -1,6 +1,8 @@
+import json
 from collections import defaultdict
 from django.shortcuts import render
 from django import forms
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 from oep.network.models import Map, RelationType, RELATION_GROUPS, ORGANIZATION_SIZES
@@ -87,9 +89,10 @@ def graph(request):
     })
 
 
+@csrf_exempt
 def graph_create(request):
     if request.is_ajax():
-        form = MapForm(request.POST)
+        form = MapForm(request.POST, prefix='map')
         if form.is_valid():
             m = form.save()
             return JsonResponse({
@@ -97,10 +100,15 @@ def graph_create(request):
             })
 
 
+@csrf_exempt
 def graph_update(request):
     if request.is_ajax():
-        m = Map.objects.get(id=request.POST.get('id'))
-        m.graph = request.POST.get('graph')
+        data = json.loads(request.body)
+        map_id = data.get('id')
+        m = Map.objects.get(id=map_id)
+        m.graph = data.get('graph')
+        m.save()
+        request.session['map_id'] = m.id
         return JsonResponse({
             'id': m.id
         })
@@ -112,6 +120,7 @@ def graph_view(request, map_id):
     })
 
 
+@csrf_exempt
 def graph_upload(request):
     if request.is_ajax():
         m = Map.objects.create(**request.POST)
