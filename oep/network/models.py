@@ -27,19 +27,32 @@ class Sector(models.Model):
 
 
 class Map(models.Model):
-    name = models.CharField(max_length=100)
-    is_own = models.BooleanField(default=True)
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    size = models.PositiveSmallIntegerField(choices=ORGANIZATION_SIZES, default=3)
-    purpose = models.ForeignKey(Purpose, blank=True, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(_('Name of the organization'), max_length=100)
+    is_own = models.BooleanField(
+        _('This is my own organization'),
+        default=True,
+        help_text=_("Uncheck the box if you are mapping an other organization's network")
+    )
+    sector = models.ForeignKey(
+        Sector, verbose_name=_('The sector of the organization'),
+        on_delete=models.CASCADE,
+    )
+    size = models.PositiveSmallIntegerField(
+        _('Size of the organization'),
+        choices=ORGANIZATION_SIZES, default=3,
+    )
+    purpose = models.ForeignKey(
+        Purpose, verbose_name=_('Your primary purpose of using this tool'),
+        blank=True, null=True, on_delete=models.SET_NULL,
+    )
     graph = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        reverse('graph_detail', kwargs={
-            'id': self.id,
+        reverse('graph_view', kwargs={
+            'map_id': self.id,
         })
 
     def get_nodes(self):

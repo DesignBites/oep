@@ -17,65 +17,12 @@
 
 {% block navbar %}
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
 		<div class="container">
 
 			<a class="navbar-brand" href="#">
-				{% trans "OEP Stakeholder Mapper" %}
+				OEP Stakeholders
 			</a>
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarTopSupportedContent">
-
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="exportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "Export" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="exportDropdown">
-							<a class="dropdown-item" href="#">
-								{% trans "JSON" %}
-							</a>
-							<a class="dropdown-item" href="#">
-								{% trans "PNG" %}
-							</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "New" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="newDropdown">
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
-								{% trans "Stakeholder" %}
-							</a>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddRelation">
-								{% trans "Connection" %}
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalInitMap">
-								{% trans "Network map" %}
-							</a>
-						</div>
-					</li>
-				</ul>
-
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-				</form>
-
-			</div>
-
-		</div>
-	</nav>
-
-
-	<nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
-		<div class="container">
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
 				<span class="navbar-toggler-icon"></span>
@@ -83,10 +30,10 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-				<ul class="navbar-nav mr-auto" id="ulGroups">
+				<ul class="navbar-nav mr-auto">
 					{% for name, first_relation in group_first_relation %}
 					<li class="nav-item group-tab">
-						<a class="nav-link" href="#{{ name }}" data-target="#modalAddEntity-{{ first_relation }}">
+						<a class="nav-link" href="#{{ name }}" data-toggle="modal" data-target="#modalAddEntity-{{ first_relation }}">
 							<span class="badge badge-pill badge-secondary tab-pill">{{ forloop.counter }}</span>
 							{{ name }}
 						</a>
@@ -94,11 +41,32 @@
 					{% endfor %}
 				</ul>
 
-				{% comment %}
-				<span id="mapInfo" class="text-muted">
-					{% blocktrans %}<span id="numNodes">3</span> nodes, <span id="numEdges">5</span> connections{% endblocktrans %}
-				</span>
-				{% endcomment %}
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropup">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  {% trans "More" %}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
+								{% trans "Add a stakeholder" %}
+							</a>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddRelation">
+								{% trans "Add a relation" %}
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="">
+								{% trans "Filter" %}
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="">
+								{% trans "Export" %}
+							</a>
+							<a class="dropdown-item" href="">
+								{% trans "Import" %}
+							</a>
+						</div>
+					</li>
+				</ul>
 
 			</div>
 
@@ -110,12 +78,11 @@
 
 {% block content %}
 
-<div class="container">
+	<div class="container">
 
-	<div id="canvas" class="w-100 m-4" style="height: 400px"></div>
+	    <div id="canvas" class="w-100 m-4" style="height: 400px"></div>
 
-</div>
-
+	</div>
 
 
 <div class="modal fade" id="modalAddEntity" tabindex="-1" role="dialog">
@@ -151,7 +118,7 @@
 
 
 
-<div class="modal fade" id="modalInitMap" tabindex="-1" role="dialog">
+<div class="modal fade" id="modalInitial" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 
@@ -178,50 +145,23 @@
 
 			<div class="modal-footer">
 
-				<button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-					data-toggle="modal" data-target="#modalUploadMap">
-					{% trans "Upload an existing map" %}
+				{% if not forloop.last %}
+
+				<button type="button" class="btn btn-primary" id="btnSaveMap"
+					data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}" data-dismiss="modal">
+					{% trans "Next" %}
 				</button>
 
-				<button type="button" class="btn btn-primary" id="btnInitMap" data-dismiss="modal">
-					{% trans "Initiate network map" %}
+				{% else %}
+
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					{% trans "Close" %}
 				</button>
 
+				{% endif %}
 			</div>
 		</div>
 	</div>
-</div>
-
-
-<div class="modal fade" id="modalUploadMap" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">
-			{% trans "Upload an existing network map" %}
-		</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-
-		  <form id="formUploadMap">
-			  {{ map_upload_form|crispy }}
-		  </form>
-
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnUploadMap" >
-			{% trans "Upload map" %}
-		</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 
@@ -296,20 +236,11 @@
 
 <script>
 
-	$popoverInitial = $('#ulGroups').popover({
-		container: 'body',
-		title: '{% trans "Map created successfully!" %}',
-		content: '{% trans "Now click on the tabs to mark the stakeholders." %}',
-		placement: 'top'
-	});
-
-	$('.group-tab').click(function( e ) {
+	$(window).on('hashchange', function( e ) {
+		console.log(window.location.hash);
 		var $pill = $('a[href="' + window.location.hash + '"]').find('span');
 		$('.tab-pill').removeClass('badge-info').addClass('badge-secondary');
 		$pill.removeClass('badge-secondary').addClass('badge-info');
-		var $modal = $($(this).find('a').data('target'));
-		$popoverInitial.popover('hide').popover('disable');
-		$modal.modal('show');
 	} );
 
 	var relation_types = {{ relation_types_flat|safe }};
@@ -349,31 +280,18 @@
 
     var i = 0;
 
-	{% if not map %}
-
-		$('#modalInitMap').modal('show');
-
-	{% endif %}
-
-	$('#btnInitMap').click(function() {
-		s.graph.addNode({
-		  // Main attributes:
-		  id: i,
-		  label: $('#id_map-name').val(),
-		  // Display attributes:
-		  x: 10,
-		  y: 10,
-		  size: $('#id_map-size').val(),
-		  color: '#f00'
-		})
-		$('#id_node-add_to').append($('<option>', {
-			value: i,
-			text: $('#id_map-name').val()
-		}));
-		s.refresh();
-		i += 1;
-		$popoverInitial.popover('show');
-	});
+    s.graph.addNode({
+      // Main attributes:
+      id: i,
+      label: '{% trans "You" %}',
+      // Display attributes:
+      x: 10,
+      y: 10,
+      size: 2,
+      color: '#f00'
+    })
+	s.refresh();
+	i += 1;
 
     $('#btnAddNode').click(function () {
 		s.graph.addNode({
@@ -391,7 +309,7 @@
 		  label: relation_types[$('#id_relation_type').val()].name,
 		  color: relation_types[$('#id_relation_type').val()].color
 		});
-		$('#id_node-add_to').append($('<option>', {
+		$('#id_add_to').append($('<option>', {
 			value: i,
 			text: $('#id_name').val()
 		}));

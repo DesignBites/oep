@@ -1,6 +1,7 @@
 from collections import defaultdict
 from django.shortcuts import render
 from django import forms
+from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 from oep.network.models import Map, RelationType, RELATION_GROUPS, ORGANIZATION_SIZES
 
@@ -17,6 +18,19 @@ def relation_type_choices():
 def add_to_choices():
     choices = [(0, _('Yourself'))]
     return choices
+
+
+class MapForm(forms.ModelForm):
+    class Meta:
+        model = Map
+        fields = ['name', 'is_own', 'sector', 'size', 'purpose']
+
+
+class MapUploadForm(forms.Form):
+    graph = forms.FileField(
+        label=_('Map file'),
+        help_text=_('Please select and upload the exported JSON map file.'),
+    )
 
 
 class EntityForm(forms.Form):
@@ -59,15 +73,48 @@ def graph(request):
                 group_name,
                 list(relation_types.keys())[0]
             ))
+    map_id = request.session.get('map_id')
     return render(request, 'network/graph.html', {
         'relation_groups': relation_groups,
         'group_first_relation': group_first_relation,
         'relation_types_grouped': dict(relation_types_grouped),
         'relation_types_flat': relation_types_flat,
-        'add_node_form': EntityForm(),
-        'add_stakeholder_form': StakeholderForm(),
+        'add_node_form': EntityForm(prefix='node'),
+        'add_stakeholder_form': StakeholderForm(prefix='group'),
+        'map_form': MapForm(prefix='map'),
+        'map_upload_form': MapUploadForm(),
+        'map': map_id and Map.objects.get(id=map_id),
     })
 
 
-def add_node(request):
-    form = EntityForm()
+def graph_create(request):
+    if request.is_ajax():
+        form = MapForm(request.POST)
+        if form.is_valid():
+            m = form.save()
+            return JsonResponse({
+                'id': m.id
+            })
+
+
+def graph_update(request):
+    if request.is_ajax():
+        m = Map.objects.get(id=request.POST.get('id'))
+        m.graph = request.POST.get('graph')
+        return JsonResponse({
+            'id': m.id
+        })
+
+
+def graph_view(request, map_id):
+    return render(request, 'network/graph_view.html', {
+        'map': Map.objects.get(id=map_id),
+    })
+
+
+def graph_upload(request):
+    if request.is_ajax():
+        m = Map.objects.create(**request.POST)
+        return JsonResponse({
+            'id': m.id
+        })
