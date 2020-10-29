@@ -21,9 +21,15 @@ ORGANIZATION_SIZES = (
 class Purpose(models.Model):
     description = models.CharField(max_length=500)
 
+    def __str__(self):
+        return self.description
+
 
 class Sector(models.Model):
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
 class Map(models.Model):
