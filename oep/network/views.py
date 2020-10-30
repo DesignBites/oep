@@ -117,7 +117,17 @@ def graph_update(request):
 
 
 def graph_view(request, map_id):
+    relation_groups = dict(RELATION_GROUPS)
+    relation_types_grouped = defaultdict(dict)
+    relation_types_flat = {}
+    for rt in RelationType.objects.all():
+        relation_types_grouped[relation_groups[rt.group]][rt.id] = rt
+        relation_types_flat[rt.id] = {
+            'color': rt.color,
+            'name': rt.name,
+        }
     return render(request, 'network/graph_view.html', {
+        'relation_types_flat': relation_types_flat,
         'map': Map.objects.get(id=map_id),
     })
 

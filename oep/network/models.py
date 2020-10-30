@@ -57,16 +57,9 @@ class Map(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        reverse('graph_view', kwargs={
+        return reverse('graph_view', kwargs={
             'map_id': self.id,
         })
-
-    def get_nodes(self):
-        return {
-            1: 'aaa',
-            2: 'bbb',
-            3: 'ccc',
-        }
 
 
 class RelationType(models.Model):

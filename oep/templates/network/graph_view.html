@@ -17,56 +17,56 @@
 
 {% block navbar %}
 
-	<nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container">
 
 			<a class="navbar-brand" href="#">
-				OEP Stakeholders
+				{% trans "OEP Stakeholder Mapper" %}
 			</a>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="collapse navbar-collapse" id="navbarTopSupportedContent">
 
 				<ul class="navbar-nav mr-auto">
-					{% for name, first_relation in group_first_relation %}
-					<li class="nav-item group-tab">
-						<a class="nav-link" href="#{{ name }}" data-toggle="modal" data-target="#modalAddEntity-{{ first_relation }}">
-							<span class="badge badge-pill badge-secondary tab-pill">{{ forloop.counter }}</span>
-							{{ name }}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="exportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  {% trans "Export" %}
 						</a>
+						<div class="dropdown-menu" aria-labelledby="exportDropdown">
+							<a class="dropdown-item" href="#">
+								{% trans "JSON" %}
+							</a>
+							<a class="dropdown-item" href="#">
+								{% trans "PNG" %}
+							</a>
+						</div>
 					</li>
-					{% endfor %}
-				</ul>
-
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropup">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "More" %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  {% trans "New" %}
 						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<div class="dropdown-menu" aria-labelledby="newDropdown">
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
-								{% trans "Add a stakeholder" %}
+								{% trans "Stakeholder" %}
 							</a>
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddRelation">
-								{% trans "Add a relation" %}
+								{% trans "Connection" %}
 							</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="">
-								{% trans "Filter" %}
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="">
-								{% trans "Export" %}
-							</a>
-							<a class="dropdown-item" href="">
-								{% trans "Import" %}
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalInitMap">
+								{% trans "Network map" %}
 							</a>
 						</div>
 					</li>
 				</ul>
+
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
 
 			</div>
 
@@ -78,155 +78,12 @@
 
 {% block content %}
 
-	<div class="container">
+<div class="container">
 
-	    <div id="canvas" class="w-100 m-4" style="height: 400px"></div>
+	<div id="canvas" class="w-100 m-4" style="height: 400px"></div>
 
-	</div>
-
-
-<div class="modal fade" id="modalAddEntity" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">
-			{% trans "Add a new stakeholder" %}
-		</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-
-		  <form id="formAddNode">
-			  {{ add_node_form|crispy }}
-		  </form>
-
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAddNode" >
-			{% trans "Add entity" %}
-		</button>
-      </div>
-    </div>
-  </div>
 </div>
 
-
-
-<div class="modal fade" id="modalInitial" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-
-			<div class="modal-header">
-				<h5 class="modal-title">
-					{% trans "Welcome to the Stakeholder Mapper" %}
-				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-
-			<div class="modal-body">
-
-				<p>
-					{% trans "To support you in identifying and selecting potential collaborators, let’s start by getting to know you." %}
-				</p>
-
-				<form id="formMap">
-					{{ map_form|crispy }}
-				</form>
-
-			</div>
-
-			<div class="modal-footer">
-
-				{% if not forloop.last %}
-
-				<button type="button" class="btn btn-primary" id="btnSaveMap"
-					data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}" data-dismiss="modal">
-					{% trans "Next" %}
-				</button>
-
-				{% else %}
-
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">
-					{% trans "Close" %}
-				</button>
-
-				{% endif %}
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-{% for group_name, relation_types in relation_types_grouped.items %}
-
-	{% for relation_type in relation_types.values %}
-
-		<div class="modal {% if forloop.first %}fade{% endif %}" id="modalAddEntity-{{ relation_type.id }}" tabindex="-1" role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-
-					<div class="modal-header">
-						<h5 class="modal-title">
-							{% blocktrans %}{{ group_name }} stakeholders{% endblocktrans %}
-						</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-
-					<div class="modal-body">
-
-						<h6>
-							{{ relation_type.question }}
-						</h6>
-
-						{% if relation_type.description %}
-						<p>
-							{{ relation_type.description }}
-						</p>
-						{% endif %}
-
-						<form id="formAddGroupNode">
-							<input type="hidden" name="add_to" value="0">
-							<input type="hidden" name="relation_type" value="{{ relation_type.id }}">
-							{{ add_stakeholder_form|crispy }}
-						</form>
-
-					</div>
-
-					<div class="modal-footer">
-
-						{% if not forloop.last %}
-
-						<button type="button" class="btn btn-primary" id="btnAddGroupNode"
-							data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}" data-dismiss="modal">
-							{% trans "Next" %}
-						</button>
-
-						{% else %}
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">
-							{% trans "Close" %}
-						</button>
-
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</div>
-
-	{% endfor %}
-
-{% endfor %}
 
 
 {% endblock %}
@@ -236,28 +93,7 @@
 
 <script>
 
-	$(window).on('hashchange', function( e ) {
-		console.log(window.location.hash);
-		var $pill = $('a[href="' + window.location.hash + '"]').find('span');
-		$('.tab-pill').removeClass('badge-info').addClass('badge-secondary');
-		$pill.removeClass('badge-secondary').addClass('badge-info');
-	} );
-
-	var relation_types = {{ relation_types_flat|safe }};
-
-	function layoutOptimize(s) {
-		//Start the ForceAtlas2 algorithm to optimize network layout
-		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
-		//Set time interval to allow layout algorithm to converge on a good state
-		var t = 0;
-		var interval = setInterval(function() {
-			t += 1;
-			if (t >= 5) {
-				clearInterval(interval);
-				s.stopForceAtlas2();
-			}
-		}, 100);
-	}
+	var mapId = {{ map.id }};
 
     var s = new sigma({
     	renderer: {
@@ -276,49 +112,53 @@
     var listener = s.configNoverlap({});
 	s.startNoverlap();
 
-    let dragListener = sigma.plugins.dragNodes(s, s.renderers[0])
+    let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
     var i = 0;
 
-    s.graph.addNode({
-      // Main attributes:
-      id: i,
-      label: '{% trans "You" %}',
-      // Display attributes:
-      x: 10,
-      y: 10,
-      size: 2,
-      color: '#f00'
-    })
-	s.refresh();
-	i += 1;
+	var relation_types = {{ relation_types_flat|safe }};
 
-    $('#btnAddNode').click(function () {
+	function layoutOptimize(s) {
+		//Start the ForceAtlas2 algorithm to optimize network layout
+		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
+		//Set time interval to allow layout algorithm to converge on a good state
+		var t = 0;
+		var interval = setInterval(function() {
+			t += 1;
+			if (t >= 5) {
+				clearInterval(interval);
+				s.stopForceAtlas2();
+			}
+		}, 100);
+	}
+
+	var nodes = {{ map.graph.nodes|safe }};
+	var edges = {{ map.graph.edges|safe }};
+
+	$.each(nodes, function(index, node) {
 		s.graph.addNode({
-		  id: i,
-		  label: $('#id_name').val(),
-		  x: Math.floor(400 * Math.random()),
-		  y: Math.floor(400 * Math.random()),
-		  size: $('#id_size').val(),
-		  color: relation_types[$('#id_relation_type').val()].color
-		}).addEdge({
-		  id: 'e' + i,
-		  source: $('#id_add_to option:checked').val(),
-		  target: i,
-		  size: $('#id_weight').val(),
-		  label: relation_types[$('#id_relation_type').val()].name,
-		  color: relation_types[$('#id_relation_type').val()].color
-		});
-		$('#id_add_to').append($('<option>', {
-			value: i,
-			text: $('#id_name').val()
-		}));
-		i += 1;
-	    s.refresh();
-	    layoutOptimize(s);
-	    console.log({ nodes: s.graph.nodes(), edges: s.graph.edges() });
-    });
+		  id: node.id,
+		  label: node.label,
+		  x: node.x,
+		  y: node.y,
+		  size: node.size,
+		  color: node.color
+		})
+		i = node.id;
+	});
 
+	$.each(edges, function(index, edge) {
+		s.graph.addEdge({
+			id: edge.id,
+			source: edge.source,
+			target: edge.target,
+			size: edge.size,
+			label: edge.label,
+			color: edge.color
+		})
+	});
+
+	s.refresh();
 
 </script>
 
