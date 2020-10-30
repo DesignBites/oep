@@ -13,6 +13,15 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.edgeLabels.min.js" integrity="sha512-NdmXr+AEuaizDckUjMI05kDsdoXbj6Z0fDxqAqPfhecHITSzGWPA/zeE/ousxA4pVIALj0V6/JgfTGYT9aS7Jw==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.snapshot.min.js" integrity="sha512-hRIEjoSHrn4AeSezC5FE4/5QjnuiV3CtsjBdrG8sE7Rvs+PZ6PpTggvcBcw8VSH5KyoBhTAbPeMsa9tokxQ0yw==" crossorigin="anonymous"></script>
 
+	<style>
+	html, body {
+		height:100%;
+	}
+	body {
+		margin-bottom: 50px;
+	}
+	</style>
+
 {% endblock %}
 
 
@@ -32,36 +41,6 @@
 			<div class="collapse navbar-collapse" id="navbarTopSupportedContent">
 
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="exportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "Export" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="exportDropdown">
-							<a class="dropdown-item" href="#" id="exportJSON" download="network.json">
-								{% trans "Data (JSON)" %}
-							</a>
-							<a class="dropdown-item" href="#" id="exportPNG" download="network.png">
-								{% trans "Image (PNG)" %}
-							</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "New" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="newDropdown">
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
-								{% trans "Stakeholder" %}
-							</a>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddRelation">
-								{% trans "Connection" %}
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalInitMap">
-								{% trans "Network map" %}
-							</a>
-						</div>
-					</li>
 				</ul>
 
 				<form class="form-inline my-2 my-lg-0">
@@ -95,11 +74,38 @@
 					{% endfor %}
 				</ul>
 
-				{% comment %}
-				<span id="mapInfo" class="text-muted">
-					{% blocktrans %}<span id="numNodes">3</span> nodes, <span id="numEdges">5</span> connections{% endblocktrans %}
-				</span>
-				{% endcomment %}
+				<ul class="navbar-nav">
+					<li class="nav-item dropup">
+						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  {% trans "Manage" %}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="newDropdown">
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
+								{% trans "Add stakeholder" %}
+							</a>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalRemoveEntity">
+								{% trans "Remove stakeholder" %}
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalInitMap">
+								{% trans "Reset map" %}
+							</a>
+						</div>
+					</li>
+					<li class="nav-item dropup">
+						<a class="nav-link dropdown-toggle" href="#" id="exportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  {% trans "Export" %}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="exportDropdown">
+							<a class="dropdown-item" href="#" id="exportJSON" download="network.json">
+								{% trans "Data (JSON)" %}
+							</a>
+							<a class="dropdown-item" href="#" id="exportPNG" download="network.png">
+								{% trans "Image (PNG)" %}
+							</a>
+						</div>
+					</li>
+				</ul>
 
 			</div>
 
@@ -111,9 +117,9 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container-fluid h-100 mb-4 pb-4">
 
-	<div id="canvas" class="w-100 m-4" style="height: 400px"></div>
+	<div id="canvas" class="w-100 h-100 m-4 pb-4"></div>
 
 </div>
 
@@ -393,8 +399,8 @@
 				s.graph.addNode({
 				  id: i,
 				  label: input.value,
-				  x: Math.floor(400 * Math.random()),
-				  y: Math.floor(400 * Math.random()),
+				  x: Math.floor(10 * Math.random()),
+				  y: Math.floor(10 * Math.random()),
 				  size: 2,
 				  color: relation_types[relationType].color
 				}).addEdge({
@@ -516,8 +522,8 @@
 		s.graph.addNode({
 		  id: i,
 		  label: $('#id_node-name').val(),
-		  x: Math.floor(400 * Math.random()),
-		  y: Math.floor(400 * Math.random()),
+		  x: Math.floor(10 * Math.random()),
+		  y: Math.floor(10 * Math.random()),
 		  size: $('#id_node-size').val(),
 		  color: relation_types[$('#id_node-relation_type').val()].color
 		}).addEdge({
