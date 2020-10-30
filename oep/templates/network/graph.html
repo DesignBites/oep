@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.parsers.json.min.js" integrity="sha512-uhhcXJvqfQpnVqJRyCs49Ddt16zZ35qFokRiVOZei14sbMdMS9vtubrb1QQvGJ/zQhQbCttBvVJqqiZHrsHo1g==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.layout.forceAtlas2.min.js" integrity="sha512-RuRd3WCUb6GCaiaEJ2UDkaVblIVAHJNLaDG6Df2OWpzg4kQurQqh/GC/a3eFSopnRiNrwePMFvI13pbYZ1WnAw==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.edgeLabels.min.js" integrity="sha512-NdmXr+AEuaizDckUjMI05kDsdoXbj6Z0fDxqAqPfhecHITSzGWPA/zeE/ousxA4pVIALj0V6/JgfTGYT9aS7Jw==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.snapshot.min.js" integrity="sha512-hRIEjoSHrn4AeSezC5FE4/5QjnuiV3CtsjBdrG8sE7Rvs+PZ6PpTggvcBcw8VSH5KyoBhTAbPeMsa9tokxQ0yw==" crossorigin="anonymous"></script>
 
 {% endblock %}
 
@@ -36,11 +37,11 @@
 						  {% trans "Export" %}
 						</a>
 						<div class="dropdown-menu" aria-labelledby="exportDropdown">
-							<a class="dropdown-item" href="#">
-								{% trans "JSON" %}
+							<a class="dropdown-item" href="#" id="exportJSON" download="network.json">
+								{% trans "Data (JSON)" %}
 							</a>
-							<a class="dropdown-item" href="#">
-								{% trans "PNG" %}
+							<a class="dropdown-item" href="#" id="exportPNG" download="network.png">
+								{% trans "Image (PNG)" %}
 							</a>
 						</div>
 					</li>
@@ -329,8 +330,9 @@
 			minNodeSize: 1,
 			maxNodeSize: 10,
 			minEdgeSize: 1,
-			maxEdgeSize: 10,
-			edgeLabelSize: 'proportional'
+			maxEdgeSize: 3,
+			edgeLabelSize: 'proportional',
+			labelThreshold: 1
 		}
     });
 
@@ -340,6 +342,41 @@
     let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
     var i = 0;
+
+    function saveGraph() {
+		var graphData = JSON.stringify({
+			graph: {
+				nodes: s.graph.nodes(),
+				edges: s.graph.edges()
+			}
+		})
+		$.ajax({
+			type: 'POST',
+			url: '{% url "graph_update" %}',
+			data: graphData,
+			contentType: "application/json",
+			dataType: 'json',
+			success: function(data) {}
+		});
+    }
+
+	function layoutOptimize(s) {
+		//Start the ForceAtlas2 algorithm to optimize network layout
+		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
+		//Set time interval to allow layout algorithm to converge on a good state
+		var t = 0;
+		var interval = setInterval(function() {
+			t += 1;
+			if (t >= 5) {
+				clearInterval(interval);
+				s.stopForceAtlas2();
+			}
+		}, 100);
+	}
+
+	dragListener.bind('drop', function(event) {
+		saveGraph();
+	});
 
 	$('.addMoreStakeholder').click(function() {
 		var $container = $('#' + $(this).data('target'));
@@ -372,23 +409,12 @@
 					value: i,
 					text: $('#id_name').val()
 				}));
+				input.value = '';
 			}
 		});
 		s.refresh();
 		layoutOptimize(s);
-
-		var graphData = JSON.stringify({
-			id: mapId,
-			graph: { nodes: s.graph.nodes(), edges: s.graph.edges() }
-		})
-		$.ajax({
-			type: 'POST',
-			url: '{% url "graph_update" %}',
-			data: graphData,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) { console.log('data: ' + data); }
-		});
+		saveGraph();
 	});
 
 	$popoverInitial = $('#ulGroups').popover({
@@ -408,20 +434,6 @@
 	});
 
 	var relation_types = {{ relation_types_flat|safe }};
-
-	function layoutOptimize(s) {
-		//Start the ForceAtlas2 algorithm to optimize network layout
-		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
-		//Set time interval to allow layout algorithm to converge on a good state
-		var t = 0;
-		var interval = setInterval(function() {
-			t += 1;
-			if (t >= 5) {
-				clearInterval(interval);
-				s.stopForceAtlas2();
-			}
-		}, 100);
-	}
 
 	{% if not map %}
 
@@ -443,6 +455,12 @@
 			  size: node.size,
 			  color: node.color
 			})
+
+			$('#id_node-add_to').append($('<option>', {
+				value: node.id,
+				text: node.label
+			}));
+
 			i = node.id;
 		});
 
@@ -463,6 +481,8 @@
 
 	$('#formMapCreate').submit(function(e) {
 		e.preventDefault();
+		s.graph.clear();
+		i = 0;
 
 		s.graph.addNode({
 		  id: i,
@@ -472,30 +492,19 @@
 		  size: $('#id_map-size').val(),
 		  color: '#f00'
 		})
+
 		$('#id_node-add_to').append($('<option>', {
 			value: i,
 			text: $('#id_map-name').val()
 		}));
+
 		s.refresh();
+
 		i += 1;
 
 		$.post("{% url "graph_create" %}", $("#formMapCreate").serialize()).done(function(data) {
-
 			mapId = data.id;
-			var graphData = JSON.stringify({
-				id: mapId,
-				graph: { nodes: s.graph.nodes(), edges: s.graph.edges() }
-			})
-
-			$.ajax({
-				type: 'POST',
-				url: '{% url "graph_update" %}',
-				data: graphData,
-				contentType: "application/json",
-				dataType: 'json',
-				success: function(data) { console.log('data: ' + data); }
-			});
-
+			saveGraph();
 		});
 
 		$('#modalInitMap').modal('hide');
@@ -503,30 +512,51 @@
 	});
 
     $('#btnAddNode').click(function () {
+		i += 1;
 		s.graph.addNode({
 		  id: i,
-		  label: $('#id_name').val(),
+		  label: $('#id_node-name').val(),
 		  x: Math.floor(400 * Math.random()),
 		  y: Math.floor(400 * Math.random()),
-		  size: $('#id_size').val(),
-		  color: relation_types[$('#id_relation_type').val()].color
+		  size: $('#id_node-size').val(),
+		  color: relation_types[$('#id_node-relation_type').val()].color
 		}).addEdge({
 		  id: 'e' + i,
-		  source: $('#id_add_to option:checked').val(),
+		  source: $('#id_node-add_to option:checked').val(),
 		  target: i,
-		  size: $('#id_weight').val(),
-		  label: relation_types[$('#id_relation_type').val()].name,
-		  color: relation_types[$('#id_relation_type').val()].color
+		  size: $('#id_node-weight').val(),
+		  label: relation_types[$('#id_node-relation_type').val()].name,
+		  color: relation_types[$('#id_node-relation_type').val()].color
 		});
 		$('#id_node-add_to').append($('<option>', {
 			value: i,
 			text: $('#id_name').val()
 		}));
-		i += 1;
-	    s.refresh();
-	    layoutOptimize(s);
+
+		s.refresh();
+		layoutOptimize(s);
+		saveGraph();
     });
 
+	var $exportPNG = $('#exportPNG');
+    $exportPNG.click(function() {
+        var src_base64 = s.renderers[0].snapshot({format: 'png', background: 'white', labels: true});
+        $exportPNG.attr('href', src_base64);
+    });
+
+	var $exportJSON = $('#exportJSON');
+    $exportJSON.click(function() {
+		var data = btoa(
+			JSON.stringify({
+				name: s.graph.nodes()[0].label,
+				graph: {
+					nodes: s.graph.nodes(),
+					edges: s.graph.edges()
+				}
+			})
+		);
+        $exportJSON.attr('href', 'data:text/json;base64,' + data);
+    });
 
 </script>
 

@@ -17,11 +17,6 @@ def relation_type_choices():
     return choices
 
 
-def add_to_choices():
-    choices = [(0, _('Yourself'))]
-    return choices
-
-
 class MapForm(forms.ModelForm):
     class Meta:
         model = Map
@@ -36,7 +31,7 @@ class MapUploadForm(forms.Form):
 
 
 class EntityForm(forms.Form):
-    add_to = forms.ChoiceField(label=_('Relate to'), choices=add_to_choices)
+    add_to = forms.ChoiceField(label=_('Relate to'), choices=[])
     name = forms.CharField(label=_('Name of the entity'))
     size = forms.ChoiceField(label=_('Size of the entity'), choices=ORGANIZATION_SIZES)
     relation_type = forms.ChoiceField(choices=relation_type_choices)
@@ -97,6 +92,7 @@ def graph_create(request):
         form = MapForm(request.POST, prefix='map')
         if form.is_valid():
             m = form.save()
+            request.session['map_id'] = m.id
             return JsonResponse({
                 'id': m.id
             })
@@ -106,11 +102,10 @@ def graph_create(request):
 def graph_update(request):
     if request.is_ajax():
         data = json.loads(request.body)
-        map_id = data.get('id')
+        map_id = request.session.get('map_id')
         m = Map.objects.get(id=map_id)
         m.graph = data.get('graph')
         m.save()
-        request.session['map_id'] = m.id
         return JsonResponse({
             'id': m.id
         })
