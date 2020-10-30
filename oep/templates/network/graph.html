@@ -258,30 +258,49 @@
 						</p>
 						{% endif %}
 
-						<form id="formAddGroupNode">
+						<form id="formAddStakeholder-{{ relation_type.id }}">
 							<input type="hidden" name="add_to" value="0">
 							<input type="hidden" name="relation_type" value="{{ relation_type.id }}">
-							{{ add_stakeholder_form|crispy }}
+
+							<div id="stakeholder-names-{{ relation_type.id }}">
+
+							{% for x in '123' %}
+								<div id="div_id_stakeholder-name-{{ relation_type.id }}" class="form-group stakeholder-name">
+									<label for="id_stakeholder-name-{{ relation_type.id }}-{{ forloop.counter }}" class=" requiredField">
+										{% trans "Name of the stakeholder" %}
+									</label>
+									<div class="">
+										<input type="text" name="stakeholder-name" class="textinput textInput form-control form-control form-control input-stakeholder-name" required="" id="id_stakeholder-name-{{ relation_type.id }}-{{ forloop.counter }}">
+									</div>
+								</div>
+							{% endfor %}
+
+							</div>
+
+							<a href="#" class="addMoreStakeholder" data-target="stakeholder-names-{{ relation_type.id }}">{% trans "Add another" %}</a>
+
 						</form>
 
 					</div>
 
 					<div class="modal-footer">
 
-						{% if not forloop.last %}
-
-						<button type="button" class="btn btn-primary" id="btnAddGroupNode"
+						<button type="button" class="btn btn-primary btnAddStakeholder"
+							data-form="formAddStakeholder-{{ relation_type.id }}" data-relation="{{ relation_type.id }}"
 							data-toggle="modal" data-target="#modalAddEntity-{{ relation_type.group_next.id }}" data-dismiss="modal">
-							{% trans "Next" %}
+
+							{% if not forloop.last %}
+
+								{% trans "Next" %}
+
+							{% else %}
+
+								{% trans "Done" %}
+
+							{% endif %}
+
 						</button>
 
-						{% else %}
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">
-							{% trans "Close" %}
-						</button>
-
-						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -298,6 +317,79 @@
 {% block js %}
 
 <script>
+
+	var mapId;
+
+    var s = new sigma({
+    	renderer: {
+    		container: 'canvas',
+    		type: 'canvas'
+    	},
+		settings: {
+			minNodeSize: 1,
+			maxNodeSize: 10,
+			minEdgeSize: 1,
+			maxEdgeSize: 10,
+			edgeLabelSize: 'proportional'
+		}
+    });
+
+    var listener = s.configNoverlap({});
+	s.startNoverlap();
+
+    let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+    var i = 0;
+
+	$('.addMoreStakeholder').click(function() {
+		var $container = $('#' + $(this).data('target'));
+		$container.find('.stakeholder-name').first().clone().appendTo($container);
+	});
+
+	$('.btnAddStakeholder').click(function() {
+		var $form = $('#' + $(this).data('form'));
+		var relationType = $(this).data('relation');
+		var inputs = $form.find('.input-stakeholder-name');
+		$.each(inputs, function(index, input) {
+			if (input.value.length !== 0) {
+				i += 1;
+				s.graph.addNode({
+				  id: i,
+				  label: input.value,
+				  x: Math.floor(400 * Math.random()),
+				  y: Math.floor(400 * Math.random()),
+				  size: 2,
+				  color: relation_types[relationType].color
+				}).addEdge({
+				  id: 'e' + i,
+				  source: 0,
+				  target: i,
+				  size: 1,
+				  label: relation_types[relationType].name,
+				  color: relation_types[relationType].color
+				});
+				$('#id_node-add_to').append($('<option>', {
+					value: i,
+					text: $('#id_name').val()
+				}));
+			}
+		});
+		s.refresh();
+		layoutOptimize(s);
+
+		var graphData = JSON.stringify({
+			id: mapId,
+			graph: { nodes: s.graph.nodes(), edges: s.graph.edges() }
+		})
+		$.ajax({
+			type: 'POST',
+			url: '{% url "graph_update" %}',
+			data: graphData,
+			contentType: "application/json",
+			dataType: 'json',
+			success: function(data) { console.log('data: ' + data); }
+		});
+	});
 
 	$popoverInitial = $('#ulGroups').popover({
 		container: 'body',
@@ -331,30 +423,41 @@
 		}, 100);
 	}
 
-    var s = new sigma({
-    	renderer: {
-    		container: 'canvas',
-    		type: 'canvas'
-    	},
-		settings: {
-			minNodeSize: 1,
-			maxNodeSize: 10,
-			minEdgeSize: 1,
-			maxEdgeSize: 10,
-			edgeLabelSize: 'proportional'
-		}
-    });
-
-    var listener = s.configNoverlap({});
-	s.startNoverlap();
-
-    let dragListener = sigma.plugins.dragNodes(s, s.renderers[0])
-
-    var i = 0;
-
 	{% if not map %}
 
 		$('#modalInitMap').modal('show');
+
+	{% else %}
+
+		mapId = {{ map.id }};
+
+		var nodes = {{ map.graph.nodes|safe }};
+		var edges = {{ map.graph.edges|safe }};
+
+		$.each(nodes, function(index, node) {
+			s.graph.addNode({
+			  id: node.id,
+			  label: node.label,
+			  x: node.x,
+			  y: node.y,
+			  size: node.size,
+			  color: node.color
+			})
+			i = node.id;
+		});
+
+		$.each(edges, function(index, edge) {
+			s.graph.addEdge({
+				id: edge.id,
+				source: edge.source,
+				target: edge.target,
+				size: edge.size,
+				label: edge.label,
+				color: edge.color
+			})
+		});
+
+		s.refresh();
 
 	{% endif %}
 
@@ -362,10 +465,8 @@
 		e.preventDefault();
 
 		s.graph.addNode({
-		  // Main attributes:
 		  id: i,
 		  label: $('#id_map-name').val(),
-		  // Display attributes:
 		  x: 10,
 		  y: 10,
 		  size: $('#id_map-size').val(),
@@ -380,13 +481,11 @@
 
 		$.post("{% url "graph_create" %}", $("#formMapCreate").serialize()).done(function(data) {
 
-			var map_id = data.id;
+			mapId = data.id;
 			var graphData = JSON.stringify({
-				id: map_id,
+				id: mapId,
 				graph: { nodes: s.graph.nodes(), edges: s.graph.edges() }
 			})
-
-			console.log(graphData);
 
 			$.ajax({
 				type: 'POST',
@@ -426,7 +525,6 @@
 		i += 1;
 	    s.refresh();
 	    layoutOptimize(s);
-	    console.log({ nodes: s.graph.nodes(), edges: s.graph.edges() });
     });
 
 

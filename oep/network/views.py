@@ -49,12 +49,14 @@ class EntityForm(forms.Form):
 
 class StakeholderForm(forms.Form):
     name = forms.CharField(label=_('Name of the stakeholder'))
+    """
     size = forms.ChoiceField(label=_('Size of the stakeholder'), choices=ORGANIZATION_SIZES)
     weight = forms.ChoiceField(label=_('We interact'), choices=(
         (3, _('Regularly')),
         (2, _('Sometimes')),
         (1, _('Rarely')),
     ))
+    """
 
 
 def graph(request):
@@ -82,7 +84,7 @@ def graph(request):
         'relation_types_grouped': dict(relation_types_grouped),
         'relation_types_flat': relation_types_flat,
         'add_node_form': EntityForm(prefix='node'),
-        'add_stakeholder_form': StakeholderForm(prefix='group'),
+        'add_stakeholder_form': StakeholderForm(prefix='stakeholder'),
         'map_form': MapForm(prefix='map'),
         'map_upload_form': MapUploadForm(),
         'map': map_id and Map.objects.get(id=map_id),
