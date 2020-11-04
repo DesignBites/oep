@@ -29,6 +29,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ('order',)
+        verbose_name_plural = 'categories'
 
 
 class Tag(models.Model):
