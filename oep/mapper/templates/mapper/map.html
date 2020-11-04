@@ -10,7 +10,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.layout.noverlap.min.js" integrity="sha512-U0UOV2CPSrFlOxjSnHr6GMKsRjQIYmarSCgVp9R6FAcby2gLNPgQtGLXylELTBDLbS/R5g1vj5CFS4mLDdDfxQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.parsers.json.min.js" integrity="sha512-uhhcXJvqfQpnVqJRyCs49Ddt16zZ35qFokRiVOZei14sbMdMS9vtubrb1QQvGJ/zQhQbCttBvVJqqiZHrsHo1g==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.layout.forceAtlas2.min.js" integrity="sha512-RuRd3WCUb6GCaiaEJ2UDkaVblIVAHJNLaDG6Df2OWpzg4kQurQqh/GC/a3eFSopnRiNrwePMFvI13pbYZ1WnAw==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.edgeLabels.min.js" integrity="sha512-NdmXr+AEuaizDckUjMI05kDsdoXbj6Z0fDxqAqPfhecHITSzGWPA/zeE/ousxA4pVIALj0V6/JgfTGYT9aS7Jw==" crossorigin="anonymous"></script>
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.edgeLabels.min.js" integrity="sha512-NdmXr+AEuaizDckUjMI05kDsdoXbj6Z0fDxqAqPfhecHITSzGWPA/zeE/ousxA4pVIALj0V6/JgfTGYT9aS7Jw==" crossorigin="anonymous"></script-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.snapshot.min.js" integrity="sha512-hRIEjoSHrn4AeSezC5FE4/5QjnuiV3CtsjBdrG8sE7Rvs+PZ6PpTggvcBcw8VSH5KyoBhTAbPeMsa9tokxQ0yw==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.customShapes.min.js" integrity="sha512-mTo2l94Z6Gvx7WZPYhiQI/TpFaRwJL3cEWo8Uqmx0J1336W2b7oB6t11B1YDgqMuOwCcYdRrHrEdGSts3zCz7g==" crossorigin="anonymous"></script>
 
@@ -33,7 +33,6 @@
 		</div>
 		<div class="col-3">
 			{{ description|safe }}
-			{{ data }}
 		</div>
 	</div>
 
@@ -58,7 +57,7 @@
 			maxNodeSize: 10,
 			minEdgeSize: 1,
 			maxEdgeSize: 3,
-			edgeLabelSize: 'proportional',
+			//edgeLabelSize: 'proportional',
 			labelThreshold: 1
 		}
     });
@@ -66,9 +65,7 @@
     var listener = s.configNoverlap({});
 	s.startNoverlap();
 
-    let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
-
-    var i = 0;
+    //let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
     function saveGraph() {
 		var graphData = JSON.stringify({
@@ -101,46 +98,14 @@
 		}, 100);
 	}
 
+	/*
 	dragListener.bind('drop', function(event) {
 		saveGraph();
 	});
-
-	$('.btnAddStakeholder').click(function() {
-		var $form = $('#' + $(this).data('form'));
-		var relationType = $(this).data('relation');
-		var inputs = $form.find('.input-stakeholder-name');
-		$.each(inputs, function(index, input) {
-			if (input.value.length !== 0) {
-				i += 1;
-				s.graph.addNode({
-				  id: i,
-				  label: input.value,
-				  x: Math.floor(10 * Math.random()),
-				  y: Math.floor(10 * Math.random()),
-				  size: 2,
-				  color: relation_types[relationType].color
-				}).addEdge({
-				  id: 'e' + i,
-				  source: 0,
-				  target: i,
-				  size: 1,
-				  label: relation_types[relationType].name,
-				  color: relation_types[relationType].color
-				});
-				$('#id_node-add_to').append($('<option>', {
-					value: i,
-					text: $('#id_name').val()
-				}));
-				input.value = '';
-			}
-		});
-		s.refresh();
-		layoutOptimize(s);
-		saveGraph();
-	});
+	*/
 
 	var nodes = {{ data.graph.nodes|safe }};
-	var edges = {{ data.graph.edges|safe }};
+	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
 
 	$.each(nodes, function(index, node) {
 		s.graph.addNode({
@@ -151,13 +116,6 @@
 		  size: node.size,
 		  color: node.color
 		})
-
-		$('#id_node-add_to').append($('<option>', {
-			value: node.id,
-			text: node.label
-		}));
-
-		i = node.id;
 	});
 
 	$.each(edges, function(index, edge) {
@@ -172,34 +130,8 @@
 	});
 
 	s.refresh();
+	layoutOptimize(s);
 
-
-    $('#btnAddNode').click(function () {
-		i += 1;
-		s.graph.addNode({
-		  id: i,
-		  label: $('#id_node-name').val(),
-		  x: Math.floor(10 * Math.random()),
-		  y: Math.floor(10 * Math.random()),
-		  size: $('#id_node-size').val(),
-		  color: relation_types[$('#id_node-relation_type').val()].color
-		}).addEdge({
-		  id: 'e' + i,
-		  source: $('#id_node-add_to option:checked').val(),
-		  target: i,
-		  size: $('#id_node-weight').val(),
-		  label: relation_types[$('#id_node-relation_type').val()].name,
-		  color: relation_types[$('#id_node-relation_type').val()].color
-		});
-		$('#id_node-add_to').append($('<option>', {
-			value: i,
-			text: $('#id_name').val()
-		}));
-
-		s.refresh();
-		layoutOptimize(s);
-		saveGraph();
-    });
 
 	var $exportPNG = $('#exportPNG');
     $exportPNG.click(function() {

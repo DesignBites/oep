@@ -68,17 +68,6 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-				<ul class="navbar-nav mr-auto" id="ulGroups">
-					{% for name, first_relation in group_first_relation %}
-					<li class="nav-item group-tab">
-						<a class="nav-link" href="#" data-target="#modalAddEntity-{{ first_relation }}">
-							<span class="badge badge-pill badge-secondary tab-pill">{{ forloop.counter }}</span>
-							{{ name }}
-						</a>
-					</li>
-					{% endfor %}
-				</ul>
-
 				<ul class="navbar-nav">
 					<li class="nav-item dropup">
 						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -112,6 +101,14 @@
 					</li>
 				</ul>
 
+				<ul class="navbar-nav ml-auto" id="ulGroups">
+					{% if next_page %}
+						<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'page_detail' page_no=next_page %}{% endif %}" class="btn btn-primary">
+							Continue
+						</a>
+					{% endif %}
+				</ul>
+
 			</div>
 
 		</div>
@@ -123,6 +120,11 @@
 
 {% block content %}
 {% endblock %}
+
+<br>
+<br>
+<br>
+<br>
 
 {% block js %}
 {% endblock %}

@@ -9,3 +9,5 @@ django-ses
 python-slugify
 django-recaptcha
 qrcode
+networkx
+numpy
