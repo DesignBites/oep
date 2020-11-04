@@ -150,18 +150,13 @@ class StakeholderExtraForm(forms.Form):
         data.update(cleaned_data)
         nodes = data['graph']['nodes']
         edges = data['graph'].get('edges', [])
-        G = nx.path_graph(len(nodes))
-        positions = list(nx.circular_layout(G, scale=100).values())
         node_id = nodes[-1]['id'] + 1
         for stakeholder_type in cleaned_data.keys():
             for name in cleaned_data[stakeholder_type].split(','):
-                position = positions.pop()
                 name = name.strip()
                 nodes.append({
                     'id': node_id,
                     'label': name,
-                    'x': position[0],
-                    'y': position[1],
                     'size': 3,
                     'color': "#f00",
                 })
@@ -174,6 +169,15 @@ class StakeholderExtraForm(forms.Form):
                     'color': '#fff',
                 })
                 node_id += 1
+        positions = [
+            (round(x, 2), round(y, 2)) for x, y in nx.circular_layout(list(range(len(nodes))), scale=1).values()
+        ]
+        i = 0
+        print(nodes)
+        print(positions)
+        for node in nodes:
+            node['x'], node['y'] = positions[i]
+            i += 1
         data.update({
             'graph': {
                 'nodes': nodes,
