@@ -17,8 +17,9 @@ INSTALLED_APPS = [
 
     'crispy_forms',
 
-    'oep.network',
+    'oep.mapper',
     'oep.content',
+    'oep.blog',
 ]
 
 MIDDLEWARE = [

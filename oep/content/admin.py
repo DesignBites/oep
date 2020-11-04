@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TeamMemberProfile, Podcast, Event, Document, Toolkit, BlogPost, PageContent
+from .models import TeamMemberProfile, Podcast, Event, Document, Toolkit, PageContent
 
 
 @admin.register(TeamMemberProfile)
@@ -28,11 +28,6 @@ class DocumentAdmin(admin.ModelAdmin):
 @admin.register(Toolkit)
 class ToolkitAdmin(admin.ModelAdmin):
     list_display = ['title']
-
-
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author']
 
 
 @admin.register(PageContent)

@@ -3,8 +3,11 @@ from django.db import models
 
 class TeamMemberProfile(models.Model):
     name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, blank=True, null=True)
     photo = models.ImageField(upload_to='team/', blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -41,15 +44,6 @@ class Document(models.Model):
 class Toolkit(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.title
-
-
-class BlogPost(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.ForeignKey(TeamMemberProfile, blank=True, null=True, on_delete=models.SET_NULL)
-    content = models.JSONField()
 
     def __str__(self):
         return self.title

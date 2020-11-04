@@ -1,0 +1,207 @@
+{% extends 'publications/base.html' %}
+{% load crispy_forms_tags i18n static %}
+
+
+{% block bootstrap %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+{% endblock %}
+
+
+{% block header %}{% endblock %}
+
+
+{% block footer %}
+
+    <nav class="navbar navbar-expand-sm fixed-bottom navbar-light bg-light">
+
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+                <form class="form-inline my-2 my-lg-0">
+                    <input id="tagInput" class="form-control mr-sm-2" type="text" value="{{ content.tags.all|join:', ' }}" placeholder="{% trans "Tags" %}" aria-label="{% trans "Tags" %}">
+                    <input id="categoryInput" list="categories" value="{% if content.category %}{{ content.category }}{% endif %}" class="form-control mr-sm-2" type="text" placeholder="{% trans "Category" %}" aria-label="{% trans "Category" %}">
+
+                    <datalist id="categories">
+                        {% for category in publication.category_set.all %}
+                        <option value="{{ category.name }}">
+                        {% endfor %}
+                    </datalist>
+
+                </form>
+
+            </div>
+
+            {% comment %}
+            <span class="navbar-text">
+                Auto saved
+            </span>
+            {% endcomment %}
+
+            <form class="form-inline my-2 my-lg-0">
+                <button id="btnSave" class="btn btn-outline-success my-2 my-sm-0 ml-2" type="button">{% trans "Save draft" %}</button>
+                <button id="btnPublish" class="btn btn-success my-2 my-sm-0 ml-2" type="button">{% trans "Publish" %}</button>
+            </form>
+
+        </div>
+
+    </nav>
+
+{% endblock %}
+
+
+{% block head %}
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.7/jquery.jgrowl.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.7/jquery.jgrowl.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'common/tagsinput.css' %}" />
+    <script src="{% static 'common/tagsinput.js' %}"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div id="editorjs" class="w-100">
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script>
+
+$(function() {
+
+    var docId = {% if content.id %}{{ content.id }}{% else %}null{% endif %};
+
+    const editor = new EditorJS({
+        holder: 'editorjs',
+        tools: {
+            header: {
+              class: Header,
+              inlineToolbar: ['link'],
+              config: {
+                placeholder: '{% trans "Title" %}'
+              },
+              shortcut: 'CMD+SHIFT+H'
+            },
+            image: {
+              class: ImageTool,
+              config: {
+                endpoints: {
+                  byFile: '/yaz/img/'
+                }
+              },
+              // FIXME
+              additionalRequestHeaders: {
+                'HTTP_X_CSRFTOKEN': '{{ csrf_token }}'
+              }
+            },
+            list: {
+              class: List,
+              inlineToolbar: true,
+              shortcut: 'CMD+SHIFT+L'
+            },
+            quote: {
+              class: Quote,
+              inlineToolbar: true,
+              config: {
+                quotePlaceholder: 'Enter a quote',
+                captionPlaceholder: 'Quote\'s author',
+              },
+              shortcut: 'CMD+SHIFT+O'
+            },
+            warning: Warning,
+            marker: {
+              class:  Marker,
+              shortcut: 'CMD+SHIFT+M'
+            },
+            delimiter: Delimiter,
+            linkTool: LinkTool,
+            embed: Embed,
+            table: {
+              class: Table,
+              inlineToolbar: true,
+              shortcut: 'CMD+ALT+T'
+            },
+        },
+        data: {% if content.data %}{{ content.data_js|safe }}{% else %}{
+            blocks: [
+                {"type": "header", "data": {"text": "", "level": 2}},
+                {"type": "paragraph", "data": {"text": ""}}
+            ]
+        }{% endif %},
+        onReady: () => {
+            editor.focus(true);
+       }
+    });
+
+
+    function saveDocument(publish) {
+        editor.save().then((docContent) => {
+            console.log('Article data: ', docContent);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "pub_content_save" %}',
+                data: {
+                    data: JSON.stringify(docContent),
+                    id: docId,
+                    publish: publish,
+                    tags: $('#tagInput').val(),
+                    category: $('#categoryInput').val()
+                },
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                success: function(data) {
+                    console.log(data);
+                    if ('error' in data) {
+                        $.jGrowl(data.error);
+                    } else {
+                        if (publish) {
+                            $.jGrowl('{% trans "Document saved successfully" %}');
+                            window.location = data.url;
+                        } else {
+                            $.jGrowl('{% trans "Draft saved successfully" %}');
+                            docId = data.id;
+                        };
+                    }
+                },
+                dataType: 'json'
+            });
+        }).catch((error) => {
+            console.log('Saving failed: ', error)
+        });
+    }
+
+    $('#btnSave').click(function() {
+        saveDocument(false);
+    });
+
+    $('#btnPublish').click(function() {
+        saveDocument(true);
+    });
+
+});
+
+</script>
+
+{% endblock %}
+ce-block ce-block--focused

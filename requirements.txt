@@ -8,3 +8,4 @@ django-storages
 django-ses
 python-slugify
 django-recaptcha
+qrcode
