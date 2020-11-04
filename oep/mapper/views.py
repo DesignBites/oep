@@ -225,4 +225,8 @@ def view_page(request, page_no, workshop_slug=None):
     page['context'].update({
         'data': request.session.get('data', {})
     })
+    if workshop_slug:
+        page['context'].update({
+            'workshop': workshop,
+        })
     return render(request, page['template'], page['context'])
