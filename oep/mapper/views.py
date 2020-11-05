@@ -243,6 +243,35 @@ def graph_update(request):
 
 
 @csrf_exempt
+def grid_save(request):
+    if request.is_ajax():
+        graph = request.session['data']['graph']
+        data = json.loads(request.body)
+        for node_id, edges in data.items():
+            graph['edges'].append({
+                'id': 'interact' + str(node_id),
+                'source': 0,
+                'target': node_id,
+                'size': edges['interact'],
+                'label': 'interact',
+                'color': '#fff',
+            })
+            graph['edges'].append({
+                'id': 'collaborate' + str(node_id),
+                'source': 0,
+                'target': node_id,
+                'size': edges['collaborate'],
+                'label': 'collaborate',
+                'color': '#fff',
+            })
+        request.session['data']['graph'] = graph
+        request.session.modified = True
+        return JsonResponse({
+            'data': data,
+        })
+
+
+@csrf_exempt
 def graph_upload(request):
     if request.is_ajax():
         m = Map.objects.create(**request.POST)
@@ -343,8 +372,19 @@ PAGES = {
         'template': 'mapper/grid.html',
         'context': {
             'title': 'Frequency and depth of contact',
-            'description': "Now drag the stakeholders to the axis diagram to indicate how much you interact, "
-                           "and  collaborate creatively together.",
+            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
+                           "and collaborate creatively together.",
+        },
+    },
+    10: {
+        'template': 'mapper/ring.html',
+        'context': {
+            'title': 'Frequency and depth of contact',
+            'description': "<p>Awesome, you now have a stakeholder map.</p>"
+                           "<p>You can already play with the filters and different visualisations to reveal "
+                           "potential collaborators based on your similarity.</p>"
+                           "<p>You can also edit or delete stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
         },
     },
 }

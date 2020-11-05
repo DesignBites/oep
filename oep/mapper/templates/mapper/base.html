@@ -103,7 +103,7 @@
 
 				<ul class="navbar-nav ml-auto" id="ulGroups">
 					{% if next_page %}
-						<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'page_detail' page_no=next_page %}{% endif %}" class="btn btn-primary">
+						<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'page_detail' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
 							Continue
 						</a>
 					{% endif %}

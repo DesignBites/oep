@@ -18,13 +18,6 @@
 	html, body {
 		height: 100%;
 	}
-	#grid td {
-		width: 200px;
-		height: 200px;
-	}
-	#grid li {
-		width: 100%;
-	}
 	</style>
 
 {% endblock %}
@@ -35,64 +28,12 @@
 <div class="container">
 
 	<div class="row">
-
-		{% if title %}
-			<h2>{{ title|safe }}</h2>
-		{% endif %}
-
-		{% if description %}
-			<p class="lead">{{ description|safe }}</p>
-		{% endif %}
-
-		<div class="col-3">
-
-			<ul id="nodeList" class="list-group list-group-flush">
-			</ul>
-
-			<div id="canvas"></div>
-
-		</div>
-
 		<div class="col-9">
-
-			<table class="table table-bordered" id="grid">
-				<tr>
-					<td data-interact="3" data-collaborate="1">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="3" data-collaborate="2">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="3" data-collaborate="3">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-				</tr>
-				<tr>
-					<td data-interact="2" data-collaborate="1">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="2" data-collaborate="2">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="2" data-collaborate="3">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-				</tr>
-				<tr>
-					<td data-interact="1" data-collaborate="1">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="1" data-collaborate="2">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="1" data-collaborate="3">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-				</tr>
-			</table>
-
+			<div id="canvas"></div>
 		</div>
-
+		<div class="col-3">
+			{{ description|safe }}
+		</div>
 	</div>
 
 </div>
@@ -103,6 +44,8 @@
 {% block js %}
 
 <script>
+
+	$('#canvas').css('height', $(window).height() - 120);
 
     var s = new sigma({
     	renderer: {
@@ -119,8 +62,10 @@
 		}
     });
 
-	CustomShapes.init(s);
-	s.refresh();
+    var listener = s.configNoverlap({});
+	s.startNoverlap();
+
+    //let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
     function saveGraph() {
 		var graphData = JSON.stringify({
@@ -139,29 +84,38 @@
 		});
     }
 
+	function layoutOptimize(s) {
+		//Start the ForceAtlas2 algorithm to optimize network layout
+		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
+		//Set time interval to allow layout algorithm to converge on a good state
+		var t = 0;
+		var interval = setInterval(function() {
+			t += 1;
+			if (t >= 5) {
+				clearInterval(interval);
+				s.stopForceAtlas2();
+			}
+		}, 100);
+	}
+
+	/*
+	dragListener.bind('drop', function(event) {
+		saveGraph();
+	});
+	*/
+
 	var nodes = {{ data.graph.nodes|safe }};
 	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
 
 	$.each(nodes, function(index, node) {
-		if (node.id != 0) {
-			s.graph.addNode({
-				id: node.id,
-				label: node.label,
-				x: node.x,
-				y: node.y,
-				size: node.size,
-				color: '#f00'
-			})
-		} else {
-			s.graph.addNode({
-				id: 0,
-				label: '',
-				x: 0,
-				y: 0,
-				size: node.size,
-				color: '#fff'
-			})
-		}
+		s.graph.addNode({
+		  id: node.id,
+		  label: node.label,
+		  x: node.x,
+		  y: node.y,
+		  size: node.size,
+		  color: node.color
+		})
 	});
 
 	$.each(edges, function(index, edge) {
@@ -171,88 +125,12 @@
 			target: edge.target,
 			size: edge.size,
 			label: edge.label,
-			color: '#fff'
+			color: edge.color
 		})
 	});
 
 	s.refresh();
-
-	s.bind('clickNode', function(e) {
-		console.log(e.data, e.data.node.label, e.data.captor);
-		if (e.data.node.type == 'star') {
-			s.graph.dropEdge('{{ similarity_type }}' + e.data.node.id);
-			e.data.node.type = '';
-		} else {
-			var type = {% if similarity_type_form %}$('#id_similarity').val(){% else %}'{{ similarity_type }}'{% endif %};
-			s.graph.addEdge({
-				id: type + e.data.node.id,
-				source: 0,
-				target: e.data.node.id,
-				size: 1,
-				label: type,
-				color: '#fff'
-			});
-			e.data.node.type = 'star';
-		}
-		s.refresh();
-		saveGraph();
-	});
-
-	$nodeList = $('#nodeList');
-
-	$.each(nodes, function(index, node) {
-		if (node.id != 0) {
-			$nodeList.append('<li class="list-group-item" data-id="' + node.id + '">' + node.label + '</li>');
-		}
-	});
-
-	var gridColor = $('#grid td').css('borderColor');
-
-	$('#nodeList li').click(function() {
-		$('#nodeList li').removeClass('active');
-		$(this).addClass('active');
-		$('#grid td').css('borderColor', '#c99');
-	});
-
-	$('#grid td').click(function() {
-		$node = $('#nodeList li.active');
-		$(this).find('ul').append($node);
-		$node.removeClass('active');
-		$('#grid td').css('borderColor', gridColor);
-	});
-
-	$('#btnNext').click(function(e) {
-		e.preventDefault();
-
-		var gridData = {};
-
-		$.each($('#grid td'), function(i, item) {
-			$td = $(item);
-			var interact = $td.data('interact');
-			var collaborate = $td.data('collaborate');
-			$.each($td.find('li'), function(j, node) {
-				nodeId = $(node).data('id');
-				console.log(nodeId);
-				gridData[nodeId] = {};
-				gridData[nodeId]['interact'] = interact;
-				gridData[nodeId]['collaborate'] = collaborate;
-			});
-		});
-
-		var data = JSON.stringify(gridData)
-
-		$.ajax({
-			type: 'POST',
-			url: '{% url "mapper_grid_save" %}',
-			data: data,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) {
-				window.location = $('#btnNext').attr('href');
-			}
-		});
-	});
-
+	//layoutOptimize(s);
 
 	var $exportPNG = $('#exportPNG');
     $exportPNG.click(function() {
