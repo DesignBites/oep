@@ -4,16 +4,6 @@
 
 {% block head %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/sigma.min.js" integrity="sha512-4+XX9O3GEcpTWGNW7m3w/ORF91L4zUX01/U3wAoWIXp1P+LRBEqutZdQIFUeHSa0cJRZ9LPM+GOWus8h8TlYhg==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.plugins.animate.min.js" integrity="sha512-WxjvX/yh2SfCPUnVmZkn4MYkF/jw8GKtEjFu2+P28bcqdYYsT6feJuaaQyBw7+KWfs87Ol4jb7jB+8qep+cocg==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.plugins.dragNodes.min.js" integrity="sha512-w9i2zoWU7Te0i+TJoKMyBjHYAptYykPieNa0iT6/ofVbUHvqIhh6f4YVkXV84kAuGbIS+CqvSV/6AHTVt8bUrA==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.layout.noverlap.min.js" integrity="sha512-U0UOV2CPSrFlOxjSnHr6GMKsRjQIYmarSCgVp9R6FAcby2gLNPgQtGLXylELTBDLbS/R5g1vj5CFS4mLDdDfxQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.parsers.json.min.js" integrity="sha512-uhhcXJvqfQpnVqJRyCs49Ddt16zZ35qFokRiVOZei14sbMdMS9vtubrb1QQvGJ/zQhQbCttBvVJqqiZHrsHo1g==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.layout.forceAtlas2.min.js" integrity="sha512-RuRd3WCUb6GCaiaEJ2UDkaVblIVAHJNLaDG6Df2OWpzg4kQurQqh/GC/a3eFSopnRiNrwePMFvI13pbYZ1WnAw==" crossorigin="anonymous"></script>
-	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.edgeLabels.min.js" integrity="sha512-NdmXr+AEuaizDckUjMI05kDsdoXbj6Z0fDxqAqPfhecHITSzGWPA/zeE/ousxA4pVIALj0V6/JgfTGYT9aS7Jw==" crossorigin="anonymous"></script-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.snapshot.min.js" integrity="sha512-hRIEjoSHrn4AeSezC5FE4/5QjnuiV3CtsjBdrG8sE7Rvs+PZ6PpTggvcBcw8VSH5KyoBhTAbPeMsa9tokxQ0yw==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.customShapes.min.js" integrity="sha512-mTo2l94Z6Gvx7WZPYhiQI/TpFaRwJL3cEWo8Uqmx0J1336W2b7oB6t11B1YDgqMuOwCcYdRrHrEdGSts3zCz7g==" crossorigin="anonymous"></script>
-
 	<style>
 	html, body {
 		height: 100%;
@@ -48,8 +38,6 @@
 
 			<ul id="nodeList" class="list-group list-group-flush">
 			</ul>
-
-			<div id="canvas"></div>
 
 		</div>
 
@@ -104,99 +92,8 @@
 
 <script>
 
-    var s = new sigma({
-    	renderer: {
-    		container: 'canvas',
-    		type: 'canvas'
-    	},
-		settings: {
-			minNodeSize: 1,
-			maxNodeSize: 10,
-			minEdgeSize: 1,
-			maxEdgeSize: 3,
-			//edgeLabelSize: 'proportional',
-			labelThreshold: 1
-		}
-    });
-
-	CustomShapes.init(s);
-	s.refresh();
-
-    function saveGraph() {
-		var graphData = JSON.stringify({
-			graph: {
-				nodes: s.graph.nodes(),
-				edges: s.graph.edges()
-			}
-		})
-		$.ajax({
-			type: 'POST',
-			url: '{% url "graph_update" %}',
-			data: graphData,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) {}
-		});
-    }
-
 	var nodes = {{ data.graph.nodes|safe }};
 	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
-
-	$.each(nodes, function(index, node) {
-		if (node.id != 0) {
-			s.graph.addNode({
-				id: node.id,
-				label: node.label,
-				x: node.x,
-				y: node.y,
-				size: node.size,
-				color: '#f00'
-			})
-		} else {
-			s.graph.addNode({
-				id: 0,
-				label: '',
-				x: 0,
-				y: 0,
-				size: node.size,
-				color: '#fff'
-			})
-		}
-	});
-
-	$.each(edges, function(index, edge) {
-		s.graph.addEdge({
-			id: edge.id,
-			source: edge.source,
-			target: edge.target,
-			size: edge.size,
-			label: edge.label,
-			color: '#fff'
-		})
-	});
-
-	s.refresh();
-
-	s.bind('clickNode', function(e) {
-		console.log(e.data, e.data.node.label, e.data.captor);
-		if (e.data.node.type == 'star') {
-			s.graph.dropEdge('{{ similarity_type }}' + e.data.node.id);
-			e.data.node.type = '';
-		} else {
-			var type = {% if similarity_type_form %}$('#id_similarity').val(){% else %}'{{ similarity_type }}'{% endif %};
-			s.graph.addEdge({
-				id: type + e.data.node.id,
-				source: 0,
-				target: e.data.node.id,
-				size: 1,
-				label: type,
-				color: '#fff'
-			});
-			e.data.node.type = 'star';
-		}
-		s.refresh();
-		saveGraph();
-	});
 
 	$nodeList = $('#nodeList');
 
@@ -220,6 +117,7 @@
 		$node.removeClass('active');
 		$('#grid td').css('borderColor', gridColor);
 	});
+
 
 	$('#btnNext').click(function(e) {
 		e.preventDefault();
