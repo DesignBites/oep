@@ -71,81 +71,52 @@
 	CustomShapes.init(s);
 	s.refresh();
 
-    function saveGraph() {
-		var graphData = JSON.stringify({
-			graph: {
-				nodes: s.graph.nodes(),
-				edges: s.graph.edges()
-			}
-		})
-		$.ajax({
-			type: 'POST',
-			url: '{% url "graph_update" %}',
-			data: graphData,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) {}
-		});
-    }
-
-	var nodes = {{ data.graph.nodes|safe }};
-	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
+	var nodes = {{ graph.nodes|safe }};
 
 	$.each(nodes, function(index, node) {
-		if (node.id != 0) {
-			s.graph.addNode({
-				id: node.id,
-				label: node.label,
-				x: node.x,
-				y: node.y,
-				size: node.size,
-				color: '#f00'
-			})
-		} else {
-			s.graph.addNode({
-				id: 0,
-				label: '',
-				x: 0,
-				y: 0,
-				size: node.size,
-				color: '#fff'
-			})
-		}
-	});
-
-	$.each(edges, function(index, edge) {
-		s.graph.addEdge({
-			id: edge.id,
-			source: edge.source,
-			target: edge.target,
-			size: edge.size,
-			label: edge.label,
-			color: '#fff'
-		})
+		s.graph.addNode({
+			id: node.id,
+			label: node.label,
+			x: node.x,
+			y: node.y,
+			size: node.size,
+			color: node.color
+		});
 	});
 
 	s.refresh();
 
+	var connections = [];
+
 	s.bind('clickNode', function(e) {
-		console.log(e.data, e.data.node.label, e.data.captor);
 		if (e.data.node.type == 'star') {
-			s.graph.dropEdge('{{ similarity_type }}' + e.data.node.id);
+			connections = connections.filter(function(name) {return name != e.data.node.label});
 			e.data.node.type = '';
 		} else {
-			var type = {% if similarity_type_form %}$('#id_similarity').val(){% else %}'{{ similarity_type }}'{% endif %};
-			s.graph.addEdge({
-				id: type + e.data.node.id,
-				source: 0,
-				target: e.data.node.id,
-				size: 1,
-				label: type,
-				color: '#fff'
-			});
+			connections.push(e.data.node.label);
 			e.data.node.type = 'star';
 		}
 		s.refresh();
-		saveGraph();
 	});
+
+	$('#btnNext').click(function(e) {
+		e.preventDefault();
+
+		var type = {% if similarity_type_form %}$('#id_similarity').val(){% else %}'{{ similarity_type }}'{% endif %};
+		var data = JSON.stringify({[type]: connections});
+
+		$.ajax({
+			type: 'POST',
+			url: '{% url "mapper_connections_save" %}',
+			data: data,
+			contentType: "application/json",
+			dataType: 'json',
+			success: function(data) {
+				window.location = $('#btnNext').attr('href');
+			}
+		});
+	});
+
 
 	var $exportPNG = $('#exportPNG');
     $exportPNG.click(function() {

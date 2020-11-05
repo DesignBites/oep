@@ -1,12 +1,12 @@
 import json
 from collections import defaultdict
-import networkx as nx
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
+from .helpers import circular_layout
 from .models import Map, RelationType, Sector, Workshop, ORGANIZATION_SIZES
 
 
@@ -66,20 +66,7 @@ class OrganisationForm(forms.Form):
     )
 
     def save(self, request, cleaned_data):
-        data = request.session.get('data', {})
-        data.update(cleaned_data)
-        data.update({
-            'graph': {
-                'nodes': [{
-                    'id': 0,
-                    'label': cleaned_data['name'],
-                    'x': 0, 'y': 0,
-                    'size': 3,
-                    'color': "#f00",
-                }],
-            }
-        })
-        request.session['data'] = data
+        request.session['map'] = cleaned_data
 
 
 class StakeholderForm(forms.Form):
@@ -105,38 +92,16 @@ class StakeholderForm(forms.Form):
     )
 
     def save(self, request, cleaned_data):
-        data = request.session.get('data', {})
-        data.update(cleaned_data)
-        nodes = data['graph']['nodes']
-        edges = data['graph'].get('edges', [])
-        node_id = nodes[-1]['id'] + 1
+        stakeholders = {}
         for stakeholder_type in cleaned_data.keys():
             for name in cleaned_data[stakeholder_type].split(','):
                 name = name.strip()
-                nodes.append({
-                    'id': node_id,
-                    'label': name,
-                    'x': 0, 'y': 0,
-                    'size': 3,
-                    'color': "#f00",
-                })
-                edges.append({
-                    'id': 'e' + str(node_id),
-                    'source': 0,
-                    'target': node_id,
-                    'size': 1,
-                    'label': stakeholder_type,
-                    'color': '#ccc',
-                })
-                node_id += 1
-        data.update({
-            'graph': {
-                'nodes': nodes,
-                'edges': edges,
-            }
-        })
-        request.session['data'] = data
-        request.session.modified = True
+                if name in stakeholders:
+                    stakeholders[name]['types'].append(stakeholder_type)
+                else:
+                    stakeholders[name] = {}
+                    stakeholders[name]['types'] = [stakeholder_type]
+        request.session['stakeholders'] = stakeholders
 
 
 class StakeholderExtraForm(forms.Form):
@@ -146,45 +111,16 @@ class StakeholderExtraForm(forms.Form):
     )
 
     def save(self, request, cleaned_data):
-        data = request.session.get('data', {})
-        data.update(cleaned_data)
-        nodes = data['graph']['nodes']
-        edges = data['graph'].get('edges', [])
-        node_id = nodes[-1]['id'] + 1
-        for stakeholder_type in cleaned_data.keys():
-            for name in cleaned_data[stakeholder_type].split(','):
-                name = name.strip()
-                nodes.append({
-                    'id': node_id,
-                    'label': name,
-                    'size': 3,
-                    'color': "#f00",
-                })
-                edges.append({
-                    'id': 'e' + str(node_id),
-                    'source': 0,
-                    'target': node_id,
-                    'size': 1,
-                    'label': stakeholder_type,
-                    'color': '#ccc',
-                })
-                node_id += 1
-        positions = [
-            (round(x, 2), round(y, 2)) for x, y in nx.circular_layout(list(range(len(nodes)-1)), scale=1).values()
-        ]
-        i = 0
-        for node in nodes:
-            if node['id'] != 0:
-                node['x'], node['y'] = positions[i]
-                i += 1
-        data.update({
-            'graph': {
-                'nodes': nodes,
-                'edges': edges,
-            }
-        })
-        request.session['data'] = data
-        request.session.modified = True
+        stakeholders = request.session.get('stakeholders', {})
+        stakeholder_type = 'extra'
+        for name in cleaned_data[stakeholder_type].split(','):
+            name = name.strip()
+            if name in stakeholders:
+                stakeholders[name]['types'].append(stakeholder_type)
+            else:
+                stakeholders[name] = {}
+                stakeholders[name]['types'] = [stakeholder_type]
+        request.session['stakeholders'] = stakeholders
 
 
 class SimilarityTypeForm(forms.Form):
@@ -226,7 +162,7 @@ def graph_create(request):
 
 
 @csrf_exempt
-def graph_update(request):
+def graph_save(request):
     if request.is_ajax():
         data = json.loads(request.body)
         data.update({
@@ -243,28 +179,34 @@ def graph_update(request):
 
 
 @csrf_exempt
+def connections_save(request):
+    if request.is_ajax():
+        data = json.loads(request.body)
+        print(data)
+        stakeholders = request.session['stakeholders']
+        for similarity_type, stakeholder_names in data.items():
+            for name in stakeholder_names:
+                if 'similarities' in stakeholders[name]:
+                    stakeholders[name]['similarities'].append(similarity_type)
+                else:
+                    stakeholders[name]['similarities'] = [similarity_type]
+        request.session['stakeholders'] = stakeholders
+        request.session.modified = True
+        return JsonResponse({
+            'data': data,
+        })
+
+
+@csrf_exempt
 def grid_save(request):
     if request.is_ajax():
-        graph = request.session['data']['graph']
+        stakeholders = request.session['stakeholders']
         data = json.loads(request.body)
-        for node_id, edges in data.items():
-            graph['edges'].append({
-                'id': 'interact' + str(node_id),
-                'source': 0,
-                'target': node_id,
-                'size': edges['interact'],
-                'label': 'interact',
-                'color': '#fff',
-            })
-            graph['edges'].append({
-                'id': 'collaborate' + str(node_id),
-                'source': 0,
-                'target': node_id,
-                'size': edges['collaborate'],
-                'label': 'collaborate',
-                'color': '#fff',
-            })
-        request.session['data']['graph'] = graph
+        print(data)
+        for stakeholder_name, connection in data.items():
+            stakeholders[stakeholder_name]['interact'] = connection['interact']
+            stakeholders[stakeholder_name]['collaborate'] = connection['collaborate']
+        request.session['stakeholders'] = stakeholders
         request.session.modified = True
         return JsonResponse({
             'data': data,
@@ -326,49 +268,53 @@ PAGES = {
     5: {
         'template': 'mapper/map.html',
         'context': {
-            'description': "Awesome, look at all your stakeholders floating around you! "
-                           "I’m sure you relate to them in different ways though, "
-                           "are you ready to describe the relations to these stakeholders?",
+            'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
+                           "<p>I’m sure you relate to them in different ways though, "
+                           "are you ready to describe the relations to these stakeholders?</p>",
+            'graph_layout': circular_layout,
         },
     },
     6: {
         'template': 'mapper/picker.html',
         'context': {
             'title': 'Similarity of values',
-            'description': "<p>Let's start by indicating who of these key stakeholders are more similar to you. "
+            'description': "Let's start by indicating who of these key stakeholders are more similar to you. "
                            "For each stakeholder, indicate whether you feel their values, "
-                           "ways of working, and resources and skills are similar to you.</p>"
-                           "<p>First, select the stakeholders that have similar <strong>values</strong></p>.",
-            'similarity_type': 'a',
+                           "ways of working, and resources and skills are similar to you.<br>"
+                           "First, select the stakeholders that have similar <strong>values</strong>.",
+            'similarity_type': 'values',
+            'graph_layout': circular_layout,
         },
     },
     7: {
         'template': 'mapper/picker.html',
         'context': {
             'title': 'Similarity of ways of working',
-            'description': "<p>Now, select the stakeholders that have similar <strong>ways of working</strong></p>.",
-            'similarity_type': 'b',
+            'description': "Now, select the stakeholders that have similar <strong>ways of working</strong>.",
+            'similarity_type': 'working',
+            'graph_layout': circular_layout,
         },
     },
     8: {
         'template': 'mapper/picker.html',
         'context': {
             'title': 'Similarity of resources and skills',
-            'description': "<p>Lastly, select the stakeholders that have similar "
-                           "<strong>resources and skills</strong>.",
-            'similarity_type': 'c',
+            'description': "Lastly, select the stakeholders that have similar <strong>resources and skills</strong>.",
+            'similarity_type': 'resources',
+            'graph_layout': circular_layout,
         },
     },
-    8: {
+    9: {
         'template': 'mapper/picker.html',
         'context': {
             'title': 'Similarity of a parameter of your choice',
             'description': "<p>You can also create your own parameter to compare stakeholders with.</p>",
-            'similarity_type': 'd',
+            'similarity_type': 'user_defined',
             'similarity_type_form': SimilarityTypeForm(),
+            'graph_layout': circular_layout,
         },
     },
-    9: {
+    10: {
         'template': 'mapper/grid.html',
         'context': {
             'title': 'Frequency and depth of contact',
@@ -376,7 +322,7 @@ PAGES = {
                            "and collaborate creatively together.",
         },
     },
-    10: {
+    11: {
         'template': 'mapper/ring.html',
         'context': {
             'title': 'Frequency and depth of contact',
@@ -414,11 +360,16 @@ def view_page(request, page_no, workshop_slug=None):
         if not next_page in PAGES:
             next_page = None
     page['context'].update({
-        'data': request.session.get('data', {}),
+        'map': request.session.get('map', {}),  # entity profile data
+        'stakeholders': request.session.get('stakeholders', {}),
         'next_page': next_page,
     })
     if workshop_slug:
         page['context'].update({
             'workshop': workshop,
         })
+    if page['context'].get('graph_layout'):
+        page['context']['graph'] = page['context'].get('graph_layout')(
+            request.session['stakeholders']
+        )
     return render(request, page['template'], page['context'])

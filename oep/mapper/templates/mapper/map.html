@@ -65,25 +65,6 @@
     var listener = s.configNoverlap({});
 	s.startNoverlap();
 
-    //let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
-
-    function saveGraph() {
-		var graphData = JSON.stringify({
-			graph: {
-				nodes: s.graph.nodes(),
-				edges: s.graph.edges()
-			}
-		})
-		$.ajax({
-			type: 'POST',
-			url: '{% url "graph_update" %}',
-			data: graphData,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) {}
-		});
-    }
-
 	function layoutOptimize(s) {
 		//Start the ForceAtlas2 algorithm to optimize network layout
 		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
@@ -98,35 +79,32 @@
 		}, 100);
 	}
 
-	/*
-	dragListener.bind('drop', function(event) {
-		saveGraph();
-	});
-	*/
+	var nodes = {% if graph.nodes %}{{ graph.nodes|safe }}{% else %}[]{% endif %};
 
-	var nodes = {{ data.graph.nodes|safe }};
-	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
+	s.graph.addNode({
+		id: 0,
+		label: '{{ map.name }}',
+		x: 0,
+		y: 0,
+		size: 3,
+		color: '#c00'
+	})
 
 	$.each(nodes, function(index, node) {
 		s.graph.addNode({
-		  id: node.id,
-		  label: node.label,
-		  x: node.x,
-		  y: node.y,
-		  size: node.size,
-		  color: node.color
-		})
-	});
-
-	$.each(edges, function(index, edge) {
-		s.graph.addEdge({
-			id: edge.id,
-			source: edge.source,
-			target: edge.target,
-			size: edge.size,
-			label: edge.label,
-			color: edge.color
-		})
+			id: node.id,
+			label: node.label,
+			x: node.x,
+			y: node.y,
+			size: node.size,
+			color: node.color
+		}).addEdge({
+			id: 'e' + node.id,
+			source: 0,
+			target: node.id,
+			size: 3,
+			color: '#ccc'
+		});
 	});
 
 	s.refresh();

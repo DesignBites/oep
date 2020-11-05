@@ -92,15 +92,12 @@
 
 <script>
 
-	var nodes = {{ data.graph.nodes|safe }};
-	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
+	var stakeholders = [{% for name in stakeholders.keys %}'{{ name }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
 
 	$nodeList = $('#nodeList');
 
-	$.each(nodes, function(index, node) {
-		if (node.id != 0) {
-			$nodeList.append('<li class="list-group-item" data-id="' + node.id + '">' + node.label + '</li>');
-		}
+	$.each(stakeholders, function(index, stakeholder) {
+		$nodeList.append('<li class="list-group-item" data-id="' + stakeholder + '">' + stakeholder + '</li>');
 	});
 
 	var gridColor = $('#grid td').css('borderColor');

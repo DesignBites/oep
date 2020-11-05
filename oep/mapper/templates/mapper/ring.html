@@ -18,6 +18,9 @@
 	html, body {
 		height: 100%;
 	}
+	#canvas {
+		background: radial-gradient(circle at center, white 0, grey, white 100%);
+	}
 	</style>
 
 {% endblock %}
@@ -76,7 +79,7 @@
 		})
 		$.ajax({
 			type: 'POST',
-			url: '{% url "graph_update" %}',
+			url: '{% url "mapper_graph_save" %}',
 			data: graphData,
 			contentType: "application/json",
 			dataType: 'json',
