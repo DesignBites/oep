@@ -126,7 +126,7 @@ class StakeholderForm(forms.Form):
                     'target': node_id,
                     'size': 1,
                     'label': stakeholder_type,
-                    'color': '#fff',
+                    'color': '#ccc',
                 })
                 node_id += 1
         data.update({
@@ -166,18 +166,17 @@ class StakeholderExtraForm(forms.Form):
                     'target': node_id,
                     'size': 1,
                     'label': stakeholder_type,
-                    'color': '#fff',
+                    'color': '#ccc',
                 })
                 node_id += 1
         positions = [
-            (round(x, 2), round(y, 2)) for x, y in nx.circular_layout(list(range(len(nodes))), scale=1).values()
+            (round(x, 2), round(y, 2)) for x, y in nx.circular_layout(list(range(len(nodes)-1)), scale=1).values()
         ]
         i = 0
-        print(nodes)
-        print(positions)
         for node in nodes:
-            node['x'], node['y'] = positions[i]
-            i += 1
+            if node['id'] != 0:
+                node['x'], node['y'] = positions[i]
+                i += 1
         data.update({
             'graph': {
                 'nodes': nodes,
@@ -186,6 +185,15 @@ class StakeholderExtraForm(forms.Form):
         })
         request.session['data'] = data
         request.session.modified = True
+
+
+class SimilarityTypeForm(forms.Form):
+    similarity = forms.CharField(
+        label='What is a key parameter for you?',
+        help_text='In other words, which other professional, or personal, characteristic '
+                  'is important to you to describe your relationships with?',
+        required=False,
+    )
 
 
 def relation_type_choices():
@@ -205,38 +213,6 @@ class EntityForm(forms.Form):
     ))
 
 
-def graph(request):
-    relation_groups = dict(RELATION_GROUPS)
-    relation_types_grouped = defaultdict(dict)
-    relation_types_flat = {}
-    for rt in RelationType.objects.all():
-        relation_types_grouped[relation_groups[rt.group]][rt.id] = rt
-        relation_types_flat[rt.id] = {
-            'color': rt.color,
-            'name': rt.name,
-        }
-    group_first_relation = []
-    for group_name in relation_groups.values():
-        relation_types = relation_types_grouped.get(group_name)
-        if relation_types:
-            group_first_relation.append((
-                group_name,
-                list(relation_types.keys())[0]
-            ))
-    map_id = request.session.get('map_id')
-    return render(request, 'network/graph.html', {
-        'relation_groups': relation_groups,
-        'group_first_relation': group_first_relation,
-        'relation_types_grouped': dict(relation_types_grouped),
-        'relation_types_flat': relation_types_flat,
-        'add_node_form': EntityForm(prefix='node'),
-        'add_stakeholder_form': StakeholderForm(prefix='stakeholder'),
-        'map_form': MapForm(prefix='map'),
-        'map_upload_form': MapUploadForm(),
-        'map': map_id and Map.objects.get(id=map_id),
-    })
-
-
 @csrf_exempt
 def graph_create(request):
     if request.is_ajax():
@@ -253,29 +229,17 @@ def graph_create(request):
 def graph_update(request):
     if request.is_ajax():
         data = json.loads(request.body)
-        map_id = request.session.get('map_id')
-        m = Map.objects.get(id=map_id)
-        m.graph = data.get('graph')
-        m.save()
-        return JsonResponse({
-            'id': m.id
+        data.update({
+            'graph': data.get('graph'),
         })
-
-
-def graph_view(request, map_id):
-    relation_groups = dict(RELATION_GROUPS)
-    relation_types_grouped = defaultdict(dict)
-    relation_types_flat = {}
-    for rt in RelationType.objects.all():
-        relation_types_grouped[relation_groups[rt.group]][rt.id] = rt
-        relation_types_flat[rt.id] = {
-            'color': rt.color,
-            'name': rt.name,
-        }
-    return render(request, 'network/graph_view.html', {
-        'relation_types_flat': relation_types_flat,
-        'map': Map.objects.get(id=map_id),
-    })
+        request.session['data'] = data
+        request.session.modified = True
+        #m = Map.objects.get(id=map_id)
+        #m.graph = data.get('graph')
+        #m.save()
+        return JsonResponse({
+            'data': data,
+        })
 
 
 @csrf_exempt
@@ -336,6 +300,51 @@ PAGES = {
             'description': "Awesome, look at all your stakeholders floating around you! "
                            "I’m sure you relate to them in different ways though, "
                            "are you ready to describe the relations to these stakeholders?",
+        },
+    },
+    6: {
+        'template': 'mapper/picker.html',
+        'context': {
+            'title': 'Similarity of values',
+            'description': "<p>Let's start by indicating who of these key stakeholders are more similar to you. "
+                           "For each stakeholder, indicate whether you feel their values, "
+                           "ways of working, and resources and skills are similar to you.</p>"
+                           "<p>First, select the stakeholders that have similar <strong>values</strong></p>.",
+            'similarity_type': 'a',
+        },
+    },
+    7: {
+        'template': 'mapper/picker.html',
+        'context': {
+            'title': 'Similarity of ways of working',
+            'description': "<p>Now, select the stakeholders that have similar <strong>ways of working</strong></p>.",
+            'similarity_type': 'b',
+        },
+    },
+    8: {
+        'template': 'mapper/picker.html',
+        'context': {
+            'title': 'Similarity of resources and skills',
+            'description': "<p>Lastly, select the stakeholders that have similar "
+                           "<strong>resources and skills</strong>.",
+            'similarity_type': 'c',
+        },
+    },
+    8: {
+        'template': 'mapper/picker.html',
+        'context': {
+            'title': 'Similarity of a parameter of your choice',
+            'description': "<p>You can also create your own parameter to compare stakeholders with.</p>",
+            'similarity_type': 'd',
+            'similarity_type_form': SimilarityTypeForm(),
+        },
+    },
+    9: {
+        'template': 'mapper/grid.html',
+        'context': {
+            'title': 'Frequency and depth of contact',
+            'description': "Now drag the stakeholders to the axis diagram to indicate how much you interact, "
+                           "and  collaborate creatively together.",
         },
     },
 }
