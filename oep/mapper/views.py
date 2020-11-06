@@ -67,7 +67,6 @@ class OrganisationForm(forms.Form):
 
     def save(self, request, cleaned_data):
         request.session['map'] = cleaned_data
-        request.session.modified = True
 
 
 class StakeholderForm(forms.Form):
