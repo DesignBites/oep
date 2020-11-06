@@ -1,11 +1,12 @@
 import networkx as nx
 from collections import defaultdict
+from django.templatetags.static import static
 
 
 """
 stakeholders = {
     StakeholderName: {
-        types: [customer | supplier | collaborator | supporter]
+        types: [customer | supplier | collaborator | supporter | extra]
         similarities: [values | working | resources | user_defined]
         interact: 1-3
         collaborate: 1-3
@@ -20,13 +21,16 @@ SIMILARITY_CONNECTION_ICONS = {
 }
 
 
-def get_icon_name(stakeholder):
+def get_node_icon_prefix(similarities):
     letters = []
-    for similarity in stakeholder.get('similarities', []):
+    for similarity in similarities:
         letter = SIMILARITY_CONNECTION_ICONS.get(similarity)
         if letter:
             letters.append(letter)
     return ''.join(sorted(letters))
+
+
+NODE_ICON_NAME = 'nodes/%s_w.png'
 
 
 def circular_layout(stakeholders):
@@ -83,6 +87,7 @@ def ring_layout(stakeholders):
         'y': 0,
         'size': 10,
         'color': '#f00',
+        'type': 'square',
     }]
     edges = []
     i = 1
@@ -94,9 +99,17 @@ def ring_layout(stakeholders):
                 'label': name,
                 'x': x * ((4 - data['interact']) ** 1.4) * 55,
                 'y': y * ((4 - data['interact']) ** 1.4) * 55,
-                'size': 6,
+                'size': 10,
                 'color': '#990',
+                'image': {},
             }
+            icon_prefix = get_node_icon_prefix(data.get('similarities', []))
+            if icon_prefix:
+                node['image'] = {
+                    'url': static(NODE_ICON_NAME % icon_prefix),
+                    'scale': 2,
+                    'clip': 2,
+                }
             nodes.append(node)
             edges.append({
                 'id': 'e%s' % i,
