@@ -69,16 +69,13 @@ def ring_layout(stakeholders):
     for stakeholder_name, data in stakeholders.items():
         if data.get('interact'):
             nodes_by_interaction[data['interact']] = stakeholder_name
-    positions = {}
-    for value, stakeholder_names in nodes_by_interaction.items():
-        scale = (4 - value) * 72
-        positions[value] = [
-            (round(x, 2), round(y, 2))
-            for x, y in nx.circular_layout(
-                list(range(len(stakeholder_names))),
-                scale=scale,
-            ).values()
-        ]
+    positions = [
+        (round(x, 2), round(y, 2))
+        for x, y in nx.circular_layout(
+            list(range(len(stakeholders))),
+            scale=1,
+        ).values()
+    ]
     nodes = [{
         'id': 0,
         'label': 'You',
@@ -91,12 +88,12 @@ def ring_layout(stakeholders):
     i = 1
     for name, data in stakeholders.items():
         if 'interact' in data:
-            x, y = positions[data['interact']].pop()
+            x, y = positions.pop()
             node = {
                 'id': i,
                 'label': name,
-                'x': x,
-                'y': y,
+                'x': x * ((4 - data['interact']) ** 1.4) * 55,
+                'y': y * ((4 - data['interact']) ** 1.4) * 55,
                 'size': 6,
                 'color': '#990',
             }
