@@ -13,13 +13,18 @@
 	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.edgeLabels.min.js" integrity="sha512-NdmXr+AEuaizDckUjMI05kDsdoXbj6Z0fDxqAqPfhecHITSzGWPA/zeE/ousxA4pVIALj0V6/JgfTGYT9aS7Jw==" crossorigin="anonymous"></script-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.snapshot.min.js" integrity="sha512-hRIEjoSHrn4AeSezC5FE4/5QjnuiV3CtsjBdrG8sE7Rvs+PZ6PpTggvcBcw8VSH5KyoBhTAbPeMsa9tokxQ0yw==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.customShapes.min.js" integrity="sha512-mTo2l94Z6Gvx7WZPYhiQI/TpFaRwJL3cEWo8Uqmx0J1336W2b7oB6t11B1YDgqMuOwCcYdRrHrEdGSts3zCz7g==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.renderers.customEdgeShapes.min.js" integrity="sha512-b0UMcF5LBctB1IAuTXu5/rQ/pA7Jx52JDAdYpspMCJMTNqhtHitnkVXY3gtu/fUXfURJSBfQEx/bw2xIKQY6fQ==" crossorigin="anonymous"></script>
 
 	<style>
 	html, body {
 		height: 100%;
 	}
 	#canvas {
-		background: radial-gradient(circle at center, white 0, grey, white 100%);
+		width: 600px; height: 600px;
+		background-image: url({% static 'ring_bg.png' %});
+		background-position:center center;
+		background-size: 100% 100%;
+		background-repeat:no-repeat;
 	}
 	</style>
 
@@ -48,8 +53,6 @@
 
 <script>
 
-	$('#canvas').css('height', $(window).height() - 120);
-
     var s = new sigma({
     	renderer: {
     		container: 'canvas',
@@ -61,7 +64,9 @@
 			minEdgeSize: 1,
 			maxEdgeSize: 3,
 			//edgeLabelSize: 'proportional',
-			labelThreshold: 1
+			labelThreshold: 1,
+			//autoRescale: ['nodeSize', 'edgeSize']
+			autoRescale: false
 		}
     });
 
@@ -87,28 +92,14 @@
 		});
     }
 
-	function layoutOptimize(s) {
-		//Start the ForceAtlas2 algorithm to optimize network layout
-		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
-		//Set time interval to allow layout algorithm to converge on a good state
-		var t = 0;
-		var interval = setInterval(function() {
-			t += 1;
-			if (t >= 5) {
-				clearInterval(interval);
-				s.stopForceAtlas2();
-			}
-		}, 100);
-	}
-
 	/*
 	dragListener.bind('drop', function(event) {
 		saveGraph();
 	});
 	*/
 
-	var nodes = {{ data.graph.nodes|safe }};
-	var edges = {% if data.graph.edges %}{{ data.graph.edges|safe }}{% else %}[]{% endif %};
+	var nodes = {% if graph.nodes %}{{ graph.nodes|safe }}{% else %}[]{% endif %};
+	var edges = {% if graph.edges %}{{ graph.edges|safe }}{% else %}[]{% endif %};
 
 	$.each(nodes, function(index, node) {
 		s.graph.addNode({
@@ -128,12 +119,12 @@
 			target: edge.target,
 			size: edge.size,
 			label: edge.label,
-			color: edge.color
+			color: edge.color,
+			type: edge.type
 		})
 	});
 
 	s.refresh();
-	//layoutOptimize(s);
 
 	var $exportPNG = $('#exportPNG');
     $exportPNG.click(function() {

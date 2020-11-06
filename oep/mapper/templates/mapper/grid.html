@@ -119,33 +119,45 @@
 	$('#btnNext').click(function(e) {
 		e.preventDefault();
 
-		var gridData = {};
+		if ($('#nodeList li').length > 0) {
 
-		$.each($('#grid td'), function(i, item) {
-			$td = $(item);
-			var interact = $td.data('interact');
-			var collaborate = $td.data('collaborate');
-			$.each($td.find('li'), function(j, node) {
-				nodeId = $(node).data('id');
-				console.log(nodeId);
-				gridData[nodeId] = {};
-				gridData[nodeId]['interact'] = interact;
-				gridData[nodeId]['collaborate'] = collaborate;
+			$('#nodeList li').css('borderColor', '#c99');
+			setTimeout(function() {
+				$('#nodeList li').css('borderColor', '#fff');
+			}, 500);
+
+		} else {
+
+			var gridData = {};
+
+			$.each($('#grid td'), function(i, item) {
+				$td = $(item);
+				var interact = $td.data('interact');
+				var collaborate = $td.data('collaborate');
+				$.each($td.find('li'), function(j, node) {
+					nodeId = $(node).data('id');
+					console.log(nodeId);
+					gridData[nodeId] = {};
+					gridData[nodeId]['interact'] = interact;
+					gridData[nodeId]['collaborate'] = collaborate;
+				});
 			});
-		});
 
-		var data = JSON.stringify(gridData)
+			var data = JSON.stringify(gridData)
 
-		$.ajax({
-			type: 'POST',
-			url: '{% url "mapper_grid_save" %}',
-			data: data,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) {
-				window.location = $('#btnNext').attr('href');
-			}
-		});
+			$.ajax({
+				type: 'POST',
+				url: '{% url "mapper_grid_save" %}',
+				data: data,
+				contentType: "application/json",
+				dataType: 'json',
+				success: function(data) {
+					window.location = $('#btnNext').attr('href');
+				}
+			});
+
+		}
+
 	});
 
 

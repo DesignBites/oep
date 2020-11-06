@@ -6,7 +6,7 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
-from .helpers import circular_layout
+from .layouts import circular_layout, ring_layout
 from .models import Map, RelationType, Sector, Workshop, ORGANIZATION_SIZES
 
 
@@ -331,6 +331,7 @@ PAGES = {
                            "potential collaborators based on your similarity.</p>"
                            "<p>You can also edit or delete stakeholders by clicking on them.</p>"
                            "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
+            'graph_layout': ring_layout,
         },
     },
 }
