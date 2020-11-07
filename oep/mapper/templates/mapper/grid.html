@@ -8,12 +8,26 @@
 	html, body {
 		height: 100%;
 	}
-	#grid td {
-		width: 200px;
-		height: 200px;
-	}
 	#grid li {
 		width: 100%;
+	}
+	.vertical {
+		text-align:center;
+		vertical-align: bottom!important;
+		white-space:nowrap;
+		transform-origin:50% 50%;
+		-webkit-transform: rotate(-90deg);
+		-moz-transform: rotate(-90deg);
+		-ms-transform: rotate(-90deg);
+		-o-transform: rotate(-90deg);
+		transform: rotate(-90deg);
+		padding-bottom: 20px;
+
+	}
+	.vertical:before {
+		content:'';
+		display:inline-block;
+		vertical-align:bottom;
 	}
 	</style>
 
@@ -43,39 +57,60 @@
 
 		<div class="col-9">
 
-			<table class="table table-bordered" id="grid">
-				<tr>
-					<td data-interact="3" data-collaborate="1">
+			<table class="table table-borderless" id="grid">
+				<tr class="border-0">
+					<td class="vertical">
+						regularly
+					</td>
+					<td data-interact="3" data-collaborate="1" class="border" style="width: 200px; height: 200px;">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="2">
+					<td data-interact="3" data-collaborate="2" class="border" style="width: 200px; height: 200px;">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="3">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-				</tr>
-				<tr>
-					<td data-interact="2" data-collaborate="1">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="2" data-collaborate="2">
-						<ul class="list-group list-group-flush"></ul>
-					</td>
-					<td data-interact="2" data-collaborate="3">
+					<td data-interact="3" data-collaborate="3" class="border" style="width: 200px; height: 200px;">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
 				<tr>
-					<td data-interact="1" data-collaborate="1">
+					<td class="vertical">
+						<strong>Interaction</strong>
+						<br><br>
+						sometimes
+					</td>
+					<td data-interact="2" data-collaborate="1" class="border" style="width: 200px; height: 200px;">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="1" data-collaborate="2">
+					<td data-interact="2" data-collaborate="2" class="border" style="width: 200px; height: 200px;">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="1" data-collaborate="3">
+					<td data-interact="2" data-collaborate="3" class="border" style="width: 200px; height: 200px;">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
+				</tr>
+				<tr>
+					<td class="vertical">
+						hardly ever
+					</td>
+					<td data-interact="1" data-collaborate="1" class="border" style="width: 200px; height: 200px;">
+						<ul class="list-group list-group-flush"></ul>
+					</td>
+					<td data-interact="1" data-collaborate="2" class="border" style="width: 200px; height: 200px;">
+						<ul class="list-group list-group-flush"></ul>
+					</td>
+					<td data-interact="1" data-collaborate="3" class="border" style="width: 200px; height: 200px;">
+						<ul class="list-group list-group-flush"></ul>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="center">never</td>
+					<td align="center">
+						once or twice
+						<br><br>
+						<strong>Collaboration</strong>
+					</td>
+					<td align="center">many times</td>
 				</tr>
 			</table>
 
@@ -105,16 +140,17 @@
 	$('#nodeList li').click(function() {
 		$('#nodeList li').removeClass('active');
 		$(this).addClass('active');
-		$('#grid td').css('borderColor', '#c99');
+		$('#grid td').addClass('border-warning');
 	});
 
 	$('#grid td').click(function() {
 		$node = $('#nodeList li.active');
 		$(this).find('ul').append($node);
 		$node.removeClass('active');
-		$('#grid td').css('borderColor', gridColor);
-	});
+		$('#grid td').removeClass('border-warning');
+		});
 
+	var borderColor = $('#nodeList li').css('borderColor')
 
 	$('#btnNext').click(function(e) {
 		e.preventDefault();
@@ -123,7 +159,7 @@
 
 			$('#nodeList li').css('borderColor', '#c99');
 			setTimeout(function() {
-				$('#nodeList li').css('borderColor', '#fff');
+				$('#nodeList li').css('borderColor', borderColor);
 			}, 500);
 
 		} else {
