@@ -208,9 +208,9 @@ def suggest_layout(stakeholders):
             node = {
                 'id': i,
                 'label': name,
-                'x': x * 10,
-                'y': y * 10,
-                'size': 10,
+                'x': x * 300 - 150,
+                'y': y * 300 - 150,
+                'size': 15,
                 'color': '#990',
                 'type': 'diamond',
                 'image': {},

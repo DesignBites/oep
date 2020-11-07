@@ -326,7 +326,6 @@ PAGES = {
     11: {
         'template': 'mapper/ring.html',
         'context': {
-            'title': 'Frequency and depth of contact',
             'description': "<p>Awesome, you now have a stakeholder map.</p>"
                            "<p>You can already play with the filters and different visualisations to reveal "
                            "potential collaborators based on your similarity.</p>"
@@ -338,23 +337,12 @@ PAGES = {
     12: {
         'template': 'mapper/venn.html',
         'context': {
-            'title': 'Similarity Venn diagram',
-            'description': "<p></p>",
             'graph_layout': venn_layout,
         },
     },
     13: {
         'template': 'mapper/suggest.html',
         'context': {
-            'title_1': 'Low hanging fruit',
-            'description_1': "Leverage your existing network, by collaborating with stakeholders "
-                             "that you have at least two overlapping similarities with, "
-                             "interact with at least sometimes, and have at most once or twice collaborated with.",
-            'title_2': 'Making an effort',
-            'description_2': "Craft new relationships, by collaborating with stakeholders "
-                             "that you at most regularly interact with, and have never collaborated with. "
-                             "These ones you have just one overlapping similarity with, so these stakeholders "
-                             "might complement, inspire, or challenge you on the other two.",
             'graph_layout': suggest_layout,
         },
     },
@@ -398,3 +386,124 @@ def view_page(request, page_no, workshop_slug=None):
             request.session['stakeholders']
         )
     return render(request, page['template'], page['context'])
+
+
+def ring_view(request):
+    stakeholders = request.session.get('stakeholders', {})
+    return render(request, 'mapper/ring.html', {
+        'graph': ring_layout(stakeholders),
+    })
+
+
+def venn_view(request):
+    stakeholders = request.session.get('stakeholders', {})
+    return render(request, 'mapper/venn.html', {
+        'graph': venn_layout(stakeholders),
+    })
+
+
+def suggest_view(request):
+    stakeholders = request.session.get('stakeholders', {})
+    return render(request, 'mapper/suggest.html', {
+        'graph': suggest_layout(stakeholders),
+    })
+
+
+class StakeholderAddForm(forms.Form):
+    name = forms.CharField(
+        label='What is the name of this organisation?',
+    )
+    values = forms.BooleanField(
+        label='Do you have similar values?',
+        required=False,
+    )
+    working = forms.BooleanField(
+        label='Do you have similar ways of working?',
+        required=False,
+    )
+    resources = forms.BooleanField(
+        label='Do you have similar resources and skills?',
+        required=False,
+    )
+    interact = forms.ChoiceField(
+        label='How often do you interact with each other?',
+        choices=(
+            (3, 'Regularly'),
+            (2, 'Sometimes'),
+            (1, 'Hardly ever'),
+        )
+    )
+    collaborate = forms.ChoiceField(
+        label='How often have you collaborated creatively with each other?',
+        choices=(
+            (3, 'Many times'),
+            (2, 'Once or twice'),
+            (1, 'Never'),
+        )
+    )
+
+
+def map_add(request):
+    if request.method == 'POST':
+        form = StakeholderAddForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            stakeholders = request.session.get('stakeholders', {})
+            similarities = ['values', 'working', 'resources']
+            for similarity in similarities:
+                if not data[similarity]:
+                    similarities.remove(similarity)
+            stakeholders[data['name']] = {
+                'similarities': similarities,
+                'interact': int(data['interact']),
+                'collaborate': int(data['collaborate']),
+            }
+            request.session['stakeholders'] = stakeholders
+            return redirect('mapper_ring')
+    else:
+        form = StakeholderAddForm()
+    return render(request, 'mapper/add.html', {
+        'form': form,
+    })
+
+
+class StakeholderExtendForm(forms.Form):
+    customers = forms.CharField(
+        label='Who are our key customers?',
+        help_text='In other words, who receives our products, whose needs do we serve?',
+        widget=forms.Textarea(),
+    )
+    supliers = forms.CharField(
+        label='Who are our key suppliers?',
+        help_text='In other words, who do we receive materials or resources from?',
+        widget=forms.Textarea(),
+    )
+    collaborators = forms.CharField(
+        label='Who are our key collaborators?',
+        help_text='In other words, who do we develop our offerings, operations, or other solutions with?',
+        widget=forms.Textarea(),
+    )
+    supporters = forms.CharField(
+        label='Who are our key supporters?',
+        help_text='In other words, who make our work possible or easier?',
+        widget=forms.Textarea(),
+    )
+
+    def save(self, request, cleaned_data):
+        stakeholders = {}
+        for stakeholder_type in cleaned_data.keys():
+            for name in cleaned_data[stakeholder_type].split(','):
+                name = name.strip()
+                if name in stakeholders:
+                    stakeholders[name]['types'].append(stakeholder_type)
+                else:
+                    stakeholders[name] = {}
+                    stakeholders[name]['types'] = [stakeholder_type]
+        request.session['stakeholders'] = stakeholders
+
+
+def map_extend(request):
+    stakeholders = request.session.get('stakeholders', {})
+    return render(request, 'mapper/suggest.html', {
+        'graph': suggest_layout(stakeholders),
+    })

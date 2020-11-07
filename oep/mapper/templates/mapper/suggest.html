@@ -34,11 +34,21 @@
 		<div class="col-6">
 
 			<h3>
-				{{ title_1 }}
+				Low hanging fruit
 			</h3>
 			<p>
-				{{ description_1 }}
+				Leverage your existing network, by collaborating with stakeholders that you have at least two
+				overlapping similarities with, interact with at least sometimes, and have at most once or
+				twice collaborated with.
 			</p>
+
+			{% if not graph.nodes.1 %}
+			<p>
+				There are no stakeholders matching this criteria.
+				<a href="{% url 'mapper_add' %}">Add new stakeholders</a>
+				or <a href="{% url 'mapper_extend' %}">extend your map</a>.
+			</p>
+			{% endif %}
 
 			<div id="canvas1" style="height: 300px;"></div>
 
@@ -47,11 +57,21 @@
 		<div class="col-6">
 
 			<h3>
-				{{ title_2 }}
+				Making an effort
 			</h3>
 			<p>
-				{{ description_2 }}
+				Craft new relationships, by collaborating with stakeholders that you at most regularly interact with,
+				and have never collaborated with. These ones you have just one overlapping similarity with,
+				so these stakeholders might complement, inspire, or challenge you on the other two.
 			</p>
+
+			{% if not graph.nodes.2 %}
+			<p>
+				There are no stakeholders matching this criteria.
+				<a href="{% url 'mapper_add' %}">Add new stakeholders</a>
+				or <a href="{% url 'mapper_extend' %}">extend your map</a>.
+			</p>
+			{% endif %}
 
 			<div id="canvas2" style="height: 300px;"></div>
 
@@ -69,17 +89,15 @@
 <script>
 
 	var sigmaSettings = {
-		settings: {
-			minNodeSize: 1,
-			maxNodeSize: 10,
-			minEdgeSize: 1,
-			maxEdgeSize: 3,
-			//edgeLabelSize: 'proportional',
-			labelThreshold: 1,
-			autoRescale: false,
-			zoomMin: 1,
-			zoomMax: 1
-		}
+		minNodeSize: 1,
+		maxNodeSize: 100,
+		minEdgeSize: 1,
+		maxEdgeSize: 3,
+		//edgeLabelSize: 'proportional',
+		labelThreshold: 1,
+		autoRescale: false,
+		zoomMin: 1,
+		zoomMax: 1
     }
 
     var g1 = { nodes: {% if graph.nodes.1 %}{{ graph.nodes.1|safe }}{% else %}[]{% endif %} };
