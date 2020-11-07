@@ -135,8 +135,6 @@
 		$nodeList.append('<li class="list-group-item" data-id="' + stakeholder + '">' + stakeholder + '</li>');
 	});
 
-	var gridColor = $('#grid td').css('borderColor');
-
 	$('#nodeList li').click(function() {
 		$('#nodeList li').removeClass('active');
 		$(this).addClass('active');
@@ -157,9 +155,9 @@
 
 		if ($('#nodeList li').length > 0) {
 
-			$('#nodeList li').css('borderColor', '#c99');
+			$('#nodeList li').addClass('bg-warning');
 			setTimeout(function() {
-				$('#nodeList li').css('borderColor', borderColor);
+				$('#nodeList li').removeClass('bg-warning');
 			}, 500);
 
 		} else {
