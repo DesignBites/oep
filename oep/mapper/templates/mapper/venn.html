@@ -120,23 +120,6 @@
 
     //let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
-    function saveGraph() {
-		var graphData = JSON.stringify({
-			graph: {
-				nodes: s.graph.nodes(),
-				edges: s.graph.edges()
-			}
-		})
-		$.ajax({
-			type: 'POST',
-			url: '{% url "mapper_graph_save" %}',
-			data: graphData,
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(data) {}
-		});
-    }
-
 	/*
 	dragListener.bind('drop', function(event) {
 		saveGraph();

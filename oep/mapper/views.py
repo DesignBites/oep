@@ -1,13 +1,12 @@
 import json
-from collections import defaultdict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
-from .layouts import circular_layout, ring_layout
 from .models import Map, RelationType, Sector, Workshop, ORGANIZATION_SIZES
+from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout
 
 
 def index(request, workshop_slug=None):
@@ -108,6 +107,7 @@ class StakeholderExtraForm(forms.Form):
     extra = forms.CharField(
         label='Anyone or any organization you’d like to add to your stakeholder map right away?',
         widget=forms.Textarea(),
+        required=False,
     )
 
     def save(self, request, cleaned_data):
@@ -222,6 +222,7 @@ def graph_upload(request):
         })
 
 
+# the flow
 PAGES = {
     1: {
         'template': 'mapper/form.html',
@@ -332,6 +333,29 @@ PAGES = {
                            "<p>You can also edit or delete stakeholders by clicking on them.</p>"
                            "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
             'graph_layout': ring_layout,
+        },
+    },
+    12: {
+        'template': 'mapper/venn.html',
+        'context': {
+            'title': 'Similarity Venn diagram',
+            'description': "<p></p>",
+            'graph_layout': venn_layout,
+        },
+    },
+    13: {
+        'template': 'mapper/suggest.html',
+        'context': {
+            'title_1': 'Low hanging fruit',
+            'description_1': "Leverage your existing network, by collaborating with stakeholders "
+                             "that you have at least two overlapping similarities with, "
+                             "interact with at least sometimes, and have at most once or twice collaborated with.",
+            'title_2': 'Making an effort',
+            'description_2': "Craft new relationships, by collaborating with stakeholders "
+                             "that you at most regularly interact with, and have never collaborated with. "
+                             "These ones you have just one overlapping similarity with, so these stakeholders "
+                             "might complement, inspire, or challenge you on the other two.",
+            'graph_layout': suggest_layout,
         },
     },
 }

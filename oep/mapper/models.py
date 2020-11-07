@@ -81,8 +81,7 @@ class Map(models.Model):
         Purpose, verbose_name=_('Your primary purpose of using this tool'),
         blank=True, null=True, on_delete=models.SET_NULL,
     )
-    graph = models.JSONField(blank=True, null=True)
-    terms_accepted = models.BooleanField(default=False)
+    stakeholders = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name

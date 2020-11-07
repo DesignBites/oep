@@ -1,5 +1,6 @@
 import networkx as nx
 from collections import defaultdict
+from itertools import combinations
 from django.templatetags.static import static
 
 
@@ -124,4 +125,105 @@ def ring_layout(stakeholders):
     return {
         'nodes': nodes,
         'edges': edges,
+    }
+
+
+def venn_layout(stakeholders):
+    similarities = ['values', 'working', 'resources']
+    center_coordinates = {
+        ('values', 'working', 'resources'): [0, 0],
+        ('values', 'working'): [-50, 50],
+        ('values', 'resources'): [50, 50],
+        ('working', 'resources'): [0, -70],
+        ('values',): [0, 150],
+        ('working',): [-100, -100],
+        ('resources',): [100, -100],
+    }
+    venn = defaultdict(list)
+    used = []
+    for i in range(3, 0, -1):
+        for combination in combinations(similarities, i):
+            for stakeholder, data in stakeholders.items():
+                if len(set(data.get('similarities', [])).intersection(combination)) == i:
+                    if not stakeholder in used:
+                        venn[combination].append(stakeholder)
+                        used.append(stakeholder)
+    nodes = []
+    i = 1
+    for section, stakeholder_list in venn.items():
+        positions = [
+            (round(x, 2), round(y, 2))
+            for x, y in nx.random_layout(
+                list(range(len(stakeholders))),
+            ).values()
+        ]
+        center = center_coordinates[section]
+        for name in stakeholder_list:
+            x, y = positions.pop()
+            node = {
+                'id': i,
+                'label': name,
+                'x': center[0] + x * 80,
+                'y': center[1] + y * 80,
+                'size': 10,
+                'color': '#990',
+                'image': {},
+            }
+            icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
+            if icon_prefix:
+                node['image'] = {
+                    'url': static(NODE_ICON_NAME % icon_prefix),
+                    'scale': 2,
+                    'clip': 2,
+                }
+            nodes.append(node)
+            i += 1
+    return {
+        'nodes': nodes,
+    }
+
+
+def suggest_layout(stakeholders):
+    lists = defaultdict(list)
+    for stakeholder, data in stakeholders.items():
+        if len(data.get('similarities', [])) >= 2:
+            if data.get('interact', 0) >= 2:
+                if data.get('collaborate', 0) <= 2:
+                    lists[1].append(stakeholder)
+        if len(data.get('similarities', [])) == 1:
+            if data.get('interact', 0) <= 3:
+                if data.get('collaborate', 0) == 1:
+                    lists[2].append(stakeholder)
+    nodes = defaultdict(list)
+    for key, l in lists.items():
+        positions = [
+            (round(x, 2), round(y, 2))
+            for x, y in nx.random_layout(
+                list(range(len(l))),
+            ).values()
+        ]
+        i = 1
+        for name in l:
+            x, y = positions.pop()
+            node = {
+                'id': i,
+                'label': name,
+                'x': x * 10,
+                'y': y * 10,
+                'size': 10,
+                'color': '#990',
+                'type': 'diamond',
+                'image': {},
+            }
+            icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
+            if icon_prefix:
+                node['image'] = {
+                    'url': static(NODE_ICON_NAME % icon_prefix),
+                    'scale': 2,
+                    'clip': 2,
+                }
+            nodes[key].append(node)
+            i += 1
+    return {
+        'nodes': dict(nodes),
     }
