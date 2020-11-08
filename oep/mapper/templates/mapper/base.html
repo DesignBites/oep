@@ -78,17 +78,33 @@
 								{% trans "Add stakeholder" %}
 							</a>
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalRemoveEntity">
-								{% trans "Remove stakeholder" %}
+								{% trans "Extend your map" %}
 							</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalInitMap">
-								{% trans "Reset map" %}
+							<a class="dropdown-item" href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'page_detail' page_no=1 %}{% endif %}">
+								{% trans "Start over" %}
+							</a>
+						</div>
+					</li>
+					<li class="nav-item dropup">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  {% trans "View" %}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="newDropdown">
+							<a class="dropdown-item" href="{% url 'mapper_ring' %}">
+								{% trans "Interaction circles" %}
+							</a>
+							<a class="dropdown-item" href="{% url 'mapper_venn' %}">
+								{% trans "Venn diagram" %}
+							</a>
+							<a class="dropdown-item" href="{% url 'mapper_suggest' %}">
+								{% trans "Collaborator suggestions" %}
 							</a>
 						</div>
 					</li>
 					<li class="nav-item dropup">
 						<a class="nav-link dropdown-toggle" href="#" id="exportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "Export" %}
+							{% trans "Export" %}
 						</a>
 						<div class="dropdown-menu" aria-labelledby="exportDropdown">
 							<a class="dropdown-item" href="#" id="exportJSON" download="network.json">
@@ -106,6 +122,8 @@
 						<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'page_detail' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
 							Continue
 						</a>
+					{% else %}
+
 					{% endif %}
 				</ul>
 
@@ -117,12 +135,6 @@
 {% endblock %}
 
 <br>
-
-map: {{ map }}
-<br>
-stakeholders: {{ stakeholders }}
-<br>
-graph: {{ graph }}
 
 {% block content %}
 {% endblock %}
