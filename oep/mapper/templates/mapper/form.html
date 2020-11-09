@@ -2,6 +2,13 @@
 {% load i18n static crispy_forms_tags %}
 
 
+{% block head %}
+
+    <link href="{% static 'tagsinput.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+
 {% block content %}
 
 <div class="container">
@@ -21,5 +28,12 @@
 	</form>
 
 </div>
+
+{% endblock %}
+
+
+{% block js %}
+
+    <script src="{% static 'tagsinput.js' %}"></script>
 
 {% endblock %}

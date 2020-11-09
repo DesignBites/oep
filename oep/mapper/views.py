@@ -72,22 +72,30 @@ class StakeholderForm(forms.Form):
     customers = forms.CharField(
         label='Who are our key customers?',
         help_text='In other words, who receives our products, whose needs do we serve?',
-        widget=forms.Textarea(),
+        widget=forms.TextInput(attrs={
+            'data-role': 'tagsinput',
+        }),
     )
     supliers = forms.CharField(
         label='Who are our key suppliers?',
         help_text='In other words, who do we receive materials or resources from?',
-        widget=forms.Textarea(),
+        widget=forms.TextInput(attrs={
+            'data-role': 'tagsinput',
+        }),
     )
     collaborators = forms.CharField(
         label='Who are our key collaborators?',
         help_text='In other words, who do we develop our offerings, operations, or other solutions with?',
-        widget=forms.Textarea(),
+        widget=forms.TextInput(attrs={
+            'data-role': 'tagsinput',
+        }),
     )
     supporters = forms.CharField(
         label='Who are our key supporters?',
         help_text='In other words, who make our work possible or easier?',
-        widget=forms.Textarea(),
+        widget=forms.TextInput(attrs={
+            'data-role': 'tagsinput',
+        }),
     )
 
     def save(self, request, cleaned_data):
@@ -106,7 +114,9 @@ class StakeholderForm(forms.Form):
 class StakeholderExtraForm(forms.Form):
     extra = forms.CharField(
         label='Anyone or any organization you’d like to add to your stakeholder map right away?',
-        widget=forms.Textarea(),
+        widget=forms.TextInput(attrs={
+            'data-role': 'tagsinput',
+        }),
         required=False,
     )
 
