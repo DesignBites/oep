@@ -38,14 +38,13 @@ class MapAdmin(admin.ModelAdmin):
                     data.get('interact', ''),
                     data.get('collaborate', ''),
                 ])
-            break
-        f.seek(0)
-        response = HttpResponse(
-            f.read(),
-            content_type='text/csv'
-        )
-        response['Content-Disposition'] = 'attachment; filename="%s-stakeholders.csv"' % name
-        return response
+            f.seek(0)
+            response = HttpResponse(
+                f.read(),
+                content_type='text/csv'
+            )
+            response['Content-Disposition'] = 'attachment; filename="%s-stakeholders.csv"' % m.name
+            return response
     download.short_description = 'Download stakeholders (CSV)'
 
 
