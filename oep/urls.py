@@ -9,7 +9,7 @@ urlpatterns = [
     path('mapper/', include('oep.mapper.urls')),
     path('blog/', include('oep.blog.urls')),
 
-    path('dil/', set_language, name='set_lang'),
+    path('lang/', set_language, name='set_lang'),
 ]
 
 

@@ -97,12 +97,14 @@
 		labelThreshold: 1,
 		autoRescale: false,
 		zoomMin: 1,
-		zoomMax: 1
+		zoomMax: 1,
+		enableCamera: false
     }
 
     var g1 = { nodes: {% if graph.nodes.1 %}{{ graph.nodes.1|safe }}{% else %}[]{% endif %} };
     var g2 = { nodes: {% if graph.nodes.2 %}{{ graph.nodes.2|safe }}{% else %}[]{% endif %} };
 
+	{% if graph.nodes.1 %}
     var s1 = new sigma({
     	graph: g1,
 		renderer: {
@@ -113,7 +115,9 @@
 	});
 	CustomShapes.init(s1);
 	s1.refresh();
+	{% endif %}
 
+	{% if graph.nodes.2 %}
     var s2 = new sigma({
     	graph: g2,
 		renderer: {
@@ -124,6 +128,7 @@
 	});
 	CustomShapes.init(s2);
 	s2.refresh();
+	{% endif %}
 
 </script>
 
