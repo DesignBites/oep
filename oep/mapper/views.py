@@ -535,8 +535,6 @@ def map_save(request):
             m = Map.objects.get(id=map_session['id'])
             m.stakeholders = stakeholders
             m.save()
-            request.session['map']['id'] = map.id
-            request.session.modified = True
         else:
             m = Map.objects.create(**{
                 'name': map_session['name'],
@@ -547,4 +545,6 @@ def map_save(request):
                 'purpose': map_session['purpose'] and get_object_or_404(Purpose, id=map_session['purpose']) or None,
                 'stakeholders': stakeholders,
             })
+            map_session['id'] = m.id
+            request.session.modified = True
     return JsonResponse({})

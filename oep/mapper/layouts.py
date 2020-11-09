@@ -131,13 +131,13 @@ def ring_layout(stakeholders):
 def venn_layout(stakeholders):
     similarities = ['values', 'working', 'resources']
     center_coordinates = {
-        ('values', 'working', 'resources'): [0, 0],
-        ('values', 'working'): [-50, 50],
-        ('values', 'resources'): [50, 50],
-        ('working', 'resources'): [0, -70],
-        ('values',): [0, 150],
-        ('working',): [-100, -100],
-        ('resources',): [100, -100],
+        ('values', 'working', 'resources'): [-40, -80],
+        ('values', 'working'): [-200, -100],
+        ('values', 'resources'): [100, -100],
+        ('working', 'resources'): [-40, 120],
+        ('values',): [0, -250],
+        ('working',): [-250, 80],
+        ('resources',): [150, 80],
     }
     venn = defaultdict(list)
     used = []
@@ -163,8 +163,8 @@ def venn_layout(stakeholders):
             node = {
                 'id': i,
                 'label': name,
-                'x': center[0] + x * 80,
-                'y': center[1] + y * 80,
+                'x': center[0] + x * 100,
+                'y': center[1] + y * 100,
                 'size': 10,
                 'color': '#990',
                 'image': {},
@@ -191,7 +191,7 @@ def suggest_layout(stakeholders):
                 if data.get('collaborate', 0) <= 2:
                     lists[1].append(stakeholder)
         if len(data.get('similarities', [])) == 1:
-            if data.get('interact', 0) <= 3:
+            if data.get('interact', 0) <= 2:
                 if data.get('collaborate', 0) == 1:
                     lists[2].append(stakeholder)
     nodes = defaultdict(list)
