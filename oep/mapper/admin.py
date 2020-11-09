@@ -1,7 +1,7 @@
-from io import BytesIO
+import csv
+from io import BytesIO, StringIO
 import qrcode
 import qrcode.image.svg
-import csv
 from slugify import slugify
 from django.http import HttpResponse
 from django.conf import settings
@@ -14,9 +14,39 @@ class MapAdmin(admin.ModelAdmin):
     list_display = ['name', 'is_own', 'sector', 'size']
     actions = ['download']
 
-    def download(selfself, queryset):
-        for m in queryset:
-            pass
+    def download(self, request, qs):
+        f = StringIO()
+        writer = csv.writer(f)
+        writer.writerow([
+            'Name',
+            'Batch',
+            'Value similarity',
+            'Way of working similarity',
+            'Resources similarity',
+            'Interaction frequency',
+            'Collaboration frequency',
+        ])
+        for m in qs:
+            stakeholders = m.stakeholders or {}
+            for name, data in stakeholders.items():
+                writer.writerow([
+                    name,
+                    ', '.join(data.get('types', [])),
+                    'values' in data.get('similarities', []) and 'Yes' or 'No',
+                    'working' in data.get('similarities', []) and 'Yes' or 'No',
+                    'resources' in data.get('similarities', []) and 'Yes' or 'No',
+                    data.get('interact', ''),
+                    data.get('collaborate', ''),
+                ])
+            break
+        f.seek(0)
+        response = HttpResponse(
+            f.read(),
+            content_type='text/csv'
+        )
+        response['Content-Disposition'] = 'attachment; filename="%s-stakeholders.csv"' % name
+        return response
+    download.short_description = 'Download stakeholders (CSV)'
 
 
 @admin.register(Sector)
