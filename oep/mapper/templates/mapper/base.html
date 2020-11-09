@@ -103,19 +103,15 @@
 						</div>
 					</li>
 					<li class="nav-item dropup">
-						<a class="nav-link dropdown-toggle" href="#" id="exportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{% trans "Export" %}
+						<a class="nav-link dropdown-toggle" href="#" id="saveDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{% trans "Save" %}
 						</a>
-						<div class="dropdown-menu" aria-labelledby="exportDropdown">
+						<div class="dropdown-menu" aria-labelledby="saveDropdown">
 							<a class="dropdown-item" href="#" id="exportJSON" download="network.json">
 								{% trans "Data (JSON)" %}
 							</a>
 							<a class="dropdown-item" href="#" id="exportPNG" download="network.png">
 								{% trans "Image (PNG)" %}
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#" id="btnSave">
-								{% trans "Save" %}
 							</a>
 						</div>
 					</li>
@@ -126,8 +122,10 @@
 						<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'page_detail' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
 							Continue
 						</a>
-					{% else %}
-
+					{% elif modal %}
+						<a href="#" class="btn btn-primary" id="btnModal" data-toggle="modal" data-target="#{{ modal }}">
+							Continue
+						</a>
 					{% endif %}
 				</ul>
 
@@ -148,8 +146,36 @@
 <br>
 <br>
 
-{% block js %}
-{% endblock %}
+
+<div class="modal" tabindex="-1" role="dialog" id="modalTerms">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agree with the privacy terms</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+			You can download this map as an image (png), or as a json file to continue working on it later.
+		</p>
+		<p>
+			No identifiable data will be shared or published. <a href="#">Read more</a> about how we protect your data.
+		</p>
+		<p>
+			<input type="checkbox" id="checkTermsOK">
+			<label for="checkTermsOK">
+				I give permission for the data to be used for research purposes.
+			</label>
+		</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" type="button" class="btn btn-primary disabled" id="exportJSONModal" download="network.json">Download data</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="modal" tabindex="-1" role="dialog" id="modalSave">
@@ -163,8 +189,13 @@
       </div>
       <div class="modal-body">
         <p>
-			To download map image and data to continue working on it later, agree with the data usage terms.
-			No identifiable data will be shared or published. Read more about how we protect your data.
+			You can download this map as an image (png), or as a data (json) file to continue working on it later.
+		</p>
+		<p>
+			Please agree with the <a href="#">data usage terms</a> and give permission for the data to be used for research purposes.
+		</p>
+		<p>
+			No identifiable data will be shared or published. <a href="#">Read more</a> about how we protect your data.
 		</p>
       </div>
       <div class="modal-footer">
@@ -176,11 +207,15 @@
 </div>
 
 
+{% block js %}
+{% endblock %}
+
+
 <script>
 
 $(document).ready(function() {
 
-	var termsOK = '{{ terms_ok }}';
+	var termsOK = {{ terms_ok|lower }};
 
 	function mapSave() {
 		$.post('{% url "mapper_save" %}', function(data) {
@@ -197,12 +232,68 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#btnTermsOK').click(function() {
+	function approveTerms() {
 		$.post('{% url "mapper_approve_terms" %}', function(data) {
 			termsOK = true;
 			$('#modalSave').modal('hide');
 		});
+	};
+
+	$('#btnTermsOK').click(function() {
+		approveTerms();
 	});
+
+	$('#saveDropdown').on('click', function (e) {
+		if (!termsOK) {
+			e.preventDefault();
+			$('#saveDropdown').dropdown('toggle');
+			$('#modalSave').modal('show');
+		} else {
+			mapSave();
+		}
+	})
+
+	$('#checkTermsOK').change(function() {
+		if (this.checked) {
+			approveTerms();
+			$('#exportJSONModal').removeClass('disabled');
+		} else {
+			$('#exportJSONModal').addClass('disabled');
+		}
+	});
+
+
+	var $exportPNG = $('#exportPNG');
+
+	if ((typeof s) == 'undefined') {
+		$exportPNG.addClass('disabled');
+	};
+
+
+    $exportPNG.click(function() {
+		var src_base64 = s.renderers[0].snapshot({format: 'png', labels: true});
+		$exportPNG.attr('href', src_base64);
+    });
+
+
+	function downloadJSON($el) {
+		var data = btoa(
+			JSON.stringify({
+				name: '{{ map.name }}',
+				stakeholders: {{ stakeholders|safe }}
+			})
+		);
+        $el.attr('href', 'data:text/json;base64,' + data);
+	};
+
+    $('#exportJSON').click(function() {
+    	downloadJSON($(this));
+    });
+
+    $('#exportJSONModal').click(function() {
+    	downloadJSON($(this));
+    	$('#btnModal').hide();
+    });
 
 });
 

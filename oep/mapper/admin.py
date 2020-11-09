@@ -11,7 +11,7 @@ from .models import Map, Sector, Purpose, RelationType, Workshop
 
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_own', 'sector', 'size']
+    list_display = ['name', 'workshop', 'created', 'is_own', 'sector', 'size']
     actions = ['download']
 
     def download(self, request, qs):

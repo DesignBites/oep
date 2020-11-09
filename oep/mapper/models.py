@@ -67,7 +67,7 @@ class Map(models.Model):
     is_own = models.BooleanField(
         _('This is my own organization'),
         default=True,
-        help_text=_("Uncheck the box if you are mapping an other organization's network")
+        help_text=_("Uncheck the box if you are mapping another organization's network")
     )
     sector = models.ForeignKey(
         Sector, verbose_name=_('The sector of the organization'),
@@ -82,6 +82,9 @@ class Map(models.Model):
         blank=True, null=True, on_delete=models.SET_NULL,
     )
     stakeholders = models.JSONField(blank=True, null=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name

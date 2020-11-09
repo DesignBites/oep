@@ -542,26 +542,6 @@
 		saveGraph();
     });
 
-	var $exportPNG = $('#exportPNG');
-    $exportPNG.click(function() {
-        var src_base64 = s.renderers[0].snapshot({format: 'png', background: 'white', labels: true});
-        $exportPNG.attr('href', src_base64);
-    });
-
-	var $exportJSON = $('#exportJSON');
-    $exportJSON.click(function() {
-		var data = btoa(
-			JSON.stringify({
-				name: s.graph.nodes()[0].label,
-				graph: {
-					nodes: s.graph.nodes(),
-					edges: s.graph.edges()
-				}
-			})
-		);
-        $exportJSON.attr('href', 'data:text/json;base64,' + data);
-    });
-
 </script>
 
 {% endblock %}
