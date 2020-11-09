@@ -5,7 +5,7 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
-from .models import Map, RelationType, Sector, Workshop, ORGANIZATION_SIZES
+from .models import Map, RelationType, Sector, Purpose, Workshop, ORGANIZATION_SIZES
 from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout
 
 
@@ -150,18 +150,6 @@ class EntityForm(forms.Form):
 
 
 @csrf_exempt
-def graph_create(request):
-    if request.is_ajax():
-        form = MapForm(request.POST, prefix='map')
-        if form.is_valid():
-            m = form.save()
-            request.session['map_id'] = m.id
-            return JsonResponse({
-                'id': m.id
-            })
-
-
-@csrf_exempt
 def graph_save(request):
     if request.is_ajax():
         data = json.loads(request.body)
@@ -176,6 +164,21 @@ def graph_save(request):
         return JsonResponse({
             'data': data,
         })
+
+
+@csrf_exempt
+def graph_create(request):
+    if request.is_ajax():
+        form = MapForm(request.POST, prefix='map')
+        if form.is_valid():
+            m = form.save()
+            # m = Map.objects.get(id=map_id)
+            # m.graph = data.get('graph')
+            # m.save()
+            request.session['map_id'] = m.id
+            return JsonResponse({
+                'id': m.id
+            })
 
 
 @csrf_exempt
@@ -376,6 +379,7 @@ def view_page(request, page_no, workshop_slug=None):
         'map': request.session.get('map', {}),  # entity profile data
         'stakeholders': request.session.get('stakeholders', {}),
         'next_page': next_page,
+        'terms_ok': request.session['terms_ok'],
     })
     if workshop_slug:
         page['context'].update({
@@ -392,6 +396,7 @@ def ring_view(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/ring.html', {
         'graph': ring_layout(stakeholders),
+        'terms_ok': request.session['terms_ok'],
     })
 
 
@@ -399,6 +404,7 @@ def venn_view(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/venn.html', {
         'graph': venn_layout(stakeholders),
+        'terms_ok': request.session['terms_ok'],
     })
 
 
@@ -406,6 +412,7 @@ def suggest_view(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/suggest.html', {
         'graph': suggest_layout(stakeholders),
+        'terms_ok': request.session['terms_ok'],
     })
 
 
@@ -464,6 +471,7 @@ def map_add(request):
         form = StakeholderAddForm()
     return render(request, 'mapper/add.html', {
         'form': form,
+        'terms_ok': request.session['terms_ok'],
     })
 
 
@@ -506,4 +514,37 @@ def map_extend(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/suggest.html', {
         'graph': suggest_layout(stakeholders),
+        'terms_ok': request.session['terms_ok'],
     })
+
+
+@csrf_exempt
+def approve_terms(request):
+    request.session['terms_ok'] = True
+    return JsonResponse({
+        'terms_ok': True,
+    })
+
+
+@csrf_exempt
+def map_save(request):
+    map_session = request.session.get('map')
+    if map_session:
+        stakeholders = request.session['stakeholders']
+        if map_session.get('id'):
+            m = Map.objects.get(id=map_session['id'])
+            m.stakeholders = stakeholders
+            m.save()
+            request.session['map']['id'] = map.id
+            request.session.modified = True
+        else:
+            m = Map.objects.create(**{
+                'name': map_session['name'],
+                #'workshop': None,  # TODO
+                'is_own': map_session['is_own'],
+                'sector': get_object_or_404(Sector, id=map_session['sector']),
+                'size': map_session['size'],
+                'purpose': map_session['purpose'] and get_object_or_404(Purpose, id=map_session['purpose']) or None,
+                'stakeholders': stakeholders,
+            })
+    return JsonResponse({})

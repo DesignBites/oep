@@ -1,6 +1,7 @@
 from io import BytesIO
 import qrcode
 import qrcode.image.svg
+import csv
 from slugify import slugify
 from django.http import HttpResponse
 from django.conf import settings
@@ -11,6 +12,11 @@ from .models import Map, Sector, Purpose, RelationType, Workshop
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):
     list_display = ['name', 'is_own', 'sector', 'size']
+    actions = ['download']
+
+    def download(selfself, queryset):
+        for m in queryset:
+            pass
 
 
 @admin.register(Sector)
