@@ -379,7 +379,7 @@ def view_page(request, page_no, workshop_slug=None):
         'map': request.session.get('map', {}),  # entity profile data
         'stakeholders': request.session.get('stakeholders', {}),
         'next_page': next_page,
-        'terms_ok': request.session['terms_ok'],
+        'terms_ok': request.session.get('terms_ok'),
     })
     if workshop_slug:
         page['context'].update({
@@ -396,7 +396,7 @@ def ring_view(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/ring.html', {
         'graph': ring_layout(stakeholders),
-        'terms_ok': request.session['terms_ok'],
+        'terms_ok': request.session.get('terms_ok'),
     })
 
 
@@ -404,7 +404,7 @@ def venn_view(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/venn.html', {
         'graph': venn_layout(stakeholders),
-        'terms_ok': request.session['terms_ok'],
+        'terms_ok': request.session.get('terms_ok'),
     })
 
 
@@ -412,7 +412,7 @@ def suggest_view(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/suggest.html', {
         'graph': suggest_layout(stakeholders),
-        'terms_ok': request.session['terms_ok'],
+        'terms_ok': request.session.get('terms_ok'),
     })
 
 
@@ -514,7 +514,7 @@ def map_extend(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/suggest.html', {
         'graph': suggest_layout(stakeholders),
-        'terms_ok': request.session['terms_ok'],
+        'terms_ok': request.session.get('terms_ok'),
     })
 
 
