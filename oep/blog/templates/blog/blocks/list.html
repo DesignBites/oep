@@ -1,0 +1,9 @@
+<{% if style == 'ordered' %}ol{% else %}ul{% endif %} class="list-unstyled">
+
+    {% for item in items %}
+
+        <li>{{ item|safe }}</li>
+
+    {% endfor %}
+
+</{% if style == 'ordered' %}ol{% else %}ul{% endif %}>

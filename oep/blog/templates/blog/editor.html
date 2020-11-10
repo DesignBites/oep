@@ -1,17 +1,13 @@
-{% extends 'publications/base.html' %}
+{% extends 'blog/base.html' %}
 {% load crispy_forms_tags i18n static %}
 
 
-{% block bootstrap %}
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
-{% endblock %}
+{% block title %}{% if post %}Editing {{ post.title }}{% else %}New post{% endif %} - Blog editor{% endblock %}
 
 
-{% block header %}{% endblock %}
+{% block navbar %}
 
-
-{% block footer %}
+    {{ block.super }}
 
     <nav class="navbar navbar-expand-sm fixed-bottom navbar-light bg-light">
 
@@ -23,11 +19,18 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
                 <form class="form-inline my-2 my-lg-0">
-                    <input id="tagInput" class="form-control mr-sm-2" type="text" value="{{ content.tags.all|join:', ' }}" placeholder="{% trans "Tags" %}" aria-label="{% trans "Tags" %}">
-                    <input id="categoryInput" list="categories" value="{% if content.category %}{{ content.category }}{% endif %}" class="form-control mr-sm-2" type="text" placeholder="{% trans "Category" %}" aria-label="{% trans "Category" %}">
 
+                    <select id="typeSelect" class="form-control mr-sm-2">
+                    {% for type_id, type_name in types %}
+                        <option value="{{ type_id }}" {% if post.type == type_id %}selected{% endif %}>{{ type_name }}</option>
+                    {% endfor %}
+                    </select>
+
+                    <input id="tagInput" data-role="tagsinputx" class="form-control mr-sm-2" type="text" value="{{ post.tags.all|join:', ' }}" placeholder="{% trans "Tags" %}" aria-label="{% trans "Tags" %}">
+
+                    <input id="categoryInput" list="categories" value="{% if post.category %}{{ post.category }}{% endif %}" class="form-control mr-sm-2" type="text" placeholder="{% trans "Category" %}" aria-label="{% trans "Category" %}">
                     <datalist id="categories">
-                        {% for category in publication.category_set.all %}
+                        {% for category in categories %}
                         <option value="{{ category.name }}">
                         {% endfor %}
                     </datalist>
@@ -71,16 +74,27 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.7/jquery.jgrowl.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.7/jquery.jgrowl.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="{% static 'common/tagsinput.css' %}" />
-    <script src="{% static 'common/tagsinput.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'tagsinput.css' %}" />
+    <script src="{% static 'tagsinput.js' %}"></script>
 
 {% endblock %}
 
 
 {% block content %}
 
-    <div id="editorjs" class="w-100">
+<div class="container">
+
+    <div class="row">
+        <div class="col-9 text-left">
+            <div id="editorjs" class="w-100">
+            </div>
+        </div>
+
+        <div class="col-3">
+        </div>
     </div>
+
+</div>
 
 {% endblock %}
 
@@ -91,7 +105,9 @@
 
 $(function() {
 
-    var docId = {% if content.id %}{{ content.id }}{% else %}null{% endif %};
+	$('#editorjs').css('height', $(window).height() - 120);
+
+    var postId = {% if post.id %}{{ post.id }}{% else %}null{% endif %};
 
     const editor = new EditorJS({
         holder: 'editorjs',
@@ -108,7 +124,7 @@ $(function() {
               class: ImageTool,
               config: {
                 endpoints: {
-                  byFile: '/yaz/img/'
+                  byFile: '{% url "blog_post_upload_image" %}'
                 }
               },
               // FIXME
@@ -144,7 +160,7 @@ $(function() {
               shortcut: 'CMD+ALT+T'
             },
         },
-        data: {% if content.data %}{{ content.data_js|safe }}{% else %}{
+        data: {% if post.content %}{{ post.content_js|safe }}{% else %}{
             blocks: [
                 {"type": "header", "data": {"text": "", "level": 2}},
                 {"type": "paragraph", "data": {"text": ""}}
@@ -161,13 +177,14 @@ $(function() {
             console.log('Article data: ', docContent);
             $.ajax({
                 type: 'POST',
-                url: '{% url "pub_content_save" %}',
+                url: '{% url "blog_post_save" %}',
                 data: {
                     data: JSON.stringify(docContent),
-                    id: docId,
+                    id: postId,
                     publish: publish,
                     tags: $('#tagInput').val(),
-                    category: $('#categoryInput').val()
+                    category: $('#categoryInput').val(),
+                    type: $('#typeSelect').val()
                 },
                 headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
                 success: function(data) {
@@ -180,7 +197,7 @@ $(function() {
                             window.location = data.url;
                         } else {
                             $.jGrowl('{% trans "Draft saved successfully" %}');
-                            docId = data.id;
+                            postId = data.id;
                         };
                     }
                 },
@@ -204,4 +221,3 @@ $(function() {
 </script>
 
 {% endblock %}
-ce-block ce-block--focused
