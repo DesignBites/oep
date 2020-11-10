@@ -9,6 +9,7 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ('title',)}
     search_fields = ['title']
     autocomplete_fields = ['related_posts', 'tags']
+    readonly_fields = ['created_by', 'edited_by']
 
     def save_model(self, request, obj, form, change):
         obj.edited_by = request.user

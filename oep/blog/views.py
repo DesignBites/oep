@@ -55,6 +55,7 @@ def post_detail(request, slug):
     post.save()
     return render(request, 'blog/post_detail.html', {
         'post': post,
+        'popular_posts': Post.objects.filter(publish=True).order_by('-view_count')[:6]
     })
 
 
@@ -79,10 +80,11 @@ def post_save(request):
     if request.is_ajax:
         title, image = None, None
         for block in content['blocks']:
-            if block['type'] == 'header':
+            if not title and block['type'] == 'header':
                 title = block['data']['text']
-            elif block['type'] == 'image':
-                image = block['data']['file']['url']
+            elif not image and block['type'] == 'image':
+                #image = block['data']['file']['url']  # AWS
+                image = block['data']['file']['url'][len(settings.MEDIA_URL):]
         publish = request.POST.get('publish') == 'true'
         if publish:
             if not title:
@@ -159,8 +161,8 @@ def image_upload(request):
             image_path,
             image
         )
-        #uploaded_file_url = fs.url(filename)
-        uploaded_file_url = f'{settings.MEDIA_URL}/posts/{now.year}/{now.month}/{now.day}/{image.name}'
+        #uploaded_file_url = fs.url(filename)  # for AWS
+        uploaded_file_url = f'{settings.MEDIA_URL}posts/{now.year}/{now.month}/{now.day}/{image.name}'
         print(uploaded_file_url)
         return JsonResponse({
             'success': 1,

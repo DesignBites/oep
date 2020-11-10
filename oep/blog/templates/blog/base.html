@@ -38,6 +38,11 @@
 
 				<ul class="navbar-nav mr-auto">
 					{% if not user.is_anonymous %}
+						{% if post %}
+						<li class="nav-item">
+							<a href="{% url 'blog_post_edit' post_id=post.id %}" class="nav-link">{% trans "Edit post" %}</a>
+						</li>
+						{% endif %}
 					<li class="nav-item">
 						<a href="{% url 'blog_post_add' %}" class="nav-link">{% trans "New post" %}</a>
 					</li>

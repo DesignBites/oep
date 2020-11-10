@@ -64,7 +64,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     slug = models.SlugField(blank=True, null=True, unique=True)
 
-    content = models.JSONField(blank=True, null=True)
+    content = models.JSONField(blank=True, null=True, editable=False)
     category = models.ForeignKey('category', blank=True, null=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tag, blank=True)
 
@@ -79,14 +79,12 @@ class Post(models.Model):
         blank=True, null=True,
         on_delete=models.SET_NULL,
         related_name='created_post',
-        editable=False,
     )
     edited_by = models.ForeignKey(
         User,
         blank=True, null=True,
         on_delete=models.SET_NULL,
         related_name='edited_post',
-        editable=False,
     )
 
     featured = models.BooleanField(default=False)

@@ -24,10 +24,13 @@
                     {% endfor %}
                 </ul>
 
+                {% comment %}
                 <ul class="mb-30 list-a-bg-grey list-a-hw-radial-35 list-a-hvr-primary list-li-ml-5">
                     <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="text-info"><i class="ion-social-facebook"></i></a></li>
                     <li><a href="https://www.twitter.com/share?url={{ request.build_absolute_uri }}&text={{ post.title }} - Solfasol" target="_blank" class="text-info"><i class="ion-social-twitter"></i></a></li>
                 </ul>
+                {% endcomment %}
+
             </div>
 
         </div>
