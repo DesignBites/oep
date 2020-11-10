@@ -37,6 +37,8 @@
 
                 </form>
 
+                <a href="#" id="adminEdit" class="{% if not post %}hide{% endif %}">{% trans "More" %}</a>
+
             </div>
 
             {% comment %}
@@ -189,6 +191,7 @@ $(function() {
                 headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
                 success: function(data) {
                     console.log(data);
+                    $('#adminEdit').removeClass('hide');
                     if ('error' in data) {
                         $.jGrowl(data.error);
                     } else {
@@ -214,6 +217,12 @@ $(function() {
 
     $('#btnPublish').click(function() {
         saveDocument(true);
+    });
+
+    $('#adminEdit').click(function(e) {
+        e.preventDefault();
+        var url = '/admin/blog/post/' + postId + '/change/'
+        window.location = url;
     });
 
 });
