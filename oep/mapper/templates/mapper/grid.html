@@ -132,21 +132,22 @@
 	$nodeList = $('#nodeList');
 
 	$.each(stakeholders, function(index, stakeholder) {
-		$nodeList.append('<li class="list-group-item" data-id="' + stakeholder + '">' + stakeholder + '</li>');
+		$nodeList.append('<li class="list-group-item stakeholder-node" data-id="' + stakeholder + '">' + stakeholder + '</li>');
 	});
 
-	$('#nodeList li').click(function() {
-		$('#nodeList li').removeClass('active');
+	$('.stakeholder-node').click(function(e) {
+		$('.stakeholder-node').removeClass('active');
 		$(this).addClass('active');
 		$('#grid td').addClass('border-warning');
+		e.stopPropagation();
 	});
 
 	$('#grid td').click(function() {
-		$node = $('#nodeList li.active');
+		$node = $('.stakeholder-node.active');
 		$(this).find('ul').append($node);
 		$node.removeClass('active');
 		$('#grid td').removeClass('border-warning');
-		});
+	});
 
 	var borderColor = $('#nodeList li').css('borderColor')
 
@@ -189,10 +190,12 @@
 					window.location = $('#btnNext').attr('href');
 				}
 			});
-
 		}
-
 	});
+
+	$nodeList.find(':first-child').click();
+
+
 
 </script>
 

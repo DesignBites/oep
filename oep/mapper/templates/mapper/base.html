@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>{% block title %}OEP{% endblock %}</title>
+    <title>{% block title %}Mapper{% endblock %}</title>
 
     <link rel="icon" type="image/png" href="{% static 'logo.png' %}" />
 
@@ -34,7 +34,7 @@
 		<div class="container">
 
 			<a class="navbar-brand" href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}">
-				{% trans "OEP Stakeholder Mapper" %}
+				{% trans "Stakeholder Mapper" %}
 				{% if workshop %}
 				- {{ workshop.name }}
 				{% endif %}
@@ -48,11 +48,6 @@
 
 				<ul class="navbar-nav mr-auto">
 				</ul>
-
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-				</form>
 
 			</div>
 
@@ -68,20 +63,17 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-				<ul class="navbar-nav">
+				<ul class="navbar-nav {% if page_no < 11 %}d-none{% endif %}" id="bottomMenu">
 					<li class="nav-item dropup">
 						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						  {% trans "Manage" %}
 						</a>
 						<div class="dropdown-menu" aria-labelledby="newDropdown">
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddEntity">
-								{% trans "Add stakeholder" %}
-							</a>
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#">
 								{% trans "Extend your map" %}
 							</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'page_detail' page_no=1 %}{% endif %}">
+							<a class="dropdown-item" data-toggle="modal" data-target="#confirmStartOver">
 								{% trans "Start over" %}
 							</a>
 						</div>
@@ -97,9 +89,6 @@
 							<a class="dropdown-item" href="{% url 'mapper_venn' %}">
 								{% trans "Venn diagram" %}
 							</a>
-							<a class="dropdown-item" href="{% url 'mapper_suggest' %}">
-								{% trans "Collaborator suggestions" %}
-							</a>
 						</div>
 					</li>
 					<li class="nav-item dropup">
@@ -114,6 +103,16 @@
 								{% trans "Image (PNG)" %}
 							</a>
 						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'mapper_add' %}">
+							{% trans "Add stakeholder" %}
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'mapper_suggest' %}">
+							{% trans "View suggestions" %}
+						</a>
 					</li>
 				</ul>
 
@@ -137,6 +136,10 @@
 {% endblock %}
 
 <br>
+
+
+stakeholders: {{ stakeholders }}
+
 
 {% block content %}
 {% endblock %}
@@ -201,6 +204,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">I don't agree</button>
         <button type="button" class="btn btn-primary" id="btnTermsOK">I agree</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="confirmStartOver">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Are you sure?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+			This will erase all your data.
+		</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'page_detail' page_no=1 %}{% endif %}"
+		   class="btn btn-primary" id="btnConfirmStartOver">Yes, start over!</a>
       </div>
     </div>
   </div>

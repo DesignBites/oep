@@ -35,7 +35,7 @@ def sector_choices():
 
 class OrganisationForm(forms.Form):
     name = forms.CharField(
-        label='Who are you making a stakeholder map of?',
+        label='Which organization are you making a stakeholder map of?',
         widget=forms.TextInput(attrs={'placeholder': 'Input name of organisation or team'}),
     )
     is_own = forms.BooleanField(
@@ -75,6 +75,7 @@ class StakeholderForm(forms.Form):
         widget=forms.TextInput(attrs={
             'data-role': 'tagsinput',
         }),
+        required=False,
     )
     supliers = forms.CharField(
         label='Who are our key suppliers?',
@@ -82,6 +83,7 @@ class StakeholderForm(forms.Form):
         widget=forms.TextInput(attrs={
             'data-role': 'tagsinput',
         }),
+        required=False,
     )
     collaborators = forms.CharField(
         label='Who are our key collaborators?',
@@ -89,6 +91,7 @@ class StakeholderForm(forms.Form):
         widget=forms.TextInput(attrs={
             'data-role': 'tagsinput',
         }),
+        required=False,
     )
     supporters = forms.CharField(
         label='Who are our key supporters?',
@@ -96,6 +99,7 @@ class StakeholderForm(forms.Form):
         widget=forms.TextInput(attrs={
             'data-role': 'tagsinput',
         }),
+        required=False,
     )
 
     def save(self, request, cleaned_data):
@@ -103,11 +107,12 @@ class StakeholderForm(forms.Form):
         for stakeholder_type in cleaned_data.keys():
             for name in cleaned_data[stakeholder_type].split(','):
                 name = name.strip()
-                if name in stakeholders:
-                    stakeholders[name]['types'].append(stakeholder_type)
-                else:
-                    stakeholders[name] = {}
-                    stakeholders[name]['types'] = [stakeholder_type]
+                if name:
+                    if name in stakeholders:
+                        stakeholders[name]['types'].append(stakeholder_type)
+                    else:
+                        stakeholders[name] = {}
+                        stakeholders[name]['types'] = [stakeholder_type]
         request.session['stakeholders'] = stakeholders
 
 
@@ -125,11 +130,12 @@ class StakeholderExtraForm(forms.Form):
         stakeholder_type = 'extra'
         for name in cleaned_data[stakeholder_type].split(','):
             name = name.strip()
-            if name in stakeholders:
-                stakeholders[name]['types'].append(stakeholder_type)
-            else:
-                stakeholders[name] = {}
-                stakeholders[name]['types'] = [stakeholder_type]
+            if name:
+                if name in stakeholders:
+                    stakeholders[name]['types'].append(stakeholder_type)
+                else:
+                    stakeholders[name] = {}
+                    stakeholders[name]['types'] = [stakeholder_type]
         request.session['stakeholders'] = stakeholders
 
 
@@ -389,6 +395,7 @@ def view_page(request, page_no, workshop_slug=None):
     page['context'].update({
         'map': request.session.get('map', {}),  # entity profile data
         'stakeholders': request.session.get('stakeholders', {}),
+        'page_no': page_no,
         'next_page': next_page,
     })
     if workshop_slug:
