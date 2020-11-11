@@ -44,6 +44,9 @@ class Workshop(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField()
 
+    def __str__(self):
+        return self.name
+
     def save(self, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
