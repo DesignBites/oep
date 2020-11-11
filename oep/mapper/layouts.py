@@ -29,6 +29,8 @@ def get_node_icon_prefix(similarities):
             letter = SIMILARITY_CONNECTION_ICONS.get(similarity)
             if letter:
                 letters.append(letter)
+            else:
+                letters.append('d')  # user defined similarity
         return ''.join(sorted(letters))
     else:
         return 'O'
