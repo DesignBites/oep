@@ -42,7 +42,12 @@
 
 		$('#stakeholderForm').submit(function(e) {
 
-			var isEmpty = true;
+			if ($("#stakeholderForm input[data-role=tagsinput]").length == 0) {
+				var isEmpty = false;
+			} else {
+				var isEmpty = true;
+			}
+
 			$("#stakeholderForm input[data-role=tagsinput]").each(function(i, item) {
 				if ($(item).val() != '') {
 					isEmpty = false;

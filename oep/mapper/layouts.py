@@ -24,14 +24,17 @@ SIMILARITY_CONNECTION_ICONS = {
 
 def get_node_icon_prefix(similarities):
     letters = []
-    for similarity in similarities:
-        letter = SIMILARITY_CONNECTION_ICONS.get(similarity)
-        if letter:
-            letters.append(letter)
-    return ''.join(sorted(letters))
+    if similarities:
+        for similarity in similarities:
+            letter = SIMILARITY_CONNECTION_ICONS.get(similarity)
+            if letter:
+                letters.append(letter)
+        return ''.join(sorted(letters))
+    else:
+        return 'O'
 
 
-NODE_ICON_NAME = 'nodes/%s_w.png'
+NODE_ICON_NAME = 'nodes/%s.png'
 
 
 def circular_layout(stakeholders):
@@ -89,12 +92,18 @@ def ring_layout(stakeholders):
         'size': 10,
         'color': '#f00',
         'type': 'square',
+        'image': {
+            'url': static(NODE_ICON_NAME % 'O'),
+            'scale': 3,
+            'clip': 3,
+        },
     }]
     edges = []
     i = 1
     for name, data in stakeholders.items():
         if 'interact' in data:
             x, y = positions.pop()
+            icon_prefix = get_node_icon_prefix(data.get('similarities', []))
             node = {
                 'id': i,
                 'label': name,
@@ -102,15 +111,12 @@ def ring_layout(stakeholders):
                 'y': y * ((4 - data['interact']) ** 1.4) * 55,
                 'size': 10,
                 'color': '#990',
-                'image': {},
-            }
-            icon_prefix = get_node_icon_prefix(data.get('similarities', []))
-            if icon_prefix:
-                node['image'] = {
+                'image': {
                     'url': static(NODE_ICON_NAME % icon_prefix),
-                    'scale': 2,
-                    'clip': 2,
-                }
+                    'scale': 3,
+                    'clip': 3,
+                },
+            }
             nodes.append(node)
             edges.append({
                 'id': 'e%s' % i,
@@ -173,8 +179,8 @@ def venn_layout(stakeholders):
             if icon_prefix:
                 node['image'] = {
                     'url': static(NODE_ICON_NAME % icon_prefix),
-                    'scale': 2,
-                    'clip': 2,
+                    'scale': 3,
+                    'clip': 3,
                 }
             nodes.append(node)
             i += 1
@@ -219,8 +225,8 @@ def suggest_layout(stakeholders):
             if icon_prefix:
                 node['image'] = {
                     'url': static(NODE_ICON_NAME % icon_prefix),
-                    'scale': 2,
-                    'clip': 2,
+                    'scale': 3,
+                    'clip': 3,
                 }
             nodes[key].append(node)
             i += 1

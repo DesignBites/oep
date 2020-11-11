@@ -72,7 +72,7 @@
 	$.each(nodes, function(index, node) {
 		g.nodes.push({
 			id: node.id,
-			label: node.label,
+			label: ' ' + node.label,
 			x: node.x,
 			y: node.y,
 			size: node.size,
@@ -118,8 +118,6 @@
 	CustomShapes.init(s);
 	s.refresh();
 
-    //let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
-
     function saveGraph() {
 		var graphData = JSON.stringify({
 			graph: {
@@ -136,12 +134,6 @@
 			success: function(data) {}
 		});
     }
-
-	/*
-	dragListener.bind('drop', function(event) {
-		saveGraph();
-	});
-	*/
 
 </script>
 

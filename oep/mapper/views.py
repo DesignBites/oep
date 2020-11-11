@@ -304,6 +304,7 @@ PAGES = {
                            "First, select the stakeholders that have similar <strong>values</strong>.",
             'similarity_type': 'values',
             'graph_layout': circular_layout,
+            'similarity_icon': 'a',
         },
     },
     7: {
@@ -313,6 +314,7 @@ PAGES = {
             'description': "Now, select the stakeholders that have similar <strong>ways of working</strong>.",
             'similarity_type': 'working',
             'graph_layout': circular_layout,
+            'similarity_icon': 'b',
         },
     },
     8: {
@@ -322,6 +324,7 @@ PAGES = {
             'description': "Lastly, select the stakeholders that have similar <strong>resources and skills</strong>.",
             'similarity_type': 'resources',
             'graph_layout': circular_layout,
+            'similarity_icon': 'c',
         },
     },
     9: {
@@ -332,6 +335,7 @@ PAGES = {
             'similarity_type': 'user_defined',
             'similarity_type_form': SimilarityTypeForm(),
             'graph_layout': circular_layout,
+            'similarity_icon': 'd',
         },
     },
     10: {

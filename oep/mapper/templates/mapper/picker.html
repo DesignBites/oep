@@ -53,7 +53,31 @@
 	//$('#canvas').css('height', $(window).height() - 120);
 	$('#canvas').css('height', 400);
 
+	var nodes = {{ graph.nodes|safe }};
+
+	graph = {
+		nodes: []
+	}
+
+	$.each(nodes, function(index, node) {
+		graph.nodes.push({
+			id: node.id,
+			label: ' ' + node.label,
+			x: node.x,
+			y: node.y,
+			size: node.size,
+			color: node.color,
+			type: 'square',
+			image: {
+				scale: 3,
+				clip: 3,
+				url: '{% static "nodes/O.png" %}'
+			}
+		});
+	});
+
     var s = new sigma({
+    	graph: graph,
     	renderer: {
     		container: 'canvas',
     		type: 'canvas'
@@ -64,7 +88,9 @@
 			minEdgeSize: 1,
 			maxEdgeSize: 3,
 			//edgeLabelSize: 'proportional',
+			//labelSizeRatio: 1,
 			labelThreshold: 1,
+			sideMargin: .1,
 			enableCamera: false
 		}
     });
@@ -72,30 +98,17 @@
 	CustomShapes.init(s);
 	s.refresh();
 
-	var nodes = {{ graph.nodes|safe }};
-
-	$.each(nodes, function(index, node) {
-		s.graph.addNode({
-			id: node.id,
-			label: node.label,
-			x: node.x,
-			y: node.y,
-			size: node.size,
-			color: node.color
-		});
-	});
-
-	s.refresh();
-
 	var connections = [];
 
 	s.bind('clickNode', function(e) {
-		if (e.data.node.type == 'star') {
-			connections = connections.filter(function(name) {return name != e.data.node.label});
-			e.data.node.type = '';
+		var name = e.data.node.label.trim();
+
+		if (e.data.node.image.url == '{% static "nodes/O.png" %}') {
+			connections.push(name);
+			e.data.node.image.url = '{% static "nodes/" %}{{ similarity_icon }}.png';
 		} else {
-			connections.push(e.data.node.label);
-			e.data.node.type = 'star';
+			connections = connections.filter(function(name) {return name != name});
+			e.data.node.image.url = '{% static "nodes/O.png" %}';
 		}
 		s.refresh();
 	});

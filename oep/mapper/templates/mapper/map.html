@@ -47,7 +47,54 @@
 
 	$('#canvas').css('height', $(window).height() - 120);
 
+	var nodes = {% if graph.nodes %}{{ graph.nodes|safe }}{% else %}[]{% endif %};
+
+	var graph = {
+		nodes: [],
+		edges: []
+	}
+
+	graph.nodes.push({
+		id: 0,
+		label: ' {{ map.name }}',
+		x: 0,
+		y: 0,
+		size: 3,
+		color: '#c00',
+		type: 'square',
+		image: {
+			scale: 3,
+			clip: 3,
+			url: '{% static "nodes/O.png" %}'
+		}
+	})
+
+	$.each(nodes, function(index, node) {
+		graph.nodes.push({
+			id: node.id,
+			label: ' ' + node.label,
+			x: node.x,
+			y: node.y,
+			size: node.size,
+			color: node.color,
+			type: 'square',
+			image: {
+				scale: 3,
+				clip: 3,
+				url: '{% static "nodes/O.png" %}'
+			}
+		})
+		graph.edges.push({
+			id: 'e' + node.id,
+			source: 0,
+			target: node.id,
+			size: 3,
+			color: '#ccc'
+		});
+	});
+
     var s = new sigma({
+    	graph: graph,
     	renderer: {
     		container: 'canvas',
     		type: 'canvas'
@@ -64,53 +111,8 @@
 		}
     });
 
-    var listener = s.configNoverlap({});
-	s.startNoverlap();
-
-	function layoutOptimize(s) {
-		//Start the ForceAtlas2 algorithm to optimize network layout
-		s.startForceAtlas2({worker: false, barnesHutOptimize: false, slowDown: 1000, iterationsPerRender: 1000});
-		//Set time interval to allow layout algorithm to converge on a good state
-		var t = 0;
-		var interval = setInterval(function() {
-			t += 1;
-			if (t >= 5) {
-				clearInterval(interval);
-				s.stopForceAtlas2();
-			}
-		}, 100);
-	}
-
-	var nodes = {% if graph.nodes %}{{ graph.nodes|safe }}{% else %}[]{% endif %};
-
-	s.graph.addNode({
-		id: 0,
-		label: '{{ map.name }}',
-		x: 0,
-		y: 0,
-		size: 3,
-		color: '#c00'
-	})
-
-	$.each(nodes, function(index, node) {
-		s.graph.addNode({
-			id: node.id,
-			label: node.label,
-			x: node.x,
-			y: node.y,
-			size: node.size,
-			color: node.color
-		}).addEdge({
-			id: 'e' + node.id,
-			source: 0,
-			target: node.id,
-			size: 3,
-			color: '#ccc'
-		});
-	});
-
+	CustomShapes.init(s);
 	s.refresh();
-	//layoutOptimize(s);
 
 </script>
 
