@@ -21,6 +21,12 @@ SIMILARITY_CONNECTION_ICONS = {
     'resources': 'c',
 }
 
+STAKEHOLDER_TYPE_BATCHES = {
+    1: ['customer', 'supplier', 'collaborator', 'supporter'],
+    2: ['customer-customer', 'supplier-supplier', 'collaborator-collaborator', 'collaborator-collaborator'],
+    3: ['competitor', 'inspire', 'cause', 'blocker'],
+}
+
 
 def get_node_icon_prefix(similarities):
     letters = []

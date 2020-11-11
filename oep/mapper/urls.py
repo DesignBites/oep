@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import index, graph_create, graph_save, connections_save, grid_save, graph_upload, view_page, \
+from .views import index, graph_save, connections_save, grid_save, graph_upload, page_view, \
     ring_view, venn_view, suggest_view, map_add, map_extend, approve_terms, map_save
 
 
 urlpatterns = [
-    path('create/', graph_create, name='graph_create'),
     path('update/', graph_save, name='mapper_graph_save'),
     path('upload/', graph_upload, name='graph_upload'),
     path('grid/', grid_save, name='mapper_grid_save'),
@@ -20,8 +19,8 @@ urlpatterns = [
     path('terms/ok/', approve_terms, name='mapper_approve_terms'),
     path('save/', map_save, name='mapper_save'),
 
-    path('<int:page_no>/', view_page, name='page_detail'),
-    path('<slug:workshop_slug>/<int:page_no>/', view_page, name='page_detail_workshop'),
+    path('<int:page_no>/', page_view, name='mapper_page'),
+    path('<slug:workshop_slug>/<int:page_no>/', page_view, name='mapper_page_workshop'),
 
     path('', index, name='mapper_index'),
     path('<slug:workshop_slug>/', index, name='mapper_index_workshop'),

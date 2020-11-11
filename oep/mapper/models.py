@@ -26,24 +26,18 @@ class Sector(models.Model):
         return self.name
 
 
-class RelationType(models.Model):
+class StakeholderType(models.Model):
     name = models.CharField(max_length=100)
+    batch_no = models.PositiveSmallIntegerField()
     question = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, blank=True, null=True)
-    color = models.CharField(max_length=7, blank=True, null=True, default='#ccc')
-    directional = models.BooleanField(default=True)
-    order = models.PositiveSmallIntegerField(blank=True, unique=True)
+    description = models.CharField(max_length=500, blank=True, null=True)
+    order = models.PositiveSmallIntegerField(blank=True, null=True, unique=True)
 
     def __str__(self):
         return self.name
 
-    def save(self, **kwargs):
-        if not self.order:
-            self.order = RelationType.objects.all().count() + 1
-        super().save(kwargs)
-
     class Meta:
-        ordering = ('order',)
+        ordering = ('batch_no', 'order',)
 
 
 class Workshop(models.Model):

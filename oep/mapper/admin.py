@@ -6,7 +6,7 @@ from slugify import slugify
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import admin
-from .models import Map, Sector, Purpose, RelationType, Workshop
+from .models import Map, Sector, Purpose, StakeholderType, Workshop
 
 
 @admin.register(Map)
@@ -58,10 +58,10 @@ class PurposeAdmin(admin.ModelAdmin):
     list_display = ['description']
 
 
-@admin.register(RelationType)
-class RelationTypeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'order']
-    list_editable = ['order']
+@admin.register(StakeholderType)
+class StakeholderTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'batch_no', 'order']
+    list_editable = ['batch_no', 'order']
 
 
 @admin.register(Workshop)

@@ -63,7 +63,7 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-				<ul class="navbar-nav {% if page_no < 11 %}d-none{% endif %}" id="bottomMenu">
+				<ul class="navbar-nav {% if next_page %}d-none{% endif %}" id="bottomMenu">
 					<li class="nav-item dropup">
 						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						  {% trans "Manage" %}
@@ -118,12 +118,12 @@
 
 				<ul class="navbar-nav ml-auto" id="ulGroups">
 					{% if next_page %}
-						<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'page_detail' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
+						<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
 							Continue
 						</a>
-					{% elif modal %}
+					{% elif modal and not terms_ok %}
 						<a href="#" class="btn btn-primary" id="btnModal" data-toggle="modal" data-target="#{{ modal }}">
-							Continue
+							Privacy
 						</a>
 					{% endif %}
 				</ul>
@@ -223,7 +223,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'page_detail' page_no=1 %}{% endif %}"
+        <a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}"
 		   class="btn btn-primary" id="btnConfirmStartOver">Yes, start over!</a>
       </div>
     </div>

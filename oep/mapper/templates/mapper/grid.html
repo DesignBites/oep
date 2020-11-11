@@ -127,12 +127,18 @@
 
 <script>
 
-	var stakeholders = [{% for name in stakeholders.keys %}'{{ name }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+	var stakeholders = {{ stakeholders|safe }};
 
 	$nodeList = $('#nodeList');
 
-	$.each(stakeholders, function(index, stakeholder) {
-		$nodeList.append('<li class="list-group-item stakeholder-node" data-id="' + stakeholder + '">' + stakeholder + '</li>');
+	$.each(stakeholders, function(name, data) {
+		console.log(name, data);
+		var li ='<li class="list-group-item stakeholder-node" data-id="' + name + '">' + name + '</li>';
+		if ('interact' in data) {
+			$('td[data-interact=' + data.interact + '][data-collaborate=' + data.collaborate + ']').find('ul').append(li);
+		} else {
+			$nodeList.append(li);
+		}
 	});
 
 	$('.stakeholder-node').click(function(e) {

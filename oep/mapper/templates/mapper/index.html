@@ -14,7 +14,7 @@
 		This tool supports you in mapping your stakeholders to seek out and build relationships with unusual suspects to experiment with.
 	</div>
 
-	<a href="{% if workshop %}{% url 'page_detail_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'page_detail' page_no=1 %}{% endif %}" class="btn btn-outline-success my-4 w-25">
+	<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}" class="btn btn-outline-success my-4 w-25">
 		Start now!
 		<br>
 		<small>It's free</small>

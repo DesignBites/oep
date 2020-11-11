@@ -5,7 +5,7 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
-from .models import Map, RelationType, Sector, Purpose, Workshop, ORGANIZATION_SIZES
+from .models import Map, Sector, Purpose, Workshop, StakeholderType
 from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout
 
 
@@ -23,146 +23,8 @@ def index(request, workshop_slug=None):
 class MapUploadForm(forms.Form):
     graph = forms.FileField(
         label=_('Map file'),
-        help_text=_('Please select and upload the exported JSON map file.'),
+        help_text=_('Please select and upload the exported JSON file.'),
     )
-
-
-def sector_choices():
-    return [
-        (s.id, s.name) for s in Sector.objects.all()
-    ]
-
-
-class OrganisationForm(forms.Form):
-    name = forms.CharField(
-        label='Which organization are you making a stakeholder map of?',
-        widget=forms.TextInput(attrs={'placeholder': 'Input name of organisation or team'}),
-    )
-    is_own = forms.BooleanField(
-        label='Is this your own organisation or team?',
-        required=False,
-    )
-    sector = forms.ChoiceField(
-        label='What is your key sector?',
-        help_text='Categories are obtained from the International Labour Organization.',
-        choices=sector_choices,
-    )
-    size = forms.ChoiceField(
-        label='What size is your organisation or team?',
-        choices=(
-            (1, '< 5'),
-            (2, '5 - 9'),
-            (3, '> 9'),
-        )
-    )
-    purpose = forms.CharField(
-        label='What is your main purpose for using this tool?',
-        required=False,
-        widget=forms.Textarea(attrs={
-            'placeholder': 'Describe why you are here, what you hope to get out of it. '
-                           'This helps us developing the tool better.'
-        }),
-    )
-
-    def save(self, request, cleaned_data):
-        request.session['map'] = cleaned_data
-
-
-class StakeholderForm(forms.Form):
-    customers = forms.CharField(
-        label='Who are our key customers?',
-        help_text='In other words, who receives our products, whose needs do we serve?',
-        widget=forms.TextInput(attrs={
-            'data-role': 'tagsinput',
-        }),
-        required=False,
-    )
-    supliers = forms.CharField(
-        label='Who are our key suppliers?',
-        help_text='In other words, who do we receive materials or resources from?',
-        widget=forms.TextInput(attrs={
-            'data-role': 'tagsinput',
-        }),
-        required=False,
-    )
-    collaborators = forms.CharField(
-        label='Who are our key collaborators?',
-        help_text='In other words, who do we develop our offerings, operations, or other solutions with?',
-        widget=forms.TextInput(attrs={
-            'data-role': 'tagsinput',
-        }),
-        required=False,
-    )
-    supporters = forms.CharField(
-        label='Who are our key supporters?',
-        help_text='In other words, who make our work possible or easier?',
-        widget=forms.TextInput(attrs={
-            'data-role': 'tagsinput',
-        }),
-        required=False,
-    )
-
-    def save(self, request, cleaned_data):
-        stakeholders = {}
-        for stakeholder_type in cleaned_data.keys():
-            for name in cleaned_data[stakeholder_type].split(','):
-                name = name.strip()
-                if name:
-                    if name in stakeholders:
-                        stakeholders[name]['types'].append(stakeholder_type)
-                    else:
-                        stakeholders[name] = {}
-                        stakeholders[name]['types'] = [stakeholder_type]
-        request.session['stakeholders'] = stakeholders
-
-
-class StakeholderExtraForm(forms.Form):
-    extra = forms.CharField(
-        label='Anyone or any organization you’d like to add to your stakeholder map right away?',
-        widget=forms.TextInput(attrs={
-            'data-role': 'tagsinput',
-        }),
-        required=False,
-    )
-
-    def save(self, request, cleaned_data):
-        stakeholders = request.session.get('stakeholders', {})
-        stakeholder_type = 'extra'
-        for name in cleaned_data[stakeholder_type].split(','):
-            name = name.strip()
-            if name:
-                if name in stakeholders:
-                    stakeholders[name]['types'].append(stakeholder_type)
-                else:
-                    stakeholders[name] = {}
-                    stakeholders[name]['types'] = [stakeholder_type]
-        request.session['stakeholders'] = stakeholders
-
-
-class SimilarityTypeForm(forms.Form):
-    similarity = forms.CharField(
-        label='What is a key parameter for you?',
-        help_text='In other words, which other professional, or personal, characteristic '
-                  'is important to you to describe your relationships with?',
-        required=False,
-    )
-
-
-def relation_type_choices():
-    return [
-        (rt.id, rt.name) for rt in RelationType.objects.all()
-    ]
-
-
-class EntityForm(forms.Form):
-    name = forms.CharField(label=_('Name of the entity'))
-    size = forms.ChoiceField(label=_('Size of the entity'), choices=ORGANIZATION_SIZES)
-    relation_type = forms.ChoiceField(choices=relation_type_choices)
-    weight = forms.ChoiceField(label=_('We interact'), choices=(
-        (3, _('Regularly')),
-        (2, _('Sometimes')),
-        (1, _('Rarely')),
-    ))
 
 
 @csrf_exempt
@@ -180,21 +42,6 @@ def graph_save(request):
         return JsonResponse({
             'data': data,
         })
-
-
-@csrf_exempt
-def graph_create(request):
-    if request.is_ajax():
-        form = MapForm(request.POST, prefix='map')
-        if form.is_valid():
-            m = form.save()
-            # m = Map.objects.get(id=map_id)
-            # m.graph = data.get('graph')
-            # m.save()
-            request.session['map_id'] = m.id
-            return JsonResponse({
-                'id': m.id
-            })
 
 
 @csrf_exempt
@@ -241,197 +88,72 @@ def graph_upload(request):
         })
 
 
-# the flow
-PAGES = {
-    1: {
-        'template': 'mapper/form.html',
-        'context': {
-            'description': 'Let’s get you set up. To support you in identifying and selecting potential collaborators, '
-                           'let’s start by getting to know your organisation or team.',
-            'form': OrganisationForm,
-        },
-    },
-    2: {
-        'template': 'mapper/map.html',
-        'context': {
-            'description': '<p>Congratulations, you successfully created your stakeholder map!</p>'
-                           '<p>It’s looking rather empty here though, are you ready to add some key stakeholders?</p>',
-        },
-    },
-    3: {
-        'template': 'mapper/form.html',
-        'context': {
-            'title': 'Add stakeholders',
-            'description': "Let's start by adding some usual suspects. "
-                           "Try to name at least three key stakeholders per question. "
-                           "Separate stakeholders with commas, press tab to move to the next question.",
-            'form': StakeholderForm,
-        },
-    },
-    4: {
-        'template': 'mapper/form.html',
-        'context': {
-            'title': 'Add stakeholders',
-            'description': "For food and beverage SMEs, we’ve found 6 groups of development influencers and collaborators."
-                           "<ul>"
-                               "<li>customers and consumer communities,</li>"
-                               "<li>other SMEs in the region or product niche,</li>"
-                               "<li>the wider food and beverage ecosystem (e.g. chefs, cafes),</li>"
-                               "<li>the supply and distribution chain (e.g. farmers, importers, retail chains),</li>"
-                               "<li>other organizations (eg public funders, universities, associations, companies "
-                                   "in other industries such as eg cosmetics or clothing), and</li>"
-                               "<li>personal networks (friends, family, hobbies)</li>"
-                           "</ul>",
-            'form': StakeholderExtraForm,
-        },
-    },
-    5: {
-        'template': 'mapper/map.html',
-        'context': {
-            'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
-                           "<p>I’m sure you relate to them in different ways though, "
-                           "are you ready to describe the relations to these stakeholders?</p>",
-            'graph_layout': circular_layout,
-        },
-    },
-    6: {
-        'template': 'mapper/picker.html',
-        'context': {
-            'title': 'Similarity of values',
-            'description': "Let's start by indicating who of these key stakeholders are more similar to you. "
-                           "For each stakeholder, indicate whether you feel their values, "
-                           "ways of working, and resources and skills are similar to you.<br>"
-                           "First, select the stakeholders that have similar <strong>values</strong>.",
-            'similarity_type': 'values',
-            'graph_layout': circular_layout,
-            'similarity_icon': 'a',
-        },
-    },
-    7: {
-        'template': 'mapper/picker.html',
-        'context': {
-            'title': 'Similarity of ways of working',
-            'description': "Now, select the stakeholders that have similar <strong>ways of working</strong>.",
-            'similarity_type': 'working',
-            'graph_layout': circular_layout,
-            'similarity_icon': 'b',
-        },
-    },
-    8: {
-        'template': 'mapper/picker.html',
-        'context': {
-            'title': 'Similarity of resources and skills',
-            'description': "Lastly, select the stakeholders that have similar <strong>resources and skills</strong>.",
-            'similarity_type': 'resources',
-            'graph_layout': circular_layout,
-            'similarity_icon': 'c',
-        },
-    },
-    9: {
-        'template': 'mapper/picker.html',
-        'context': {
-            'title': 'Similarity of a parameter of your choice',
-            'description': "<p>You can also create your own parameter to compare stakeholders with.</p>",
-            'similarity_type': 'user_defined',
-            'similarity_type_form': SimilarityTypeForm(),
-            'graph_layout': circular_layout,
-            'similarity_icon': 'd',
-        },
-    },
-    10: {
-        'template': 'mapper/grid.html',
-        'context': {
-            'title': 'Frequency and depth of contact',
-            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
-                           "and collaborate creatively together.",
-        },
-    },
-    11: {
-        'template': 'mapper/ring.html',
-        'context': {
-            'description': "<p>Awesome, you now have a stakeholder map.</p>"
-                           "<p>You can already play with the filters and different visualisations to reveal "
-                           "potential collaborators based on your similarity.</p>"
-                           "<p>You can also edit or delete stakeholders by clicking on them.</p>"
-                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
-            'graph_layout': ring_layout,
-        },
-    },
-    12: {
-        'template': 'mapper/venn.html',
-        'context': {
-            'graph_layout': venn_layout,
-        },
-    },
-    13: {
-        'template': 'mapper/suggest.html',
-        'context': {
-            'graph_layout': suggest_layout,
-            'modal': 'modalTerms',
-        },
-    },
-}
+class StakeholderForm(forms.Form):
+    def __init__(self, batch_no, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        stakeholder_types = StakeholderType.objects.filter(batch_no=batch_no)
+        for stakeholder_type in stakeholder_types:
+            self.fields[stakeholder_type.name] = forms.CharField(
+                label=stakeholder_type.question,
+                help_text=stakeholder_type.description,
+                required=False,
+                widget=forms.TextInput(attrs={
+                    'data-role': 'tagsinput',
+                }),
+            )
+
+    def save(self, request, cleaned_data):
+        stakeholders = request.session.get('stakeholders', {})
+        for stakeholder_type in cleaned_data.keys():
+            for name in cleaned_data[stakeholder_type].split(','):
+                name = name.strip()
+                if name:
+                    if name in stakeholders:
+                        stakeholders[name]['types'].append(stakeholder_type)
+                    else:
+                        stakeholders[name] = {}
+                        stakeholders[name]['types'] = [stakeholder_type]
+        request.session['stakeholders'] = stakeholders
 
 
-def view_page(request, page_no, workshop_slug=None):
-    page = PAGES.get(page_no)
-    if not page:
-        raise Http404
-    if workshop_slug:
-        workshop = get_object_or_404(Workshop, slug=workshop_slug)
-        request.session['workshop'] = workshop.name
+def add_stakeholders(request, **kwargs):
+    batch_no = kwargs['batch_no']
     if request.method == 'POST':
-        Form = page['context'].get('form')
-        if Form:
-            form = Form(request.POST)
-            if form.is_valid():
-                form.save(request, form.cleaned_data)
-                return redirect('page_detail', page_no=page_no+1)
-            else:
-                page['context'].update({
-                    'form': form,
-                })
-    next_page = None
-    if not page['context'].get('form'):
-        next_page = page_no + 1
-        if not next_page in PAGES:
-            next_page = None
-    page['context'].update({
-        'map': request.session.get('map', {}),  # entity profile data
-        'stakeholders': request.session.get('stakeholders', {}),
-        'page_no': page_no,
-        'next_page': next_page,
+        form = StakeholderForm(batch_no, request.POST)
+        if form.is_valid():
+            form.save(request, form.cleaned_data)
+            if kwargs.get('page_no'):
+                return redirect('mapper_page', page_no=kwargs['page_no']+1)
+    else:
+        form = StakeholderForm(batch_no)
+    kwargs.update({
+        'form': form,
     })
-    if workshop_slug:
-        page['context'].update({
-            'workshop': workshop,
-        })
-    if page['context'].get('graph_layout'):
-        page['context']['graph'] = page['context'].get('graph_layout')(
-            request.session['stakeholders']
-        )
-    return render(request, page['template'], page['context'])
+    return render(request, 'mapper/add_stakeholders.html', kwargs)
 
 
-def ring_view(request):
+def ring_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
-    return render(request, 'mapper/ring.html', {
+    kwargs.update({
         'graph': ring_layout(stakeholders),
     })
+    return render(request, 'mapper/ring.html', kwargs)
 
 
-def venn_view(request):
+def venn_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
-    return render(request, 'mapper/venn.html', {
+    kwargs.update({
         'graph': venn_layout(stakeholders),
     })
+    return render(request, 'mapper/venn.html', kwargs)
 
 
-def suggest_view(request):
+def suggest_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
-    return render(request, 'mapper/suggest.html', {
+    kwargs.update({
         'graph': suggest_layout(stakeholders),
     })
+    return render(request, 'mapper/suggest.html', kwargs)
 
 
 class StakeholderAddForm(forms.Form):
@@ -492,41 +214,6 @@ def map_add(request):
     })
 
 
-class StakeholderExtendForm(forms.Form):
-    customers = forms.CharField(
-        label='Who are our key customers?',
-        help_text='In other words, who receives our products, whose needs do we serve?',
-        widget=forms.Textarea(),
-    )
-    supliers = forms.CharField(
-        label='Who are our key suppliers?',
-        help_text='In other words, who do we receive materials or resources from?',
-        widget=forms.Textarea(),
-    )
-    collaborators = forms.CharField(
-        label='Who are our key collaborators?',
-        help_text='In other words, who do we develop our offerings, operations, or other solutions with?',
-        widget=forms.Textarea(),
-    )
-    supporters = forms.CharField(
-        label='Who are our key supporters?',
-        help_text='In other words, who make our work possible or easier?',
-        widget=forms.Textarea(),
-    )
-
-    def save(self, request, cleaned_data):
-        stakeholders = {}
-        for stakeholder_type in cleaned_data.keys():
-            for name in cleaned_data[stakeholder_type].split(','):
-                name = name.strip()
-                if name in stakeholders:
-                    stakeholders[name]['types'].append(stakeholder_type)
-                else:
-                    stakeholders[name] = {}
-                    stakeholders[name]['types'] = [stakeholder_type]
-        request.session['stakeholders'] = stakeholders
-
-
 def map_extend(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/suggest.html', {
@@ -565,3 +252,283 @@ def map_save(request):
             map_session['id'] = m.id
             request.session.modified = True
     return JsonResponse({})
+
+
+def sector_choices():
+    return [
+        (s.id, s.name) for s in Sector.objects.all()
+    ]
+
+
+class OrganisationForm(forms.Form):
+    name = forms.CharField(
+        label='Which organization are you making a stakeholder map of?',
+        widget=forms.TextInput(attrs={'placeholder': 'Input name of organisation or team'}),
+    )
+    is_own = forms.BooleanField(
+        label='Is this your own organisation or team?',
+        required=False,
+    )
+    sector = forms.ChoiceField(
+        label='What is your key sector?',
+        help_text='Categories are obtained from the International Labour Organization.',
+        choices=sector_choices,
+    )
+    size = forms.ChoiceField(
+        label='What size is your organisation or team?',
+        choices=(
+            (1, '< 5'),
+            (2, '5 - 9'),
+            (3, '> 9'),
+        )
+    )
+    purpose = forms.CharField(
+        label='What is your main purpose for using this tool?',
+        required=False,
+        widget=forms.Textarea(attrs={
+            'placeholder': 'Describe why you are here, what you hope to get out of it. '
+                           'This helps us developing the tool better.'
+        }),
+    )
+
+    def save(self, request, cleaned_data):
+        request.session['map'] = cleaned_data
+
+
+def organisation_form(request, **kwargs):
+    if request.method == 'POST':
+        form = OrganisationForm(request.POST)
+        if form.is_valid():
+            form.save(request, form.cleaned_data)
+            if kwargs.get('page_no'):
+                return redirect('mapper_page', page_no=kwargs['page_no']+1)
+    else:
+        form = OrganisationForm()
+    kwargs.update({
+        'form': form,
+    })
+    return render(request, 'mapper/organisation_form.html', kwargs)
+
+
+class SimilarityTypeForm(forms.Form):
+    similarity = forms.CharField(
+        label='What is a key parameter for you?',
+        help_text='In other words, which other professional, or personal, characteristic '
+                  'is important to you to describe your relationships with?',
+        required=False,
+    )
+
+
+def map_view(request, **kwargs):
+    layout = kwargs.get('layout')
+    if layout:
+        kwargs.update({
+            'graph': layout(kwargs['stakeholders'])
+        })
+    return render(request, 'mapper/map.html', kwargs)
+
+
+def grid_view(request, **kwargs):
+    return render(request, 'mapper/grid.html', kwargs)
+
+
+def picker_view(request, **kwargs):
+    layout = kwargs.get('layout')
+    if layout:
+        kwargs.update({
+            'graph': layout(kwargs['stakeholders'])
+        })
+    return render(request, 'mapper/picker.html', kwargs)
+
+
+# the page flow
+
+PAGES = [
+    {
+        'view': organisation_form,
+        'context': {
+            'description': 'Let’s get you set up. To support you in identifying and selecting potential collaborators, '
+                           'let’s start by getting to know your organisation or team.',
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'description': '<p>Congratulations, you successfully created your stakeholder map!</p>'
+                           '<p>It’s looking rather empty here though, are you ready to add some key stakeholders?</p>',
+        },
+    },
+    {
+        'view': add_stakeholders,
+        'context': {
+            'batch_no': 1,
+            'description': "Let's start by adding some usual suspects. "
+                           "Try to name at least three key stakeholders per question. "
+                           "Separate stakeholders with commas, press tab to move to the next question.",
+        }
+    },
+    {
+        'view': add_stakeholders,
+        'context': {
+            'batch_no': 2,
+            'description': "For food and beverage SMEs, we’ve found 6 groups of development influencers and collaborators."
+                           "<ul>"
+                               "<li>customers and consumer communities,</li>"
+                               "<li>other SMEs in the region or product niche,</li>"
+                               "<li>the wider food and beverage ecosystem (e.g. chefs, cafes),</li>"
+                               "<li>the supply and distribution chain (e.g. farmers, importers, retail chains),</li>"
+                               "<li>other organizations (eg public funders, universities, associations, companies "
+                                   "in other industries such as eg cosmetics or clothing), and</li>"
+                               "<li>personal networks (friends, family, hobbies)</li>"
+                           "</ul>",
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
+                           "<p>I’m sure you relate to them in different ways though, "
+                           "are you ready to describe the relations to these stakeholders?</p>",
+        },
+    },
+    {
+        'view': grid_view,
+        'context': {
+            'title': 'Frequency and depth of contact',
+            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
+                           "and collaborate creatively together.",
+        },
+    },
+    {
+        'view': add_stakeholders,
+        'context': {
+            'batch_no': 3,
+            'description': "Let's take it a step further down the chain. "
+                           "Again, try to name at least three key stakeholders per question. "
+                           "Separate stakeholders with commas, press tab to move to the next question.",
+        },
+    },
+    {
+        'view': grid_view,
+        'context': {
+            'title': 'Frequency and depth of contact',
+            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
+                           "and collaborate creatively together.",
+        },
+    },
+    {
+        'view': add_stakeholders,
+        'context': {
+            'batch_no': 4,
+            'description': "Let's take an even wider look at the ecosystem. "
+                           "Again, try to name at least three key stakeholders per question. "
+                           "Separate stakeholders with commas, press tab to move to the next question.",
+        },
+    },
+    {
+        'view': grid_view,
+        'context': {
+            'title': 'Frequency and depth of contact',
+            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
+                           "and collaborate creatively together.",
+        },
+    },
+    {
+        'view': picker_view,
+        'context': {
+            'title': 'Similarity of values',
+            'description': "Let's start by indicating who of these key stakeholders are more similar to you. "
+                           "For each stakeholder, indicate whether you feel their values, "
+                           "ways of working, and resources and skills are similar to you.<br>"
+                           "First, select the stakeholders that have similar <strong>values</strong>.",
+            'layout': circular_layout,
+            'similarity_type': 'values',
+            'similarity_icon': 'a',
+        },
+    },
+    {
+        'view': picker_view,
+        'context': {
+            'title': 'Similarity of ways of working',
+            'description': "Now, select the stakeholders that have similar <strong>ways of working</strong>.",
+            'layout': circular_layout,
+            'similarity_type': 'working',
+            'similarity_icon': 'b',
+        },
+    },
+    {
+        'view': picker_view,
+        'context': {
+            'title': 'Similarity of resources and skills',
+            'description': "Lastly, select the stakeholders that have similar <strong>resources and skills</strong>.",
+            'layout': circular_layout,
+            'similarity_type': 'resources',
+            'similarity_icon': 'c',
+        },
+    },
+    {
+        'view': picker_view,
+        'context': {
+            'title': 'Similarity of a parameter of your choice',
+            'description': "<p>You can also create your own parameter to compare stakeholders with.</p>",
+            'layout': circular_layout,
+            'similarity_type': 'user_defined',
+            'similarity_type_form': SimilarityTypeForm(),
+            'similarity_icon': 'd',
+        },
+    },
+    {
+        'view': ring_view,
+        'context': {
+            'description': "<p>Awesome, you now have a stakeholder map.</p>"
+                           "<p>You can already play with the filters and different visualisations to reveal "
+                           "potential collaborators based on your similarity.</p>"
+                           "<p>You can also edit or delete stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
+            'layout': ring_layout,
+        },
+    },
+    {
+        'view': venn_view,
+        'context': {
+            'layout': venn_layout,
+        },
+    },
+    {
+        'view': suggest_view,
+        'context': {
+            'layout': suggest_layout,
+            'modal': {
+                'id': 'modalTerms',
+                'title': 'Agree with the privacy terms',
+            }
+        },
+    },
+]
+
+
+def page_view(request, page_no, workshop_slug=None):
+    try:
+        page = PAGES[page_no-1]
+    except IndexError:
+        raise Http404
+    if workshop_slug:
+        workshop = get_object_or_404(Workshop, slug=workshop_slug)
+        request.session['workshop'] = workshop.name
+    next_page = None
+    if not page['context'].get('form'):
+        next_page = page_no + 1
+        if next_page > len(PAGES):
+            next_page = None
+    page['context'].update({
+        'map': request.session.get('map', {}),  # entity profile data
+        'stakeholders': request.session.get('stakeholders', {}),
+        'page_no': page_no,
+        'next_page': next_page,
+    })
+    if workshop_slug:
+        page['context'].update({
+            'workshop': workshop,
+        })
+    return page['view'](request, **page['context'])
