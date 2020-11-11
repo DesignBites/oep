@@ -138,9 +138,6 @@
 <br>
 
 
-stakeholders: {{ stakeholders }}
-
-
 {% block content %}
 {% endblock %}
 
@@ -251,7 +248,6 @@ $(document).ready(function() {
 	};
 
 	$('#btnSave').click(function() {
-		console.log(termsOK);
 		if (termsOK) {
 			mapSave();
 		} else {
