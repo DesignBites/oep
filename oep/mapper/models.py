@@ -31,7 +31,7 @@ class StakeholderType(models.Model):
     batch_no = models.PositiveSmallIntegerField()
     question = models.CharField(max_length=100)
     description = models.CharField(max_length=500, blank=True, null=True)
-    order = models.PositiveSmallIntegerField(blank=True, null=True, unique=True)
+    order = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.name
