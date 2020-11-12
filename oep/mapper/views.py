@@ -10,6 +10,7 @@ from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout
 
 
 def index(request, workshop_slug=None):
+    request.session['stakeholders'] = {}
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
