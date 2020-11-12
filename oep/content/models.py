@@ -1,4 +1,34 @@
 from django.db import models
+from django.urls import reverse
+
+
+class Page(models.Model):
+    name = models.SlugField(unique=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    heading = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='pages/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name or '-'
+
+    def get_absolute_url(self):
+        return reverse(self.name)
+
+
+class PageSection(models.Model):
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    heading = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='pages/', blank=True, null=True)
+    link = models.ForeignKey(
+        Page, on_delete=models.SET_NULL,
+        blank=True, null=True,
+        related_name='linked_sections',
+    )
+
+    def __str__(self):
+        return f'{self.page} - {self.id}'
 
 
 class TeamMemberProfile(models.Model):
@@ -32,15 +62,6 @@ class Event(models.Model):
         return self.title
 
 
-class Document(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to='docs/')
-
-    def __str__(self):
-        return self.title
-
-
 class Toolkit(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -49,11 +70,10 @@ class Toolkit(models.Model):
         return self.title
 
 
-class PageContent(models.Model):
-    page = models.SlugField()
-    section = models.CharField(max_length=50, blank=True, null=True)
-    title = models.CharField(max_length=200, blank=True, null=True)
-    text = models.TextField(blank=True, null=True)
+class Document(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    file = models.FileField(upload_to='docs/')
 
     def __str__(self):
-        return self.page
+        return self.title

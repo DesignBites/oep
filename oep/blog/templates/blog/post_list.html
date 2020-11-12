@@ -8,47 +8,6 @@
 
                 <h4 class="p-title"><b>{{ title }}</b></h4>
 
-				{% if series %}
-
-                <div class="row my-4">
-
-					<div class="col">
-
-						<table class="table">
-						{% for contribution_type, contributors in series.contributors_dict.items %}
-							<tr>
-								<th>{{ contribution_type }}</th>
-								<td>
-									{% for contributor in contributors %}
-										<a href="{{ contributor.contributor.get_absolute_url }}" class="text-warning">{{ contributor.contributor.name }}</a>
-										{% if not forloop.last %} & {% endif %}
-									{% endfor %}
-								</td>
-							</tr>
-						{% endfor %}
-						</table>
-
-					</div>
-
-					{% for issue in series.issues.all %}
-
-					<div class="col">
-
-						<a href="{{ issue.get_absolute_url }}">
-							<img src="{{ issue.cover.url }}" class="h-200xx">
-							<span class="d-block text-center my-1">
-								<strong>{{ issue.year }}</strong>
-							</span>
-						</a>
-
-					</div>
-
-					{% endfor %}
-
-				</div>
-
-				{% endif %}
-
                 <div class="row">
 
                     {% for post in post_list %}
@@ -74,7 +33,6 @@
                     {% endfor %}
 
                 </div><!-- row -->
-
 
 		</div><!-- container -->
 

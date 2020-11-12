@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TeamMemberProfile, Podcast, Event, Document, Toolkit, PageContent
+from .models import TeamMemberProfile, Podcast, Event, Document, Toolkit, Page, PageSection
 
 
 @admin.register(TeamMemberProfile)
@@ -30,6 +30,12 @@ class ToolkitAdmin(admin.ModelAdmin):
     list_display = ['title']
 
 
-@admin.register(PageContent)
-class PageContentAdmin(admin.ModelAdmin):
-    list_display = ['page', 'section']
+class PageSectionInline(admin.StackedInline):
+    model = PageSection
+    fk_name = 'page'
+
+
+@admin.register(Page)
+class PageAdmin(admin.ModelAdmin):
+    list_display = ['name', 'title']
+    inlines = [PageSectionInline]

@@ -12,6 +12,9 @@ urlpatterns = [
     path('blog/', include('oep.blog.urls')),
 
     path('lang/', set_language, name='set_lang'),
+
+    path('', include('oep.content.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

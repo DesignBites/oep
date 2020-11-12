@@ -1,82 +1,24 @@
-{% load static i18n %}<!DOCTYPE HTML>
-<html lang="en">
-<head>
+{% extends 'base.html' %}
+{% load static i18n %}
 
-	<title>{% block title %}{% endblock %}</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta charset="UTF-8">
+{% block nav-items %}
 
-	<link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded:400,600,700" rel="stylesheet">
+	{{ block.super }}
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	{% if not user.is_anonymous %}
 
-    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+		{% if post %}
+		{% url 'blog_post_edit' post_id=post.id as blog_edit_url %}
+		<li class="nav-item {% if request.path|slice:':10' == blog_edit_url|slice:':5' %}active{% endif %}">
+			<a href="{{ blog_edit_url }}" class="nav-link">{% trans "Edit post" %}</a>
+		</li>
+		{% endif %}
 
-    {% block head %}
-	{% endblock %}
+		{% url 'blog_post_add' as blog_add_url %}
+		<li class="nav-item {% if request.path|slice:':10' == blog_add_url|slice:':5' %}active{% endif %}">
+			<a href="{{ blog_add_url }}" class="nav-link">{% trans "New post" %}</a>
+		</li>
 
-</head>
+	{% endif %}
 
-
-<body>
-
-	{% block navbar %}
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container">
-
-			<a class="navbar-brand" href="{% url 'blog_index' %}">
-				{% trans "Blog" %}
-			</a>
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarTopSupportedContent">
-
-				<ul class="navbar-nav mr-auto">
-					{% if not user.is_anonymous %}
-						{% if post %}
-						<li class="nav-item">
-							<a href="{% url 'blog_post_edit' post_id=post.id %}" class="nav-link">{% trans "Edit post" %}</a>
-						</li>
-						{% endif %}
-					<li class="nav-item">
-						<a href="{% url 'blog_post_add' %}" class="nav-link">{% trans "New post" %}</a>
-					</li>
-					{% endif %}
-				</ul>
-
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-				</form>
-
-			</div>
-
-		</div>
-	</nav>
-	{% endblock %}
-
-
-	{% for message in messages %}
-
-		<div class="alert alert-success" role="alert">
-			{{ message }}
-		</div>
-
-	{% endfor %}
-
-
-    {% block content %}
-    {% endblock %}
-
-
-	{% block js %}
-	{% endblock %}
-
-
-</body>
-</html>
+{% endblock %}
