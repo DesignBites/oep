@@ -500,10 +500,7 @@ PAGES = [
         'view': suggest_view,
         'context': {
             'layout': suggest_layout,
-            'modal': {
-                'id': 'modalTerms',
-                'title': 'Agree with the privacy terms',
-            }
+            'modal': 'modalTerms',
         },
     },
 ]
