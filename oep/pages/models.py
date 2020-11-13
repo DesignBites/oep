@@ -68,12 +68,3 @@ class Toolkit(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Document(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to='docs/')
-
-    def __str__(self):
-        return self.title

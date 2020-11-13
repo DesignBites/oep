@@ -59,3 +59,15 @@ class PodcastsView(TemplateView):
             'page': Page.objects.filter(name='podcasts').first()
         })
         return context
+
+
+class PostsView(TemplateView):
+    template_name = 'pages/posts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'posts': Podcast.objects.all(),
+            'page': Page.objects.filter(name='posts').first()
+        })
+        return context

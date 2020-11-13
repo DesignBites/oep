@@ -1,23 +1,7 @@
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import translate_url
-from django.utils import timezone
 from django.utils.translation import LANGUAGE_SESSION_KEY
-from django.views.decorators.cache import cache_page
-from django.shortcuts import render
-from oep.blog.models import Post
-
-
-@cache_page(5*60)  # 5 mins
-def index(request):
-    posts = Post.objects.filter(
-        publish=True,
-        publish_at__lt=timezone.now(),
-    )
-    return render(request, 'index.html', {
-        'recent_posts': posts[:6],
-        'featured_posts': posts.filter(featured=True)[:6],
-    })
 
 
 def set_language(request):

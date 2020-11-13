@@ -20,12 +20,6 @@
 
                 <form class="form-inline my-2 my-lg-0">
 
-                    <select id="typeSelect" class="form-control mr-sm-2">
-                    {% for type_id, type_name in types %}
-                        <option value="{{ type_id }}" {% if post.type == type_id %}selected{% endif %}>{{ type_name }}</option>
-                    {% endfor %}
-                    </select>
-
                     <input id="tagInput" data-role="tagsinputx" class="form-control mr-sm-2" type="text" value="{{ post.tags.all|join:', ' }}" placeholder="{% trans "Tags" %}" aria-label="{% trans "Tags" %}">
 
                     <input id="categoryInput" list="categories" value="{% if post.category %}{{ post.category }}{% endif %}" class="form-control mr-sm-2" type="text" placeholder="{% trans "Category" %}" aria-label="{% trans "Category" %}">
@@ -186,7 +180,6 @@ $(function() {
                     publish: publish,
                     tags: $('#tagInput').val(),
                     category: $('#categoryInput').val(),
-                    type: $('#typeSelect').val()
                 },
                 headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
                 success: function(data) {

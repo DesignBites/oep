@@ -6,14 +6,8 @@ from django.utils.functional import cached_property
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.timezone import now
+from polymorphic.models import PolymorphicModel
 from slugify import slugify
-
-
-POST_TYPES = (
-    (1, 'Blog post'),
-    (2, 'Insight'),
-    (3, 'Manifestation'),
-)
 
 
 class Category(models.Model):
@@ -58,18 +52,17 @@ class Tag(models.Model):
         return reverse('blog_tag_list', kwargs={'tag': self.slug})
 
 
-class Post(models.Model):
-    type = models.PositiveSmallIntegerField(choices=POST_TYPES, default=1)
+class Document(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    file = models.FileField(upload_to='docs/')
 
-    title = models.CharField(max_length=200, blank=True, null=True)
-    slug = models.SlugField(blank=True, null=True, unique=True)
+    def __str__(self):
+        return self.title
 
-    content = models.JSONField(blank=True, null=True, editable=False)
-    category = models.ForeignKey('category', blank=True, null=True, on_delete=models.SET_NULL)
+
+class Post(PolymorphicModel):
     tags = models.ManyToManyField(Tag, blank=True)
-
-    image = models.ImageField(upload_to='posts/%Y/%m/%d/', blank=True, null=True)
-
     related_posts = models.ManyToManyField('self', blank=True)
 
     publish = models.BooleanField(default=False)
@@ -94,12 +87,33 @@ class Post(models.Model):
     modified = models.DateTimeField(auto_now=True, editable=False)
     view_count = models.PositiveIntegerField(default=0, editable=False)
 
+    def __str__(self):
+        return f'Post {self.id}'
+
+    @cached_property
+    def similar_posts(self):
+        return self.related_posts.filter(publish=True)
+
+    class Meta:
+        ordering = ('-pinned', '-added',)
+
+
+class BlogPost(Post):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    slug = models.SlugField(blank=True, null=True, unique=True)
+    image = models.ImageField(upload_to='posts/%Y/%m/%d/', blank=True, null=True)
+    content = models.JSONField(blank=True, null=True, editable=False)
+    category = models.ForeignKey('category', blank=True, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.title or f'Blog post {self.id}'
+
     def save(self, **kwargs):
         if self.title and not self.slug:
             self.slug = slugify(self.title)[:100]
         super().save(**kwargs)
         if self.pinned:
-            Post.objects.filter(pinned=True).exclude(id=self.id).update(pinned=False)
+            BlogPost.objects.filter(pinned=True).exclude(id=self.id).update(pinned=False)
 
     def clean(self):
         if self.publish:
@@ -107,9 +121,6 @@ class Post(models.Model):
                 raise ValidationError('Title is missing')
             if not self.image:
                 raise ValidationError('Image is missing')
-
-    def __str__(self):
-        return self.title or '-'
 
     def get_absolute_url(self):
         if self.publish:
@@ -128,9 +139,23 @@ class Post(models.Model):
             rendered_doc += render_to_string(f'blog/blocks/{block["type"]}.html', block["data"])
         return rendered_doc
 
-    @cached_property
-    def similar_posts(self):
-        return self.related_posts.filter(publish=True)
 
-    class Meta:
-        ordering = ('-pinned', '-added',)
+class Insight(Post):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(blank=True, null=True, unique=True)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='insights/')
+
+
+class InsightOutput(models.Model):
+    insight = models.ForeignKey(Insight, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='insights/')
+
+
+class ExternalPost(Post):
+    description = models.TextField()
+    image = models.ImageField(upload_to='external/')
+    url = models.URLField()
+

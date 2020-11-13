@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TeamMemberProfile, Podcast, Event, Document, Toolkit, Page, PageSection
+from .models import TeamMemberProfile, Podcast, Event, Toolkit, Page, PageSection
 
 
 @admin.register(TeamMemberProfile)
@@ -17,12 +17,6 @@ class PodcastAdmin(admin.ModelAdmin):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ['title', 'time', 'location']
-
-
-@admin.register(Document)
-class DocumentAdmin(admin.ModelAdmin):
-    list_display = ['title', 'file']
-    list_editable = ['file']
 
 
 @admin.register(Toolkit)

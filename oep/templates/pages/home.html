@@ -75,9 +75,15 @@
 
 		{% if section.link %}
 		<div class="col">
-			<a href="{{ section.link.get_absolute_url }}">
-				Visit {{ section.link.title }}
-				<img src="{% static 'arrow_right.png' %}" height="20" width="20">
+			<a href="{{ section.link.get_absolute_url }}" class="text-primary lead text-decoration-none">
+				<strong>
+					{% if section.link_text %}
+						{{ section.link.text }}
+					{% else %}
+						{{ section.link.title }}
+					{% endif %}
+					<img src="{% static 'arrow_right.png' %}" height="20" width="20">
+				</strong>
 			</a>
 		</div>
 		{% endif %}

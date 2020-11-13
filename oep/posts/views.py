@@ -11,7 +11,7 @@ from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import DefaultStorage
 from slugify import slugify
-from .models import Post, Category, Tag, POST_TYPES
+from .models import Post, Category, Tag
 
 
 def post_list(request, **kwargs):
@@ -70,7 +70,6 @@ def post_editor(request, post_id=None):
     return render(request, 'blog/editor.html', {
         'post': post,
         'categories': Category.objects.filter(active=True),
-        'types': POST_TYPES,
     })
 
 
@@ -95,11 +94,9 @@ def post_save(request):
                 return JsonResponse({
                     'error': _('No image provided'),
                 })
-        post_type = request.POST.get('type')
         post_id = request.POST.get('id')
         if post_id:
             post = Post.objects.get(id=post_id)
-            post.type = post_type
             post.title = title
             post.content = content
             post.image = image
@@ -108,7 +105,6 @@ def post_save(request):
         else:
             try:
                 post = Post.objects.create(
-                    type=post_type,
                     title=title,
                     image=image,
                     content=content,
