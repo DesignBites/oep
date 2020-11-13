@@ -15,7 +15,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
+    'wagtailcolumnblocks',
+
+    'taggit',
+    'modelcluster',
+
     'crispy_forms',
+
+    'oep.blog',
 
     'oep.mapper',
     'oep.pages',
@@ -30,6 +48,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'oep.urls'
@@ -120,6 +140,8 @@ CACHES = {
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+WAGTAIL_SITE_NAME = 'Design Bites'
 
 
 try:

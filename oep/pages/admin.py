@@ -1,11 +1,5 @@
 from django.contrib import admin
-from .models import TeamMemberProfile, Podcast, Event, Toolkit, Page, PageSection
-
-
-@admin.register(TeamMemberProfile)
-class TeamMemberProfileAdmin(admin.ModelAdmin):
-    list_display = ['name', 'photo']
-    list_editable = ['photo']
+from .models import Podcast, Event, Toolkit
 
 
 @admin.register(Podcast)
@@ -22,14 +16,3 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(Toolkit)
 class ToolkitAdmin(admin.ModelAdmin):
     list_display = ['title']
-
-
-class PageSectionInline(admin.StackedInline):
-    model = PageSection
-    fk_name = 'page'
-
-
-@admin.register(Page)
-class PageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'title']
-    inlines = [PageSectionInline]

@@ -1,0 +1,30 @@
+.c-sf-block .columns-block.struct-block {
+  padding-top: 0;
+}
+  .c-sf-block .columns-block.struct-block > .fields {
+    display: flex;
+    flex-wrap: wrap;
+    float: none;
+    width: 100%; 
+  }
+    .c-sf-block .columns-block.struct-block > .fields > li {
+      width: 100%;
+      min-width: 400px;
+      flex: 1; 
+    }
+      .c-sf-block .columns-block.struct-block > .fields > li > label {
+        color: #43b1b0;
+        text-transform: uppercase;
+        width: 100%;
+        padding: 0 24px;
+        display: none;
+        position: absolute;
+      }
+      .c-sf-block .columns-block.struct-block > .fields > li:hover > label {
+        display: block; }
+      .c-sf-block .columns-block.struct-block > .fields > li > .c-sf-container {
+        width: 100%;
+        height: 100%;
+        min-height: 50px; }
+        .c-sf-block .columns-block.struct-block > .fields > li > .c-sf-container .c-sf-block:hover {
+            border-color: #ccf1f1; }

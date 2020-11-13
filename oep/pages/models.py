@@ -1,46 +1,77 @@
 from django.db import models
-from django.urls import reverse
+from django.utils import timezone
+from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase
+from wagtail.core.models import Page, Orderable, ClusterableModel
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.search import index
+from wagtail.snippets.models import register_snippet
+from wagtail.core import blocks
+from wagtailcolumnblocks.blocks import ColumnsBlock
 
 
-class Page(models.Model):
-    name = models.SlugField(unique=True)
-    title = models.CharField(max_length=200, blank=True, null=True)
-    heading = models.TextField(blank=True, null=True)
-    text = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='pages/', blank=True, null=True)
-
-    def __str__(self):
-        return self.name or '-'
-
-    def get_absolute_url(self):
-        return reverse(self.name)
-
-
-class PageSection(models.Model):
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)
-    heading = models.TextField(blank=True, null=True)
-    text = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='pages/', blank=True, null=True)
-    link = models.ForeignKey(
-        Page, on_delete=models.SET_NULL,
-        blank=True, null=True,
-        related_name='linked_sections',
+class HomePage(Page):
+    photo = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        verbose_name='Background photo',
     )
+    header = models.CharField(max_length=500)
+    text = RichTextField()
+    sections = StreamField([
+        ('section', blocks.StructBlock([
+            ('heading', blocks.CharBlock(form_classname="full")),
+            ('text', blocks.RichTextBlock()),
+            ('image', ImageChooserBlock()),
+            ('link', blocks.PageChooserBlock()),
+        ])),
+    ], blank=True)
 
-    def __str__(self):
-        return f'{self.page} - {self.id}'
+    max_count = 1
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            ImageChooserPanel('photo'),
+            FieldPanel('header'),
+            FieldPanel('text'),
+        ]),
+        StreamFieldPanel('sections'),
+    ]
 
 
-class TeamMemberProfile(models.Model):
-    name = models.CharField(max_length=100)
-    title = models.CharField(max_length=100, blank=True, null=True)
-    photo = models.ImageField(upload_to='team/', blank=True, null=True)
-    bio = models.TextField(blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    phone = models.CharField(max_length=50, blank=True, null=True)
+class AboutPage(Page):
+    photo = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        verbose_name='Background photo',
+    )
+    header = models.CharField(max_length=500)
+    text = RichTextField()
+    team_members = StreamField([
+        ('team_member', blocks.StructBlock([
+            ('name', blocks.CharBlock()),
+            ('title', blocks.CharBlock()),
+            ('photo', ImageChooserBlock()),
+            ('bio', blocks.RichTextBlock()),
+            ('email', blocks.EmailBlock(required=False)),
+            ('phone', blocks.CharBlock(required=False)),
+        ])),
+    ], blank=True)
 
-    def __str__(self):
-        return self.name
+    max_count = 1
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            ImageChooserPanel('photo'),
+            FieldPanel('header'),
+            FieldPanel('text'),
+        ]),
+        StreamFieldPanel('team_members'),
+    ]
 
 
 class Podcast(models.Model):

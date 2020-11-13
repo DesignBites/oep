@@ -1,45 +1,26 @@
-{% extends 'pages/base.html' %}
-{% load i18n static %}
-
-
-{% block head %}
-
-<style>
-.bg {
-  /* The image used */
-
-  /* Full height */
-  height: 100%;
-  width= 100%;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-</style>
-
-{% endblock %}
+{% extends 'base.html' %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
 
 
 {% block content %}
 
-<div class="container-fluid bg" style="background-image: url('{{ page.image.url }}');">
+{% image page.photo scale-100 as bg_img %}
+
+<div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}');">
 
 	<div class="container mb-4">
 
 		<br><br><br><br>
 
-		<h1 class="display-2 mb-4">
-			{{ page.heading|linebreaksbr }}
+		<h1 class="display-2 mb-4 w-75">
+			{{ page.header }}
 		</h1>
 
 		<br><br>
 
-		<p class="my-4">
-			{{ page.text }}
-		</p>
+		<div class="my-4 w-50">
+			{{ page.text|richtext }}
+		</div>
 
 		<br><br><br><br>
 
@@ -48,7 +29,7 @@
 </div><!-- container -->
 
 
-{% for section in page.pagesection_set.all %}
+{% for section in page.sections %}
 
 <div class="container-fluid bg" style="background-image: url('{{ section.image.url }}');">
 

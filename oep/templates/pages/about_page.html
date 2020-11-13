@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
+
+
+{% block content %}
+
+{% image page.photo scale-100 as bg_img %}
+
+<div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}');">
+
+	<div class="container mb-4">
+
+		<br><br><br><br>
+
+		<h1 class="display-2 mb-4 w-75">
+			{{ page.header }}
+		</h1>
+
+		<br><br>
+
+		<div class="my-4 w-50">
+			{{ page.text|richtext }}
+		</div>
+
+		<br><br><br><br>
+
+	</div><!-- container -->
+
+</div><!-- container -->
+
+
+<div class="container">
+
+{% for member in page.team_members %}
+
+<div class="row">
+
+	<div class="col-md-4">
+
+		<div class="card border-0" style="width: 18rem;">
+			{% image member.value.photo fill-200x200 class="card-img-top" %}
+			<div class="card-body">
+				<h5 class="card-title">{{ member.value.name }}</h5>
+				<p class="card-text">
+					{{ member.value.bio|richtext }}
+				</p>
+			</div>
+		</div>
+
+	</div>
+
+</div><!-- container -->
+
+{% endfor %}
+
+</div>
+
+
+{% endblock %}
