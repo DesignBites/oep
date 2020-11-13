@@ -6,7 +6,6 @@ from django.utils.functional import cached_property
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.timezone import now
-from polymorphic.models import PolymorphicModel
 from slugify import slugify
 
 
@@ -52,35 +51,23 @@ class Tag(models.Model):
         return reverse('blog_tag_list', kwargs={'tag': self.slug})
 
 
-class Document(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to='docs/')
-
-    def __str__(self):
-        return self.title
-
-
-class Post(PolymorphicModel):
+class Post(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
-    related_posts = models.ManyToManyField('self', blank=True)
 
     publish = models.BooleanField(default=False)
-    publish_at = models.DateTimeField(default=now, blank=True)
     created_by = models.ForeignKey(
         User,
         blank=True, null=True,
         on_delete=models.SET_NULL,
-        related_name='created_post',
+        related_name='created_%(class)s',
     )
     edited_by = models.ForeignKey(
         User,
         blank=True, null=True,
         on_delete=models.SET_NULL,
-        related_name='edited_post',
+        related_name='edited_%(class)s',
     )
 
-    featured = models.BooleanField(default=False)
     pinned = models.BooleanField(default=False)
 
     added = models.DateTimeField(default=now, editable=False)
@@ -90,11 +77,8 @@ class Post(PolymorphicModel):
     def __str__(self):
         return f'Post {self.id}'
 
-    @cached_property
-    def similar_posts(self):
-        return self.related_posts.filter(publish=True)
-
     class Meta:
+        abstract = True
         ordering = ('-pinned', '-added',)
 
 
@@ -155,7 +139,6 @@ class InsightOutput(models.Model):
 
 
 class ExternalPost(Post):
-    description = models.TextField()
     image = models.ImageField(upload_to='external/')
-    url = models.URLField()
-
+    description = models.TextField()
+    url = models.URLField(blank=True, null=True)

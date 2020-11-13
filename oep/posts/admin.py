@@ -1,13 +1,5 @@
 from django.contrib import admin
-from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
-from .models import Post, BlogPost, Insight, InsightOutput, ExternalPost, Category, Tag, Document
-
-
-@admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
-    def save_model(self, request, obj, form, change):
-        obj.edited_by = request.user
-        super().save_model(request, obj, form, change)
+from .models import Post, BlogPost, Insight, InsightOutput, ExternalPost, Category, Tag
 
 
 @admin.register(Category)
@@ -26,12 +18,6 @@ class TagAdmin(admin.ModelAdmin):
 
     def post_count(self, obj):
         return obj.post_set.count()
-
-
-@admin.register(Document)
-class DocumentAdmin(admin.ModelAdmin):
-    list_display = ['title', 'file']
-    list_editable = ['file']
 
 
 @admin.register(BlogPost)
@@ -57,17 +43,18 @@ class InsightOutputInline(admin.StackedInline):
 
 @admin.register(Insight)
 class InsightAdmin(admin.ModelAdmin):
+    fields = ['title', 'description', 'image', 'url', 'tags', 'publish', 'pinned', 'created_by', 'edited_by']
     list_display = ['title', 'publish', 'added', 'view_count']
     list_editable = ['publish']
     search_fields = ['title']
-    autocomplete_fields = [
-        #'related_posts',
-        'tags'
-    ]
+    autocomplete_fields = ['tags']
     readonly_fields = ['created_by', 'edited_by']
     inlines = [InsightOutputInline]
 
 
 @admin.register(ExternalPost)
 class ExternalPostAdmin(admin.ModelAdmin):
+    fields = ['image', 'description', 'url', 'tags', 'publish', 'pinned', 'created_by', 'edited_by']
     list_display = ['description', 'url']
+    search_fields = ['description']
+    autocomplete_fields = ['tags']
