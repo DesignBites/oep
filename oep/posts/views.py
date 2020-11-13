@@ -152,13 +152,14 @@ def image_upload(request):
         image = request.FILES['image']
         fs = DefaultStorage()
         now = timezone.now()
-        image_path = f'{settings.MEDIA_ROOT}/posts/{now.year}/{now.month}/{now.day}/{image.name}'
+        #image_path = f'{settings.MEDIA_ROOT}/posts/{now.year}/{now.month}/{now.day}/{image.name}'
+        image_path = f'/posts/{now.year}/{now.month}/{now.day}/{image.name}'
         filename = fs.save(
             image_path,
             image
         )
-        #uploaded_file_url = fs.url(filename)  # for AWS
-        uploaded_file_url = f'{settings.MEDIA_URL}posts/{now.year}/{now.month}/{now.day}/{image.name}'
+        uploaded_file_url = fs.url(filename)  # for AWS
+        #uploaded_file_url = f'{settings.MEDIA_URL}posts/{now.year}/{now.month}/{now.day}/{image.name}'
         print(uploaded_file_url)
         return JsonResponse({
             'success': 1,
