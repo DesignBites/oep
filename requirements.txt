@@ -11,4 +11,4 @@ django-recaptcha
 qrcode
 networkx
 numpy
-django-polymorphic
+wagtail

@@ -18,7 +18,9 @@
 
 				<div class="text-center">
 
-					{% image post.image fill-200x200 %}
+					<a href="{{ post.url }}">
+						{% image post.image fill-200x200 %}
+					</a>
 
 					<h5 class="card-title text-center mt-3">
 						{{ post.title }}

@@ -124,6 +124,8 @@ class BlogPostPage(Page):
 
 
 class BlogTagIndexPage(Page):
+    max_count = 1
+
     def get_context(self, request):
         tag = request.GET.get('tag')
         posts = BlogPostPage.objects.filter(tags__name=tag)
@@ -131,4 +133,3 @@ class BlogTagIndexPage(Page):
         context = super().get_context(request)
         context['posts'] = posts
         return context
-
