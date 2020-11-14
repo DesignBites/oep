@@ -21,6 +21,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
     <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #242847;
+        }
+
         .bg {
             height: 100%;
             width= 100%;
@@ -94,8 +99,48 @@
 </nav>
 {% endblock %}
 
+
 {% block content %}
 {% endblock %}
+
+
+<!-- Footer -->
+<footer class="bg-light small mt-5">
+
+  <!-- Footer Links -->
+  <div class="container">
+
+    <!-- Grid row-->
+    <div class="row d-flex text-center justify-content-center mb-md-0 my-5">
+
+      <!-- Grid column -->
+      <div class="col-md-8 col-12 my-5">
+        <p>
+            CONTACT US
+        </p>
+        <span class="d-block">
+            <a href="http://designbites.aalto.fi">designbites.aalto.fi</a>
+        </span>
+        <span class="d-block">
+            Instagram: <a href="http://instagram.com/DesignBts">@DesignBts</a>
+        </span>
+        <span class="d-block">
+            Twitter: <a href="http://twitter.com/DesignBites">@DesignBites</a>
+        </span>
+
+        <span class="d-block mt-5">
+          © 2020 Copyright
+          Business Finland & Aalto Design Factory
+        </span>
+      </div>
+      <!-- Grid column -->
+
+    </div>
+
+  </div>
+
+</footer>
+<!-- Footer -->
 
 {% block js %}
 {% endblock %}
