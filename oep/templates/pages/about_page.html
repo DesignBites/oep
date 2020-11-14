@@ -27,16 +27,21 @@
 						</small>
 					</h5>
 
+					<div class="text-muted">
 					{% if member.value.email %}
-					<div class="text-muted">
 						{{ member.value.email }}
-					</div>
+					{% else %}
+						&nbsp;
 					{% endif %}
-					{% if member.value.phone %}
+					</div>
+
 					<div class="text-muted">
+					{% if member.value.phone %}
 						{{ member.value.phone }}
-					</div>
+					{% else %}
+						&nbsp;
 					{% endif %}
+					</div>
 
 				</div>
 

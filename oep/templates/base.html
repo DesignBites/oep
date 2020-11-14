@@ -29,6 +29,11 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
+        .nav-item {
+            font-size: larger;
+        }
+
     </style>
 
     {% block head %}
@@ -44,7 +49,7 @@
     <div class="container">
 
         <a class="navbar-brand" href="/">
-            <img src="{% static 'logo.png' %}" width="160">
+            <img src="{% static 'logo.png' %}" width="170" class="ml-n5">
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
@@ -59,34 +64,29 @@
             {% url 'blog_index' as blog_url %}
             {% url 'about' as about_url %}
 
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ml-auto">
                 {% block nav-items %}
                 <li class="nav-item {% if request.path|slice:':5' == events_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ events_url }}" class="nav-link">{% trans "Activities" %}</a>
+                    <a href="{{ events_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Activities" %}</a>
                 </li>
 
                 <li class="nav-item {% if request.path|slice:':5' == tools_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ tools_url }}" class="nav-link">{% trans "Tools" %}</a>
+                    <a href="{{ tools_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Tools" %}</a>
                 </li>
 
                 <li class="nav-item {% if request.path|slice:':5' == podcasts_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ podcasts_url }}" class="nav-link">{% trans "Podcasts" %}</a>
+                    <a href="{{ podcasts_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Podcasts" %}</a>
                 </li>
 
                 <li class="nav-item {% if request.path|slice:':5' == blog_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ blog_url }}" class="nav-link">{% trans "Insights" %}</a>
+                    <a href="{{ blog_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Insights" %}</a>
                 </li>
 
                 <li class="nav-item {% if request.path|slice:':5' == about_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ about_url }}" class="nav-link">{% trans "About" %}</a>
+                    <a href="{{ about_url }}" class="nav-link py-4 font-weight-bolder">{% trans "About" %}</a>
                 </li>
                 {% endblock %}
             </ul>
-
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
 
         </div>
 
