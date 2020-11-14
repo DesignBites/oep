@@ -24,14 +24,16 @@
         {% endfor %}
     </article>
 
-</div>
+    {% comment %}
+    {% if page.tags.all.count %}
+        <div class="my-4">
+            {% for tag in page.tags.all %}
+                <a href="{% slugurl 'tags' %}?tag={{ tag }}" class="badge badge-primary">{{ tag }}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endcomment %}
 
-{% if page.tags.all.count %}
-    <div class="tags">
-        {% for tag in page.tags.all %}
-            <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
-        {% endfor %}
-    </div>
-{% endif %}
+</div>
 
 {% endblock %}
