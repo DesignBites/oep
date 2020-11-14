@@ -20,7 +20,7 @@ class BlogPage(Page):
         on_delete=models.SET_NULL, related_name='+',
         verbose_name='Background photo',
     )
-    header = models.CharField(max_length=500)
+    header = RichTextField(max_length=500)
     text = RichTextField()
 
     max_count = 1
