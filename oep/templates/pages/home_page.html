@@ -9,48 +9,54 @@
 
 {% for section in page.sections %}
 
-<div class="container-fluid bg" style="background-image: url('{{ section.image.url }}');">
+<section>
 
-	<div class="container mb-4 text-center">
+	{% image section.value.image original as img %}
 
-		<br><br><br><br>
+	<div class="container-fluid bg" style="background-image: url('{{ img.url }}');">
 
-		<h1 class="display-4 mb-4">
-			{{ section.heading|linebreaksbr }}
-		</h1>
+		<div class="container mb-4 text-center">
 
-		<br><br>
+			<br><br><br><br>
+
+			<h1 class="display-4 mb-4">
+				{{ section.value.heading|linebreaksbr }}
+			</h1>
+
+			<br><br>
+
+		</div><!-- container -->
 
 	</div><!-- container -->
 
-</div><!-- container -->
+	<div class="container mb-4">
+		<div class="row my-4">
 
-<div class="container mb-4">
-	<div class="row my-4">
+			<div class="col">
+				{{ section.value.text }}
+			</div>
 
-		<div class="col">
-			{{ section.text }}
+			{% if section.value.link %}
+			<div class="col">
+				<a href="{{ section.value.link.url }}" class="text-primary lead text-decoration-none">
+					<strong>
+						{% if section.value.link_text %}
+							{{ section.value.link_text }}
+						{% else %}
+							{{ section.value.link.title }}
+						{% endif %}
+						<img src="{% static 'arrow_right.png' %}" height="20" width="20">
+					</strong>
+				</a>
+			</div>
+			{% endif %}
+
 		</div>
 
-		{% if section.link %}
-		<div class="col">
-			<a href="{{ section.link.get_absolute_url }}" class="text-primary lead text-decoration-none">
-				<strong>
-					{% if section.link_text %}
-						{{ section.link.text }}
-					{% else %}
-						{{ section.link.title }}
-					{% endif %}
-					<img src="{% static 'arrow_right.png' %}" height="20" width="20">
-				</strong>
-			</a>
-		</div>
-		{% endif %}
-
+		<br><br><br><br>
 	</div>
 
-	<br><br><br><br>
-</div>
+</section>
 
 {% endfor %}
 

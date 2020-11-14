@@ -1,17 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from modelcluster.fields import ParentalKey
-from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
 from wagtail.core.models import Page, Orderable, ClusterableModel
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.search import index
-from wagtail.snippets.models import register_snippet
 from wagtail.core import blocks
-from wagtailcolumnblocks.blocks import ColumnsBlock
 
 
 class HomePage(Page):
@@ -24,10 +19,11 @@ class HomePage(Page):
     text = RichTextField()
     sections = StreamField([
         ('section', blocks.StructBlock([
-            ('heading', blocks.CharBlock(form_classname="full")),
+            ('heading', blocks.RichTextBlock(form_classname="full")),
             ('text', blocks.RichTextBlock()),
             ('image', ImageChooserBlock()),
             ('link', blocks.PageChooserBlock()),
+            ('link_text', blocks.CharBlock(required=False)),
         ])),
     ], blank=True)
 
