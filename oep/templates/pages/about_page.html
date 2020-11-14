@@ -4,54 +4,53 @@
 
 {% block content %}
 
-{% image page.photo scale-100 as bg_img %}
-
-<div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}');">
-
-	<div class="container mb-4">
-
-		<br><br><br><br>
-
-		<h1 class="display-2 mb-4 w-75">
-			{{ page.header }}
-		</h1>
-
-		<br><br>
-
-		<div class="my-4 w-50">
-			{{ page.text|richtext }}
-		</div>
-
-		<br><br><br><br>
-
-	</div><!-- container -->
-
-</div><!-- container -->
-
+{% include 'page_cover.html' %}
 
 <div class="container">
 
-{% for member in page.team_members %}
+	<div class="row">
 
-<div class="row">
+		{% for member in page.team_members %}
 
-	<div class="col-md-4">
+		<div class="col-md-4">
 
-		<div class="card border-0" style="width: 18rem;">
-			{% image member.value.photo fill-200x200 class="card-img-top" %}
-			<div class="card-body">
-				<h5 class="card-title">{{ member.value.name }}</h5>
-				<p class="card-text">
+			<div class="my-4">
+
+				<div class="text-center">
+
+					{% image member.value.photo fill-200x200 %}
+
+					<h5 class="card-title text-center mt-3">
+						{{ member.value.name }}
+						<small class="d-block">
+							{{ member.value.title }}
+						</small>
+					</h5>
+
+					{% if member.value.email %}
+					<div class="text-muted">
+						{{ member.value.email }}
+					</div>
+					{% endif %}
+					{% if member.value.phone %}
+					<div class="text-muted">
+						{{ member.value.phone }}
+					</div>
+					{% endif %}
+
+				</div>
+
+				<div class="mt-3 text-justify">
 					{{ member.value.bio|richtext }}
-				</p>
+				</div>
+
 			</div>
+
 		</div>
 
+		{% endfor %}
+
 	</div>
-
-</div><!-- container -->
-
-{% endfor %}
 
 </div>
 

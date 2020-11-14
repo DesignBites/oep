@@ -15,16 +15,14 @@ urlpatterns = [
 
     path('mapper/', include('oep.mapper.urls')),
 
-    path('wagtail/', include(wagtailadmin_urls)),
+    path('pages/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
-
-    path('posts/', include('oep.posts.urls')),
 
     path(r'', include(wagtail_urls)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-admin.site.index_title = _('OEP')
-admin.site.site_header = _('OEP Administration')
-admin.site.site_title = _('OEP Management')
+admin.site.index_title = _('Design Bites')
+admin.site.site_header = _('Design Bites Administration')
+admin.site.site_title = _('Design Bites Management')

@@ -14,17 +14,27 @@ from wagtail.core import blocks
 from wagtailcolumnblocks.blocks import ColumnsBlock
 
 
-class BlogIndexPage(Page):
-    intro = RichTextField(blank=True)
+class BlogPage(Page):
+    photo = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        verbose_name='Background photo',
+    )
+    header = models.CharField(max_length=500)
+    text = RichTextField()
+
+    max_count = 1
 
     content_panels = Page.content_panels + [
-        FieldPanel('intro', classname="full")
+        ImageChooserPanel('photo'),
+        FieldPanel('header'),
+        FieldPanel('text'),
     ]
 
 
-class BlogPageTag(TaggedItemBase):
+class BlogPostTag(TaggedItemBase):
     content_object = ParentalKey(
-        'BlogPage',
+        'BlogPostPage',
         related_name='tagged_items',
         on_delete=models.CASCADE
     )
@@ -78,21 +88,22 @@ class ColumnBlocks(blocks.StreamBlock):
     )
 
 
-class BlogPage(Page):
+class BlogPostPage(Page):
     body = StreamField([
-        ('common', CommonBlocks()),
-        ('columns', ColumnBlocks()),
+        ('heading', blocks.CharBlock()),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+        ('columns', ColumnBlocks(form_classname="full")),
     ])
     category = ParentalKey('blog.BlogCategory', blank=True, null=True, on_delete=models.SET_NULL)
-    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
     date = models.DateField("Post date", default=timezone.now)
-
-    def main_image(self):
-        gallery_item = self.gallery_images.first()
-        if gallery_item:
-            return gallery_item.image
-        else:
-            return None
+    image = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        verbose_name='Main image',
+    )
+    excerpt = RichTextField(blank=True)
 
     search_fields = Page.search_fields + [
         index.SearchField('body'),
@@ -104,48 +115,20 @@ class BlogPage(Page):
             FieldPanel('date'),
             FieldPanel('category'),
             FieldPanel('tags'),
-        ], heading="Blog information"),
-        InlinePanel('gallery_images', label="Gallery images"),
-    ]
-
-
-class BlogPageGalleryImage(Orderable):
-    page = ParentalKey(BlogPage, on_delete=models.CASCADE, related_name='gallery_images')
-    image = models.ForeignKey(
-        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
-    )
-    caption = models.CharField(blank=True, max_length=250)
-
-    panels = [
-        ImageChooserPanel('image'),
-        FieldPanel('caption'),
+        ], heading="Post information"),
+        MultiFieldPanel([
+            ImageChooserPanel('image'),
+            FieldPanel('excerpt')
+        ], heading="Post thumbnail"),
     ]
 
 
 class BlogTagIndexPage(Page):
-
     def get_context(self, request):
-
-        # Filter by tag
         tag = request.GET.get('tag')
-        blogpages = BlogPage.objects.filter(tags__name=tag)
+        posts = BlogPostPage.objects.filter(tags__name=tag)
 
-        # Update template context
         context = super().get_context(request)
-        context['blogpages'] = blogpages
+        context['posts'] = posts
         return context
 
-
-@register_snippet
-class Infographic(ClusterableModel):
-    description = models.TextField()
-    image = models.ForeignKey(
-        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
-    )
-
-    panels = [
-        FieldPanel('name'),
-    ]
-
-    def __str__(self):
-        return self.description
