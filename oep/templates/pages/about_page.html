@@ -58,6 +58,15 @@
 
 	</div>
 
+
+	{% if page.footer %}
+	<div class="row d-flex justify-content-center my-5">
+		<div class="w-50 text-justify">
+			{{ page.footer|richtext }}
+		</div>
+		</div>
+	{% endif %}
+
 </div>
 
 

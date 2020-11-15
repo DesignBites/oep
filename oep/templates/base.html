@@ -1,4 +1,4 @@
-{% load i18n static wagtailimages_tags %}
+{% load i18n static wagtailimages_tags wagtailcore_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,12 +59,13 @@
 
 <body>
 
+
 {% block navbar %}
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
 
         <a class="navbar-brand" href="/">
-            <img src="{% static 'logo.png' %}" width="170" class="ml-n5">
+            <img src="{% static 'logo.png' %}" width="220" class="mt-3" style="margin-left:-90px;">
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
@@ -73,33 +74,20 @@
 
         <div class="collapse navbar-collapse" id="navbarTopSupportedContent">
 
-            {% url 'events' as events_url %}
-            {% url 'tools' as tools_url %}
-            {% url 'podcasts' as podcasts_url %}
-            {% url 'blog_index' as blog_url %}
-            {% url 'about' as about_url %}
-
             <ul class="navbar-nav ml-auto">
                 {% block nav-items %}
-                <li class="nav-item {% if request.path|slice:':5' == events_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ events_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Activities" %}</a>
-                </li>
 
-                <li class="nav-item {% if request.path|slice:':5' == tools_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ tools_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Tools" %}</a>
-                </li>
+                {% wagtail_site as current_site %}
+                {% with current_site.root_page.get_children as nav_pages %}
 
-                <li class="nav-item {% if request.path|slice:':5' == podcasts_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ podcasts_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Podcasts" %}</a>
+                {% for nav_page in nav_pages %}
+                <li class="nav-item {% if request.path|slice:':5' == nav_page.url|slice:':5' %}active{% endif %}">
+                    <a href="{{ nav_page.url }}" class="nav-link pt-3 pb-3 font-weight-bolder {% if request.path|slice:':5' == nav_page.url|slice:':5' %}border-bottom border-dark{% endif %}" style="border-width:3px!important;">{{ nav_page.title|upper }}</a>
                 </li>
+                {% endfor %}
 
-                <li class="nav-item {% if request.path|slice:':5' == blog_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ blog_url }}" class="nav-link py-4 font-weight-bolder">{% trans "Insights" %}</a>
-                </li>
+                {% endwith %}
 
-                <li class="nav-item {% if request.path|slice:':5' == about_url|slice:':5' %}active{% endif %}">
-                    <a href="{{ about_url }}" class="nav-link py-4 font-weight-bolder">{% trans "About" %}</a>
-                </li>
                 {% endblock %}
             </ul>
 
