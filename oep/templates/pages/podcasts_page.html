@@ -19,13 +19,15 @@
 
 				<div class="">
 
-					{% if podcast.value.url %}
+					{% if podcast.value.thumbnail %}
 
-						{% embed podcast.value.url %}
+						<a href="{{ podcast.value.url }}">
+							{% image podcast.value.thumbnail fill-350x240 %}
+						</a>
 
 					{% else %}
 
-						{% image podcast.value.thumbnail fill-350x240 %}
+						{% embed podcast.value.url %}
 
 					{% endif %}
 
