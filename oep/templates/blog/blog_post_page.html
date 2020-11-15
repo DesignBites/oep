@@ -4,13 +4,34 @@
 
 {% block content %}
 
-<div class="container">
 
-    <h1 class="mt-4">
+
+    <h1 class="my-5 text-center">
         {{ page.title }}
     </h1>
 
-    <article>
+
+    {% image page.cover_photo scale-100 as bg_img %}
+
+    <div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}'); height: 800px;">
+
+    </div><!-- container -->
+
+
+<div class="container">
+
+    {% if page.author or page.photo_credits %}
+    <div class="my-2">
+        {% if page.author %}
+            <span class="text-muted d-block">{{ page.author }}</span>
+        {% endif %}
+        {% if page.photo_credits %}
+            <span class="text-muted d-block">Photo credits: {{ page.photo_credits }}</span>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <article class="my-5">
         {% for block in page.body %}
             <section class="block-{{ block.block_type }} mb-4">
             {% if block.block_type == 'heading' %}

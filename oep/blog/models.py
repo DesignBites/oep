@@ -90,18 +90,24 @@ class ColumnBlocks(blocks.StreamBlock):
 
 class BlogPostPage(Page):
     body = StreamField([
-        ('heading', blocks.CharBlock()),
+        ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock()),
         ('image', ImageChooserBlock()),
         ('columns', ColumnBlocks(form_classname="full")),
     ])
+
     category = ParentalKey('blog.BlogCategory', blank=True, null=True, on_delete=models.SET_NULL)
     tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
     date = models.DateField("Post date", default=timezone.now)
-    image = models.ForeignKey(
+    author = models.CharField(max_length=100, blank=True, null=True)
+    photo_credits = models.CharField(max_length=100, blank=True, null=True)
+    cover_photo = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
-        verbose_name='Main image',
+    )
+    thumbnail = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
     )
     excerpt = RichTextField(blank=True)
 
@@ -112,14 +118,17 @@ class BlogPostPage(Page):
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
         MultiFieldPanel([
+            FieldPanel('author'),
+            FieldPanel('photo_credits'),
             FieldPanel('date'),
             FieldPanel('category'),
             FieldPanel('tags'),
         ], heading="Post information"),
         MultiFieldPanel([
-            ImageChooserPanel('image'),
-            FieldPanel('excerpt')
-        ], heading="Post thumbnail"),
+            ImageChooserPanel('cover_photo'),
+            FieldPanel('excerpt'),
+            ImageChooserPanel('thumbnail'),
+        ], heading="Meta info"),
     ]
 
 
