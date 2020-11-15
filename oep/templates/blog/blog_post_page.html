@@ -7,15 +7,15 @@
 
 
     <h1 class="my-5 text-center">
-        {{ page.title }}
+        {{ page.get_title|richtext }}
     </h1>
 
 
-    {% image page.cover_photo scale-100 as bg_img %}
-
-    <div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}'); height: 800px;">
-
-    </div><!-- container -->
+    {% if page.cover_photo %}
+        {% image page.cover_photo scale-100 as bg_img %}
+        <div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}'); height: 800px;">
+        </div>
+    {% endif %}
 
 
 <div class="container">

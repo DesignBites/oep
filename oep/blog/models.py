@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.utils import timezone
 from modelcluster.fields import ParentalKey
@@ -130,6 +131,12 @@ class BlogPostPage(Page):
             ImageChooserPanel('thumbnail'),
         ], heading="Meta info"),
     ]
+
+    def get_title(self):
+        for block in self.body:
+            if block.block_type == 'heading':
+                return block.value
+        return self.title
 
 
 class BlogTagIndexPage(Page):
