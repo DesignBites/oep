@@ -38,6 +38,12 @@
                 <h3>{{ block.value }}</h3>
             {% elif block.block_type == 'image' %}
                 {% image block.value width-1200 class="mw-100" %}
+            {% elif block.block_type == 'quote' %}
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">
+                        {{ block.value }}
+                    </p>
+                </blockquote>
             {% else %}
                 {% include_block block %}
             {% endif %}

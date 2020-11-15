@@ -94,6 +94,7 @@ class BlogPostPage(Page):
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock()),
         ('image', ImageChooserBlock()),
+        ('quote', blocks.BlockQuoteBlock()),
         ('columns', ColumnBlocks(form_classname="full")),
     ])
 
