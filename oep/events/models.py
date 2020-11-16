@@ -1,7 +1,4 @@
 from django.db import models
-from django.utils import timezone
-from modelcluster.fields import ParentalKey
-from modelcluster.contrib.taggit import ClusterTaggableManager
 from wagtail.core.models import Page, Orderable, ClusterableModel
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
@@ -28,6 +25,9 @@ class EventsPage(Page):
         FieldPanel('header'),
         FieldPanel('text'),
     ]
+
+    def get_pinned_event(self):
+        return EventPage.objects.filter(pinned=True).first()
 
 
 class CommonBlocks(blocks.StreamBlock):
@@ -72,7 +72,8 @@ class EventPage(Page):
         ('columns', ColumnBlocks(form_classname="full")),
     ])
     time = models.DateTimeField()
-    location = models.CharField(max_length=100, blank=True, null=True)
+    location = models.CharField(max_length=300)
+    pinned = models.BooleanField(default=False)
     cover_photo = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
@@ -91,6 +92,7 @@ class EventPage(Page):
         MultiFieldPanel([
             FieldPanel('time'),
             FieldPanel('location'),
+            FieldPanel('pinned'),
         ], heading="Event information"),
         StreamFieldPanel('text'),
         MultiFieldPanel([
@@ -100,8 +102,13 @@ class EventPage(Page):
         ], heading="Meta info"),
     ]
 
+    def save(self, **kwargs):
+        super().save(**kwargs)
+        if self.pinned:
+            EventPage.objects.exclude(id=self.id).update(pinned=False)
+
     def get_title(self):
-        for block in self.body:
+        for block in self.text:
             if block.block_type == 'heading':
                 return block.value
         return self.title
