@@ -4,6 +4,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.core import blocks
 
 
@@ -99,19 +100,32 @@ class PodcastsPage(Page):
     ]
 
 
-class Event(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    time = models.DateTimeField()
-    location = models.CharField(max_length=200, blank=True, null=True)
+class ToolkitsPage(Page):
+    photo = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        verbose_name='Background photo',
+    )
+    header = RichTextField(max_length=500)
+    text = RichTextField()
 
     def __str__(self):
         return self.title
 
 
-class Toolkit(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.title
+class ToolkitPage(Page):
+    image = models.ForeignKey(
+        'wagtailimages.Image', blank=True, null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        verbose_name='Background photo',
+    )
+    description = RichTextField()
+    url = models.URLField(blank=True, null=True)
+    docs = StreamField([
+        ('doc', blocks.StructBlock([
+            ('title', blocks.CharBlock()),
+            ('thumbnail', ImageChooserBlock(required=False)),
+            ('description', blocks.RichTextBlock(required=False)),
+            ('file', DocumentChooserBlock()),
+        ]))
+    ])
