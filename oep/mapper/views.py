@@ -169,6 +169,10 @@ class StakeholderAddForm(forms.Form):
         label='Do you have similar ways of working?',
         required=False,
     )
+    extra = forms.BooleanField(
+        label='Are you similar in any other way?',
+        required=False,
+    )
     resources = forms.BooleanField(
         label='Do you have similar resources and skills?',
         required=False,
@@ -191,7 +195,7 @@ class StakeholderAddForm(forms.Form):
     )
 
 
-def map_add(request):
+def map_add(request, **kwargs):
     if request.method == 'POST':
         form = StakeholderAddForm(request.POST)
         if form.is_valid():
@@ -212,7 +216,7 @@ def map_add(request):
         form = StakeholderAddForm()
     return render(request, 'mapper/add.html', {
         'form': form,
-    })
+    }, **kwargs)
 
 
 def map_extend(request):
@@ -369,6 +373,32 @@ PAGES = [
         }
     },
     {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
+                           "<p>I’m sure you relate to them in different ways though, "
+                           "are you ready to describe the relations to these stakeholders?</p>",
+        },
+    },
+    {
+        'view': grid_view,
+        'context': {
+            'title': 'Frequency and depth of contact',
+            'description': "Now indicate for each stakeholder in the axis diagram how often you interact, "
+                           "and how actively you collaborate creatively together.",
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
+                           "<p>I’m sure you relate to them in different ways though, "
+                           "are you ready to describe the relations to these stakeholders?</p>",
+        },
+    },
+    {
         'view': add_stakeholders,
         'context': {
             'batch_no': 2,
@@ -385,20 +415,34 @@ PAGES = [
         },
     },
     {
-        'view': map_view,
-        'context': {
-            'layout': circular_layout,
-            'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
-                           "<p>I’m sure you relate to them in different ways though, "
-                           "are you ready to describe the relations to these stakeholders?</p>",
-        },
-    },
-    {
         'view': grid_view,
         'context': {
             'title': 'Frequency and depth of contact',
-            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
-                           "and collaborate creatively together.",
+            'description': "Now indicate for each stakeholder in the axis diagram how often you interact, "
+                           "and how actively you collaborate creatively together.",
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Well done!</p>"
+                           "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
+        },
+    },
+    {
+        'view': map_add,
+        'context': {
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Well done!</p>"
+                           "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
         },
     },
     {
@@ -414,8 +458,17 @@ PAGES = [
         'view': grid_view,
         'context': {
             'title': 'Frequency and depth of contact',
-            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
-                           "and collaborate creatively together.",
+            'description': "Now indicate for each stakeholder in the axis diagram how often you interact, "
+                           "and how actively you collaborate creatively together.",
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Well done!</p>"
+                           "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
         },
     },
     {
@@ -431,8 +484,18 @@ PAGES = [
         'view': grid_view,
         'context': {
             'title': 'Frequency and depth of contact',
-            'description': "Now select the stakeholders and tap on the right grid to indicate how much you interact, "
-                           "and collaborate creatively together.",
+            'description': "Now indicate for each stakeholder in the axis diagram how often you interact, "
+                           "and how actively you collaborate creatively together.",
+        },
+    },
+    {
+        'view': map_view,
+        'context': {
+            'layout': circular_layout,
+            'description': "<p>Awesome, you should now have most of your stakeholders here.</p>"
+                           "<p>When identifying new people to collaborate with, it’s important to consider "
+                           "how potential collaborators are either similar or complementary to you.</p>"
+                           "<p>Are you ready to indicate their similarity?</p>"
         },
     },
     {
@@ -477,6 +540,22 @@ PAGES = [
             'similarity_type': 'user_defined',
             'similarity_type_form': SimilarityTypeForm(),
             'similarity_icon': 'd',
+        },
+    },
+    {
+        'view': ring_view,
+        'context': {
+            'description': "<p>Awesome, you now have a stakeholder map.</p>"
+                           "<p>You can already play with the filters and different visualisations to reveal "
+                           "potential collaborators based on your similarity.</p>"
+                           "<p>You can also edit or delete stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
+            'layout': ring_layout,
+        },
+    },
+    {
+        'view': map_add,
+        'context': {
         },
     },
     {

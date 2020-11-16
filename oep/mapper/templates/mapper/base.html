@@ -20,6 +20,22 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
+	<style>
+		.wrapper {
+			display: flex;
+			width: 100%;
+			align-items: stretch;
+		}
+		#filterSidebar {
+			min-width: 250px;
+			max-width: 250px;
+		}
+
+		#filterSidebar.active {
+			margin-left: -250px;
+		}
+</style>
+
     {% block head %}
     {% endblock %}
 
@@ -63,7 +79,7 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-				<ul class="navbar-nav {% if next_page %}d-none{% endif %}" id="bottomMenu">
+				<ul class="navbar-nav {% if next_page %}d-nonex{% endif %}" id="bottomMenu">
 					<li class="nav-item dropup">
 						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						  {% trans "Manage" %}
@@ -114,6 +130,11 @@
 							{% trans "View suggestions" %}
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" data-toggle="collapse" data-target="#filterSidebar">
+							{% trans "Filter" %}
+						</a>
+					</li>
 				</ul>
 
 				<ul class="navbar-nav ml-auto" id="ulGroups">
@@ -137,9 +158,16 @@
 
 <br>
 
+<div class="wrapper">
 
-{% block content %}
-{% endblock %}
+	<nav id="filterSidebar" class="collapse bg-light">
+		fsfsdfdsf
+	</nav>
+
+	{% block content %}
+	{% endblock %}
+
+</div>
 
 
 <br>
