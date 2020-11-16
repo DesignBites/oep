@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+{% block content %}
+
+{% image page.image scale-100 as bg_img %}
+{% include 'page_cover.html' %}
+
+<div class="container">
+
+	<div class="row">
+
+		{% for tool in page.tools %}
+
+		<div class="col-md-4">
+
+			<div class="my-4">
+
+				<div class="">
+
+					{% if tool.block_type == 'tool' %}
+
+						<a href="{{ tool.value.url }}">
+							{% image tool.value.thumbnail fill-350x240 %}
+						</a>
+
+					{% else %}
+
+						<a href="{{ tool.value.file.url }}">
+							{% image tool.value.thumbnail fill-350x240 %}
+						</a>
+
+					{% endif %}
+
+					<h3 class="card-title mt-3 small">
+						{{ tool.value.title }}
+					</h3>
+
+				</div>
+
+				<div class="mt-3 text-justify">
+					{{ tool.value.description|richtext }}
+				</div>
+
+			</div>
+
+		</div>
+
+		{% endfor %}
+
+	</div>
+
+</div>
+
+{% endblock %}

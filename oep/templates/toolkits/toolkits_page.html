@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags i18n static %}
+
+
+{% block content %}
+
+
+{% for toolkit in page.get_children.specific %}
+
+	{% if forloop.first %}
+
+		{% image page.cover_photo scale-100 as bg_img %}
+
+		<div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}');">
+
+			<div class="container mb-4 mt-n4" style="margin-top: -120px!important;">
+
+				<br><br><br><br>
+				<br><br><br><br>
+
+				<div class="row">
+
+					<div class="col">
+
+						<h1 class="display-2 mb-4">
+							{{ toolkit.header|richtext }}
+						</h1>
+
+						<div class="my-4">
+							{{ toolkit.text|richtext }}
+						</div>
+
+						<div class="my-4">
+							<a href="{{ toolkit.url }}" class="text-primary lead text-decoration-none">
+								{% trans "Start now" %}
+								<img src="{% static 'arrow_right_small.png' %}" class="ml-2" style="height: 2rem;">
+							</a>
+						</div>
+
+					</div>
+
+					<div class="col">
+
+						<div class="my-4">
+							{% image toolkit.image fill-400x400 %}
+						</div>
+
+					</div>
+
+				</div>
+
+				<br><br>
+
+				<div class="my-4">
+					{{ toolkit.description|richtext }}
+				</div>
+
+				<br><br><br><br>
+				<br><br><br><br>
+
+			</div><!-- container -->
+
+		</div><!-- container -->
+
+	{% endif %}
+
+
+	<section>
+
+		<div class="container my-5">
+
+			<div class="row">
+
+				<div class="col">
+
+					<h1 class="display-4 mb-4">
+						{{ toolkit.header|richtext }}
+					</h1>
+
+					<div class="my-4">
+						{{ toolkit.text|richtext }}
+					</div>
+
+					<div class="my-4">
+						<a href="{{ toolkit.url }}" class="text-primary lead text-decoration-none">
+							{% trans "Start now" %}
+							<img src="{% static 'arrow_right_small.png' %}" class="ml-2" style="height: 2rem;">
+						</a>
+					</div>
+
+				</div>
+
+				<div class="col">
+
+					<div class="my-4">
+						{% image toolkit.image fill-400x400 %}
+					</div>
+
+				</div>
+
+			</div>
+
+		</div><!-- container -->
+
+	</section>
+
+{% endfor %}
+
+
+{% endblock %}

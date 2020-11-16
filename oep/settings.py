@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'oep.pages',
     'oep.blog',
     'oep.events',
+    'oep.toolkits',
 ]
 
 MIDDLEWARE = [
