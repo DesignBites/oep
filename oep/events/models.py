@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from wagtail.core.models import Page, Orderable, ClusterableModel
 from wagtail.core.fields import RichTextField, StreamField
@@ -10,24 +11,16 @@ from wagtailcolumnblocks.blocks import ColumnsBlock
 
 
 class EventsPage(Page):
-    photo = models.ForeignKey(
-        'wagtailimages.Image', blank=True, null=True,
-        on_delete=models.SET_NULL, related_name='+',
-        verbose_name='Background photo',
-    )
-    header = RichTextField(max_length=500)
-    text = RichTextField()
-
     max_count = 1
-
-    content_panels = Page.content_panels + [
-        ImageChooserPanel('photo'),
-        FieldPanel('header'),
-        FieldPanel('text'),
-    ]
 
     def get_pinned_event(self):
         return EventPage.objects.filter(pinned=True).first()
+
+    def get_upcoming_events(self):
+        return EventPage.objects.filter(time__gt=timezone.now())
+
+    def get_past_events(self):
+        return EventPage.objects.filter(time__lt=timezone.now())
 
 
 class CommonBlocks(blocks.StreamBlock):

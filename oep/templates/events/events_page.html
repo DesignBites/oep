@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags i18n %}
 
 
 {% block content %}
@@ -47,39 +47,95 @@
 
 <div class="container">
 
-	<div class="row">
 
-    {% for event in page.get_children.specific %}
+	{% with upcoming_events=page.get_upcoming_events %}
 
-		<div class="col-md-4">
+		{% if upcoming_events %}
 
-			<div class="my-4">
+			<h2 class="text-center">{% trans "Upcoming Events" %}</h2>
 
-				<div class="text-center">
+			<div class="row">
 
-					<a href="{{ post.url }}">
-						{% image event.thumbnail fill-200x200 %}
-					</a>
+			{% for event in page.get_children.specific %}
 
-					<h5 class="card-title text-center mt-3">
-						{{ event.title }}
-					</h5>
+				<div class="col-md-4">
+
+					<div class="my-4">
+
+						<div class="text-center">
+
+							<a href="{{ event.url }}">
+								{% image event.thumbnail fill-200x200 %}
+							</a>
+
+							<h5 class="card-title text-center mt-3">
+								{{ event.title }}
+							</h5>
+
+						</div>
+
+						<div class="mt-3 text-justify">
+
+							{{ event.excerpt|richtext }}
+
+						</div>
+
+					</div>
 
 				</div>
 
-				<div class="mt-3 text-justify">
-
-					{{ event.excerpt|richtext }}
-
-				</div>
+			{% endfor %}
 
 			</div>
 
-		</div>
+		{% endif %}
 
-    {% endfor %}
+	{% endwith %}
 
-	</div>
+
+	{% with upcoming_events=page.get_past_events %}
+
+		{% if upcoming_events %}
+
+			<h2 class="text-center">{% trans "Past Events" %}</h2>
+
+			<div class="row">
+
+			{% for event in page.get_children.specific %}
+
+				<div class="col-md-4">
+
+					<div class="my-4">
+
+						<div class="text-center">
+
+							<a href="{{ event.url }}">
+								{% image event.thumbnail fill-200x200 %}
+							</a>
+
+							<h5 class="card-title text-center mt-3">
+								{{ event.title }}
+							</h5>
+
+						</div>
+
+						<div class="mt-3 text-justify">
+
+							{{ event.excerpt|richtext }}
+
+						</div>
+
+					</div>
+
+				</div>
+
+			{% endfor %}
+
+			</div>
+
+		{% endif %}
+
+	{% endwith %}
 
 </div>
 
