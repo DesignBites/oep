@@ -55,9 +55,11 @@
 
 	var nodes = {{ graph.nodes|safe }};
 
-	graph = {
+	var graph = {
 		nodes: []
 	}
+
+	var initialIcons = {};
 
 	$.each(nodes, function(index, node) {
 		graph.nodes.push({
@@ -68,12 +70,9 @@
 			size: node.size,
 			color: node.color,
 			type: 'square',
-			image: {
-				scale: 3,
-				clip: 3,
-				url: '{% static "nodes/O.png" %}'
-			}
+			image: node.image
 		});
+		initialIcons[node.id] = node.image.url;
 	});
 
     var s = new sigma({
@@ -100,15 +99,34 @@
 
 	var connections = [];
 
+	function getIconLetters(url) {
+		var s = url.split('/');
+		var file = s[s.length-1];
+		var name = file.split('.')[0];
+		if (name=='O')
+			return [];
+		else
+			return name.split('');
+	}
+
 	s.bind('clickNode', function(e) {
 		var name = e.data.node.label.trim();
 
-		if (e.data.node.image.url == '{% static "nodes/O.png" %}') {
+		console.log(e.data.node.image.url);
+		console.log(initialIcons[e.data.node.id]);
+
+		if (e.data.node.image.url == initialIcons[e.data.node.id]) {
 			connections.push(name);
-			e.data.node.image.url = '{% static "nodes/" %}{{ similarity_icon }}.png';
+			var letters = getIconLetters(e.data.node.image.url);
+			if (letters.indexOf('{{ similarity_icon }}') === -1) {
+				letters.push('{{ similarity_icon }}');
+				letters = letters.sort();
+			}
+			e.data.node.image.url = '{% static "nodes/" %}' + letters.join('') + '.png';
+			console.log(e.data.node.image.url);
 		} else {
 			connections = connections.filter(function(name) {return name != name});
-			e.data.node.image.url = '{% static "nodes/O.png" %}';
+			e.data.node.image.url = initialIcons[e.data.node.id];
 		}
 		s.refresh();
 	});

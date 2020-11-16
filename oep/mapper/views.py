@@ -49,14 +49,12 @@ def graph_save(request):
 def connections_save(request):
     if request.is_ajax():
         data = json.loads(request.body)
-        print(data)
         stakeholders = request.session['stakeholders']
         for similarity_type, stakeholder_names in data.items():
             for name in stakeholder_names:
-                if 'similarities' in stakeholders[name]:
-                    stakeholders[name]['similarities'].append(similarity_type)
-                else:
-                    stakeholders[name]['similarities'] = [similarity_type]
+                similarities = stakeholders[name].get('similarities', [])
+                similarities.append(similarity_type)
+                stakeholders[name]['similarities'] = list(set(similarities))
         request.session['stakeholders'] = stakeholders
         request.session.modified = True
         return JsonResponse({
@@ -69,7 +67,6 @@ def grid_save(request):
     if request.is_ajax():
         stakeholders = request.session['stakeholders']
         data = json.loads(request.body)
-        print(data)
         for stakeholder_name, connection in data.items():
             stakeholders[stakeholder_name]['interact'] = connection['interact']
             stakeholders[stakeholder_name]['collaborate'] = connection['collaborate']
@@ -137,6 +134,7 @@ def ring_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     kwargs.update({
         'graph': ring_layout(stakeholders),
+        'show_menu': True,
     })
     return render(request, 'mapper/ring.html', kwargs)
 
@@ -145,6 +143,7 @@ def venn_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     kwargs.update({
         'graph': venn_layout(stakeholders),
+        'show_menu': True,
     })
     return render(request, 'mapper/venn.html', kwargs)
 
@@ -153,6 +152,7 @@ def suggest_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     kwargs.update({
         'graph': suggest_layout(stakeholders),
+        'show_menu': True,
     })
     return render(request, 'mapper/suggest.html', kwargs)
 
@@ -211,12 +211,20 @@ def map_add(request, **kwargs):
                 'collaborate': int(data['collaborate']),
             }
             request.session['stakeholders'] = stakeholders
-            return redirect('mapper_ring')
+            if kwargs.get('next_page'):
+                return redirect('mapper_page', page_no=kwargs['next_page'])
+            else:
+                return redirect('mapper_ring')
     else:
         form = StakeholderAddForm()
-    return render(request, 'mapper/add.html', {
+    if kwargs == {}:
+        kwargs.update({
+            'show_menu': True,
+        })
+    kwargs.update({
         'form': form,
-    }, **kwargs)
+    })
+    return render(request, 'mapper/add.html', kwargs)
 
 
 def map_extend(request):
@@ -237,7 +245,6 @@ def approve_terms(request):
 @csrf_exempt
 def map_save(request):
     map_session = request.session.get('map')
-    print(map_session)
     if map_session:
         stakeholders = request.session['stakeholders']
         if map_session.get('id'):
@@ -390,9 +397,9 @@ PAGES = [
         },
     },
     {
-        'view': map_view,
+        'view': ring_view,
         'context': {
-            'layout': circular_layout,
+            'layout': ring_layout,
             'description': "<p>Awesome, look at all your stakeholders floating around you!</p>"
                            "<p>I’m sure you relate to them in different ways though, "
                            "are you ready to describe the relations to these stakeholders?</p>",
@@ -423,9 +430,9 @@ PAGES = [
         },
     },
     {
-        'view': map_view,
+        'view': ring_view,
         'context': {
-            'layout': circular_layout,
+            'layout': ring_layout,
             'description': "<p>Well done!</p>"
                            "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
                            "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
@@ -437,9 +444,9 @@ PAGES = [
         },
     },
     {
-        'view': map_view,
+        'view': ring_view,
         'context': {
-            'layout': circular_layout,
+            'layout': ring_layout,
             'description': "<p>Well done!</p>"
                            "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
                            "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
@@ -463,9 +470,9 @@ PAGES = [
         },
     },
     {
-        'view': map_view,
+        'view': ring_view,
         'context': {
-            'layout': circular_layout,
+            'layout': ring_layout,
             'description': "<p>Well done!</p>"
                            "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
                            "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
@@ -489,9 +496,9 @@ PAGES = [
         },
     },
     {
-        'view': map_view,
+        'view': ring_view,
         'context': {
-            'layout': circular_layout,
+            'layout': ring_layout,
             'description': "<p>Awesome, you should now have most of your stakeholders here.</p>"
                            "<p>When identifying new people to collaborate with, it’s important to consider "
                            "how potential collaborators are either similar or complementary to you.</p>"
@@ -518,7 +525,7 @@ PAGES = [
             'description': "Now, select the stakeholders that have similar <strong>ways of working</strong>.",
             'layout': circular_layout,
             'similarity_type': 'working',
-            'similarity_icon': 'b',
+            'similarity_icon': 'c',
         },
     },
     {
@@ -528,7 +535,20 @@ PAGES = [
             'description': "Lastly, select the stakeholders that have similar <strong>resources and skills</strong>.",
             'layout': circular_layout,
             'similarity_type': 'resources',
-            'similarity_icon': 'c',
+            'similarity_icon': 'd',
+        },
+    },
+    # menu is enabled here!
+    {
+        'view': ring_view,
+        'context': {
+            'description': "<p>Awesome, you now have a stakeholder map.</p>"
+                           "<p>You can already play with the filters and different visualisations to reveal "
+                           "potential collaborators based on your similarity.</p>"
+                           "<p>You can also edit or delete stakeholders by clicking on them.</p>"
+                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
+            'layout': ring_layout,
+            'show_menu': True,
         },
     },
     {
@@ -539,7 +559,8 @@ PAGES = [
             'layout': circular_layout,
             'similarity_type': 'user_defined',
             'similarity_type_form': SimilarityTypeForm(),
-            'similarity_icon': 'd',
+            'similarity_icon': 'b',
+            'show_menu': True,
         },
     },
     {
@@ -551,8 +572,10 @@ PAGES = [
                            "<p>You can also edit or delete stakeholders by clicking on them.</p>"
                            "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
             'layout': ring_layout,
+            'show_menu': True,
         },
     },
+    """
     {
         'view': map_add,
         'context': {
@@ -582,7 +605,36 @@ PAGES = [
             'modal': 'modalTerms',
         },
     },
+    """
 ]
+
+
+FILTERS_DICT = {
+    'interact': {
+        'title': 'Frequency of interactions',
+        'options': (
+            (3, 'often'),
+            (2, 'regularly'),
+            (1, 'hardly ever'),
+        ),
+    },
+    'collaborate': {
+        'title': 'Depth of collaborations',
+        'options': (
+            (3, 'many'),
+            (2, 'once or twice'),
+            (1, 'never'),
+        ),
+    },
+    'similarity': {
+        'title': 'Depth of collaborations',
+        'options': (
+            ('values', ''),
+            (2, 'once or twice'),
+            (1, 'never'),
+        )
+    },
+}
 
 
 def page_view(request, page_no, workshop_slug=None):
@@ -609,3 +661,60 @@ def page_view(request, page_no, workshop_slug=None):
             'workshop': workshop,
         })
     return page['view'](request, **page['context'])
+
+
+def filter_stakeholders(request):
+    params = request.GET
+    filters = {
+        'interact': params.get('interact', '1,3'),  # (min, max)
+        'collaborate': params.get('collaborate', '1,3'),  # (min, max)
+        'similarity': params.get('similarity', '0,4'),  # (min, max)
+        'values': params.get('values', 0),  # 1, 0, -1
+        'working': params.get('values', 0),  # 1, 0, -1
+        'resources': params.get('values', 0),  # 1, 0, -1
+        'custom': params.get('custom', 0),  # 1, 0, -1
+    }
+    request.session['filters'] = filters
+    stakeholders = request.session.get('stakeholders', {})
+    threshold = len(filters)
+    satisfied = 0
+    filtered = {}
+    for stakeholder_name, data in stakeholders.items():
+        similarities = data.get('similarities', [])
+        similarity_types = ['values', 'working', 'resources']
+        for key, value in filters.items():
+            if key in ['interact', 'collaborate']:
+                value_min, value_max = map(int, value.split(','))
+                if value_max >= data.get(key) >= value_min:
+                    satisfied += 1
+            elif key == 'similarity':
+                value_min, value_max = map(int, value.split(','))
+                if value_max >= len(similarities) >= value_min:
+                    satisfied += 1
+            elif key in similarity_types and value:
+                if value == 0:
+                    satisfied += 1
+                elif value == 1 and key in similarities:
+                    satisfied += 1
+                elif value == -1 and key not in similarities:
+                    satisfied += 1
+            if key == 'custom':
+                if value == 0:
+                    satisfied += 1
+                elif len(set(similarities) - set(similarity_types)) > 0:
+                    satisfied += 1
+        if satisfied >= threshold:
+            filtered[stakeholder_name] = data
+    return JsonResponse(filtered)
+
+
+"""
+stakeholders = {
+    StakeholderName: {
+        types: [customer | supplier | collaborator | supporter | extra]
+        similarities: [values | working | resources | custom]
+        interact: 1 - 3
+        collaborate: 1 - 3
+    }
+}
+"""

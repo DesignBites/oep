@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index, graph_save, connections_save, grid_save, graph_upload, page_view, \
-    ring_view, venn_view, suggest_view, map_add, map_extend, approve_terms, map_save
+    ring_view, venn_view, suggest_view, map_add, map_extend, approve_terms, map_save, filter_stakeholders
 
 
 urlpatterns = [
@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('terms/ok/', approve_terms, name='mapper_approve_terms'),
     path('save/', map_save, name='mapper_save'),
+    path('filter/', filter_stakeholders, name='mapper_filter'),
 
     path('<int:page_no>/', page_view, name='mapper_page'),
     path('<slug:workshop_slug>/<int:page_no>/', page_view, name='mapper_page_workshop'),

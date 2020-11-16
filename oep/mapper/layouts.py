@@ -8,7 +8,7 @@ from django.templatetags.static import static
 stakeholders = {
     StakeholderName: {
         types: [customer | supplier | collaborator | supporter | extra]
-        similarities: [values | working | resources | user_defined]
+        similarities: [values | working | resources | custom]
         interact: 1-3
         collaborate: 1-3
     }
@@ -17,26 +17,21 @@ stakeholders = {
 
 SIMILARITY_CONNECTION_ICONS = {
     'values': 'a',
-    'working': 'b',
-    'resources': 'c',
-}
-
-STAKEHOLDER_TYPE_BATCHES = {
-    1: ['customer', 'supplier', 'collaborator', 'supporter'],
-    2: ['customer-customer', 'supplier-supplier', 'collaborator-collaborator', 'collaborator-collaborator'],
-    3: ['competitor', 'inspire', 'cause', 'blocker'],
+    'working': 'c',
+    'resources': 'd',
 }
 
 
 def get_node_icon_prefix(similarities):
     letters = []
     if similarities:
+        similarities = list(set(similarities))
         for similarity in similarities:
             letter = SIMILARITY_CONNECTION_ICONS.get(similarity)
             if letter:
                 letters.append(letter)
             else:
-                letters.append('d')  # user defined similarity
+                letters.append('b')  # custom (user defined) similarity
         return ''.join(sorted(letters))
     else:
         return 'O'
@@ -55,8 +50,9 @@ def circular_layout(stakeholders):
     ]
     nodes = []
     i = 1
-    for name in stakeholders.keys():
+    for name, data in stakeholders.items():
         x, y = positions.pop()
+        icon_prefix = get_node_icon_prefix(data.get('similarities', []))
         node = {
             'id': i,
             'label': name,
@@ -64,6 +60,11 @@ def circular_layout(stakeholders):
             'y': y,
             'size': 3,
             'color': '#f00',
+            'image': {
+                'url': static(NODE_ICON_NAME % icon_prefix),
+                'scale': 3,
+                'clip': 3,
+            },
         }
         nodes.append(node)
         i += 1
