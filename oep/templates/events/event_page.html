@@ -5,7 +5,6 @@
 {% block content %}
 
 
-
     <h1 class="my-5 text-center">
         {{ page.get_title|richtext }}
     </h1>
@@ -22,11 +21,11 @@
 
     <div class="my-2">
         <span class="text-muted d-block">{{ page.time }}</span>
-        <span class="text-muted d-block">Photo credits: {{ page.location }}</span>
+        <span class="text-muted d-block">{{ page.location }}</span>
     </div>
 
     <article class="my-5">
-        {% for block in page.body %}
+        {% for block in page.text %}
             <section class="block-{{ block.block_type }} mb-4">
             {% if block.block_type == 'heading' %}
                 <h3>{{ block.value }}</h3>
