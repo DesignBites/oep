@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+{% block content %}
+
+{% image page.photo scale-100 as bg_img %}
+{% include 'page_cover.html' %}
+
+<div class="container">
+
+	<div class="row">
+
+    {% for post in page.get_children.specific %}
+
+		<div class="col-md-4">
+
+			<div class="my-4">
+
+				<div class="text-center">
+
+					<a href="{{ post.url }}">
+						{% image post.image fill-200x200 %}
+					</a>
+
+					<h5 class="card-title text-center mt-3">
+						{{ post.title }}
+					</h5>
+
+				</div>
+
+				<div class="mt-3 text-justify">
+
+					{{ post.excerpt|richtext }}
+
+				</div>
+
+			</div>
+
+		</div>
+
+    {% endfor %}
+
+	</div>
+
+</div>
+
+{% endblock %}
