@@ -132,27 +132,36 @@ def add_stakeholders(request, **kwargs):
 
 def ring_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
+    if kwargs == {}:
+        kwargs.update({
+            'show_menu': True,
+        })
     kwargs.update({
         'graph': ring_layout(stakeholders),
-        'show_menu': True,
     })
     return render(request, 'mapper/ring.html', kwargs)
 
 
 def venn_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
+    if kwargs == {}:
+        kwargs.update({
+            'show_menu': True,
+        })
     kwargs.update({
         'graph': venn_layout(stakeholders),
-        'show_menu': True,
     })
     return render(request, 'mapper/venn.html', kwargs)
 
 
 def suggest_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
+    if kwargs == {}:
+        kwargs.update({
+            'show_menu': True,
+        })
     kwargs.update({
         'graph': suggest_layout(stakeholders),
-        'show_menu': True,
     })
     return render(request, 'mapper/suggest.html', kwargs)
 
