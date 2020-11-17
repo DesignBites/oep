@@ -439,20 +439,6 @@ PAGES = [
         },
     },
     {
-        'view': map_add,
-        'context': {
-        },
-    },
-    {
-        'view': ring_view,
-        'context': {
-            'layout': ring_layout,
-            'description': "<p>Well done!</p>"
-                           "<p>If you made a mistake, you can edit stakeholders by clicking on them.</p>"
-                           "<p>There are more stakeholders to add though, are you ready to expand your network?</p>",
-        },
-    },
-    {
         'view': add_stakeholders,
         'context': {
             'batch_no': 3,
