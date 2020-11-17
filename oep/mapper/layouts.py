@@ -216,46 +216,37 @@ def venn_layout(stakeholders):
 
 
 def suggest_layout(stakeholders):
-    lists = defaultdict(list)
-    for stakeholder, data in stakeholders.items():
-        if len(data.get('similarities', [])) >= 2:
-            if data.get('interact', 0) >= 2:
-                if data.get('collaborate', 0) <= 2:
-                    lists[1].append(stakeholder)
-        if len(data.get('similarities', [])) == 1:
-            if data.get('interact', 0) <= 2:
-                if data.get('collaborate', 0) == 1:
-                    lists[2].append(stakeholder)
-    nodes = defaultdict(list)
-    for key, l in lists.items():
-        positions = [
-            (round(x, 2), round(y, 2))
-            for x, y in nx.random_layout(
-                list(range(len(l))),
-            ).values()
+    # collaborate, interact, similarity count
+    rules = {
+        'q1': [
+            (1, 1, 4), (1, 1, 3), (1, 2, 4), (1, 2, 3), (1, 1, 2), (1, 2, 2),
+        ],
+        'q2': [
+            (1, 1, 1), (1, 2, 1), (1, 1, 2), (1, 2, 2),
+        ],
+        'q3': [
+            (1, 3, 4), (1, 3, 3), (2, 3, 4), (2, 3, 3), (1, 2, 4), (1, 2, 3),
+            (2, 2, 4), (2, 2, 3), (1, 3, 2), (2, 3, 2), (2, 2, 2),
+        ],
+        'q4': [
+            (1, 3, 1), (1, 3, 2), (2, 3, 1), (2, 3, 2), (1, 2, 1), (1, 2, 2), (2, 2, 1), (2, 2, 2),
         ]
-        i = 1
-        for name in l:
-            x, y = positions.pop()
-            node = {
-                'id': i,
-                'label': name,
-                'x': x * 300 - 150,
-                'y': y * 300 - 150,
-                'size': 15,
-                'color': '#990',
-                'type': 'diamond',
-                'image': {},
-            }
-            icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
-            if icon_prefix:
-                node['image'] = {
-                    'url': static(NODE_ICON_NAME % icon_prefix),
-                    'scale': 3,
-                    'clip': 3,
-                }
-            nodes[key].append(node)
-            i += 1
+    }
+    quadrants = defaultdict(list)
+    for name, data in stakeholders.items():
+        key = (
+            data.get('collaborate'),
+            data.get('interact'),
+            len(data.get('similarities', [])),
+        )
+        for q in rules.keys():
+            if len(quadrants[q]) < 2:
+                if key in rules[q]:
+                    icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
+                    quadrants[q].append({
+                        'name': name,
+                        'icon': static(NODE_ICON_NAME % icon_prefix),
+                    })
     return {
-        'nodes': dict(nodes),
+        'quadrants': dict(quadrants),
     }

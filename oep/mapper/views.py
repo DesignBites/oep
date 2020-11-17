@@ -145,9 +145,7 @@ def suggest_view(request, **kwargs):
         kwargs.update({
             'show_menu': True,
         })
-    kwargs.update({
-        'graph': suggest_layout(stakeholders),
-    })
+    kwargs.update(suggest_layout(stakeholders))
     return render(request, 'mapper/suggest.html', kwargs)
 
 

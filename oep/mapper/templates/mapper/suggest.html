@@ -25,71 +25,63 @@
 
 		{% if title %}
 			<h2>{{ title|safe }}</h2>
+
 		{% endif %}
 
 		{% if description %}
 			<p class="lead">{{ description|safe }}</p>
 		{% endif %}
 
-		<div class="col-6">
-
-			<h3>
-				Low hanging fruit
-			</h3>
-			<p>
-				Leverage your existing network, by collaborating with stakeholders that you have at least two
-				overlapping similarities with, interact with at least sometimes, and have at most once or
-				twice collaborated with.
-			</p>
-
-			{% if not graph.nodes.1 %}
-			<p>
-				There are no stakeholders matching this criteria.
-				<a href="{% url 'mapper_add' %}">Add new stakeholders</a>
-				or <a href="{% url 'mapper_extend' %}">extend your map</a>.
-			</p>
-			{% endif %}
-
-			<ul class="list-unstyled">
-				{% for node in graph.nodes.1 %}
-				<li>
-					<img src="{{ node.image.url }}" width="40" height="40">
-					{{ node.label }}
-				</li>
-				{% endfor %}
-			</ul>
-
-		</div>
-
-		<div class="col-6">
-
-			<h3>
-				Making an effort
-			</h3>
-			<p>
-				Craft new relationships, by collaborating with stakeholders that you at most sometimes interact with,
-				and have never collaborated with. These ones you have just one overlapping similarity with,
-				so these stakeholders might complement, inspire, or challenge you on the other two.
-			</p>
-
-			{% if not graph.nodes.2 %}
-			<p>
-				There are no stakeholders matching this criteria.
-				<a href="{% url 'mapper_add' %}">Add new stakeholders</a>
-				or <a href="{% url 'mapper_extend' %}">extend your map</a>.
-			</p>
-			{% endif %}
-
-			<ul class="list-unstyled">
-				{% for node in graph.nodes.2 %}
-				<li>
-					<img src="{{ node.image.url }}" width="40" height="40">
-					{{ node.label }}
-				</li>
-				{% endfor %}
-			</ul>
-
-		</div>
+		<table class="table table-borderless">
+			<tr>
+				<td class="border-right">
+					<h4>
+						Far friends
+					</h4>
+					{% for stakeholder in quadrants.q1 %}
+					<div class="">
+						<img src="{{ stakeholder.icon }}" width="50">
+						{{ stakeholder.name }}
+					</div>
+					{% endfor %}
+				</td>
+				<td class="border-bottom">
+					<h4>
+						Wild cards
+					</h4>
+					{% for stakeholder in quadrants.q2 %}
+					<div class="">
+						<img src="{{ stakeholder.icon }}" width="50">
+						{{ stakeholder.name }}
+					</div>
+					{% endfor %}
+				</td>
+			</tr>
+			<tr>
+				<td class="border-top">
+					<h4>
+						Low-hanging fruit
+					</h4>
+					{% for stakeholder in quadrants.q3 %}
+					<div class="">
+						<img src="{{ stakeholder.icon }}" width="50">
+						{{ stakeholder.name }}
+					</div>
+					{% endfor %}
+				</td>
+				<td class="border-left">
+					<h4>
+						Over-looked potential
+					</h4>
+					{% for stakeholder in quadrants.q4 %}
+					<div class="">
+						<img src="{{ stakeholder.icon }}" width="50">
+						{{ stakeholder.name }}
+					</div>
+					{% endfor %}
+				</td>
+			</tr>
+		</table>
 
 	</div>
 
