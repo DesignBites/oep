@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import index, graph_save, connections_save, grid_save, graph_upload, page_view, \
-    ring_view, venn_view, suggest_view, map_add, map_extend, approve_terms, map_save, filter_stakeholders
+from .views import index, connections_save, grid_save, graph_upload, page_view, \
+    ring_view, venn_view, suggest_view, node_add, node_update, map_extend, approve_terms, map_save, filter_stakeholders
 
 
 urlpatterns = [
-    path('update/', graph_save, name='mapper_graph_save'),
     path('upload/', graph_upload, name='graph_upload'),
     path('grid/', grid_save, name='mapper_grid_save'),
     path('connections/', connections_save, name='mapper_connections_save'),
@@ -13,11 +12,12 @@ urlpatterns = [
     path('view/venn/', venn_view, name='mapper_venn'),
     path('view/suggest/', suggest_view, name='mapper_suggest'),
 
-    path('map/add/', map_add, name='mapper_add'),
+    path('map/add/', node_add, name='mapper_add'),
     path('map/extend/', map_extend, name='mapper_extend'),
 
     path('terms/ok/', approve_terms, name='mapper_approve_terms'),
     path('save/', map_save, name='mapper_save'),
+    path('update/', node_update, name='mapper_node_update'),
     path('filter/', filter_stakeholders, name='mapper_filter'),
 
     path('<int:page_no>/', page_view, name='mapper_page'),

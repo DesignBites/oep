@@ -21,13 +21,21 @@
 		-ms-transform: rotate(-90deg);
 		-o-transform: rotate(-90deg);
 		transform: rotate(-90deg);
-		padding-bottom: 20px;
-
+		writing-mode:tb-rl;
+		width:20px;
+		height:20px;
 	}
 	.vertical:before {
 		content:'';
 		display:inline-block;
 		vertical-align:bottom;
+	}
+	#grid td {
+		width: 200px;
+		height: 200px;
+	}
+	#grid tr {
+		display: table-row-group;
 	}
 	</style>
 
@@ -62,13 +70,13 @@
 					<td class="vertical">
 						regularly
 					</td>
-					<td data-interact="3" data-collaborate="1" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="3" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="2" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="3" data-collaborate="2" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="3" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="3" data-collaborate="3" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
@@ -78,13 +86,13 @@
 						<br><br>
 						sometimes
 					</td>
-					<td data-interact="2" data-collaborate="1" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="2" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="2" data-collaborate="2" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="2" data-collaborate="2" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="2" data-collaborate="3" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="2" data-collaborate="3" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
@@ -92,13 +100,13 @@
 					<td class="vertical">
 						hardly ever
 					</td>
-					<td data-interact="1" data-collaborate="1" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="1" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="1" data-collaborate="2" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="1" data-collaborate="2" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="1" data-collaborate="3" class="border" style="width: 200px; height: 200px;">
+					<td data-interact="1" data-collaborate="3" class="border">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>

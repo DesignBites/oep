@@ -1,4 +1,4 @@
-{% load i18n static %}
+{% load i18n static crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +26,7 @@
 	<style>
 		.wrapper {
 			display: flex;
+			height: 100%;
 			width: 100%;
 			align-items: stretch;
 		}
@@ -34,8 +35,15 @@
 			max-width: 250px;
 			height: 100%;
 		}
-
 		#filterSidebar.active {
+			margin-left: -250px;
+		}
+		#editSidebar {
+			min-width: 250px;
+			max-width: 250px;
+			height: 100%;
+		}
+		#editSidebar.active {
 			margin-left: -250px;
 		}
 </style>
@@ -136,7 +144,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="sidebarCollapse" href="#">
+						<a class="nav-link" id="filterSidebarCollapse" href="#">
 							{% trans "Filter" %}
 						</a>
 					</li>
@@ -222,7 +230,30 @@
 
 		</form>
 
+
 	</div>
+
+
+	{% if stakeholder_form %}
+	<div id="editSidebar" class="collapse bg-light h-100 p-2">
+		<form id="nodeUpdateForm">
+
+			<h4>
+				Edit stakeholder information
+			</h4>
+
+			<form method="post" id="formStakeholderUpdate">
+				{% csrf_token %}
+				{{ stakeholder_form|crispy }}
+				<button type="submit" class="btn btn-primary w-100">
+					Update map
+				</button>
+			</form>
+
+		</form>
+	</div>
+	{% endif %}
+
 
 	<div class="container mt-4">
 
@@ -332,6 +363,8 @@
 
 $(document).ready(function() {
 
+	var stakeholders = {{ stakeholders|safe }};
+
 	$('#filterForm').submit(function(e) {
 		e.preventDefault();
 
@@ -342,7 +375,7 @@ $(document).ready(function() {
 	});
 
 
-    $('#sidebarCollapse').on('click', function () {
+    $('#filterSidebarCollapse').on('click', function () {
         $('#filterSidebar').toggleClass('collapse');
     });
 
@@ -411,7 +444,7 @@ $(document).ready(function() {
 		var data = btoa(
 			JSON.stringify({
 				name: '{{ map.name }}',
-				stakeholders: {{ stakeholders|safe }}
+				stakeholders: stakeholders
 			})
 		);
         $el.attr('href', 'data:text/json;base64,' + data);
@@ -425,6 +458,74 @@ $(document).ready(function() {
     	downloadJSON($(this));
     	$('#btnModal').hide();
     });
+
+
+	{% if stakeholder_form %}
+
+	// edit nodes
+
+	s.bind('clickNode', function(e) {
+		var $form = $('#nodeUpdateForm');
+
+		var node = e.data.node;
+
+		if (node.id == 0) return;
+
+        $('#editSidebar').collapse('show');
+
+		var name = node.label.trim();
+		var stakeholder = stakeholders[name];
+
+		console.log(stakeholder);
+
+		$form.find('input[type=checkbox]').prop('checked', false);
+
+		$form.find('[name=name]').val(name);
+		if ('similarities' in stakeholder) {
+			$form.find('[name=values]').prop('checked', stakeholder.similarities.indexOf('values') >= 0);
+			$form.find('[name=working]').prop('checked', stakeholder.similarities.indexOf('working') >= 0);
+			$form.find('[name=resources]').prop('checked', stakeholder.similarities.indexOf('resources') >= 0);
+
+			var similarities = ['values', 'working', 'resources'];
+			var custom_similarity = stakeholder.similarities.filter(function(s) { return similarities.indexOf(s) === -1 });
+			if (custom_similarity.length > 0) {
+				$form.find('[name=extra]').val(custom_similarity[0]);
+			}
+		}
+
+		$form.find('[name=interact]').val(stakeholder.interact);
+		$form.find('[name=collaborate]').val(stakeholder.collaborate);
+
+		s.refresh();
+	});
+
+	$(document).click(function(event) {
+		var $target = $(event.target);
+		if(!$target.closest('#editSidebar').length && $('#editSidebar').is(":visible")) {
+			$('#editSidebar').collapse('hide');
+		}
+	});
+
+	$('#nodeUpdateForm').submit(function(e) {
+		e.preventDefault();
+
+		//data = JSON.stringify($(this).serializeArray());
+		data = $(this).serialize();
+
+		console.log(data);
+
+		$.ajax({
+			type: 'POST',
+			url: '{% url "mapper_node_update" %}',
+			data: data,
+			dataType: 'json',
+			success: function(data) {
+				window.location.reload();
+			}
+		});
+	});
+
+	{% endif %}
 
 });
 

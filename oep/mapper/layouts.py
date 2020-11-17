@@ -107,18 +107,35 @@ def ring_layout(stakeholders):
             'clip': 3,
         },
     }]
+    # calculate the center population
+    center_population = 0
+    for name, data in stakeholders.items():
+        if data.get('interact') == 3:
+            center_population += 1
+    central_size = center_population > 10 and 9 or 10
+    # sort by proximity
+    #sorted_names = sorted(stakeholders, key=lambda x: (stakeholders[x]['interact']), reverse=True)
     edges = []
     i = 1
-    for name, data in stakeholders.items():
+    #for name in sorted_names:
+    for name in stakeholders.keys():
+        data = stakeholders[name]
         if 'interact' in data:
+            # 4 levels of proximity; 2 for the most inner circle
+            if data['interact'] == 3:
+                proximity = [1, 1.9][i % 2]
+            elif data['interact'] == 2:
+                proximity = 3.5
+            else:  # 1
+                proximity = 5
             x, y = positions.pop()
             icon_prefix = get_node_icon_prefix(data.get('similarities', []))
             node = {
                 'id': i,
                 'label': name,
-                'x': x * ((4 - data['interact']) ** 1.4) * 55,
-                'y': y * ((4 - data['interact']) ** 1.4) * 55,
-                'size': 10,
+                'x': x * proximity * 55,
+                'y': y * proximity * 55,
+                'size': data['interact'] == 3 and central_size or 10,
                 'color': '#990',
                 'image': {
                     'url': static(NODE_ICON_NAME % icon_prefix),

@@ -29,23 +29,6 @@ class MapUploadForm(forms.Form):
 
 
 @csrf_exempt
-def graph_save(request):
-    if request.is_ajax():
-        data = json.loads(request.body)
-        data.update({
-            'graph': data.get('graph'),
-        })
-        request.session['data'] = data
-        request.session.modified = True
-        #m = Map.objects.get(id=map_id)
-        #m.graph = data.get('graph')
-        #m.save()
-        return JsonResponse({
-            'data': data,
-        })
-
-
-@csrf_exempt
 def connections_save(request):
     if request.is_ajax():
         data = json.loads(request.body)
@@ -138,6 +121,7 @@ def ring_view(request, **kwargs):
         })
     kwargs.update({
         'graph': ring_layout(stakeholders),
+        'stakeholder_form': StakeholderAddForm(),
     })
     return render(request, 'mapper/ring.html', kwargs)
 
@@ -150,6 +134,7 @@ def venn_view(request, **kwargs):
         })
     kwargs.update({
         'graph': venn_layout(stakeholders),
+        'stakeholder_form': StakeholderAddForm(),
     })
     return render(request, 'mapper/venn.html', kwargs)
 
@@ -178,12 +163,13 @@ class StakeholderAddForm(forms.Form):
         label='Do you have similar ways of working?',
         required=False,
     )
-    extra = forms.BooleanField(
-        label='Are you similar in any other way?',
-        required=False,
-    )
     resources = forms.BooleanField(
         label='Do you have similar resources and skills?',
+        required=False,
+    )
+    extra = forms.CharField(
+        label='Are you similar in any other way?',
+        help_text='Please specify',
         required=False,
     )
     interact = forms.ChoiceField(
@@ -204,7 +190,7 @@ class StakeholderAddForm(forms.Form):
     )
 
 
-def map_add(request, **kwargs):
+def node_add(request, **kwargs):
     if request.method == 'POST':
         form = StakeholderAddForm(request.POST)
         if form.is_valid():
@@ -214,6 +200,8 @@ def map_add(request, **kwargs):
             for similarity in similarities:
                 if not data[similarity]:
                     similarities.remove(similarity)
+            if data.get('extra'):
+                similarities.append(data['extra'])
             stakeholders[data['name']] = {
                 'similarities': similarities,
                 'interact': int(data['interact']),
@@ -234,6 +222,32 @@ def map_add(request, **kwargs):
         'form': form,
     })
     return render(request, 'mapper/add.html', kwargs)
+
+
+@csrf_exempt
+def node_update(request):
+    if request.method == 'POST':
+        form = StakeholderAddForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            stakeholders = request.session.get('stakeholders', {})
+            similarities = ['values', 'working', 'resources']
+            for similarity in similarities:
+                if not data[similarity]:
+                    similarities.remove(similarity)
+            if data.get('extra'):
+                similarities.append(data['extra'])
+            stakeholders[data['name']] = {
+                'similarities': similarities,
+                'interact': int(data['interact']),
+                'collaborate': int(data['collaborate']),
+            }
+            request.session['stakeholders'] = stakeholders
+            return JsonResponse({
+                'stakeholders': stakeholders,
+            })
+        else:
+            print(form.errors)
 
 
 def map_extend(request):
@@ -572,7 +586,7 @@ PAGES = [
     },
     """
     {
-        'view': map_add,
+        'view': node_add,
         'context': {
         },
     },
