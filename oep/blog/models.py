@@ -32,6 +32,13 @@ class BlogPage(Page):
         FieldPanel('text'),
     ]
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context.update({
+            'categories': BlogCategory.objects.all()
+        })
+        return context
+
 
 class BlogPostTag(TaggedItemBase):
     content_object = ParentalKey(
