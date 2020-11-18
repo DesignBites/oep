@@ -24,17 +24,25 @@
 
         @font-face {
             font-family: 'GillSans';
+            src: url('{% static "fonts/GillSans.woff" %}');
+        }
+        @font-face {
+            font-family: 'GillSansSemiBold';
             src: url('{% static "fonts/GillSans-SemiBold.woff" %}');
         }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
             color: #242847;
-            line-height: 2.5em;
         }
 
-        h1, h2, h3, h4, h5 {
+        h1, h2, h3, h4 {
+            font-family: 'GillSansSemiBold';
+            color: #242847;
+        }
+        h5, h6 {
             font-family: 'GillSans';
+            color: #242847;
         }
 
         .bg {
@@ -127,9 +135,8 @@
             Twitter: <a href="http://twitter.com/DesignBites">@DesignBites</a>
         </span>
 
-        <span class="d-block mt-5">
-          © 2020 Copyright
-          Business Finland & Aalto Design Factory
+        <span class="d-block mt-4 mb-0">
+            &copy; Aalto Design Factory
         </span>
       </div>
       <!-- Grid column -->

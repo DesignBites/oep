@@ -14,13 +14,13 @@ class EventsPage(Page):
     max_count = 1
 
     def get_pinned_event(self):
-        return EventPage.objects.filter(pinned=True).first()
+        return EventPage.objects.filter(pinned=True).live().first()
 
     def get_upcoming_events(self):
-        return EventPage.objects.filter(time__gt=timezone.now())
+        return EventPage.objects.filter(time__gt=timezone.now()).live()
 
     def get_past_events(self):
-        return EventPage.objects.filter(time__lt=timezone.now())
+        return EventPage.objects.filter(time__lt=timezone.now()).live()
 
 
 class CommonBlocks(blocks.StreamBlock):

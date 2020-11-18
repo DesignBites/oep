@@ -22,7 +22,7 @@
 					{% image member.value.photo fill-200x200 %}
 
 					<h5 class="card-title text-center mt-3">
-						{{ member.value.name }}
+						{{ member.value.name|upper }}
 						<small class="d-block">
 							{{ member.value.title }}
 						</small>

@@ -7,6 +7,8 @@
 {% image page.photo scale-100 as bg_img %}
 {% include 'page_cover.html' %}
 
+<br><br>
+<br><br>
 
 {% for section in page.sections %}
 
@@ -39,15 +41,13 @@
 
 			{% if section.value.link %}
 			<div class="col">
-				<a href="{{ section.value.link.url }}" class="text-primary lead text-decoration-none">
-					<strong>
-						{% if section.value.link_text %}
-							{{ section.value.link_text }}
-						{% else %}
-							{{ section.value.link.title }}
-						{% endif %}
-						<img src="{% static 'arrow_right_small.png' %}" class="ml-2" style="height: 2rem;">
-					</strong>
+				<a href="{{ section.value.link.url }}" class="text-primary lead text-decoration-none" style="font-family: GillSansSemiBold; letter-spacing: .1em;">
+					{% if section.value.link_text %}
+						{{ section.value.link_text }}
+					{% else %}
+						{{ section.value.link.title }}
+					{% endif %}
+					<img src="{% static 'arrow_right_small.png' %}" class="ml-2" style="height: 2rem;">
 				</a>
 			</div>
 			{% endif %}
