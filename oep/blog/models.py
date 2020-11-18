@@ -51,9 +51,11 @@ class BlogPostTag(TaggedItemBase):
 @register_snippet
 class BlogCategory(ClusterableModel):
     name = models.CharField(max_length=255)
+    order = models.PositiveSmallIntegerField(default=1)
 
     panels = [
         FieldPanel('name'),
+        FieldPanel('order'),
     ]
 
     def __str__(self):
@@ -61,6 +63,7 @@ class BlogCategory(ClusterableModel):
 
     class Meta:
         verbose_name_plural = 'blog categories'
+        ordering = ('order',)
 
 
 class CommonBlocks(blocks.StreamBlock):
