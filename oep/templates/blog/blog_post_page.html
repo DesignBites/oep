@@ -21,7 +21,7 @@
 <div class="container">
 
     {% if page.author or page.photo_credits %}
-    <div class="my-2">
+    <div class="my-2 mx-5">
         {% if page.author %}
             <span class="text-muted d-block">{{ page.author }}</span>
         {% endif %}
@@ -31,7 +31,7 @@
     </div>
     {% endif %}
 
-    <article class="my-5">
+    <article class="my-5 mx-5">
         {% for block in page.body %}
             <section class="block-{{ block.block_type }} mb-4">
             {% if block.block_type == 'heading' %}
@@ -39,10 +39,13 @@
             {% elif block.block_type == 'image' %}
                 {% image block.value width-1200 class="mw-100" %}
             {% elif block.block_type == 'quote' %}
-                <blockquote class="blockquote text-center">
-                    <p class="mb-0">
-                        {{ block.value }}
-                    </p>
+                <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
+                    <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
+                        {{ block.value.quote|richtext }}
+                    </h4>
+                    {% if block.value.source %}
+                        <footer class="small mx-5" style="color: #242847;">{{ block.value.source }}</footer>
+                    {% endif %}
                 </blockquote>
             {% else %}
                 {% include_block block %}
