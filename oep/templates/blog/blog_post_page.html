@@ -66,6 +66,50 @@
     {% endif %}
     {% endcomment %}
 
+
+    {% if page.related_pages %}
+
+        <h4>
+            Related pages
+        </h4>
+
+        <hr>
+
+        <div class="row">
+
+        {% for p in page.related_pages %}
+
+            {% with page=p.value.specific %}
+
+            <div class="col-3">
+                <div class="card card-block border-0">
+
+                    <a href="{{ page.url }}" class="stretched-link">
+                        {% image page.thumbnail fill-300x300 class="img-fluid" %}
+                    </a>
+
+                    <h5 class="card-title mt-4 mb-0">
+                        {{ page.title }}
+                    </h5>
+
+                    <div class="text-justify" style="line-height: 1.8em;">
+
+                        {{ page.excerpt|richtext }}
+
+                    </div>
+
+                </div>
+            </div>
+
+            {% endwith %}
+
+        {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
 </div>
 
 {% endblock %}

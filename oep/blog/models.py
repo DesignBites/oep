@@ -126,6 +126,10 @@ class BlogPostPage(Page):
     )
     excerpt = RichTextField(blank=True)
 
+    related_pages = StreamField([
+        ('page', blocks.PageChooserBlock()),
+    ], blank=True)
+
     search_fields = Page.search_fields + [
         index.SearchField('body'),
     ]
@@ -144,6 +148,7 @@ class BlogPostPage(Page):
             FieldPanel('excerpt'),
             ImageChooserPanel('thumbnail'),
         ], heading="Meta info"),
+        StreamFieldPanel('related_pages'),
     ]
 
     def get_title(self):
