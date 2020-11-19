@@ -69,19 +69,23 @@
 
     {% if page.related_pages %}
 
-        <h4>
+        <h2 class="w-100 text-center mt-5">
             Related posts
-        </h4>
+        </h2>
 
-        <hr>
 
-        <div class="row">
+        <div class="scrolling-wrapper d-flex flex-row flex-nowrap">
 
         {% for p in page.related_pages %}
 
             {% with page=p.value.specific %}
 
             <div class="col-3">
+
+                <h6 class="w-100 text-center mt-4 mb-3" style="font-family: GillSansBold;">
+                    {{ page.category|upper }}
+                </h6>
+
                 <div class="card card-block border-0">
 
                     <a href="{{ page.url }}" class="stretched-link">
@@ -90,16 +94,7 @@
 
                     <h5 class="card-title mt-4 mb-0">
                         {{ page.title }}
-                        <small class="float-right top-0">
-                            <span class="badge badge-info p-1">{{ page.category }}</span>
-                        </small>
                     </h5>
-
-                    <div class="text-justify">
-
-                        {{ page.excerpt|richtext }}
-
-                    </div>
 
                 </div>
 
