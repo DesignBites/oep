@@ -95,7 +95,7 @@
                     </a>
 
                     <h5 class="card-title mt-4 mb-0">
-                        {{ page.get_title }}
+                        {{ page.get_title|richtext|striptags }}
                     </h5>
 
                 </div>
