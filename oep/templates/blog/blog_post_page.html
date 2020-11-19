@@ -39,7 +39,7 @@
             {% if block.block_type == 'heading' %}
                 <h3 style="font-size: 2.5em">{{ block.value }}</h3>
             {% elif block.block_type == 'image' %}
-                {% image block.value width-1200 class="image-fluid mw-100" %}
+                {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
             {% elif block.block_type == 'quote' %}
                 <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
                     <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
