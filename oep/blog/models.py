@@ -66,6 +66,21 @@ class BlogCategory(ClusterableModel):
         ordering = ('order',)
 
 
+@register_snippet
+class DefaultThumbnail(models.Model):
+    image = models.ForeignKey(
+        'wagtailimages.Image', null=True,
+        on_delete=models.SET_NULL, related_name='+',
+    )
+
+    panels = [
+        ImageChooserPanel('image'),
+    ]
+
+    def __str__(self):
+        return str(self.image)
+
+
 class CommonBlocks(blocks.StreamBlock):
     heading = blocks.CharBlock(group="Common", form_classname="full title")
     paragraph = blocks.RichTextBlock(group="Common")
@@ -158,6 +173,9 @@ class BlogPostPage(Page):
         return self.title
 
     def get_thumbnail(self):
+        if not self.thumbnail:
+            thumbnail = DefaultThumbnail.objects.order_by('?').first()
+            return thumbnail and thumbnail.image
         return self.thumbnail
 
     def get_category(self):
