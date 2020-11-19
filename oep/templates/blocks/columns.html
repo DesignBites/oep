@@ -1,9 +1,28 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="row">
     {% for column, width in columns %}
         <div class="col-xs-12 col-md-{{ width }}">
-            {% include_block column %}
+        {% for block in column %}
+            <section class="block-{{ block.block_type }} mb-4">
+            {% if block.block_type == 'heading' %}
+                <h3 style="font-size: 2.5em">{{ block.value }}</h3>
+            {% elif block.block_type == 'image' %}
+                {% image block.value width-1200 class="image-fluid w-100 h-auto" %}
+            {% elif block.block_type == 'quote' %}
+                <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
+                    <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
+                        {{ block.value.quote|richtext }}
+                    </h4>
+                    {% if block.value.source %}
+                        <footer class="small mx-5" style="color: #242847;">{{ block.value.source }}</footer>
+                    {% endif %}
+                </blockquote>
+            {% else %}
+                {% include_block block %}
+            {% endif %}
+            </section>
+        {% endfor %}
         </div>
     {% endfor %}
 </div>

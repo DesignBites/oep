@@ -27,4 +27,5 @@
         height: 100%;
         min-height: 50px; }
         .c-sf-block .columns-block.struct-block > .fields > li > .c-sf-container .c-sf-block:hover {
-            border-color: #ccf1f1; }
+            border-color: #ccf1f1;
+}
