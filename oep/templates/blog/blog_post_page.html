@@ -70,7 +70,7 @@
     {% if page.related_pages %}
 
         <h4>
-            Related pages
+            Related posts
         </h4>
 
         <hr>
@@ -90,6 +90,9 @@
 
                     <h5 class="card-title mt-4 mb-0">
                         {{ page.title }}
+                        <small class="float-right">
+                            <span class="badge badge-info p-1">{{ page.category }}</span>
+                        </small>
                     </h5>
 
                     <div class="text-justify" style="line-height: 1.8em;">
@@ -99,6 +102,7 @@
                     </div>
 
                 </div>
+
             </div>
 
             {% endwith %}
