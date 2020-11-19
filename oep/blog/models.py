@@ -139,7 +139,7 @@ class BlogPostPage(Page):
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
     )
-    excerpt = RichTextField(blank=True)
+    excerpt = RichTextField(blank=True, help_text='Please aim for approximately 200 characters.')
 
     related_pages = StreamField([
         ('page', blocks.PageChooserBlock()),

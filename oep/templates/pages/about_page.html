@@ -9,6 +9,10 @@
 
 <div class="container">
 
+	<h2 class="text-center">
+		Meet the Team
+	</h2>
+
 	<div class="row">
 
 		{% for member in page.team_members %}
@@ -61,7 +65,7 @@
 
 	{% if page.footer %}
 	<div class="row d-flex justify-content-center my-5">
-		<div class="w-50 text-justify my-5 p-2">
+		<div class="w-50 text-center my-5 p-2">
 			{{ page.footer|richtext }}
 		</div>
 		</div>
