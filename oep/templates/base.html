@@ -30,9 +30,14 @@
             font-family: 'GillSansSemiBold';
             src: url('{% static "fonts/GillSans-SemiBold.woff" %}');
         }
+        @font-face {
+            font-family: 'NimbusSans';
+            src: url('{% static "fonts/NimbusSans.woff" %}');
+        }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: NimbusSans, Arial, Helvetica, sans-serif;
+            font-spacing: .025em;
             color: #242847;
         }
 
