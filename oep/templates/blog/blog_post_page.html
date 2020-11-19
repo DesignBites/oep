@@ -42,7 +42,7 @@
                 {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
             {% elif block.block_type == 'quote' %}
                 <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
-                    <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
+                    <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em; text-transform: initial;">
                         {{ block.value.quote|richtext }}
                     </h4>
                     {% if block.value.source %}
