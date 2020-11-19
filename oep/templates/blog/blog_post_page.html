@@ -83,17 +83,19 @@
             <div class="col-3">
 
                 <h6 class="w-100 text-center mt-4 mb-3" style="font-family: GillSansBold;">
-                    {{ page.category|upper }}
+
+                    {{ page.get_category|upper }}
+
                 </h6>
 
                 <div class="card card-block border-0">
 
                     <a href="{{ page.url }}" class="stretched-link">
-                        {% image page.thumbnail fill-300x300 class="img-fluid" %}
+                        {% image page.get_thumbnail fill-300x300 class="img-fluid" %}
                     </a>
 
                     <h5 class="card-title mt-4 mb-0">
-                        {{ page.title }}
+                        {{ page.get_title }}
                     </h5>
 
                 </div>

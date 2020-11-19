@@ -157,6 +157,12 @@ class BlogPostPage(Page):
                 return block.value
         return self.title
 
+    def get_thumbnail(self):
+        return self.thumbnail
+
+    def get_category(self):
+        return self.category
+
 
 class BlogTagIndexPage(Page):
     max_count = 1

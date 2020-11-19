@@ -51,3 +51,12 @@ class ToolkitPage(Page):
         ], heading="Toolkit information"),
         StreamFieldPanel('tools'),
     ]
+
+    def get_title(self):
+        return self.header
+
+    def get_thumbnail(self):
+        return self.image
+
+    def get_category(self):
+        return 'Toolkits'
