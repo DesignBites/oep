@@ -25,7 +25,7 @@
     </div>
 
     <article class="my-5 mx-5" style="line-height: 2.5em;">
-        {% for block in page.body %}
+        {% for block in page.text %}
             <section class="block-{{ block.block_type }} mb-4">
             {% if block.block_type == 'heading' %}
                 <h3 style="font-size: 2.5em">{{ block.value|upper|richtext }}</h3>
