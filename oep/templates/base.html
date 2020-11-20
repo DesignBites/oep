@@ -224,24 +224,24 @@
 
         $('.carousel-right').click(function() {
 
+            var index = 0;
+
             var $item = $('#' + $(this).data('target')).find('.carousel-col');
             var endIndex = ( $item.length / visible ) - 1;
 
-            if(index < endIndex ){
               index++;
               $item.animate({'left':'-=300px'});
-            }
         });
 
         $('.carousel-left').click(function(){
 
+            var index = 0;
+
             var $item = $('#' + $(this).data('target')).find('.carousel-col');
             var endIndex = ( $item.length / visible ) - 1;
 
-            if(index > 0){
               index--;
               $item.animate({'left':'+=300px'});
-            }
         });
 
     });
