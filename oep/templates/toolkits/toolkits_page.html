@@ -62,47 +62,49 @@
 
 		</div><!-- container -->
 
+	{% else %}
+
+		<section>
+
+			<div class="container my-5">
+
+				<div class="row">
+
+					<div class="col">
+
+						<h1 class="display-4 mb-4">
+							{{ toolkit.header|richtext }}
+						</h1>
+
+						<div class="my-4">
+							{{ toolkit.text|richtext }}
+						</div>
+
+						<div class="my-4">
+							<a href="{{ toolkit.url }}" class="text-primary lead text-decoration-none">
+								{% trans "Start now" %}
+								<img src="{% static 'arrow_right_small.png' %}" class="ml-2" style="height: 2rem;">
+							</a>
+						</div>
+
+					</div>
+
+					<div class="col">
+
+						<div class="my-4">
+							{% image toolkit.image fill-400x400 %}
+						</div>
+
+					</div>
+
+				</div>
+
+			</div><!-- container -->
+
+		</section>
+
 	{% endif %}
 
-
-	<section>
-
-		<div class="container my-5">
-
-			<div class="row">
-
-				<div class="col">
-
-					<h1 class="display-4 mb-4">
-						{{ toolkit.header|richtext }}
-					</h1>
-
-					<div class="my-4">
-						{{ toolkit.text|richtext }}
-					</div>
-
-					<div class="my-4">
-						<a href="{{ toolkit.url }}" class="text-primary lead text-decoration-none">
-							{% trans "Start now" %}
-							<img src="{% static 'arrow_right_small.png' %}" class="ml-2" style="height: 2rem;">
-						</a>
-					</div>
-
-				</div>
-
-				<div class="col">
-
-					<div class="my-4">
-						{% image toolkit.image fill-400x400 %}
-					</div>
-
-				</div>
-
-			</div>
-
-		</div><!-- container -->
-
-	</section>
 
 {% endfor %}
 
