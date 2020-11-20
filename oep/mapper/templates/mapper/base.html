@@ -172,74 +172,19 @@
 
 <div class="wrapper h-100">
 
-	<div id="filterSidebar" class="collapse bg-light h-100 p-2">
+	<div id="filterSidebar" class="collapse bg-light h-100 p-2 sidebar">
 
-		<form id="filterForm">
-
-			<div class="form-group">
-				<h5>Interactions</h5>
-				<input name="interact" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="1" data-slider-max="3" data-slider-value="[1,3]"
-					   data-slider-ticks="[1, 2, 3]" data-slider-ticks-labels='["hardly", "regularly", "often"]'/>
-			</div>
-
-			<div class="form-group">
-				<h5>Collaborations</h5>
-				<input name="collaborate" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="1" data-slider-max="3" data-slider-value="[1,3]"
-					   data-slider-ticks="[1, 2, 3]" data-slider-ticks-labels='["never", "few times", "often"]'/>
-			</div>
-
-			<div class="form-group">
-				<h5>Similarities</h5>
-				<input name="similarity" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="0" data-slider-max="3" data-slider-value="[0,3]"
-					   data-slider-ticks="[0, 1, 2, 3]" data-slider-ticks-labels='[0, 1, 2, 3]'/>
-			</div>
-
-			<div class="form-group">
-				<h5>Values</h5>
-				<input name="values" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
-					   data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
-			</div>
-
-			<div class="form-group">
-				<h5>Ways of working</h5>
-				<input name="working" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
-					   data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
-			</div>
-
-			<div class="form-group">
-				<h5>Resources</h5>
-				<input name="resources" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
-					   data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
-			</div>
-
-			<div class="form-group">
-				<h5>Own parameter</h5>
-				<input name="custom" type="text" class="custom-range" value=""
-					   data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
-					   data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
-			</div>
-
-
-			<button type="submit" id="btnFilter" class="btn btn-info mt-3 w-100">Apply filters</button>
-
-		</form>
-
+		{% include 'mapper/filter_form.html' %}
 
 	</div>
 
 
 	{% if stakeholder_form %}
-	<div id="editSidebar" class="collapse bg-light h-100 p-2">
+	<div id="editSidebar" class="collapse bg-light h-100 p-2 sidebar">
 		<form id="nodeUpdateForm">
 
 			<h4>
-				Edit stakeholder information
+				Update stakeholder information
 			</h4>
 
 			<form method="post" id="formStakeholderUpdate">
@@ -470,6 +415,8 @@ $(document).ready(function() {
 		var node = e.data.node;
 
 		if (node.id == 0) return;
+
+		$('#filterSidebar').collapse('hide');
 
         $('#editSidebar').collapse('show');
 
