@@ -23,13 +23,13 @@
 					{% if tool.block_type == 'tool' %}
 
 						<a href="{{ tool.value.url }}">
-							{% image tool.value.thumbnail fill-350x240 %}
+							{% image tool.value.thumbnail fill-350x240 class="img-fluid" %}
 						</a>
 
 					{% else %}
 
 						<a href="{{ tool.value.file.url }}">
-							{% image tool.value.thumbnail fill-350x240 %}
+							{% image tool.value.thumbnail fill-350x240 class="img-fluid" %}
 						</a>
 
 					{% endif %}
