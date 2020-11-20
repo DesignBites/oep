@@ -19,7 +19,7 @@
 
 			<a href="{{ pinned_event.url }}" class="text-decoration-none">
 				<h1 class="display-2 mb-4 w-75">
-					{{ pinned_event.get_title|richtext }}
+					{{ pinned_event.get_title|richtext|upper }}
 				</h1>
 			</a>
 
@@ -52,7 +52,7 @@
 
 		{% if upcoming_events %}
 
-			<h2 class="text-center">{% trans "Upcoming Events" %}</h2>
+			<h2 class="text-center">{% trans "UPCOMING EVENTS" %}</h2>
 
 			<div class="row">
 
@@ -69,7 +69,7 @@
 							</a>
 
 							<h5 class="card-title text-center mt-3">
-								{{ event.title }}
+								{{ event.title|upper }}
 							</h5>
 
 						</div>
@@ -97,7 +97,7 @@
 
 		{% if upcoming_events %}
 
-			<h2 class="text-center">{% trans "Past Events" %}</h2>
+			<h2 class="text-center">{% trans "PAST EVENTS" %}</h2>
 
 			<div class="row">
 
@@ -114,7 +114,7 @@
 							</a>
 
 							<h5 class="card-title text-center mt-3">
-								{{ event.title }}
+								{{ event.title|upper }}
 							</h5>
 
 						</div>

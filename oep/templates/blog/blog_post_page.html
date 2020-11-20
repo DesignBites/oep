@@ -37,12 +37,12 @@
         {% for block in page.body %}
             <section class="block-{{ block.block_type }} mb-4">
             {% if block.block_type == 'heading' %}
-                <h3 style="font-size: 2.5em">{{ block.value }}</h3>
+                <h3 style="font-size: 2.5em">{{ block.value|upper }}</h3>
             {% elif block.block_type == 'image' %}
                 {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
             {% elif block.block_type == 'quote' %}
                 <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
-                    <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em; text-transform: initial;">
+                    <h4 class="mb-0 mx-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
                         {{ block.value.quote|richtext }}
                     </h4>
                     {% if block.value.source %}
@@ -70,7 +70,7 @@
     {% if page.related_pages %}
 
         <h2 class="w-100 text-center mt-5">
-            Related posts
+            RELATED POSTS
         </h2>
 
 
@@ -95,7 +95,7 @@
                     </a>
 
                     <h5 class="card-title mt-4 mb-0">
-                        {{ page.get_title|richtext|striptags }}
+                        {{ page.get_title|richtext|striptags|upper }}
                     </h5>
 
                 </div>

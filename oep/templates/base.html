@@ -27,31 +27,31 @@
             font-size: 1rem;
           }
           .display-2 {
-            font-size: 2.5rem;
+            font-size: 1.9rem;
           }
         }
         @media (min-width: 768px) {
           html {
-            font-size: 1.1rem;
+            font-size: 1rem;
           }
           .display-2 {
-            font-size: 3rem;
+            font-size: 2.2rem;
           }
         }
         @media (min-width: 991px) {
             html {
-              font-size: 1.2rem;
+              font-size: 1.1rem;
             }
           .display-2 {
-            font-size: 4rem;
+            font-size: 3rem;
           }
         }
         @media (min-width: 1200px) {
           html {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
           }
           .display-2 {
-            font-size: 5.5rem;
+            font-size: 4rem;
           }
         }
 
@@ -81,13 +81,11 @@
         h1, h2, h3, h4 {
             font-family: 'GillSansSemiBold';
             letter-spacing: .1em;
-            text-transform: uppercase;
             color: #242847;
         }
         h5, h6 {
             font-family: 'GillSans';
             letter-spacing: .1em;
-            text-transform: uppercase;
             color: #242847;
         }
 
@@ -198,6 +196,33 @@
 
 </footer>
 <!-- Footer -->
+
+<script>
+
+    $(document).ready(function() {
+
+        var $item = $('.carousel-item'),
+            visible = 4, //Set the number of items that will be visible
+            index = 0, //Starting index
+            endIndex = ( $item.length / visible ) - 1; //End index
+
+        $('div#arrowR').click(function(){
+            if(index < endIndex ){
+              index++;
+              $item.animate({'left':'-=300px'});
+            }
+        });
+
+        $('div#arrowL').click(function(){
+            if(index > 0){
+              index--;
+              $item.animate({'left':'+=300px'});
+            }
+        });
+
+    });
+
+</script>
 
 {% block js %}
 {% endblock %}
