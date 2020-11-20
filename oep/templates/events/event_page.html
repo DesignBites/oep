@@ -28,7 +28,7 @@
         {% for block in page.body %}
             <section class="block-{{ block.block_type }} mb-4">
             {% if block.block_type == 'heading' %}
-                <h3 style="font-size: 2.5em">{{ block.value|upper }}</h3>
+                <h3 style="font-size: 2.5em">{{ block.value|upper|richtext }}</h3>
             {% elif block.block_type == 'image' %}
                 {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
             {% elif block.block_type == 'quote' %}
