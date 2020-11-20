@@ -207,7 +207,6 @@
         $('.carousel-right').click(function() {
 
             var $item = $('#' + $(this).data('target')).find('.carousel-col');
-            console.log($item);
             var endIndex = ( $item.length / visible ) - 1;
 
             if(index < endIndex ){
@@ -219,7 +218,6 @@
         $('.carousel-left').click(function(){
 
             var $item = $('#' + $(this).data('target')).find('.carousel-col');
-            console.log($item);
             var endIndex = ( $item.length / visible ) - 1;
 
             if(index > 0){
