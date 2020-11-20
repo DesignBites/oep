@@ -1,0 +1,57 @@
+
+<h4>Filter stakeholders</h4>
+
+<form id="filterForm">
+
+    <div class="form-group">
+        <h6>Interactions</h6>
+        <input name="interact" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="1" data-slider-max="3" data-slider-value="[1,3]"
+               data-slider-ticks="[1, 2, 3]" data-slider-ticks-labels='["hardly", "regularly", "often"]'/>
+    </div>
+
+    <div class="form-group">
+        <h6>Collaborations</h6>
+        <input name="collaborate" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="1" data-slider-max="3" data-slider-value="[1,3]"
+               data-slider-ticks="[1, 2, 3]" data-slider-ticks-labels='["never", "few times", "often"]'/>
+    </div>
+
+    <div class="form-group">
+        <h6>Similarities</h6>
+        <input name="similarity" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="0" data-slider-max="3" data-slider-value="[0,3]"
+               data-slider-ticks="[0, 1, 2, 3]" data-slider-ticks-labels='[0, 1, 2, 3]'/>
+    </div>
+
+    <div class="form-group">
+        <h6>Values</h6>
+        <input name="values" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
+               data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
+    </div>
+
+    <div class="form-group">
+        <h6>Ways of working</h6>
+        <input name="working" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
+               data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
+    </div>
+
+    <div class="form-group">
+        <h6>Resources</h6>
+        <input name="resources" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
+               data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
+    </div>
+
+    <div class="form-group">
+        <h6>Own parameter</h6>
+        <input name="custom" type="text" class="custom-range" value=""
+               data-provide="slider" data-slider-min="-1" data-slider-max="1" data-slider-value="0"
+               data-slider-ticks="[-1, 0, 1]" data-slider-ticks-labels='["similar", "either", "different"]'/>
+    </div>
+
+    <button type="submit" id="btnFilter" class="btn btn-info mt-3 w-100">Apply filters</button>
+
+</form>
