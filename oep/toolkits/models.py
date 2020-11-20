@@ -13,11 +13,15 @@ class ToolkitsPage(Page):
         'wagtailimages.Image', null=True,
         on_delete=models.SET_NULL, related_name='+',
     )
+    header = RichTextField(max_length=500)
+    text = RichTextField()
 
     max_count = 1
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('cover_photo'),
+        FieldPanel('header'),
+        FieldPanel('text'),
     ]
 
 
