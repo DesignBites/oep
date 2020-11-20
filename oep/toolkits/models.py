@@ -22,12 +22,22 @@ class ToolkitsPage(Page):
 
 
 class ToolkitPage(Page):
+    header = RichTextField(max_length=500)
+    excerpt = RichTextField(
+        null=True,
+        help_text='This text will appear on the toolkits index page.'
+    )
+    text = RichTextField()
     image = models.ForeignKey(
         'wagtailimages.Image', null=True,
         on_delete=models.SET_NULL, related_name='+',
+        help_text='This image will appear on the toolkits index page.'
     )
-    header = RichTextField(max_length=500)
-    text = RichTextField()
+    background_image = models.ForeignKey(
+        'wagtailimages.Image', null=True,
+        on_delete=models.SET_NULL, related_name='+',
+        help_text="This is the background image of the toolkit's detail page."
+    )
     tools = StreamField([
         ('tool', blocks.StructBlock([
             ('title', blocks.CharBlock()),
@@ -46,8 +56,10 @@ class ToolkitPage(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('header'),
+            FieldPanel('excerpt'),
             FieldPanel('text'),
             ImageChooserPanel('image'),
+            ImageChooserPanel('background_image'),
         ], heading="Toolkit information"),
         StreamFieldPanel('tools'),
     ]
