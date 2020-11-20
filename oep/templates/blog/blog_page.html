@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 
 {% block content %}
@@ -15,13 +15,25 @@
 
 			{% if posts %}
 
-			<h2 class="w-100 text-center my-5">
-				{{ category }}
-			</h2>
+			<div class="row">
+
+				<div class="col-1">
+					<img id="carousel-left" class="my-5" src="{% static 'arrow_left_small.png' %}" width="40">
+				</div>
+
+				<h2 class="col-10 text-center my-5">
+					{{ category|upper }}
+				</h2>
+
+				<div class="col-1">
+					<img id="carousel-right" class="my-5 float-right" src="{% static 'arrow_right_small.png' %}" width="40">
+				</div>
+
+			</div>
 
 			<div class="scrolling-wrapper d-flex flex-row flex-nowrap">
 				{% for post in posts %}
-				<div class="col-3">
+				<div class="col-3 carousel-post">
 					<div class="card card-block border-0">
 
 						<a href="{{ post.url }}" class="stretched-link">
@@ -29,7 +41,7 @@
 						</a>
 
 						<h5 class="card-title mt-4 mb-0">
-							{{ post.title }}
+							{{ post.title|upper }}
 						</h5>
 
 						<div class="text-justify">
