@@ -201,12 +201,14 @@
 
     $(document).ready(function() {
 
-        var $item = $('.carousel-post'),
-            visible = 4, //Set the number of items that will be visible
-            index = 0, //Starting index
-            endIndex = ( $item.length / visible ) - 1; //End index
+        var visible = 4,
+            index = 0;
 
-        $('#carousel-right').click(function(){
+        $('#carousel-right').click(function() {
+
+            var $item = $('#' + $(this).data('target')).find('.carousel-col');
+            var endIndex = ( $item.length / visible ) - 1;
+
             if(index < endIndex ){
               index++;
               $item.animate({'left':'-=300px'});
@@ -214,6 +216,10 @@
         });
 
         $('#carousel-left').click(function(){
+
+            var $item = $('#' + $(this).data('target')).find('.carousel-col');
+            var endIndex = ( $item.length / visible ) - 1;
+
             if(index > 0){
               index--;
               $item.animate({'left':'+=300px'});

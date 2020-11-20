@@ -18,7 +18,7 @@
 			<div class="row">
 
 				<div class="col-1">
-					<img id="carousel-left" class="my-5" src="{% static 'arrow_left_small.png' %}" width="40">
+					<img id="carousel-left" data-target="carousel-{{ category.id }}" class="my-5" src="{% static 'arrow_left_small.png' %}" width="40">
 				</div>
 
 				<h2 class="col-10 text-center my-5">
@@ -26,14 +26,14 @@
 				</h2>
 
 				<div class="col-1">
-					<img id="carousel-right" class="my-5 float-right" src="{% static 'arrow_right_small.png' %}" width="40">
+					<img id="carousel-right" data-target="carousel-{{ category.id }}" class="my-5 float-right" src="{% static 'arrow_right_small.png' %}" width="40">
 				</div>
 
 			</div>
 
-			<div class="scrolling-wrapper d-flex flex-row flex-nowrap">
+			<div class="scrolling-wrapper d-flex flex-row flex-nowrap" id="carousel-{{ category.id }}">
 				{% for post in posts %}
-				<div class="col-3 carousel-post">
+				<div class="col-3 carousel-col">
 					<div class="card card-block border-0">
 
 						<a href="{{ post.url }}" class="stretched-link">
