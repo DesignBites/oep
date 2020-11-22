@@ -15,45 +15,74 @@
 
 			{% if posts %}
 
-			<div class="row">
+		    <div id="carousel-{{ category.id }}" class="carousel slide carousel-multi-item" data-ride="carousel">
 
-				<div class="col-1">
-					<img class="carousel-left my-5" data-target="carousel-{{ category.id }}" src="{% static 'arrow_left_small.png' %}" width="40">
-				</div>
+				<div class="row controls-top">
 
-				<h2 class="col-10 text-center my-5">
-					{{ category|upper }}
-				</h2>
-
-				<div class="col-1">
-					<img class="carousel-right my-5 float-right" data-target="carousel-{{ category.id }}" src="{% static 'arrow_right_small.png' %}" width="40">
-				</div>
-
-			</div>
-
-			<div class="scrolling-wrapper row d-flex flex-row flex-nowrap" id="carousel-{{ category.id }}">
-				{% for post in posts %}
-				<div class="col-12 col-sm-6 col-md-4 col-lg-3 carousel-col">
-					<div class="card card-block border-0">
-
-						<a href="{{ post.url }}" class="stretched-link">
-							{% image post.get_thumbnail fill-300x300 class="img-fluid" %}
+					<div class="col-1">
+					{% if posts|length > 3 %}
+						<a class="btn-floating" href="#carousel-{{ category.id }}" data-slide="prev">
+							<img class="carousel-left my-5" data-target="carousel-{{ category.id }}" src="{% static 'arrow_left_small.png' %}" width="40">
 						</a>
-
-						<h5 class="card-title mt-4 mb-0">
-							{{ post.title|upper }}
-						</h5>
-
-						<div class="text-justify">
-
-							{{ post.excerpt|richtext }}
-
-						</div>
-
+					{% endif %}
 					</div>
+
+					<h2 class="col-10 text-center my-5">
+						{{ category|upper }}
+					</h2>
+
+					<div class="col-1">
+					{% if posts|length > 3 %}
+						<a class="btn-floating" href="#carousel-{{ category.id }}" data-slide="next">
+							<img class="carousel-right my-5 float-right" data-target="carousel-{{ category.id }}" src="{% static 'arrow_right_small.png' %}" width="40">
+						</a>
+					{% endif %}
+					</div>
+
 				</div>
+
+
+				<div class="carousel-inner" role="listbox">
+
+				{% for post in posts %}
+
+					{% if forloop.counter0|divisibleby:3 %}
+						{% if not forloop.first %}
+								</div>
+							</div>
+						{% endif %}
+
+						<div class="carousel-item {% if forloop.first %}active{% endif %}">
+							<div class="row">
+					{% endif %}
+
+					{% image post.get_thumbnail fill-350x350 as post_img %}
+
+					<div class="col-md-4 clearfix d-none d-md-block">
+					  <div class="card mb-2 border-0">
+						  <a href="{{ post.url }}" class="stretched-link">
+							<img class="card-img-top img-fluid" src="{{ post_img.url }}" alt="{{ post.title }}">
+						  </a>
+						<div class="card-body">
+						  <h4 class="card-title">{{ post.title|upper }}</h4>
+						  <p class="card-text text-justify">
+							  {{ post.excerpt|richtext }}
+						  </p>
+						</div>
+					  </div>
+					</div>
+
+					{% if forloop.last and not forloop.counter0|divisibleby:3 %}
+							</div>
+						</div>
+					{% endif %}
+
 				{% endfor %}
+
+				</div>
+
 			</div>
+
 
 			{% endif %}
 
@@ -65,3 +94,6 @@
 </div>
 
 {% endblock %}
+
+
+

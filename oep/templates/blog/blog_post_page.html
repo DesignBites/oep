@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 
 {% block content %}
@@ -67,48 +67,85 @@
     {% endcomment %}
 
 
-    {% if page.related_pages %}
+    {% with related_pages=page.related_pages %}
 
-        <h2 class="w-100 text-center mt-5">
-            RELATED POSTS
-        </h2>
+        {% if related_pages %}
+
+		    <div id="carousel-related" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+				<div class="row controls-top">
+
+					<div class="col-1">
+					{% if related_pages|length > 3 %}
+						<a class="btn-floating" href="#carousel-related" data-slide="prev">
+							<img class="carousel-left my-5" data-target="carousel-related" src="{% static 'arrow_left_small.png' %}" width="40">
+						</a>
+					{% endif %}
+					</div>
+
+					<h2 class="col-10 text-center my-5">
+						RELATED CONTENT
+					</h2>
+
+					<div class="col-1">
+					{% if related_pages|length > 3 %}
+						<a class="btn-floating" href="#carousel-related" data-slide="next">
+							<img class="carousel-right my-5 float-right" data-target="carousel-related" src="{% static 'arrow_right_small.png' %}" width="40">
+						</a>
+					{% endif %}
+					</div>
+
+				</div>
 
 
-        <div class="scrolling-wrapper d-flex flex-row flex-nowrap">
+				<div class="carousel-inner" role="listbox">
 
-        {% for p in page.related_pages %}
+                {% for p in related_pages %}
 
-            {% with page=p.value.specific %}
+                    {% with post=p.value.specific %}
 
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 carousel-col">
+                        {% if forloop.counter0|divisibleby:3 %}
+                            {% if not forloop.first %}
+                                    </div>
+                                </div>
+                            {% endif %}
 
-                <h6 class="w-100 text-center mt-4 mb-3" style="font-family: GillSansBold;">
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row">
+                        {% endif %}
 
-                    {{ page.get_category|upper }}
+                        {% image post.get_thumbnail fill-350x350 as post_img %}
 
-                </h6>
+                        <div class="col-md-4 clearfix d-none d-md-block">
+                          <div class="card mb-2 border-0">
+                              <a href="{{ post.url }}" class="stretched-link">
+                                <img class="card-img-top img-fluid" src="{{ post_img.url }}" alt="{{ post.title }}">
+                              </a>
+                            <div class="card-body">
+                              <h4 class="card-title">{{ post.title|upper }}</h4>
+                              <p class="card-text text-justify">
+                                  {{ post.excerpt|richtext }}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
 
-                <div class="card card-block border-0">
+                        {% if forloop.last and not forloop.counter0|divisibleby:3 %}
+                                </div>
+                            </div>
+                        {% endif %}
 
-                    <a href="{{ page.url }}" class="stretched-link">
-                        {% image page.get_thumbnail fill-300x300 class="img-fluid" %}
-                    </a>
+                    {% endwith %}
 
-                    <h5 class="card-title mt-4 mb-0">
-                        {{ page.get_title|richtext|striptags|upper }}
-                    </h5>
+				{% endfor %}
 
-                </div>
+				</div>
 
-            </div>
+			</div>
 
-            {% endwith %}
+        {% endif %}
 
-        {% endfor %}
-
-        </div>
-
-    {% endif %}
+    {% endwith %}
 
 
 </div>
