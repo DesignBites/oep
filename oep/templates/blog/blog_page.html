@@ -58,7 +58,7 @@
 
 					{% image post.get_thumbnail fill-350x350 as post_img %}
 
-					<div class="col-md-4 clearfix d-none d-md-block">
+					<div class="col-md-4 {% if not forloop.counter0|divisibleby:3 %}clearfix d-none d-md-block{% endif %}">
 					  <div class="card mb-2 border-0">
 						  <a href="{{ post.url }}" class="stretched-link">
 							<img class="card-img-top img-fluid" src="{{ post_img.url }}" alt="{{ post.title }}">
