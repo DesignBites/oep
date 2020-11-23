@@ -58,26 +58,22 @@
 
 			{% for event in page.get_children.specific %}
 
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6 my-4">
 
-					<div class="my-4">
+					<div class="card mb-2 border-0">
 
-						<div class="text-center">
+						<a href="{{ event.url }}" class="stretched-link">
+							{% image event.thumbnail fill-350x240 class="img-fluid" %}
+						</a>
 
-							<a href="{{ event.url }}">
-								{% image event.thumbnail fill-200x200 %}
-							</a>
-
-							<h5 class="card-title text-center mt-3">
+						<div class="card-body">
+							<h4 class="card-title mt-3">
 								{{ event.title|upper }}
-							</h5>
+							</h4>
 
-						</div>
-
-						<div class="mt-3 text-justify">
-
-							{{ event.excerpt|richtext }}
-
+							<div class="mt-3 text-justify">
+								{{ event.excerpt|richtext }}
+							</div>
 						</div>
 
 					</div>
@@ -103,26 +99,22 @@
 
 			{% for event in page.get_children.specific %}
 
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6 my-4">
 
-					<div class="my-4">
+					<div class="card mb-2 border-0">
 
-						<div class="text-center">
+						<a href="{{ event.url }}" class="stretched-link">
+							{% image event.thumbnail fill-350x240 class="img-fluid" %}
+						</a>
 
-							<a href="{{ event.url }}">
-								{% image event.thumbnail fill-200x200 %}
-							</a>
-
-							<h5 class="card-title text-center mt-3">
+						<div class="card-body">
+							<h4 class="card-title mt-3">
 								{{ event.title|upper }}
-							</h5>
+							</h4>
 
-						</div>
-
-						<div class="mt-3 text-justify">
-
-							{{ event.excerpt|richtext }}
-
+							<div class="mt-3 text-justify">
+								{{ event.excerpt|richtext }}
+							</div>
 						</div>
 
 					</div>
