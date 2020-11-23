@@ -1,5 +1,5 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from .models import BlogPostPage#, InstagramPost
+from .models import BlogPostPage
 
 
 class BlogPostPageAdmin(ModelAdmin):
@@ -7,9 +7,4 @@ class BlogPostPageAdmin(ModelAdmin):
     list_display = ['title', 'category', 'date']
 
 
-#class InstagramPostPageAdmin(ModelAdmin):
-#    model = InstagramPost
-
-
-#modeladmin_register(InstagramPostPageAdmin)
-modeladmin_register(BlogPostPageAdmin)
+#modeladmin_register(BlogPostPageAdmin)
