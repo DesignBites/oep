@@ -13,32 +13,30 @@
 
 		{% for podcast in page.podcasts %}
 
-		<div class="col-md-4">
+		<div class="col-md-4 col-sm-6 my-4">
 
-			<div class="my-4">
+			<div class="card mb-2 border-0">
 
-				<div class="">
+				{% if podcast.value.thumbnail %}
 
-					{% if podcast.value.thumbnail %}
+					<a href="{{ podcast.value.url }}" class="stretched-link">
+						{% image podcast.value.thumbnail fill-350x240 %}
+					</a>
 
-						<a href="{{ podcast.value.url }}">
-							{% image podcast.value.thumbnail fill-350x240 %}
-						</a>
+				{% else %}
 
-					{% else %}
+					{% embed podcast.value.url %}
 
-						{% embed podcast.value.url %}
+				{% endif %}
 
-					{% endif %}
-
-					<h3 class="card-title mt-3 small">
+				<div class="card-body">
+					<h4 class="card-title mt-3">
 						{{ podcast.value.title|upper }}
-					</h3>
+					</h4>
 
-				</div>
-
-				<div class="mt-3 text-justify">
-					{{ podcast.value.description|richtext }}
+					<div class="mt-3 text-justify">
+						{{ podcast.value.description|richtext }}
+					</div>
 				</div>
 
 			</div>
