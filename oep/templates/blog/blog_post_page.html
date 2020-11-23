@@ -118,6 +118,13 @@
                         {% image post.get_thumbnail fill-350x350 as post_img %}
 
                         <div class="col-md-4 {% if not forloop.counter0|divisibleby:3 %}clearfix d-none d-md-block{% endif %}">
+
+                <h6 class="w-100 text-center mt-4 mb-3" style="font-family: GillSansBold;">
+
+                    {{ page.get_category|upper }}
+
+                </h6>
+
                           <div class="card mb-2 border-0">
                               <a href="{{ post.url }}" class="stretched-link">
                                 <img class="card-img-top img-fluid" src="{{ post_img.url }}" alt="{{ post.title }}">
