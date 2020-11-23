@@ -1,5 +1,5 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from .models import BlogPostPage, InstagramPost
+from .models import BlogPostPage#, InstagramPost
 
 
 class BlogPostPageAdmin(ModelAdmin):
