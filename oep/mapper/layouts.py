@@ -1,3 +1,4 @@
+from random import shuffle
 import networkx as nx
 from collections import defaultdict
 from itertools import combinations
@@ -215,8 +216,10 @@ def venn_layout(stakeholders):
     }
 
 
+MAX_QUADRANT_POPULATION = 2
+
 def suggest_layout(stakeholders):
-    # collaborate, interact, similarity count
+    # (collaborate, interact, similarity count)
     rules = {
         'q1': [
             (1, 1, 4), (1, 1, 3), (1, 2, 4), (1, 2, 3), (1, 1, 2), (1, 2, 2),
@@ -232,21 +235,29 @@ def suggest_layout(stakeholders):
             (1, 3, 1), (1, 3, 2), (2, 3, 1), (2, 3, 2), (1, 2, 1), (1, 2, 2), (2, 2, 1), (2, 2, 2),
         ]
     }
-    quadrants = defaultdict(list)
+    stakeholders_keys = defaultdict(list)
     for name, data in stakeholders.items():
         key = (
             data.get('collaborate'),
             data.get('interact'),
             len(data.get('similarities', [])),
         )
-        for q in rules.keys():
-            if len(quadrants[q]) < 2:
-                if key in rules[q]:
-                    icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
-                    quadrants[q].append({
-                        'name': name,
-                        'icon': static(NODE_ICON_NAME % icon_prefix),
-                    })
+        stakeholders_keys[key].append(name)
+    print(stakeholders_keys)
+    quadrants = defaultdict(list)
+    for q in rules.keys():
+        for rule in rules[q]:
+            matched_stakeholders = stakeholders_keys.get(rule, [])
+            shuffle(matched_stakeholders)
+            names = matched_stakeholders[:MAX_QUADRANT_POPULATION-len(quadrants[q])]
+            for name in names:
+                icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
+                quadrants[q].append({
+                    'name': name,
+                    'icon': static(NODE_ICON_NAME % icon_prefix),
+                })
+            if len(quadrants[q]) == MAX_QUADRANT_POPULATION:
+                continue
     return {
         'quadrants': dict(quadrants),
     }
