@@ -243,13 +243,12 @@ def suggest_layout(stakeholders):
             len(data.get('similarities', [])),
         )
         stakeholders_keys[key].append(name)
-    print(stakeholders_keys)
     quadrants = defaultdict(list)
     for q in rules.keys():
         for rule in rules[q]:
             matched_stakeholders = stakeholders_keys.get(rule, [])
             shuffle(matched_stakeholders)
-            names = matched_stakeholders[:MAX_QUADRANT_POPULATION-len(quadrants[q])]
+            names = matched_stakeholders[:MAX_QUADRANT_POPULATION - len(quadrants[q])]
             for name in names:
                 icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
                 quadrants[q].append({

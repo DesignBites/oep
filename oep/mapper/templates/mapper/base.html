@@ -20,9 +20,6 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
-
 	<style>
 		.wrapper {
 			display: flex;
@@ -310,6 +307,40 @@ $(document).ready(function() {
 
 	var stakeholders = {{ stakeholders|safe }};
 
+	console.log(stakeholders);
+
+	var stakeholders_filtered = {
+		interact: {1: [], 2: [], 3: []},
+		collaborate: {1: [], 2: [], 3: []},
+		similarity_count: {1: [], 2: [], 3: [], 4: []},
+		values: [],
+		working: [],
+		resources: [],
+		custom: []
+	}
+
+	$.each(stakeholders, function(name, data) {
+		stakeholders_filtered['interact'][data['interact']].push(name);
+		stakeholders_filtered['collaborate'][data['collaborate']].push(name);
+		if ('similarities' in data) {
+			console.log(data['similarities']);
+			stakeholders_filtered['similarity_count'][data['similarities'].length].push(name);
+			if (data['similarities'].indexOf('values') !== -1)
+				stakeholders_filtered['values'].push(name);
+			if (data['similarities'].indexOf('working') !== -1)
+				stakeholders_filtered['working'].push(name);
+			if (data['similarities'].indexOf('resources') !== -1)
+				stakeholders_filtered['resources'].push(name);
+			$.each(data['similarities'], function(i, similarity) {
+				if (['values', 'working', 'resources'].indexOf(similarity) === -1)  // custom similarity
+					stakeholders_filtered['custom'].push(name);
+			});
+		}
+	});
+
+	console.log(stakeholders_filtered);
+
+
 	$('#filterForm').submit(function(e) {
 		e.preventDefault();
 
@@ -426,6 +457,7 @@ $(document).ready(function() {
 		console.log(stakeholder);
 
 		$form.find('input[type=checkbox]').prop('checked', false);
+		$form.find('input[name=custom]').val('');
 
 		$form.find('[name=name]').val(name);
 		if ('similarities' in stakeholder) {
@@ -436,7 +468,7 @@ $(document).ready(function() {
 			var similarities = ['values', 'working', 'resources'];
 			var custom_similarity = stakeholder.similarities.filter(function(s) { return similarities.indexOf(s) === -1 });
 			if (custom_similarity.length > 0) {
-				$form.find('[name=extra]').val(custom_similarity[0]);
+				$form.find('[name=custom]').val(custom_similarity[0]);
 			}
 		}
 

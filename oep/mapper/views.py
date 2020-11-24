@@ -165,7 +165,7 @@ class StakeholderAddForm(forms.Form):
         label='Do you have similar resources and skills?',
         required=False,
     )
-    extra = forms.CharField(
+    custom = forms.CharField(
         label='Are you similar in any other way?',
         help_text='Please specify',
         required=False,
@@ -194,12 +194,15 @@ def node_add(request, **kwargs):
         if form.is_valid():
             data = form.cleaned_data
             stakeholders = request.session.get('stakeholders', {})
-            similarities = ['values', 'working', 'resources']
-            for similarity in similarities:
-                if not data[similarity]:
-                    similarities.remove(similarity)
-            if data.get('extra'):
-                similarities.append(data['extra'])
+            similarities = []
+            if data.get('values'):
+                similarities.append('values')
+            if data.get('working'):
+                similarities.append('working')
+            if data.get('resources'):
+                similarities.append('resources')
+            if data.get('custom'):
+                similarities.append(data['custom'])
             stakeholders[data['name']] = {
                 'similarities': similarities,
                 'interact': int(data['interact']),
@@ -229,12 +232,15 @@ def node_update(request):
         if form.is_valid():
             data = form.cleaned_data
             stakeholders = request.session.get('stakeholders', {})
-            similarities = ['values', 'working', 'resources']
-            for similarity in similarities:
-                if not data[similarity]:
-                    similarities.remove(similarity)
-            if data.get('extra'):
-                similarities.append(data['extra'])
+            similarities = []
+            if data.get('values'):
+                similarities.append('values')
+            if data.get('working'):
+                similarities.append('working')
+            if data.get('resources'):
+                similarities.append('resources')
+            if data.get('custom'):
+                similarities.append(data['custom'])
             stakeholders[data['name']] = {
                 'similarities': similarities,
                 'interact': int(data['interact']),
@@ -275,7 +281,7 @@ def map_save(request):
         else:
             m = Map.objects.create(**{
                 'name': map_session['name'],
-                #'workshop': None,  # TODO
+                'workshop': request.session['workshop'],
                 'is_own': map_session['is_own'],
                 'sector': get_object_or_404(Sector, id=map_session['sector']),
                 'size': map_session['size'],
