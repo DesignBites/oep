@@ -307,12 +307,10 @@ $(document).ready(function() {
 
 	var stakeholders = {{ stakeholders|safe }};
 
-	console.log(stakeholders);
-
 	var stakeholders_filtered = {
 		interact: {1: [], 2: [], 3: []},
 		collaborate: {1: [], 2: [], 3: []},
-		similarity_count: {1: [], 2: [], 3: [], 4: []},
+		similarity_count: {0: [], 1: [], 2: [], 3: []},
 		values: [],
 		working: [],
 		resources: [],
@@ -335,18 +333,92 @@ $(document).ready(function() {
 				if (['values', 'working', 'resources'].indexOf(similarity) === -1)  // custom similarity
 					stakeholders_filtered['custom'].push(name);
 			});
+		} else {
+			stakeholders_filtered['similarity_count'][0].push(name);
 		}
 	});
 
 	console.log(stakeholders_filtered);
 
+	// initial filter state
+	var filter_state = {
+		interact: [1, 2, 3],
+		collaborate: [1, 2, 3],
+		similarity_count: [0, 1, 2, 3],
+		values: 0,
+		working: 0,
+		resources: 0,
+		custom: 0
+	}
 
-	$('#filterForm').submit(function(e) {
-		e.preventDefault();
+	function apply_filters() {
 
-		$.get('{% url "mapper_filter" %}?' + $(this).serialize(), function(data) {
-			console.log(data);
+		var visible_nodes = new Set(Object.keys(stakeholders));  // every stakeholder
+
+		var interact = [];
+		$.each(filter_state['interact'], function(i, state) {
+			interact = interact.concat(stakeholders_filtered['interact'][state]);
 		});
+
+		var collaborate = [];
+		$.each(filter_state['collaborate'], function(i, state) {
+			collaborate = collaborate.concat(stakeholders_filtered['collaborate'][state]);
+		});
+
+		var similarity_count = [];
+		$.each(filter_state['similarity_count'], function(i, state) {
+			similarity_count = similarity_count.concat(stakeholders_filtered['similarity_count'][state]);
+		});
+
+		filtered = interact.filter(s => collaborate.includes(s)).filter(s => similarity_count.includes(s));
+
+		$.each(['values', 'working', 'resources', 'custom'], function(i, filter_name) {
+			if (filter_state[filter_name] != 0) {
+				var f = stakeholders_filtered[filter_name];
+				if (filter_state[filter_name] == 1) {
+					filtered = filtered.filter(s => f.includes(s));
+				} else {
+					filtered = filtered.filter(s => !f.includes(s));
+				}
+			}
+		});
+
+		s.graph.nodes().forEach(function(n) {
+			if (filtered.indexOf(n.label.trim()) !== -1) {
+				n.hidden = false;
+			} else if (n.id != 0) {
+				n.hidden = true;
+			}
+		});
+
+	    s.refresh();
+	}
+
+	$('#filterForm button').click(function(e) {
+
+		var $this = $(this);
+		var target = $this.data('target');
+
+		if (['interact', 'collaborate', 'similarity_count'].indexOf(target) !== -1) {
+
+			$this.toggleClass('active');
+			var $actives = $('button.active[data-target=' + target + ']');
+			filter_values = [];
+			$actives.each(function() {
+				console.log($(this).val());
+				filter_values.push($(this).val());
+			});
+			filter_state[target] = filter_values;
+
+		} else {  // similarity types
+
+			$('button[data-target=' + target + ']').removeClass('active');
+			$this.addClass('active');
+			filter_state[target] = $this.val();
+
+		}
+
+		apply_filters();
 
 	});
 
