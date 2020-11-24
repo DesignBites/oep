@@ -8,36 +8,34 @@
 	html, body {
 		height: 100%;
 	}
+
 	#grid li {
 		width: 100%;
 	}
-	.vertical {
-		text-align:center;
-		vertical-align: bottom!important;
-		white-space:nowrap;
-		transform-origin:50% 50%;
-		-webkit-transform: rotate(-90deg);
-		-moz-transform: rotate(-90deg);
-		-ms-transform: rotate(-90deg);
-		-o-transform: rotate(-90deg);
-		transform: rotate(-90deg);
-		writing-mode:tb-rl;
-		width:20px;
-		height:20px;
+
+	.table .vertical {
+		vertical-align: middle;
+		text-align: right;
 	}
-	.vertical:before {
-		content:'';
-		display:inline-block;
-		vertical-align:bottom;
+
+	.table .vertical span {
+		white-space: nowrap;
+		writing-mode: tb-rl;
+		transform-origin: 50% 50%;
+		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		-o-transform: rotate(180deg);
+		transform: rotate(180deg);
 	}
+
 	#grid td {
 		width: 200px;
 		height: 200px;
 	}
-	#grid tr {
-		display: table-row-group;
-	}
 	</style>
+
+
 
 {% endblock %}
 
@@ -68,7 +66,7 @@
 			<table class="table table-borderless" id="grid">
 				<tr class="border-0">
 					<td class="vertical">
-						regularly
+						<span>regularly</span>
 					</td>
 					<td data-interact="3" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
@@ -82,9 +80,11 @@
 				</tr>
 				<tr>
 					<td class="vertical">
-						<strong>Interaction</strong>
-						<br><br>
-						sometimes
+						<span>
+							<strong>Interaction</strong>
+							<br><br>
+							sometimes
+						</span>
 					</td>
 					<td data-interact="2" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
@@ -98,7 +98,7 @@
 				</tr>
 				<tr>
 					<td class="vertical">
-						hardly ever
+						<span>hardly ever</span>
 					</td>
 					<td data-interact="1" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
@@ -114,11 +114,17 @@
 					<td></td>
 					<td align="center">never</td>
 					<td align="center">
-						once or twice
-						<br><br>
-						<strong>Collaboration</strong>
+						<span>
+							once or twice
+							<br><br>
+							<strong>Collaboration</strong>
+						</span>
 					</td>
-					<td align="center">many times</td>
+					<td align="center">
+						<span>
+							many times
+						</span>
+					</td>
 				</tr>
 			</table>
 
