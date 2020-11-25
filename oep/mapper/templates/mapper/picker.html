@@ -32,7 +32,14 @@
 	{% endif %}
 
 	{% if description %}
-		<p class="lead">{{ description|safe }}</p>
+		<p class="lead">
+			{{ description|safe }}
+			{% if custom_similarity_parameter %}
+				<strong>
+					{{ custom_similarity_parameter }}
+				</strong>
+			{% endif %}
+		</p>
 	{% endif %}
 
 	{% if similarity_type_form %}

@@ -1,0 +1,63 @@
+{% extends 'mapper/base.html' %}
+{% load i18n static crispy_forms_tags %}
+
+
+{% block head %}
+
+    <link href="{% static 'tagsinput.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+
+	<h2>
+		{{ title }}
+	</h2>
+
+	{% if description %}
+		<p class="lead">{{ description|safe }}</p>
+	{% endif %}
+
+	<form method="post" id="customSimilarityForm">
+		{% csrf_token %}
+		{{ form|crispy }}
+	</form>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+    <script src="{% static 'tagsinput.js' %}"></script>
+
+	<script>
+
+		$('#btnNext').click(function(e) {
+			e.preventDefault();
+			$('#customSimilarityForm').submit();
+		});
+
+		var confirmed = false;
+
+		$('#customSimilarityForm').submit(function(e) {
+
+			var isEmpty = $("#id_similarity").val() == '';
+
+			if (isEmpty) {
+
+				if (!confirmed) {
+					if (!confirm('You did not specify a custom similarity parameter. Are you sure?')) {
+						e.preventDefault();
+					}
+				}
+			}
+		});
+
+	</script>
+
+{% endblock %}

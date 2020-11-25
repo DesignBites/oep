@@ -113,6 +113,33 @@ def add_stakeholders(request, **kwargs):
     return render(request, 'mapper/add_stakeholders.html', kwargs)
 
 
+class SimilarityTypeForm(forms.Form):
+    similarity = forms.CharField(
+        label='What is a key parameter for you?',
+        help_text='In other words, which other professional, or personal, characteristic '
+                  'is important to you to describe your relationships with?',
+        required=False,
+    )
+
+    def save(self, request, cleaned_data):
+        request.session['custom_similarity_parameter'] = cleaned_data['similarity']
+
+
+def add_custom_similarity(request, **kwargs):
+    if request.method == 'POST':
+        form = SimilarityTypeForm(request.POST)
+        if form.is_valid():
+            form.save(request, form.cleaned_data)
+            if kwargs.get('page_no'):
+                return redirect('mapper_page', page_no=kwargs['page_no']+1)
+    else:
+        form = SimilarityTypeForm()
+    kwargs.update({
+        'form': form,
+    })
+    return render(request, 'mapper/add_custom_similarity.html', kwargs)
+
+
 def ring_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     if kwargs == {}:
@@ -365,15 +392,6 @@ def organisation_form(request, **kwargs):
     return render(request, 'mapper/organisation_form.html', kwargs)
 
 
-class SimilarityTypeForm(forms.Form):
-    similarity = forms.CharField(
-        label='What is a key parameter for you?',
-        help_text='In other words, which other professional, or personal, characteristic '
-                  'is important to you to describe your relationships with?',
-        required=False,
-    )
-
-
 def map_view(request, **kwargs):
     layout = kwargs.get('layout')
     if layout:
@@ -581,13 +599,20 @@ PAGES = [
         },
     },
     {
-        'view': picker_view,
+        'view': add_custom_similarity,
         'context': {
             'title': 'Similarity of a parameter of your choice',
             'description': "<p>You can also create your own parameter to compare stakeholders with.</p>",
+            'show_menu': True,
+        },
+    },
+    {
+        'view': picker_view,
+        'context': {
+            'title': 'Similarity of a parameter of your choice',
+            'description': "Now, select the stakeholders for which your parameter is true: ",
             'layout': circular_layout,
-            'similarity_type': 'user_defined',
-            'similarity_type_form': SimilarityTypeForm(),
+            'similarity_type': 'custom',
             'similarity_icon': 'b',
             'show_menu': True,
         },
