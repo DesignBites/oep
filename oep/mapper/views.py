@@ -250,8 +250,24 @@ def node_update(request):
             return JsonResponse({
                 'stakeholders': stakeholders,
             })
-        else:
-            print(form.errors)
+
+
+@csrf_exempt
+def node_delete(request):
+    if request.method == 'POST':
+        print(request.POST)
+        name = request.POST.get('name')
+        print(name)
+        stakeholders = request.session.get('stakeholders', {})
+        try:
+            del stakeholders[name]
+        except KeyError:
+            pass
+        request.session['stakeholders'] = stakeholders
+        return JsonResponse({
+            'stakeholders': stakeholders,
+        })
+
 
 
 def map_extend(request):

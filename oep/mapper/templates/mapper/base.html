@@ -184,13 +184,14 @@
 				Update stakeholder information
 			</h4>
 
-			<form method="post" id="formStakeholderUpdate">
-				{% csrf_token %}
-				{{ stakeholder_form|crispy }}
-				<button type="submit" class="btn btn-primary w-100">
-					Update map
-				</button>
-			</form>
+			{% csrf_token %}
+			{{ stakeholder_form|crispy }}
+			<button type="submit" class="btn btn-primary w-100">
+				Update map
+			</button>
+			<button type="button" id="buttonNodeDelete" class="btn btn-outline-danger w-100 mt-3">
+				Delete node
+			</button>
 
 		</form>
 	</div>
@@ -575,6 +576,20 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	$('#buttonNodeDelete').click(function(e) {
+		console.log($('#nodeUpdateForm #id_name').val());
+		$.ajax({
+			type: 'POST',
+			url: '{% url "mapper_node_delete" %}',
+			data: {name: $('#nodeUpdateForm #id_name').val()},
+			dataType: 'json',
+			success: function(data) {
+				window.location.reload();
+			}
+		});
+	});
+
 
 	{% endif %}
 
