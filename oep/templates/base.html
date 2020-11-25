@@ -10,6 +10,16 @@
 
     <title>{% block title %}{{ page.title }}{% endblock %}</title>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WT2W7LKDGS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WT2W7LKDGS');
+    </script>
+
     <link rel="icon" type="image/png" href="{% static 'favicon.png' %}" />
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Pacifico&display=swap" rel="stylesheet">
