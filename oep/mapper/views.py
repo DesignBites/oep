@@ -676,51 +676,6 @@ def page_view(request, page_no, workshop_slug=None):
     return page['view'](request, **page['context'])
 
 
-def filter_stakeholders(request):
-    params = request.GET
-    filters = {
-        'interact': params.get('interact', '1,3'),  # (min, max)
-        'collaborate': params.get('collaborate', '1,3'),  # (min, max)
-        'similarity': params.get('similarity', '0,4'),  # (min, max)
-        'values': params.get('values', 0),  # 1, 0, -1
-        'working': params.get('values', 0),  # 1, 0, -1
-        'resources': params.get('values', 0),  # 1, 0, -1
-        'custom': params.get('custom', 0),  # 1, 0, -1
-    }
-    request.session['filters'] = filters
-    stakeholders = request.session.get('stakeholders', {})
-    threshold = len(filters)
-    satisfied = 0
-    filtered = {}
-    for stakeholder_name, data in stakeholders.items():
-        similarities = data.get('similarities', [])
-        similarity_types = ['values', 'working', 'resources']
-        for key, value in filters.items():
-            if key in ['interact', 'collaborate']:
-                value_min, value_max = map(int, value.split(','))
-                if value_max >= data.get(key) >= value_min:
-                    satisfied += 1
-            elif key == 'similarity':
-                value_min, value_max = map(int, value.split(','))
-                if value_max >= len(similarities) >= value_min:
-                    satisfied += 1
-            elif key in similarity_types and value:
-                if value == 0:
-                    satisfied += 1
-                elif value == 1 and key in similarities:
-                    satisfied += 1
-                elif value == -1 and key not in similarities:
-                    satisfied += 1
-            if key == 'custom':
-                if value == 0:
-                    satisfied += 1
-                elif len(set(similarities) - set(similarity_types)) > 0:
-                    satisfied += 1
-        if satisfied >= threshold:
-            filtered[stakeholder_name] = data
-    return JsonResponse(filtered)
-
-
 """
 stakeholders = {
     StakeholderName: {
