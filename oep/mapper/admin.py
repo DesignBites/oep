@@ -6,7 +6,7 @@ from slugify import slugify
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import admin
-from .models import Map, Sector, Purpose, StakeholderType, Workshop
+from .models import Map, Sector, Purpose, StakeholderType, Workshop, PageInfo
 
 
 @admin.register(Map)
@@ -99,3 +99,9 @@ class WorkshopAdmin(admin.ModelAdmin):
             break
         return response
     get_qr.short_description = 'Get QR code'
+
+
+@admin.register(PageInfo)
+class PageInfoAdmin(admin.ModelAdmin):
+    list_display = ['page_no', 'title', 'description']
+    list_editable = ['title', 'description']

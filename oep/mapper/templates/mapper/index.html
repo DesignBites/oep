@@ -6,19 +6,40 @@
 
 <div class="container text-center">
 
-	<h1 class="my-4">
-		Identify Untapped Potential
+	<h1 class="my-4 display-2">
+		<small class="d-block">Welcome to the</small>
+		STAKEHOLDER MAPPING
+		tool!
 	</h1>
 
-	<div class="lead">
-		This tool supports you in mapping your stakeholders to seek out and build relationships with unusual suspects to experiment with.
+	<div class="row">
+
+		<div class="col align-self-stretch align-items-end">
+			<p class="display-4">
+				I am continuing a previously created stakeholder map.
+			</p>
+
+			<div class="my-4">
+				<a href="{% url 'mapper_upload' %}">
+					<img src="{% static 'arrow_right_small.png' %}" class="w-25">
+				</a>
+			</div>
+		</div>
+
+		<div class="col align-self-stretch align-items-end">
+			<p class="display-4">
+				I am creating a new stakeholder map.
+			</p>
+
+			<div class="my-4">
+				<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}">
+					<img src="{% static 'arrow_right_small.png' %}" class="w-25">
+				</a>
+			</div>
+		</div>
+
 	</div>
 
-	<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}" class="btn btn-outline-success my-4 w-25">
-		Start now!
-		<br>
-		<small>It's free</small>
-	</a>
 
 </div>
 

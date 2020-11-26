@@ -41,11 +41,11 @@
 		</div>
 		<div class="col-3">
 			<h5>
-				Frequency and depth of contact
+				{{ title }}
 			</h5>
 
 			{% if description %}
-				{{ description|safe }}
+				{{ description|linebreaks }}
 			{% endif %}
 		</div>
 	</div>
@@ -67,9 +67,10 @@
 	var nodes = {% if graph.nodes %}{{ graph.nodes|safe }}{% else %}[]{% endif %};
 	var edges = {% if graph.edges %}{{ graph.edges|safe }}{% else %}[]{% endif %};
 
-	console.log(nodes);
+	var organization = {{ organization|safe|lower }};
 
 	$.each(nodes, function(index, node) {
+		if (node.id == 0) node.label = organization.name;
 		g.nodes.push({
 			id: node.id,
 			label: ' ' + node.label,

@@ -28,13 +28,13 @@
 <div class="container">
 
 	{% if title %}
-		<h2>{{ title|safe }}</h2>
+		<h2>{{ title }}</h2>
 	{% endif %}
 
 	{% if description %}
 		<p class="lead">
-			{{ description|safe }}
-			{% if custom_similarity_parameter %}
+			{{ description|linebreaks }}
+			{% if similarity_type == 'custom' %}
 				<strong>
 					{{ custom_similarity_parameter }}
 				</strong>
@@ -42,11 +42,16 @@
 		</p>
 	{% endif %}
 
-	{% if similarity_type_form %}
-		{{ similarity_type_form|crispy }}
-	{% endif %}
-
-	<div id="canvas"></div>
+	<div class="row">
+		{% for node in graph.nodes %}
+		<div class="col-6">
+			<img src="{{ node.image.url }}" width="50" id="node-{{ node.id }}" class="node"
+				 data-label="{{ node.label }}" data-image="{{ node.image.url }}"
+			>
+			<label for="node-{{ node.id }}">{{ node.label }}</label>
+		</div>
+		{% endfor %}
+	</div>
 
 </div>
 
@@ -56,55 +61,6 @@
 {% block js %}
 
 <script>
-
-	//$('#canvas').css('height', $(window).height() - 120);
-	$('#canvas').css('height', 400);
-
-	var nodes = {{ graph.nodes|safe }};
-
-	var graph = {
-		nodes: []
-	}
-
-	var initialIcons = {};
-
-	$.each(nodes, function(index, node) {
-		graph.nodes.push({
-			id: node.id,
-			label: ' ' + node.label,
-			x: node.x,
-			y: node.y,
-			size: node.size,
-			color: node.color,
-			type: 'square',
-			image: node.image
-		});
-		initialIcons[node.id] = node.image.url;
-	});
-
-    var s = new sigma({
-    	graph: graph,
-    	renderer: {
-    		container: 'canvas',
-    		type: 'canvas'
-    	},
-		settings: {
-			minNodeSize: 1,
-			maxNodeSize: 10,
-			minEdgeSize: 1,
-			maxEdgeSize: 3,
-			//edgeLabelSize: 'proportional',
-			//labelSizeRatio: 1,
-			labelThreshold: 1,
-			sideMargin: .1,
-			enableCamera: false
-		}
-    });
-
-	CustomShapes.init(s);
-	s.refresh();
-
-	var connections = [];
 
 	function getIconLetters(url) {
 		var s = url.split('/');
@@ -116,26 +72,30 @@
 			return name.split('');
 	}
 
-	s.bind('clickNode', function(e) {
-		var name = e.data.node.label.trim();
+	var connections = [];
 
-		console.log(e.data.node.image.url);
-		console.log(initialIcons[e.data.node.id]);
+	$('.node').click(function(e) {
+		var name = $(this).data('label');
+		var image_url = $(this).data('image');
 
-		if (e.data.node.image.url == initialIcons[e.data.node.id]) {
+		if ($(this).attr('src') == $(this).data('image')) {
+
+			// add the new similarity and update the icon
+
 			connections.push(name);
-			var letters = getIconLetters(e.data.node.image.url);
+			var letters = getIconLetters(image_url);
 			if (letters.indexOf('{{ similarity_icon }}') === -1) {
 				letters.push('{{ similarity_icon }}');
 				letters = letters.sort();
 			}
-			e.data.node.image.url = '{% static "nodes/" %}' + letters.join('') + '.png';
-			console.log(e.data.node.image.url);
+			$(this).attr('src', '{% static "nodes/" %}' + letters.join('') + '.png');
 		} else {
+
+			// remove this similarity and reset the icon
+
 			connections = connections.filter(function(name) {return name != name});
-			e.data.node.image.url = initialIcons[e.data.node.id];
+			$(this).attr('src', $(this).data('image'));
 		}
-		s.refresh();
 	});
 
 	$('#btnNext').click(function(e) {

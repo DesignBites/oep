@@ -38,6 +38,8 @@ class StakeholderType(models.Model):
 
     class Meta:
         ordering = ('batch_no', 'order',)
+        verbose_name = 'question'
+        verbose_name_plural = 'questions'
 
 
 class Workshop(models.Model):
@@ -85,3 +87,15 @@ class Map(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PageInfo(models.Model):
+    page_no = models.PositiveSmallIntegerField(db_index=True)
+    title = models.CharField(max_length=500, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.page_no)
+
+    class Meta:
+        ordering = ('page_no',)

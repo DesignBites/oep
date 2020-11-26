@@ -290,7 +290,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}"
+        <a href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}"
 		   class="btn btn-primary" id="btnConfirmStartOver">Yes, start over!</a>
       </div>
     </div>
@@ -478,8 +478,12 @@ $(document).ready(function() {
 	function downloadJSON($el) {
 		var data = btoa(
 			JSON.stringify({
-				name: '{{ map.name }}',
-				stakeholders: stakeholders
+				organization: {{ organization|safe|lower }},
+				stakeholders: stakeholders,
+				{% if custom_similarity_parameter %}
+				custom_similarity_parameter: '{{ custom_similarity_parameter }}',
+				{% endif %}
+				last_page_no: {% if page_no %}{{ page_no }}{% else %}1{% endif %}
 			})
 		);
         $el.attr('href', 'data:text/json;base64,' + data);

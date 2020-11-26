@@ -45,11 +45,11 @@
 	<div class="row">
 
 		{% if title %}
-			<h2>{{ title|safe }}</h2>
+			<h2>{{ title }}</h2>
 		{% endif %}
 
 		{% if description %}
-			<p class="lead">{{ description|safe }}</p>
+			<p class="lead">{{ description|linebreaks }}</p>
 		{% endif %}
 
 		<div class="col-3">
