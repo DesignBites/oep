@@ -330,10 +330,8 @@ $(document).ready(function() {
 				stakeholders_filtered['working'].push(name);
 			if (data['similarities'].indexOf('resources') !== -1)
 				stakeholders_filtered['resources'].push(name);
-			$.each(data['similarities'], function(i, similarity) {
-				if (['values', 'working', 'resources'].indexOf(similarity) === -1)  // custom similarity
-					stakeholders_filtered['custom'].push(name);
-			});
+			if (data['similarities'].indexOf('custom') !== -1)
+				stakeholders_filtered['custom'].push(name);
 		} else {
 			stakeholders_filtered['similarity_count'][0].push(name);
 		}
@@ -530,19 +528,13 @@ $(document).ready(function() {
 		console.log(stakeholder);
 
 		$form.find('input[type=checkbox]').prop('checked', false);
-		$form.find('input[name=custom]').val('');
 
 		$form.find('[name=name]').val(name);
 		if ('similarities' in stakeholder) {
 			$form.find('[name=values]').prop('checked', stakeholder.similarities.indexOf('values') >= 0);
 			$form.find('[name=working]').prop('checked', stakeholder.similarities.indexOf('working') >= 0);
 			$form.find('[name=resources]').prop('checked', stakeholder.similarities.indexOf('resources') >= 0);
-
-			var similarities = ['values', 'working', 'resources'];
-			var custom_similarity = stakeholder.similarities.filter(function(s) { return similarities.indexOf(s) === -1 });
-			if (custom_similarity.length > 0) {
-				$form.find('[name=custom]').val(custom_similarity[0]);
-			}
+			$form.find('[name=custom]').prop('checked', stakeholder.similarities.indexOf('custom') >= 0);
 		}
 
 		$form.find('[name=interact]').val(stakeholder.interact);

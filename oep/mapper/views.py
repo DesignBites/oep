@@ -11,11 +11,14 @@ from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout
 
 def index(request, workshop_slug=None):
     request.session['stakeholders'] = {}
+    request.session['map'] = None
+    request.session['custom_similarity_parameter'] = None
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
     else:
         workshop = None
+        request.session['workshop'] = None
     return render(request, 'mapper/index.html', {
         'workshop': workshop,
     })
@@ -148,7 +151,9 @@ def ring_view(request, **kwargs):
         })
     kwargs.update({
         'graph': ring_layout(stakeholders),
-        'stakeholder_form': StakeholderAddForm(),
+        'stakeholder_form': StakeholderAddForm(
+            custom_similarity_parameter=request.session.get('custom_similarity_parameter')
+        ),
     })
     return render(request, 'mapper/ring.html', kwargs)
 
@@ -161,7 +166,9 @@ def venn_view(request, **kwargs):
         })
     kwargs.update({
         'graph': venn_layout(stakeholders),
-        'stakeholder_form': StakeholderAddForm(),
+        'stakeholder_form': StakeholderAddForm(
+            custom_similarity_parameter=request.session.get('custom_similarity_parameter')
+        ),
     })
     return render(request, 'mapper/venn.html', kwargs)
 
@@ -180,23 +187,6 @@ class StakeholderAddForm(forms.Form):
     name = forms.CharField(
         label='What is the name of this organisation?',
     )
-    values = forms.BooleanField(
-        label='Do you have similar values?',
-        required=False,
-    )
-    working = forms.BooleanField(
-        label='Do you have similar ways of working?',
-        required=False,
-    )
-    resources = forms.BooleanField(
-        label='Do you have similar resources and skills?',
-        required=False,
-    )
-    custom = forms.CharField(
-        label='Are you similar in any other way?',
-        help_text='Please specify',
-        required=False,
-    )
     interact = forms.ChoiceField(
         label='How often do you interact with each other?',
         choices=(
@@ -213,6 +203,29 @@ class StakeholderAddForm(forms.Form):
             (1, 'Never'),
         )
     )
+    values = forms.BooleanField(
+        label='We have similar values',
+        required=False,
+    )
+    working = forms.BooleanField(
+        label='We have similar ways of working',
+        required=False,
+    )
+    resources = forms.BooleanField(
+        label='We have similar resources and skills',
+        required=False,
+    )
+    custom = forms.BooleanField(
+        label='?',
+        required=False,
+    )
+
+    def __init__(self, *args, custom_similarity_parameter=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not custom_similarity_parameter and not self.is_bound:
+            del self.fields['custom']
+        else:
+            self.fields['custom'].label = "%s is true" % custom_similarity_parameter
 
 
 def node_add(request, **kwargs):
@@ -229,7 +242,7 @@ def node_add(request, **kwargs):
             if data.get('resources'):
                 similarities.append('resources')
             if data.get('custom'):
-                similarities.append(data['custom'])
+                similarities.append('custom')
             stakeholders[data['name']] = {
                 'similarities': similarities,
                 'interact': int(data['interact']),
@@ -241,7 +254,9 @@ def node_add(request, **kwargs):
             else:
                 return redirect('mapper_ring')
     else:
-        form = StakeholderAddForm()
+        form = StakeholderAddForm(
+            custom_similarity_parameter=request.session.get('custom_similarity_parameter')
+        )
     if kwargs == {}:
         kwargs.update({
             'show_menu': True,
@@ -258,6 +273,7 @@ def node_update(request):
         form = StakeholderAddForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            print(data)
             stakeholders = request.session.get('stakeholders', {})
             similarities = []
             if data.get('values'):
@@ -267,7 +283,7 @@ def node_update(request):
             if data.get('resources'):
                 similarities.append('resources')
             if data.get('custom'):
-                similarities.append(data['custom'])
+                similarities.append('custom')
             stakeholders[data['name']] = {
                 'similarities': similarities,
                 'interact': int(data['interact']),
@@ -469,6 +485,7 @@ PAGES = [
     {
         'view': add_stakeholders,
         'context': {
+            ''
             'batch_no': 2,
             'description': "For food and beverage SMEs, we’ve found 6 groups of development influencers and collaborators."
                            "<ul>"
@@ -603,7 +620,7 @@ PAGES = [
         'context': {
             'title': 'Similarity of a parameter of your choice',
             'description': "<p>You can also create your own parameter to compare stakeholders with.</p>",
-            'show_menu': True,
+            #'show_menu': True,
         },
     },
     {
@@ -614,7 +631,7 @@ PAGES = [
             'layout': circular_layout,
             'similarity_type': 'custom',
             'similarity_icon': 'b',
-            'show_menu': True,
+            #'show_menu': True,
         },
     },
     {
@@ -702,7 +719,7 @@ def page_view(request, page_no, workshop_slug=None):
     next_page = None
     if not page['context'].get('form'):
         next_page = page_no + 1
-        if next_page > len(PAGES):
+        if next_page >= len(PAGES):
             next_page = None
     page['context'].update({
         'map': request.session.get('map', {}),  # entity profile data
