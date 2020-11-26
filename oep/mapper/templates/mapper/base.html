@@ -330,11 +330,9 @@ $(document).ready(function() {
 				stakeholders_filtered['working'].push(name);
 			if (data['similarities'].indexOf('resources') !== -1)
 				stakeholders_filtered['resources'].push(name);
-			if (data['similarities'].indexOf('custom') !== -1)
-				stakeholders_filtered['custom'].push(name);
-		} else {
-			stakeholders_filtered['similarity_count'][0].push(name);
 		}
+		if ('custom' in data && custom == 1)
+			stakeholders_filtered['custom'].push(name);
 	});
 
 	console.log(stakeholders_filtered);
@@ -352,24 +350,15 @@ $(document).ready(function() {
 
 	function apply_filters() {
 
-		var visible_nodes = new Set(Object.keys(stakeholders));  // every stakeholder
+		var filtered = Object.keys(stakeholders);  // every stakeholder; not filtered yet
 
-		var interact = [];
-		$.each(filter_state['interact'], function(i, state) {
-			interact = interact.concat(stakeholders_filtered['interact'][state]);
+		$.each(['interact', 'collaborate', 'similarity_count'], function(i, filter_name) {
+			var passed = [];
+			$.each(filter_state[filter_name], function(i, state) {
+				passed = passed.concat(stakeholders_filtered[filter_name][state]);
+			});
+			filtered = filtered.filter(s => passed.includes(s));
 		});
-
-		var collaborate = [];
-		$.each(filter_state['collaborate'], function(i, state) {
-			collaborate = collaborate.concat(stakeholders_filtered['collaborate'][state]);
-		});
-
-		var similarity_count = [];
-		$.each(filter_state['similarity_count'], function(i, state) {
-			similarity_count = similarity_count.concat(stakeholders_filtered['similarity_count'][state]);
-		});
-
-		filtered = interact.filter(s => collaborate.includes(s)).filter(s => similarity_count.includes(s));
 
 		$.each(['values', 'working', 'resources', 'custom'], function(i, filter_name) {
 			if (filter_state[filter_name] != 0) {
@@ -404,7 +393,6 @@ $(document).ready(function() {
 			var $actives = $('button.active[data-target=' + target + ']');
 			filter_values = [];
 			$actives.each(function() {
-				console.log($(this).val());
 				filter_values.push($(this).val());
 			});
 			filter_state[target] = filter_values;
@@ -534,7 +522,10 @@ $(document).ready(function() {
 			$form.find('[name=values]').prop('checked', stakeholder.similarities.indexOf('values') >= 0);
 			$form.find('[name=working]').prop('checked', stakeholder.similarities.indexOf('working') >= 0);
 			$form.find('[name=resources]').prop('checked', stakeholder.similarities.indexOf('resources') >= 0);
-			$form.find('[name=custom]').prop('checked', stakeholder.similarities.indexOf('custom') >= 0);
+		}
+
+		if ('custom' in stakeholder) {
+			$form.find('[name=custom]').prop('checked', stakeholder.custom == 1);
 		}
 
 		$form.find('[name=interact]').val(stakeholder.interact);
