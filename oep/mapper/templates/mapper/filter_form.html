@@ -122,7 +122,10 @@
         </div>
     </div>
 
-    <h6>Your own parameter is</h6>
+
+    {% if custom_similarity_parameter %}
+
+    <h6>{{ custom_similarity_parameter }} is</h6>
     <div class="row mb-3">
         <div class="col-4">
             <button class="btn btn-outline-success btn-sm w-100" type="button" data-target="custom" value="1">
@@ -141,5 +144,6 @@
         </div>
     </div>
 
+    {% endif %}
 
 </form>
