@@ -322,17 +322,22 @@ $(document).ready(function() {
 		stakeholders_filtered['interact'][data['interact']].push(name);
 		stakeholders_filtered['collaborate'][data['collaborate']].push(name);
 		if ('similarities' in data) {
-			console.log(data['similarities']);
-			stakeholders_filtered['similarity_count'][data['similarities'].length].push(name);
+			similartity_count = data['similarities'].length;
 			if (data['similarities'].indexOf('values') !== -1)
 				stakeholders_filtered['values'].push(name);
 			if (data['similarities'].indexOf('working') !== -1)
 				stakeholders_filtered['working'].push(name);
 			if (data['similarities'].indexOf('resources') !== -1)
 				stakeholders_filtered['resources'].push(name);
+			if (data['similarities'].indexOf('custom') !== -1) {
+				stakeholders_filtered['custom'].push(name);
+				// we are not counting custom parameter similarity!!
+				similartity_count -= 1;
+			}
+			stakeholders_filtered['similarity_count'][similartity_count].push(name);
+		} else {
+			stakeholders_filtered['similarity_count'][0].push(name);
 		}
-		if ('custom' in data && data['custom'] == 1)
-			stakeholders_filtered['custom'].push(name);
 	});
 
 	// initial filter state
@@ -524,10 +529,7 @@ $(document).ready(function() {
 			$form.find('[name=values]').prop('checked', stakeholder.similarities.indexOf('values') >= 0);
 			$form.find('[name=working]').prop('checked', stakeholder.similarities.indexOf('working') >= 0);
 			$form.find('[name=resources]').prop('checked', stakeholder.similarities.indexOf('resources') >= 0);
-		}
-
-		if ('custom' in stakeholder) {
-			$form.find('[name=custom]').prop('checked', stakeholder.custom == 1);
+			$form.find('[name=custom]').prop('checked', stakeholder.similarities.indexOf('custom') >= 0);
 		}
 
 		$form.find('[name=interact]').val(stakeholder.interact);
