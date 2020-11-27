@@ -36,17 +36,22 @@
 <div class="container">
 
 	<div class="row">
+
 		<div class="col-9">
 			<div id="canvas"></div>
 		</div>
-		<div class="col-3">
-			<h5>
-				Similarity Venn diagram
-			</h5>
-			<p>
 
-			</p>
+		<div class="col-3">
+		{% if title %}
+			<h2>{{ title }}</h2>
+		{% endif %}
+		{% if description %}
+		<p>
+			{{ description|linebreaks }}
+		</p>
+		{% endif %}
 		</div>
+
 	</div>
 
 </div>

@@ -32,7 +32,14 @@
 			<div id="canvas"></div>
 		</div>
 		<div class="col-3">
-			{{ description|linebreaks }}
+			{% if title %}
+				<h2>{{ title }}</h2>
+			{% endif %}
+			{% if description %}
+			<p>
+				{{ description|linebreaks }}
+			</p>
+			{% endif %}
 		</div>
 	</div>
 
