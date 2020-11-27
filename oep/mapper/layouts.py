@@ -162,63 +162,29 @@ def ring_layout(stakeholders):
 
 
 def venn_layout(stakeholders):
-    similarities = ['values', 'working', 'resources']
-    center_coordinates = {
-        ('values', 'working', 'resources'): [-40, -80],
-        ('values', 'working'): [-200, -100],
-        ('values', 'resources'): [100, -100],
-        ('working', 'resources'): [-40, 120],
-        ('values',): [0, -250],
-        ('working',): [-250, 80],
-        ('resources',): [150, 80],
+    similarity_values = {
+        'values': 8,
+        'working': 4,
+        'resources': 2,
+        'custom': 1,
     }
-    venn = defaultdict(list)
-    used = []
-    for i in range(3, 0, -1):
-        for combination in combinations(similarities, i):
-            for stakeholder, data in stakeholders.items():
-                if len(set(data.get('similarities', [])).intersection(combination)) == i:
-                    if not stakeholder in used:
-                        venn[combination].append(stakeholder)
-                        used.append(stakeholder)
-    nodes = []
-    i = 1
-    for section, stakeholder_list in venn.items():
-        positions = [
-            (round(x, 2), round(y, 2))
-            for x, y in nx.random_layout(
-                list(range(len(stakeholders))),
-            ).values()
-        ]
-        center = center_coordinates[section]
-        for name in stakeholder_list:
-            x, y = positions.pop()
-            node = {
-                'id': i,
-                'label': name,
-                'x': center[0] + x * 100,
-                'y': center[1] + y * 100,
-                'size': 10,
-                'color': '#990',
-                'image': {},
-            }
-            icon_prefix = get_node_icon_prefix(stakeholders[name].get('similarities', []))
-            if icon_prefix:
-                node['image'] = {
-                    'url': static(NODE_ICON_NAME % icon_prefix),
-                    'scale': 3,
-                    'clip': 3,
-                }
-            nodes.append(node)
-            i += 1
+    venn = {}
+    for stakeholder, data in stakeholders.items():
+        cell = 0
+        similarities = data.get('similarities', [])
+        for similarity in similarities:
+            cell += similarity_values[similarity]
+        venn[stakeholder] = {
+            'cell': f'{cell:b}'.zfill(4),
+            'icon': static(NODE_ICON_NAME % get_node_icon_prefix(similarities)),
+        }
     return {
-        'nodes': nodes,
+        'venn': venn,
     }
 
-
-MAX_QUADRANT_POPULATION = 2
 
 def suggest_layout(stakeholders):
+    MAX_QUADRANT_POPULATION = 2
     # (collaborate, interact, similarity count)
     rules = {
         'q1': [

@@ -242,7 +242,7 @@ def ring_view(request, **kwargs):
     kwargs.update({
         'graph': ring_layout(stakeholders),
     })
-    if not 'stakeholder_form' in kwargs:
+    if 'stakeholder_form' not in kwargs:
         kwargs.update({
             'stakeholder_form': StakeholderForm(
                 show_similarities=True,
@@ -258,10 +258,8 @@ def venn_view(request, **kwargs):
         kwargs.update({
             'show_menu': True,
         })
-    kwargs.update({
-        'graph': venn_layout(stakeholders),
-    })
-    if not 'stakeholder_form' in kwargs:
+    kwargs.update(venn_layout(stakeholders))
+    if 'stakeholder_form' not in kwargs:
         kwargs.update({
             'stakeholder_form': StakeholderForm(
                 show_similarities=True,
