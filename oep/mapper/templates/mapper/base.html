@@ -331,11 +331,9 @@ $(document).ready(function() {
 			if (data['similarities'].indexOf('resources') !== -1)
 				stakeholders_filtered['resources'].push(name);
 		}
-		if ('custom' in data && custom == 1)
+		if ('custom' in data && data['custom'] == 1)
 			stakeholders_filtered['custom'].push(name);
 	});
-
-	console.log(stakeholders_filtered);
 
 	// initial filter state
 	var filter_state = {

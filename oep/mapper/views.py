@@ -156,15 +156,23 @@ class StakeholderBatchForm(forms.Form):
     def __init__(self, batch_no, *args, **kwargs):
         super().__init__(*args, **kwargs)
         stakeholder_types = StakeholderType.objects.filter(batch_no=batch_no)
+        i = 1
         for stakeholder_type in stakeholder_types:
+            attrs = {
+                'data-role': 'tagsinput',
+                'tabindex': i,
+            }
+            if i == 1:
+                attrs.update({
+                    'autofocus': 'autofocus'
+                })
             self.fields[stakeholder_type.name] = forms.CharField(
                 label=stakeholder_type.question,
                 help_text=stakeholder_type.description,
                 required=False,
-                widget=forms.TextInput(attrs={
-                    'data-role': 'tagsinput',
-                }),
+                widget=forms.TextInput(attrs=attrs),
             )
+            i += 1
 
     def save(self, request, cleaned_data):
         stakeholders = request.session.get('stakeholders') or {}
