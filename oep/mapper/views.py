@@ -127,6 +127,7 @@ def connections_save(request):
         stakeholders = request.session.get('stakeholders', {})
         for similarity_type, stakeholder_names in data.items():
             for name in stakeholder_names:
+                name = str(name)  # for the rare case of all numeric names
                 similarities = stakeholders[name].get('similarities', [])
                 similarities.append(similarity_type)
                 stakeholders[name]['similarities'] = list(set(similarities))
