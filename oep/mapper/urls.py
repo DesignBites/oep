@@ -8,9 +8,9 @@ urlpatterns = [
     path('grid/', grid_save, name='mapper_grid_save'),
     path('connections/', connections_save, name='mapper_connections_save'),
 
-    path('view/ring/', ring_view, name='mapper_ring'),
+    path('view/circles/', ring_view, name='mapper_ring'),
     path('view/venn/', venn_view, name='mapper_venn'),
-    path('view/suggest/', suggest_view, name='mapper_suggest'),
+    path('view/suggestions/', suggest_view, name='mapper_suggest'),
 
     path('map/add/', node_add, name='mapper_add'),
     path('map/extend/', map_extend, name='mapper_extend'),

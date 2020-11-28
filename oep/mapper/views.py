@@ -236,9 +236,16 @@ def add_custom_similarity(request, **kwargs):
 def ring_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     if kwargs == {}:
+        # called via the menu
         kwargs.update({
             'show_menu': True,
         })
+        page_info = PageInfo.objects.filter(page='circles').first()
+        if page_info:
+            kwargs.update({
+                'title': page_info.title,
+                'description': page_info.description,
+            })
     kwargs.update({
         'graph': ring_layout(stakeholders),
     })
@@ -255,9 +262,16 @@ def ring_view(request, **kwargs):
 def venn_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     if kwargs == {}:
+        # called via the menu
         kwargs.update({
             'show_menu': True,
         })
+        page_info = PageInfo.objects.filter(page='venn').first()
+        if page_info:
+            kwargs.update({
+                'title': page_info.title,
+                'description': page_info.description,
+            })
     kwargs.update(venn_layout(stakeholders))
     if 'stakeholder_form' not in kwargs:
         kwargs.update({
@@ -272,9 +286,16 @@ def venn_view(request, **kwargs):
 def suggest_view(request, **kwargs):
     stakeholders = request.session.get('stakeholders', {})
     if kwargs == {}:
+        # called via the menu
         kwargs.update({
             'show_menu': True,
         })
+        page_info = PageInfo.objects.filter(page='suggestions').first()
+        if page_info:
+            kwargs.update({
+                'title': page_info.title,
+                'description': page_info.description,
+            })
     kwargs.update(suggest_layout(stakeholders))
     return render(request, 'mapper/suggest.html', kwargs)
 
@@ -657,7 +678,7 @@ def page_view(request, page_no, workshop_slug=None):
         next_page = page_no + 1
         if next_page > len(PAGES):
             next_page = None
-    page_info = PageInfo.objects.filter(page_no=page_no).first()
+    page_info = PageInfo.objects.filter(page=str(page_no)).first()
     if page_info:
         context.update({
             'title': page_info.title,

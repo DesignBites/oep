@@ -90,12 +90,12 @@ class Map(models.Model):
 
 
 class PageInfo(models.Model):
-    page_no = models.PositiveSmallIntegerField(db_index=True)
+    page = models.CharField('Page number or name', max_length=20, db_index=True)
     title = models.CharField(max_length=500, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.page_no)
+        return str(self.page)
 
     class Meta:
-        ordering = ('page_no',)
+        ordering = ('page',)
