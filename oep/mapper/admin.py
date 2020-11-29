@@ -17,16 +17,17 @@ class MapAdmin(admin.ModelAdmin):
     def download(self, request, qs):
         f = StringIO()
         writer = csv.writer(f)
-        writer.writerow([
-            'Name',
-            'Batch',
-            'Value similarity',
-            'Way of working similarity',
-            'Resources similarity',
-            'Interaction frequency',
-            'Collaboration frequency',
-        ])
         for m in qs:
+            writer.writerow([
+                'Name',
+                'Batch',
+                'Value similarity',
+                'Way of working similarity',
+                'Resources similarity',
+                m.own_parameter or 'Own parameter (not specified)',
+                'Interaction frequency',
+                'Collaboration frequency',
+            ])
             stakeholders = m.stakeholders or {}
             for name, data in stakeholders.items():
                 writer.writerow([
@@ -35,6 +36,7 @@ class MapAdmin(admin.ModelAdmin):
                     'values' in data.get('similarities', []) and 'Yes' or 'No',
                     'working' in data.get('similarities', []) and 'Yes' or 'No',
                     'resources' in data.get('similarities', []) and 'Yes' or 'No',
+                    'custom' in data.get('similarities', []) and 'Yes' or 'No',
                     data.get('interact', ''),
                     data.get('collaborate', ''),
                 ])

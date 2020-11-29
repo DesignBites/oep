@@ -81,6 +81,7 @@ class Map(models.Model):
         blank=True, null=True, on_delete=models.SET_NULL,
     )
     stakeholders = models.JSONField(blank=True, null=True)
+    own_parameter = models.CharField(max_length=100, blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
