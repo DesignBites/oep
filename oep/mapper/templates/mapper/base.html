@@ -55,15 +55,12 @@
 
 {% block navbar %}
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-light">
 		<div class="container">
 
 			<a class="navbar-brand" data-toggle="modal" data-target="#confirmStartOver"
 			   href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}">
-				{% trans "Stakeholder Mapper" %}
-				{% if workshop %}
-				- {{ workshop.name }}
-				{% endif %}
+				<img src="{% static 'mapper-logo.png' %}" width="100" class="ml-n5">
 			</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
