@@ -125,12 +125,18 @@
 			</table>
 
 
-			<div class="row">
-				<div class="col mt-4">
-					<span class="badge badge-danger">values</span>
-					<span class="badge badge-warning">ways of working</span>
-					<span class="badge badge-info">resources</span>
-					<span class="badge badge-dark">{% if custom_similarity_parameter %}{{ custom_similarity_parameter }}{% else %}your parameter (not specified){% endif %}</span>
+			<div class="row mt-4">
+				<div class="col">
+					<span class="badge badge-danger w-100">values</span>
+				</div>
+				<div class="col">
+					<span class="badge badge-warning w-100">ways of working</span>
+				</div>
+				<div class="col">
+					<span class="badge badge-info w-100">resources</span>
+				</div>
+				<div class="col">
+					<span class="badge badge-dark w-100">{% if custom_similarity_parameter %}{{ custom_similarity_parameter }}{% else %}your parameter (not specified){% endif %}</span>
 				</div>
 			</div>
 
