@@ -1,0 +1,44 @@
+{% load static %}
+
+<h4>
+    Legend
+</h4>
+
+<table>
+    <tr>
+        <td>Similar values</td>
+        <td>
+            <img src="{% static 'nodes/a.png' %}" width="40">
+        </td>
+    </tr>
+    <tr>
+        <td>Similar ways of working</td>
+        <td>
+            <img src="{% static 'nodes/c.png' %}" width="40">
+        </td>
+    </tr>
+    <tr>
+        <td>Similar resources</td>
+        <td>
+            <img src="{% static 'nodes/d.png' %}" width="40">
+        </td>
+    </tr>
+    <tr>
+        <td>Never collaborated</td>
+        <td>
+            <div style="height: 40px; border-bottom: 3px dotted; -webkit-transform: translateY(-15px) translateX(-15px) rotate(-45deg); "></div>
+        </td>
+    </tr>
+    <tr>
+        <td>Once or twice collaborated</td>
+        <td>
+            <div style="height: 40px; border-bottom: 3px dashed; -webkit-transform: translateY(-15px) translateX(-15px) rotate(-45deg); "></div>
+        </td>
+    </tr>
+    <tr>
+        <td>Many times collaborated</td>
+        <td>
+            <div style="height: 40px; border-bottom: 3px solid; -webkit-transform: translateY(-15px) translateX(-15px) rotate(-45deg); "></div>
+        </td>
+    </tr>
+</table>

@@ -1,6 +1,8 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django import forms
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -256,6 +258,15 @@ def ring_view(request, **kwargs):
                 custom_similarity_parameter=request.session.get('custom_similarity_parameter'),
             ),
         })
+    if not request.session.get('custom_similarity_parameter'):
+        messages.warning(
+            request,
+            mark_safe(
+                "You haven't specified your custom parameter yet. <a href='%s'>Add now!</a>" %
+#                reverse('mapper_add_parameter')
+                reverse('mapper_page', kwargs={'page_no': 20})
+        )
+        )
     return render(request, 'mapper/ring.html', kwargs)
 
 

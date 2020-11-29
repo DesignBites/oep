@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, connections_save, grid_save, upload_map, page_view, \
+from .views import index, connections_save, grid_save, upload_map, page_view, add_custom_similarity, \
     ring_view, venn_view, suggest_view, node_add, node_update, node_delete, map_extend, approve_terms, map_save
 
 
@@ -11,6 +11,8 @@ urlpatterns = [
     path('view/circles/', ring_view, name='mapper_ring'),
     path('view/venn/', venn_view, name='mapper_venn'),
     path('view/suggestions/', suggest_view, name='mapper_suggest'),
+
+#    path('view/param/', add_custom_similarity, name='mapper_add_parameter'),
 
     path('map/add/', node_add, name='mapper_add'),
     path('map/extend/', map_extend, name='mapper_extend'),

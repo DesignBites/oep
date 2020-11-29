@@ -142,6 +142,11 @@
 							{% trans "Filter" %}
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="legendSidebarCollapse" href="#">
+							{% trans "Legend" %}
+						</a>
+					</li>
 				</ul>
 
 				<ul class="navbar-nav ml-auto" id="ulGroups">
@@ -173,6 +178,13 @@
 	</div>
 
 
+	<div id="legendSidebar" class="collapse bg-light h-100 p-2 sidebar">
+
+		{% include 'mapper/legend.html' %}
+
+	</div>
+
+
 	{% if stakeholder_form %}
 	<div id="editSidebar" class="collapse bg-light h-100 p-2 sidebar">
 		<form id="nodeUpdateForm">
@@ -196,6 +208,18 @@
 
 
 	<div class="container mt-4">
+
+		{% for message in messages %}
+
+			<div class="alert alert-warning alert-dismissible mb-4">
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+		{% endfor %}
+
 
 	{% block content %}
 	{% endblock %}
@@ -412,6 +436,11 @@ $(document).ready(function() {
 
     $('#filterSidebarCollapse').on('click', function () {
         $('#filterSidebar').toggleClass('collapse');
+    });
+
+
+    $('#legendSidebarCollapse').on('click', function () {
+        $('#legendSidebar').toggleClass('collapse');
     });
 
 
