@@ -228,8 +228,9 @@ def add_custom_similarity(request, **kwargs):
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
+        print(request.session.get('custom_similarity_parameter'))
         form = SimilarityTypeForm(initial={
-            'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '')
+            'similarity': request.session.get('custom_similarity_parameter', '')
         })
     kwargs.update({
         'form': form,
@@ -244,15 +245,6 @@ def ring_view(request, **kwargs):
         kwargs.update({
             'show_menu': True,
         })
-        if not request.session.get('custom_similarity_parameter'):
-            messages.warning(
-                request,
-                mark_safe(
-                    "You haven't specified your custom parameter yet. <a href='%s'>Add now!</a>" %
-                    #                reverse('mapper_add_parameter')
-                    reverse('mapper_page', kwargs={'page_no': 20})
-                )
-            )
         page_info = PageInfo.objects.filter(page='circles').first()
         if page_info:
             kwargs.update({
