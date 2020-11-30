@@ -470,6 +470,7 @@ $(document).ready(function() {
 	function approveTerms() {
 		$.post('{% url "mapper_approve_terms" %}', function(data) {
 			termsOK = true;
+			mapSave();
 			$('#modalSave').modal('hide');
 		});
 	};
