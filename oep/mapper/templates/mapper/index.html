@@ -1,6 +1,12 @@
 {% extends 'mapper/base.html' %}
 {% load i18n static crispy_forms_tags %}
 
+{% block top %}
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}
+
 
 {% block content %}
 
@@ -13,7 +19,6 @@
 	</h1>
 
 	<div class="row">
-
 
 		<div class="card-deck">
 
@@ -45,5 +50,28 @@
 	</div>
 
 </div>
+
+{% endblock %}
+
+
+{% block right-content %}
+
+<h4>
+	Your privacy
+</h4>
+
+<p>
+	We use cookies to ensure the functionality of our tool, and to analyze our traffic.
+	Additionally, we gather anonymous data for research purposes.
+	No identifiable data will ever be shared or published. Read more about how we protect your data.
+</p>
+
+<button class="btn btn-primary my-3">
+	Accept cookies, and agree to saving anonymised data for research purposes
+</button>
+
+<button class="btn btn-outline-primary my-3">
+	Accept cookies, and disagree to saving anonymised data for research purposes
+</button>
 
 {% endblock %}

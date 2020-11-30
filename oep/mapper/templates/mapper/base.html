@@ -53,15 +53,10 @@
 
 <body>
 
-{% block navbar %}
+{% block top %}
 
 	<nav class="navbar navbar-expand-lg navbar-light">
 		<div class="container">
-
-			<a class="navbar-brand" data-toggle="modal" data-target="#confirmStartOver"
-			   href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}">
-				<img src="{% static 'mapper-logo.png' %}" width="100" class="ml-n5">
-			</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
 				<span class="navbar-toggler-icon"></span>
@@ -76,6 +71,21 @@
 
 		</div>
 	</nav>
+
+{% endblock %}
+
+
+{% block logo %}
+<div class="fixed-top">
+	<a class="navbar-brand" data-toggle="modal" data-target="#confirmStartOver"
+	   href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}">
+		<img src="{% static 'mapper-logo.png' %}" width="100" class="ml-3 mt-2">
+	</a>
+</div>
+{% endblock %}
+
+
+{% block bottom %}
 
 	<nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
 		<div class="container">
@@ -174,16 +184,17 @@
 {% endblock %}
 
 
+
 <div class="wrapper h-100">
 
-	<div id="filterSidebar" class="collapse bg-light h-100 p-2 sidebar">
+	<div id="filterSidebar" class="collapse bg-light h-100 sidebar">
 
 		{% include 'mapper/filter_form.html' %}
 
 	</div>
 
 
-	<div id="legendSidebar" class="collapse bg-light h-100 p-2 sidebar">
+	<div id="legendSidebar" class="collapse bg-light h-100 sidebar">
 
 		{% include 'mapper/legend.html' %}
 
@@ -191,7 +202,7 @@
 
 
 	{% if stakeholder_form %}
-	<div id="editSidebar" class="collapse bg-light h-100 p-2 sidebar">
+	<div id="editSidebar" class="collapse bg-light h-100 sidebar">
 		<form id="nodeUpdateForm">
 
 			<h4>
@@ -212,32 +223,45 @@
 	{% endif %}
 
 
-	<div class="container mt-4">
+	<div class="container-fluid">
 
-		{% for message in messages %}
+		<div class="row">
 
-			<div class="alert alert-warning alert-dismissible mb-4">
-				{{ message }}
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+			<div class="col">
+
+				{% for message in messages %}
+
+					<div class="alert alert-warning alert-dismissible mb-4">
+						{{ message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+				{% endfor %}
+
+				{% block content %}
+				{% endblock %}
+
 			</div>
 
-		{% endfor %}
+			{% block right %}
+			<div class="col-3" style="background-color: #fcf2d7;">
 
+				<div class="mt-3">
+					{% block right-content %}
+					{% endblock %}
+				</div>
 
-	{% block content %}
-	{% endblock %}
+			</div>
+			{% endblock %}
+
+		</div>
 
 	</div>
 
 </div>
 
-
-<br>
-<br>
-<br>
-<br>
 
 
 <div class="modal" tabindex="-1" role="dialog" id="modalTerms">
