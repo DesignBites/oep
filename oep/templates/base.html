@@ -182,7 +182,7 @@
                 {% block nav-items %}
 
                 {% wagtail_site as current_site %}
-                {% with current_site.root_page.get_children.live as nav_pages %}
+                {% with current_site.root_page.get_children.live.in_menu as nav_pages %}
 
                 {% for nav_page in nav_pages %}
                 <li class="nav-item ml-4 {% if request.path|slice:':5' == nav_page.url|slice:':5' %}active{% endif %}">
