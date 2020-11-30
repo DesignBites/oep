@@ -70,7 +70,15 @@
 	var organization = {{ organization|safe|lower }};
 
 	$.each(nodes, function(index, node) {
-		if (node.id == 0) node.label = organization.name;
+
+		if (node.id == 0) {
+			if (organization.name !== undefined) {
+				node.label = organization.name;
+			} else {
+				node.label = 'You';
+			}
+		}
+
 		g.nodes.push({
 			id: node.id,
 			label: ' ' + node.label,

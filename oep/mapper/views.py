@@ -228,7 +228,9 @@ def add_custom_similarity(request, **kwargs):
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
-        form = SimilarityTypeForm()
+        form = SimilarityTypeForm(initial={
+            'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '')
+        })
     kwargs.update({
         'form': form,
     })
@@ -618,12 +620,10 @@ PAGES = [
             'similarity_icon': 'd',
         },
     },
-    # menu is enabled here!; add / edit of similarity parameters enabled here!
     {
         'view': ring_view,
         'context': {
             'layout': ring_layout,
-            'show_menu': True,
         },
     },
     {
