@@ -345,8 +345,10 @@ $(document).ready(function() {
 	}
 
 	$.each(stakeholders, function(name, data) {
-		stakeholders_filtered['interact'][data['interact']].push(name);
-		stakeholders_filtered['collaborate'][data['collaborate']].push(name);
+		if ('interact' in data)
+			stakeholders_filtered['interact'][data['interact']].push(name);
+		if ('collaborate' in data)
+			stakeholders_filtered['collaborate'][data['collaborate']].push(name);
 		if ('similarities' in data) {
 			similartity_count = data['similarities'].length;
 			if (data['similarities'].indexOf('values') !== -1)

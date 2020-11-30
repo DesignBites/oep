@@ -217,7 +217,6 @@ def add_stakeholders(request, **kwargs):
                 types = stakeholder_data.get('types', [])
                 if field.name in types:
                     initial_stakeholders.append(stakeholder_name)
-                print(dir(field))
             field.initial = ','.join(initial_stakeholders)
     kwargs.update({
         'form': form,
@@ -245,7 +244,6 @@ def add_custom_similarity(request, **kwargs):
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
-        print(request.session.get('custom_similarity_parameter'))
         form = SimilarityTypeForm(initial={
             'similarity': request.session.get('custom_similarity_parameter', '')
         })
@@ -423,7 +421,6 @@ def node_update(request):
         form = StakeholderForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print(data)
             stakeholders = request.session.get('stakeholders', {})
             similarities = []
             if data.get('values'):
@@ -448,9 +445,7 @@ def node_update(request):
 @csrf_exempt
 def node_delete(request):
     if request.method == 'POST':
-        print(request.POST)
         name = request.POST.get('name')
-        print(name)
         stakeholders = request.session.get('stakeholders', {})
         try:
             del stakeholders[name]
