@@ -188,7 +188,6 @@ class StakeholderBatchForm(forms.Form):
 
     def save(self, request, cleaned_data):
         stakeholders = request.session.get('stakeholders') or {}
-        print(stakeholders)
         for stakeholder_type in cleaned_data.keys():
             for name in cleaned_data[stakeholder_type].split(','):
                 name = name.strip()
@@ -211,6 +210,15 @@ def add_stakeholders(request, **kwargs):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
         form = StakeholderBatchForm(batch_no)
+        stakeholders = kwargs.get('stakeholders', {})
+        for field in form:
+            initial_stakeholders = []
+            for stakeholder_name, stakeholder_data in stakeholders.items():
+                types = stakeholder_data.get('types', [])
+                if field.name in types:
+                    initial_stakeholders.append(stakeholder_name)
+                print(dir(field))
+            field.initial = ','.join(initial_stakeholders)
     kwargs.update({
         'form': form,
     })
