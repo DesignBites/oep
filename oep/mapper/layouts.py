@@ -118,7 +118,7 @@ def ring_layout(stakeholders):
     #sorted_names = sorted(stakeholders, key=lambda x: (stakeholders[x]['interact']), reverse=True)
     edges = []
     i = 1
-    #for name in sorted_names:
+    # for name in sorted_names:
     for name in stakeholders.keys():
         data = stakeholders[name]
         if 'interact' in data:
@@ -131,9 +131,18 @@ def ring_layout(stakeholders):
                 proximity = 5
             x, y = positions.pop()
             icon_prefix = get_node_icon_prefix(data.get('similarities', []))
+            label = name
+            if data['interact'] == 3:
+                if len(name) > 6:
+                    label = name[:4] + '…'
+            else:
+                if len(name) > 12:
+                    label = name[:10] + '…'
             node = {
                 'id': i,
-                'label': name,
+                'label': label,
+                'fullLabel': name,
+                'shortLabel': label,
                 'x': x * proximity * 55,
                 'y': y * proximity * 55,
                 'size': data['interact'] == 3 and central_size or 10,

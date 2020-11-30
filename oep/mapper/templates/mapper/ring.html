@@ -82,6 +82,8 @@
 		g.nodes.push({
 			id: node.id,
 			label: ' ' + node.label,
+			fullLabel: node.fullLabel,
+			shortLabel: node.shortLabel,
 			x: node.x,
 			y: node.y,
 			size: node.size,
@@ -116,7 +118,7 @@
 			maxEdgeSize: 3,
 			//edgeLabelSize: 'proportional',
 			labelThreshold: 10,
-			//autoRescale: ['nodeSize', 'edgeSize']
+			//autoRescale: ['nodeSize', 'edgeSize'],
 			autoRescale: false,
 			zoomMin: 1,
 			zoomMax: 1,
@@ -127,6 +129,20 @@
 
 	CustomShapes.init(s);
 	s.refresh();
+
+	s.bind('overNode', function(e) {
+		if (e.data.node.id != 0) {
+			e.data.node.label = e.data.node.fullLabel;
+			s.refresh();
+		}
+	});
+
+	s.bind('outNode', function(e) {
+		if (e.data.node.id != 0) {
+			e.data.node.label = e.data.node.shortLabel;
+			s.refresh();
+		}
+	});
 
 </script>
 
