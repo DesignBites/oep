@@ -1,7 +1,6 @@
 from random import shuffle
 import networkx as nx
 from collections import defaultdict
-from itertools import combinations
 from django.templatetags.static import static
 
 
@@ -53,7 +52,8 @@ def circular_layout(stakeholders):
     i = 1
     for name, data in stakeholders.items():
         x, y = positions.pop()
-        icon_prefix = get_node_icon_prefix(data.get('similarities', []))
+        similarities = data.get('similarities', [])
+        icon_prefix = get_node_icon_prefix(similarities)
         node = {
             'id': i,
             'label': name,

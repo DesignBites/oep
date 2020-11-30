@@ -1,15 +1,14 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
-from django.urls import reverse
-from django.utils.safestring import mark_safe
 from django import forms
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.templatetags.static import static
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 from .models import Map, Sector, Purpose, Workshop, StakeholderType, PageInfo
-from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout
+from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout, get_node_icon_prefix, NODE_ICON_NAME
 
 
 def reset_session(request, map_data={}):
@@ -124,15 +123,25 @@ def upload_map(request):
 
 @csrf_exempt
 def connections_save(request):
+    # update similarities for the given type(s)
+    # e.g.: {'values': ['AAA', 'BBB']}
     if request.is_ajax():
         data = json.loads(request.body)
         stakeholders = request.session.get('stakeholders', {})
-        for similarity_type, stakeholder_names in data.items():
-            for name in stakeholder_names:
-                name = str(name)  # for the rare case of all numeric names
-                similarities = stakeholders[name].get('similarities', [])
-                similarities.append(similarity_type)
-                stakeholders[name]['similarities'] = list(set(similarities))
+        for name, current_data in stakeholders.items():
+            similarities = stakeholders[name].get('similarities', [])
+            for similarity_type, stakeholder_names in data.items():
+                # stakeholder_names: updated names for this type of similarity
+                stakeholder_names = map(str, stakeholder_names)  # for the rare case of all numeric names
+                if name in stakeholder_names:
+                    if similarity_type not in similarities:
+                        # newly added
+                        similarities.append(similarity_type)
+                else:
+                    if similarity_type in similarities:
+                        # newly removed
+                        similarities.remove(similarity_type)
+            stakeholders[name]['similarities'] = list(set(similarities))
         request.session['stakeholders'] = stakeholders
         request.session.modified = True
         return JsonResponse({
@@ -499,11 +508,25 @@ def grid_view(request, **kwargs):
 
 
 def picker_view(request, **kwargs):
-    layout = kwargs.get('layout')
-    if layout:
-        kwargs.update({
-            'graph': layout(kwargs['stakeholders'])
-        })
+    similarity_type = kwargs.get('similarity_type')
+    stakeholders = kwargs.get('stakeholders', {})
+    nodes = []
+    similars = []
+    for name, data in stakeholders.items():
+        similarities = data.get('similarities', [])
+        icon_prefix = get_node_icon_prefix(similarities)
+        node = {
+            'label': name,
+            'image': static(NODE_ICON_NAME % icon_prefix),
+            'similarities': list(icon_prefix),
+        }
+        nodes.append(node)
+        if similarity_type in similarities:
+            similars.append(name)
+    kwargs.update({
+        'nodes': nodes,
+        'similars': similars,
+    })
     return render(request, 'mapper/picker.html', kwargs)
 
 
@@ -591,7 +614,6 @@ PAGES = [
     {
         'view': picker_view,
         'context': {
-            'layout': circular_layout,
             'similarity_type': 'values',
             'similarity_icon': 'a',
         },
@@ -599,7 +621,6 @@ PAGES = [
     {
         'view': picker_view,
         'context': {
-            'layout': circular_layout,
             'similarity_type': 'working',
             'similarity_icon': 'c',
         },
@@ -607,7 +628,6 @@ PAGES = [
     {
         'view': picker_view,
         'context': {
-            'layout': circular_layout,
             'similarity_type': 'resources',
             'similarity_icon': 'd',
         },
@@ -624,7 +644,6 @@ PAGES = [
     {
         'view': picker_view,
         'context': {
-            'layout': circular_layout,
             'similarity_type': 'custom',
             'similarity_icon': 'b',
         },

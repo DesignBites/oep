@@ -43,12 +43,12 @@
 	{% endif %}
 
 	<div class="row">
-		{% for node in graph.nodes %}
+		{% for node in nodes %}
 		<div class="col-6">
-			<img src="{{ node.image.url }}" width="50" id="node-{{ node.id }}" class="node"
-				 data-label="{{ node.label }}" data-image="{{ node.image.url }}"
+			<img src="{{ node.image }}" width="50" id="node-{{ forloop.counter }}" class="node"
+				 data-name="{{ node.label }}" data-image="{{ node.image }}"
 			>
-			<label for="node-{{ node.id }}">{{ node.label }}</label>
+			<label for="node-{{ forloop.counter }}">{{ node.label }}</label>
 		</div>
 		{% endfor %}
 	</div>
@@ -72,38 +72,47 @@
 			return name.split('');
 	}
 
-	var connections = [];
+	var similarity_icon = '{{ similarity_icon }}';
+	var similars = {{ similars|safe }};
 
 	$('.node').click(function(e) {
-		var name = $(this).data('label');
+		var name = $(this).data('name');
 		var image_url = $(this).data('image');
+		var letters = getIconLetters(image_url);
 
-		if ($(this).attr('src') == $(this).data('image')) {
+		if (similars.indexOf(name) === -1) {
 
 			// add the new similarity and update the icon
 
-			connections.push(name);
-			var letters = getIconLetters(image_url);
-			if (letters.indexOf('{{ similarity_icon }}') === -1) {
-				letters.push('{{ similarity_icon }}');
+			similars.push(name);
+
+			if (letters.indexOf(similarity_icon) === -1) {
+				letters.push(similarity_icon);
 				letters = letters.sort();
 			}
 			$(this).attr('src', '{% static "nodes/" %}' + letters.join('') + '.png');
 
 		} else {
 
-			// remove this similarity and reset the icon
+			// remove this similarity and update the icon
 
-			connections = connections.filter(function(name) {return name != name});
-			$(this).attr('src', $(this).data('image'));
+			similars = similars.filter(function(s) {return s != name});
+			letters = letters.filter(function(letter) {return letter != similarity_icon});
+			letters = letters.sort();
+
+			if (letters.length == 0) letters = ['O'];
+
+			$(this).attr('src', '{% static "nodes/" %}' + letters.join('') + '.png');
 		}
+
+		console.log(similars);
 	});
 
 	$('#btnNext').click(function(e) {
 		e.preventDefault();
 
 		var type = {% if similarity_type_form %}$('#id_similarity').val(){% else %}'{{ similarity_type }}'{% endif %};
-		var data = JSON.stringify({[type]: connections});
+		var data = JSON.stringify({[type]: similars});
 
 		$.ajax({
 			type: 'POST',
