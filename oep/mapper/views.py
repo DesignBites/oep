@@ -242,6 +242,15 @@ def ring_view(request, **kwargs):
         kwargs.update({
             'show_menu': True,
         })
+        if not request.session.get('custom_similarity_parameter'):
+            messages.warning(
+                request,
+                mark_safe(
+                    "You haven't specified your custom parameter yet. <a href='%s'>Add now!</a>" %
+                    #                reverse('mapper_add_parameter')
+                    reverse('mapper_page', kwargs={'page_no': 20})
+                )
+            )
         page_info = PageInfo.objects.filter(page='circles').first()
         if page_info:
             kwargs.update({
@@ -258,15 +267,6 @@ def ring_view(request, **kwargs):
                 custom_similarity_parameter=request.session.get('custom_similarity_parameter'),
             ),
         })
-    if not request.session.get('custom_similarity_parameter'):
-        messages.warning(
-            request,
-            mark_safe(
-                "You haven't specified your custom parameter yet. <a href='%s'>Add now!</a>" %
-#                reverse('mapper_add_parameter')
-                reverse('mapper_page', kwargs={'page_no': 20})
-        )
-        )
     return render(request, 'mapper/ring.html', kwargs)
 
 
