@@ -684,12 +684,14 @@ def page_view(request, page_no, workshop_slug=None):
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
-    next_page = None
+    next_page, prev_page = None, None
     context = page.get('context', {})
     if not context.get('form'):
         next_page = page_no + 1
         if next_page > len(PAGES):
             next_page = None
+    if page_no > 1:
+        prev_page = page_no - 1
     page_info = PageInfo.objects.filter(page=str(page_no)).first()
     if page_info:
         context.update({
@@ -700,6 +702,7 @@ def page_view(request, page_no, workshop_slug=None):
         'stakeholders': request.session.get('stakeholders', {}),
         'page_no': page_no,
         'next_page': next_page,
+        'prev_page': prev_page,
     })
     if workshop_slug:
         context.update({

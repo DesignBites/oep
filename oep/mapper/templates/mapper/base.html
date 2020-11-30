@@ -150,6 +150,11 @@
 				</ul>
 
 				<ul class="navbar-nav ml-auto" id="ulGroups">
+					{% if prev_page %}
+						<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" class="btn btn-outline-primary mr-2" id="btnPrev">
+							Back
+						</a>
+					{% endif %}
 					{% if next_page %}
 						<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
 							Continue
