@@ -144,7 +144,6 @@
 	$nodeList = $('#nodeList');
 
 	$.each(stakeholders, function(name, data) {
-		console.log(name, data);
 		var li ='<li class="list-group-item stakeholder-node" data-id="' + name + '">' + name + '</li>';
 		if ('interact' in data) {
 			$('td[data-interact=' + data.interact + '][data-collaborate=' + data.collaborate + ']').find('ul').append(li);
@@ -165,6 +164,11 @@
 		$(this).find('ul').append($node);
 		$node.removeClass('active');
 		$('#grid td').removeClass('border-warning');
+		if ($('#nodeList li').length > 0) {
+			// if there are still items in the list, select the one at the top
+			$('#nodeList li').first().addClass('active');
+			$('#grid td').addClass('border-warning');
+		}
 	});
 
 	var borderColor = $('#nodeList li').css('borderColor')
