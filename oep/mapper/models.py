@@ -76,9 +76,9 @@ class Map(models.Model):
         _('Size of the organization'),
         choices=ORGANIZATION_SIZES, default=3,
     )
-    purpose = models.ForeignKey(
-        Purpose, verbose_name=_('Your primary purpose of using this tool'),
-        blank=True, null=True, on_delete=models.SET_NULL,
+    purpose = models.TextField(
+        _('Your primary purpose of using this tool'),
+        blank=True, null=True,
     )
     stakeholders = models.JSONField(blank=True, null=True)
     own_parameter = models.CharField(max_length=100, blank=True, null=True)

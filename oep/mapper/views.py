@@ -488,7 +488,7 @@ def map_save(request):
                 'is_own': map_session['is_own'],
                 'sector': get_object_or_404(Sector, id=map_session['sector']),
                 'size': map_session['size'],
-                'purpose': map_session['purpose'] and get_object_or_404(Purpose, id=map_session['purpose']) or None,
+                'purpose': map_session.get('purpose'),
                 'stakeholders': stakeholders,
                 'own_parameter': request.session.get('custom_similarity_parameter'),
             })
