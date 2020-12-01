@@ -1,9 +1,11 @@
 from django.urls import path
 from .views import index, connections_save, grid_save, upload_map, page_view, add_custom_similarity, \
-    ring_view, venn_view, suggest_view, node_add, node_update, node_delete, map_extend, approve_terms, map_save
+    ring_view, venn_view, suggest_view, node_add, node_update, node_delete, map_extend, approve_terms, \
+    map_save, reset_session
 
 
 urlpatterns = [
+    path('reset/', reset_session, name='mapper_reset'),
     path('upload/', upload_map, name='mapper_upload'),
     path('grid/', grid_save, name='mapper_grid_save'),
     path('connections/', connections_save, name='mapper_connections_save'),

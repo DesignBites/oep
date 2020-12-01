@@ -32,7 +32,7 @@
 					<h4 class="card-title">I am creating a new stakeholder map.</h4>
 				</div>
 				<div class="card-footer">
-					<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}"
+					<a href="{% url 'mapper_reset' %}?next={% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}"
 					   class="btn disabled card-link">
 						<img src="{% static 'arrow_right_small.png' %}" width="60">
 					</a>

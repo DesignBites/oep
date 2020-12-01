@@ -14,16 +14,18 @@ from .models import Map, Sector, Workshop, StakeholderType, PageInfo
 from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout, get_node_icon_prefix, NODE_ICON_NAME
 
 
-def reset_session(request, map_data={}):
-    mapper_variables = [
-        'stakeholders',
-        'organization',
-        'custom_similarity_parameter',
-        'workshop',
-        'last_page_no',
-    ]
-    for key in mapper_variables:
-        value = map_data.get(key)
+SESSION_VARIABLES = [
+    'stakeholders',
+    'organization',
+    'custom_similarity_parameter',
+    'workshop',
+    'last_page_no',
+]
+
+
+def reset_session(request):
+    for key in SESSION_VARIABLES:
+        value = request.GET.get(key)
         if value:
             request.session[key] = value
         else:
@@ -31,6 +33,7 @@ def reset_session(request, map_data={}):
                 del request.session[key]
             except KeyError:
                 pass
+    return redirect(request.GET.get('next'))
 
 
 def index(request, workshop_slug=None):
@@ -51,7 +54,7 @@ def index(request, workshop_slug=None):
         messages.warning(
             request,
             mark_safe(
-                'We found an existing stakeholder map for <strong>%(organization)s</strong>. '
+                'We found an existing stakeholder map for <strong>"%(organization)s"</strong>. '
                 'To continue with this map <a href="%(url)s">click here</a>.' % {
                     'organization': request.session['organization'].get('name'),
                     'url': reverse(
@@ -123,14 +126,16 @@ def organisation_form(request, **kwargs):
     if request.method == 'POST':
         form = OrganisationForm(request.POST)
         if form.is_valid():
-            reset_session(request)
             form.save(request, form.cleaned_data)
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
-        form = OrganisationForm(
-            request.session.get('organization', {})
-        )
+        if request.session.get('organization'):
+            form = OrganisationForm(
+                request.session.get('organization')
+            )
+        else:
+            form = OrganisationForm()
     kwargs.update({
         'form': form,
     })
@@ -149,8 +154,15 @@ def upload_map(request):
         form = MapUploadForm(request.POST, request.FILES)
         if form.is_valid():
             map_data = json.loads(form.cleaned_data['map'].read())
-            print(map_data)
-            reset_session(request, map_data)
+            for key in SESSION_VARIABLES:
+                value = map_data.get(key)
+                if value:
+                    request.session[key] = value
+                else:
+                    try:
+                        del request.session[key]
+                    except KeyError:
+                        pass
             page_no = map_data.get('last_page_no', 1)
             return redirect('mapper_page', page_no=page_no)
         else:
