@@ -112,5 +112,5 @@ class PageInfoModelAdminForm(ModelForm):
 @admin.register(PageInfo)
 class PageInfoAdmin(admin.ModelAdmin):
     list_display = ['page', 'title', 'description']
-    list_editable = ['title', 'description']
+    list_editable = ['title']
     form = PageInfoModelAdminForm
