@@ -24,20 +24,15 @@
 
 
 {% block right-content %}
-	{% if title %}
-		<h4>{{ title }}</h4>
+
+	{{ block.super }}
+
+	{% if similarity_type == 'custom' %}
+		<strong>
+			{{ custom_similarity_parameter }}
+		</strong>
 	{% endif %}
 
-	{% if description %}
-		<p class="lead">
-			{{ description|linebreaks }}
-			{% if similarity_type == 'custom' %}
-				<strong>
-					{{ custom_similarity_parameter }}
-				</strong>
-			{% endif %}
-		</p>
-	{% endif %}
 {% endblock %}
 
 
