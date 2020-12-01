@@ -575,7 +575,7 @@ $(document).ready(function() {
 
         $('#editSidebar').collapse('show');
 
-		var name = node.label.trim();
+		var name = node.fullLabel;
 		var stakeholder = stakeholders[name];
 
 		console.log(stakeholder);
@@ -583,6 +583,8 @@ $(document).ready(function() {
 		$form.find('input[type=checkbox]').prop('checked', false);
 
 		$form.find('[name=name]').val(name);
+		$form.find('[name=original_name]').val(name);
+
 		if ('similarities' in stakeholder) {
 			$form.find('[name=values]').prop('checked', stakeholder.similarities.indexOf('values') >= 0);
 			$form.find('[name=working]').prop('checked', stakeholder.similarities.indexOf('working') >= 0);

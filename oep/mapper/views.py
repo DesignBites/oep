@@ -331,6 +331,10 @@ class StakeholderForm(forms.Form):
     name = forms.CharField(
         label='What is the name of this organisation?',
     )
+    original_name = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
     interact = forms.ChoiceField(
         label='How often do you interact with each other?',
         choices=(
@@ -442,6 +446,8 @@ def node_update(request):
                 'similarities': similarities,
                 'custom': custom,
             }
+            if data['name'] != data['original_name']:
+                del stakeholders[data['original_name']]
             request.session['stakeholders'] = stakeholders
             return JsonResponse({
                 'stakeholders': stakeholders,
