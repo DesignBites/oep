@@ -107,12 +107,15 @@ def organisation_form(request, **kwargs):
     if request.method == 'POST':
         form = OrganisationForm(request.POST)
         if form.is_valid():
+            reset_session(request)
             form.save(request, form.cleaned_data)
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
-        reset_session(request)
-        form = OrganisationForm()
+        print(request.session.get('organization', {}))
+        form = OrganisationForm(
+            request.session.get('organization', {})
+        )
     kwargs.update({
         'form': form,
     })
