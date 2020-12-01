@@ -96,7 +96,7 @@ class OrganisationForm(forms.Form):
             (2, '5 - 9'),
             (3, '> 9'),
         ),
-    widget = forms.RadioSelect(),
+        widget=forms.RadioSelect(),
     )
     purpose = forms.CharField(
         label='What is your main purpose for using this tool?',
