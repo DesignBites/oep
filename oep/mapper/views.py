@@ -35,9 +35,16 @@ def index(request, workshop_slug=None):
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
-    return render(request, 'mapper/index.html', {
+    context = {
         'workshop': workshop,
-    })
+    }
+    page_info = PageInfo.objects.filter(page='index').first()
+    if page_info:
+        context.update({
+            'title': page_info.title,
+            'description': page_info.description,
+        })
+    return render(request, 'mapper/index.html', context)
 
 
 def sector_choices():
@@ -402,15 +409,14 @@ def node_add(request, **kwargs):
             else:
                 return redirect('mapper_ring')
     else:
+        show_menu = kwargs == {}
         form = StakeholderForm(
-            custom_similarity_parameter=request.session.get('custom_similarity_parameter')
+            custom_similarity_parameter=request.session.get('custom_similarity_parameter'),
+            show_similarities=show_menu,
         )
-    if kwargs == {}:
-        kwargs.update({
-            'show_menu': True,
-        })
     kwargs.update({
         'form': form,
+        'show_menu': show_menu,
     })
     return render(request, 'mapper/add.html', kwargs)
 

@@ -33,25 +33,19 @@
 
 {% block content %}
 
-<div class="container">
+	<div id="canvas" class="w-100"></div>
 
-	<div class="row">
-		<div class="col-9">
-			<div id="canvas" class="w-100"></div>
-		</div>
-		<div class="col-3">
-			<h5>
-				{{ title }}
-			</h5>
+{% endblock %}
 
-			{% if description %}
-				{{ description|linebreaks }}
-			{% endif %}
-		</div>
-	</div>
 
-</div>
+{% block right-content %}
+	{% if title %}
+		<h4>{{ title }}</h4>
+	{% endif %}
 
+	{% if description %}
+		<p class="lead">{{ description|linebreaks }}</p>
+	{% endif %}
 {% endblock %}
 
 

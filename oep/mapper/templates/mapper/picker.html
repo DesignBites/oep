@@ -23,6 +23,24 @@
 {% endblock %}
 
 
+{% block right-content %}
+	{% if title %}
+		<h4>{{ title }}</h4>
+	{% endif %}
+
+	{% if description %}
+		<p class="lead">
+			{{ description|linebreaks }}
+			{% if similarity_type == 'custom' %}
+				<strong>
+					{{ custom_similarity_parameter }}
+				</strong>
+			{% endif %}
+		</p>
+	{% endif %}
+{% endblock %}
+
+
 {% block content %}
 
 <div class="container">

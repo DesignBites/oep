@@ -56,22 +56,20 @@
 
 {% block right-content %}
 
-<h4>
-	Your privacy
-</h4>
+	{% if title %}
+		<h4>{{ title }}</h4>
+	{% endif %}
 
-<p>
-	We use cookies to ensure the functionality of our tool, and to analyze our traffic.
-	Additionally, we gather anonymous data for research purposes.
-	No identifiable data will ever be shared or published. Read more about how we protect your data.
-</p>
+	{% if description %}
+		<p class="lead">{{ description|linebreaks }}</p>
+	{% endif %}
 
-<button class="btn btn-primary my-3">
-	Accept cookies, and agree to saving anonymised data for research purposes
-</button>
+	<button class="btn btn-primary my-3">
+		Accept cookies, and agree to saving anonymised data for research purposes
+	</button>
 
-<button class="btn btn-outline-primary my-3">
-	Accept cookies, and disagree to saving anonymised data for research purposes
-</button>
+	<button class="btn btn-outline-primary my-3">
+		Accept cookies, and disagree to saving anonymised data for research purposes
+	</button>
 
 {% endblock %}

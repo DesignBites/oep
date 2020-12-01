@@ -76,7 +76,7 @@
 
 
 {% block logo %}
-<div class="fixed-top">
+<div class="fixed-top" style="z-index: -1!important">
 	<a class="navbar-brand" data-toggle="modal" data-target="#confirmStartOver"
 	   href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}">
 		<img src="{% static 'mapper-logo.png' %}" width="100" class="ml-3 mt-2">
@@ -227,7 +227,7 @@
 
 		<div class="row">
 
-			<div class="col">
+			<div class="col offset-1 mt-5">
 
 				{% for message in messages %}
 

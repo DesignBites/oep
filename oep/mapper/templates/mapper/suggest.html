@@ -17,74 +17,68 @@
 {% endblock %}
 
 
+{% block right-content %}
+	{% if title %}
+		<h4>{{ title }}</h4>
+	{% endif %}
+
+	{% if description %}
+		<p class="lead">{{ description|linebreaks }}</p>
+	{% endif %}
+{% endblock %}
+
+
 {% block content %}
 
-<div class="container">
-
-	<div class="row">
-
-		{% if title %}
-			<h2>{{ title }}</h2>
-
-		{% endif %}
-
-		{% if description %}
-			<p class="lead">{{ description|linebreaks }}</p>
-		{% endif %}
-
-		<table class="table table-borderless">
-			<tr>
-				<td class="border-right">
-					<h4>
-						Far friends
-					</h4>
-					{% for stakeholder in quadrants.q1 %}
-					<div class="">
-						<img src="{{ stakeholder.icon }}" width="50">
-						{{ stakeholder.name }}
-					</div>
-					{% endfor %}
-				</td>
-				<td class="border-bottom">
-					<h4>
-						Wild cards
-					</h4>
-					{% for stakeholder in quadrants.q2 %}
-					<div class="">
-						<img src="{{ stakeholder.icon }}" width="50">
-						{{ stakeholder.name }}
-					</div>
-					{% endfor %}
-				</td>
-			</tr>
-			<tr>
-				<td class="border-top">
-					<h4>
-						Low-hanging fruit
-					</h4>
-					{% for stakeholder in quadrants.q3 %}
-					<div class="">
-						<img src="{{ stakeholder.icon }}" width="50">
-						{{ stakeholder.name }}
-					</div>
-					{% endfor %}
-				</td>
-				<td class="border-left">
-					<h4>
-						Over-looked potential
-					</h4>
-					{% for stakeholder in quadrants.q4 %}
-					<div class="">
-						<img src="{{ stakeholder.icon }}" width="50">
-						{{ stakeholder.name }}
-					</div>
-					{% endfor %}
-				</td>
-			</tr>
-		</table>
-
-	</div>
-
-</div>
+	<table class="table table-borderless">
+		<tr>
+			<td class="border-right">
+				<h4>
+					Far friends
+				</h4>
+				{% for stakeholder in quadrants.q1 %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+			</td>
+			<td class="border-bottom">
+				<h4>
+					Wild cards
+				</h4>
+				{% for stakeholder in quadrants.q2 %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<td class="border-top">
+				<h4>
+					Low-hanging fruit
+				</h4>
+				{% for stakeholder in quadrants.q3 %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+			</td>
+			<td class="border-left">
+				<h4>
+					Over-looked potential
+				</h4>
+				{% for stakeholder in quadrants.q4 %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
 
 {% endblock %}

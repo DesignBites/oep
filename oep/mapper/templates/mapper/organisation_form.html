@@ -9,24 +9,23 @@
 {% endblock %}
 
 
-{% block content %}
-
-<div class="container">
-
+{% block right-content %}
 	{% if title %}
-		<h2>{{ title|safe }}</h2>
+		<h4>{{ title }}</h4>
 	{% endif %}
 
 	{% if description %}
 		<p class="lead">{{ description|linebreaks }}</p>
 	{% endif %}
+{% endblock %}
+
+
+{% block content %}
 
 	<form method="post" id="organisationForm">
 		{% csrf_token %}
 		{{ form|crispy }}
 	</form>
-
-</div>
 
 {% endblock %}
 
