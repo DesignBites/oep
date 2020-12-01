@@ -511,9 +511,10 @@ def map_extend(request):
 
 @csrf_exempt
 def approve_terms(request):
-    request.session['terms_ok'] = True
+    ok = request.POST.get('ok', True)
+    request.session['terms_ok'] = ok
     return JsonResponse({
-        'terms_ok': True,
+        'terms_ok': ok,
     })
 
 
