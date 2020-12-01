@@ -2,25 +2,7 @@
 {% load i18n static crispy_forms_tags %}
 
 
-{% block right %}
-{% endblock %}
-
-
 {% block content %}
-
-<div class="container">
-
-	{% if organization %}
-
-		<div class="alert alert-warning my-4">
-			We found an existing stakeholder map for <strong>{{ organization.name }}</strong>.
-			To continue with this map
-			<a href="{% url 'mapper_page' page_no=last_page_no %}">
-				click here
-			</a>
-		</div>
-
-	{% endif %}
 
 	<h2>
 		Upload an existing map
@@ -34,10 +16,11 @@
 		</button>
 	</form>
 
-</div>
-
 {% endblock %}
 
+
+{% block right %}
+{% endblock %}
 
 {% block top %}
 {% endblock %}

@@ -18,7 +18,7 @@
 
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title display-4">I am continuing a previously created stakeholder map.</h5>
+					<h4 class="card-title">I am continuing a previously created stakeholder map.</h4>
 				</div>
 				<div class="card-footer">
 					<a href="{% url 'mapper_upload' %}" class="card-link stretched-link">
@@ -30,7 +30,7 @@
 
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title display-4">I am creating a new stakeholder map.</h5>
+					<h4 class="card-title">I am creating a new stakeholder map.</h4>
 				</div>
 				<div class="card-footer">
 					<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}" class="card-link stretched-link">

@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django import forms
 from django.contrib import messages
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.safestring import mark_safe
 from django.templatetags.static import static
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
@@ -45,6 +47,20 @@ def index(request, workshop_slug=None):
             'title': page_info.title,
             'description': page_info.description,
         })
+    if request.session.get('organization'):
+        messages.warning(
+            request,
+            mark_safe(
+                'We found an existing stakeholder map for <strong>%(organization)s</strong>. '
+                'To continue with this map <a href="%(url)s">click here</a>.' % {
+                    'organization': request.session['organization'].get('name'),
+                    'url': reverse(
+                        'mapper_page',
+                        kwargs={'page_no': request.session.get('last_page_no', 1)}
+                    )
+                }
+            )
+        )
     return render(request, 'mapper/index.html', context)
 
 
@@ -96,8 +112,8 @@ class OrganisationForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-md-4'
-        self.helper.field_class = 'col-md-8'
+        self.helper.label_class = 'col-md-6'
+        self.helper.field_class = 'col-md-6'
 
     def save(self, request, cleaned_data):
         request.session['organization'] = cleaned_data
@@ -112,7 +128,6 @@ def organisation_form(request, **kwargs):
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
-        print(request.session.get('organization', {}))
         form = OrganisationForm(
             request.session.get('organization', {})
         )
@@ -139,7 +154,6 @@ def upload_map(request):
             page_no = map_data.get('last_page_no', 1)
             return redirect('mapper_page', page_no=page_no)
         else:
-            messages.warning(request, form.errors)
             messages.warning(request, 'The file is not valid. Please start over.')
             return redirect('mapper_page', page_no=1)
     return render(request, 'mapper/upload.html', {
