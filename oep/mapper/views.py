@@ -25,14 +25,10 @@ SESSION_VARIABLES = [
 
 def reset_session(request):
     for key in SESSION_VARIABLES:
-        value = request.GET.get(key)
-        if value:
-            request.session[key] = value
-        else:
-            try:
-                del request.session[key]
-            except KeyError:
-                pass
+        try:
+            del request.session[key]
+        except KeyError:
+            pass
     return redirect(request.GET.get('next'))
 
 
@@ -237,6 +233,11 @@ class StakeholderBatchForm(forms.Form):
                 widget=forms.TextInput(attrs=attrs),
             )
             i += 1
+        # FIXME: crispy helpers not working
+        #self.helper = FormHelper()
+        #self.helper.form_class = 'form-horizontal'
+        #self.helper.label_class = 'col-md-6'
+        #self.helper.field_class = 'col-md-6'
 
     def save(self, request, cleaned_data):
         stakeholders = request.session.get('stakeholders') or {}

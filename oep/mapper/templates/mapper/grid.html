@@ -15,6 +15,7 @@
 
 	#grid ul {
 		padding-bottom: 30px;
+		min-height: 170px;
 	}
 
 	.table .vertical {
@@ -23,6 +24,7 @@
 	}
 
 	.table .vertical span {
+		padding: 10px 3px 10px 3px;
 		white-space: nowrap;
 		writing-mode: tb-rl;
 		transform-origin: 50% 50%;
@@ -33,10 +35,6 @@
 		transform: rotate(180deg);
 	}
 
-	#grid td {
-		width: 200px;
-		height: 200px;
-	}
 	</style>
 
 {% endblock %}
@@ -57,28 +55,47 @@
 
 		<div class="col-9">
 
-			<table class="table table-borderless" id="grid">
+			<table class="table table-sm table-borderless" id="grid">
+				<tr>
+					<td></td>
+					<td></td>
+					<td align="center" colspan="3">
+						<strong class="">We've collaborated creatively</strong>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td align="center">
+						<span class="badge badge-warning">never</span>
+					</td>
+					<td align="center">
+						<span class="badge badge-warning">once or twice</span>
+					</td>
+					<td align="center">
+						<strong class="badge badge-warning">many times</strong>
+					</td>
+				</tr>
 				<tr class="border-0">
+					<td class="vertical" rowspan="3">
+						<span><strong>We interact</strong></span>
+					</td>
 					<td class="vertical">
-						<span>regularly</span>
+						<span class="badge badge-warning">regularly</span>
 					</td>
-					<td data-interact="3" data-collaborate="1" class="border">
+					<td data-interact="3" data-collaborate="1" class="border" width="33%">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="2" class="border">
+					<td data-interact="3" data-collaborate="2" class="border" width="33%">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="3" class="border">
+					<td data-interact="3" data-collaborate="3" class="border" width="33%">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
 				<tr>
 					<td class="vertical">
-						<span>
-							<strong>Interaction</strong>
-							<br><br>
-							sometimes
-						</span>
+						<span class="badge badge-warning">sometimes</span>
 					</td>
 					<td data-interact="2" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
@@ -92,7 +109,7 @@
 				</tr>
 				<tr>
 					<td class="vertical">
-						<span>hardly ever</span>
+						<span class="badge badge-warning">hardly ever</span>
 					</td>
 					<td data-interact="1" data-collaborate="1" class="border">
 						<ul class="list-group list-group-flush"></ul>
@@ -102,22 +119,6 @@
 					</td>
 					<td data-interact="1" data-collaborate="3" class="border">
 						<ul class="list-group list-group-flush"></ul>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td align="center">never</td>
-					<td align="center">
-						<span>
-							once or twice
-							<br><br>
-							<strong>Collaboration</strong>
-						</span>
-					</td>
-					<td align="center">
-						<span>
-							many times
-						</span>
 					</td>
 				</tr>
 			</table>
