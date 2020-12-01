@@ -6,7 +6,7 @@ from slugify import slugify
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import admin
-from .models import Map, Sector, Purpose, StakeholderType, Workshop, PageInfo
+from .models import Map, Sector, StakeholderType, Workshop, PageInfo
 
 
 @admin.register(Map)
@@ -53,11 +53,6 @@ class MapAdmin(admin.ModelAdmin):
 @admin.register(Sector)
 class SectorAdmin(admin.ModelAdmin):
     list_display = ['name']
-
-
-@admin.register(Purpose)
-class PurposeAdmin(admin.ModelAdmin):
-    list_display = ['description']
 
 
 @admin.register(StakeholderType)

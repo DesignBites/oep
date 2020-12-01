@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.templatetags.static import static
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
-from .models import Map, Sector, Purpose, Workshop, StakeholderType, PageInfo
+from crispy_forms.helper import FormHelper
+from .models import Map, Sector, Workshop, StakeholderType, PageInfo
 from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout, get_node_icon_prefix, NODE_ICON_NAME
 
 
@@ -58,9 +59,15 @@ class OrganisationForm(forms.Form):
         label='Which organization are you making a stakeholder map of?',
         widget=forms.TextInput(attrs={'placeholder': 'Input name of organisation or team'}),
     )
-    is_own = forms.BooleanField(
+    is_own = forms.ChoiceField(
         label='Is this your own organisation or team?',
+        choices=(
+            (True, 'Yes'),
+            (False, 'No'),
+        ),
+        widget=forms.RadioSelect(),
         required=False,
+        initial=True,
     )
     sector = forms.ChoiceField(
         label='What is your key sector?',
@@ -80,9 +87,17 @@ class OrganisationForm(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={
             'placeholder': 'Describe why you are here, what you hope to get out of it. '
-                           'This helps us developing the tool better.'
+                           'This helps us developing the tool better.',
+            'rows': 2,
         }),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-md-4'
+        self.helper.field_class = 'col-md-8'
 
     def save(self, request, cleaned_data):
         request.session['organization'] = cleaned_data

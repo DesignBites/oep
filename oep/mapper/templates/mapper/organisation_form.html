@@ -6,17 +6,12 @@
 
     <link href="{% static 'tagsinput.css' %}" rel="stylesheet">
 
-{% endblock %}
+	<style>
+		.custom-radio {
+			display: inline;
+		}
+	</style>
 
-
-{% block right-content %}
-	{% if title %}
-		<h4>{{ title }}</h4>
-	{% endif %}
-
-	{% if description %}
-		<p class="lead">{{ description|linebreaks }}</p>
-	{% endif %}
 {% endblock %}
 
 
@@ -24,7 +19,11 @@
 
 	<form method="post" id="organisationForm">
 		{% csrf_token %}
-		{{ form|crispy }}
+
+		{% for field in form %}
+			{{ field|as_crispy_field }}
+		{% endfor %}
+
 	</form>
 
 {% endblock %}
@@ -43,4 +42,11 @@
 
 	</script>
 
+{% endblock %}
+
+
+{% block top %}
+{% endblock %}
+
+{% block bottom %}
 {% endblock %}

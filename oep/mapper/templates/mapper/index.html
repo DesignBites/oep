@@ -1,12 +1,6 @@
 {% extends 'mapper/base.html' %}
 {% load i18n static crispy_forms_tags %}
 
-{% block top %}
-{% endblock %}
-
-{% block bottom %}
-{% endblock %}
-
 
 {% block content %}
 
@@ -56,15 +50,9 @@
 
 {% block right-content %}
 
-	{% if title %}
-		<h4>{{ title }}</h4>
-	{% endif %}
+	{{ block.super }}
 
-	{% if description %}
-		<p class="lead">{{ description|linebreaks }}</p>
-	{% endif %}
-
-	<button class="btn btn-primary my-3">
+	<button class="btn btn-primary my-3" id="terms">
 		Accept cookies, and agree to saving anonymised data for research purposes
 	</button>
 
@@ -72,4 +60,11 @@
 		Accept cookies, and disagree to saving anonymised data for research purposes
 	</button>
 
+{% endblock %}
+
+
+{% block top %}
+{% endblock %}
+
+{% block bottom %}
 {% endblock %}

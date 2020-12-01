@@ -21,6 +21,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
 	<style>
+
+		html, body {
+			height: 100%;
+		}
+
 		.wrapper {
 			display: flex;
 			height: 100%;
@@ -159,23 +164,6 @@
 					</li>
 				</ul>
 
-				<ul class="navbar-nav ml-auto" id="ulGroups">
-					{% if prev_page %}
-						<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" class="btn btn-outline-primary mr-2" id="btnPrev">
-							Back
-						</a>
-					{% endif %}
-					{% if next_page %}
-						<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
-							Continue
-						</a>
-					{% elif modal and not terms_ok %}
-						<a href="#" class="btn btn-primary" id="btnModal" data-toggle="modal" data-target="#{{ modal }}">
-							Data & privacy
-						</a>
-					{% endif %}
-				</ul>
-
 			</div>
 
 		</div>
@@ -223,9 +211,9 @@
 	{% endif %}
 
 
-	<div class="container-fluid">
+	<div class="container-fluid h-100">
 
-		<div class="row">
+		<div class="row h-100">
 
 			<div class="col offset-1 mt-5">
 
@@ -246,11 +234,40 @@
 			</div>
 
 			{% block right %}
-			<div class="col-3" style="background-color: #fcf2d7;">
+			<div class="col-3 h-100" id="right-sidebar" style="background-color: #fcf2d7;">
 
 				<div class="mt-3">
+
 					{% block right-content %}
+
+						{% if title %}
+							<h4>{{ title }}</h4>
+						{% endif %}
+
+						{% if description %}
+							<p class="lead">{{ description|linebreaks }}</p>
+						{% endif %}
+
+
+						<div class="nav-buttons">
+							{% if prev_page %}
+								<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" class="btn btn-outline-primary mr-2" id="btnPrev">
+									Back
+								</a>
+							{% endif %}
+							{% if next_page %}
+								<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
+									Continue
+								</a>
+							{% elif modal and not terms_ok %}
+								<a href="#" class="btn btn-primary" id="btnModal" data-toggle="modal" data-target="#{{ modal }}">
+									Data & privacy
+								</a>
+							{% endif %}
+						</div>
+
 					{% endblock %}
+
 				</div>
 
 			</div>
