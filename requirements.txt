@@ -12,3 +12,4 @@ qrcode
 networkx
 numpy
 wagtail
+django-trumbowyg

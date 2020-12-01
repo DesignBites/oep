@@ -6,6 +6,8 @@ from slugify import slugify
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import admin
+from django.forms import ModelForm
+from trumbowyg.widgets import TrumbowygWidget
 from .models import Map, Sector, StakeholderType, Workshop, PageInfo
 
 
@@ -98,7 +100,17 @@ class WorkshopAdmin(admin.ModelAdmin):
     get_qr.short_description = 'Get QR code'
 
 
+class PageInfoModelAdminForm(ModelForm):
+    class Meta:
+        model = PageInfo
+        fields = ['page', 'title', 'description']
+        widgets = {
+            'description': TrumbowygWidget(),
+        }
+
+
 @admin.register(PageInfo)
 class PageInfoAdmin(admin.ModelAdmin):
     list_display = ['page', 'title', 'description']
     list_editable = ['title', 'description']
+    form = PageInfoModelAdminForm

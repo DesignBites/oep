@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'taggit',
     'modelcluster',
 
+    'trumbowyg',
+
     'crispy_forms',
 
     'oep.mapper',

@@ -279,7 +279,9 @@
 						{% endif %}
 
 						{% if description %}
-							<p class="lead">{{ description|linebreaks }}</p>
+						<div class="">
+							{{ description|safe }}
+						</div>
 						{% endif %}
 
 

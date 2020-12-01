@@ -10,6 +10,7 @@ from .views import set_language
 
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('lang/', set_language, name='set_lang'),
 
@@ -18,7 +19,9 @@ urlpatterns = [
     path('pages/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
 
-    path(r'', include(wagtail_urls)),
+    path('', include(wagtail_urls)),
+
+    path('trumbowyg/', include('trumbowyg.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
