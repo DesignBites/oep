@@ -67,7 +67,6 @@ class OrganisationForm(forms.Form):
         ),
         widget=forms.RadioSelect(),
         required=False,
-        initial=True,
     )
     sector = forms.ChoiceField(
         label='What is your key sector?',
@@ -80,7 +79,8 @@ class OrganisationForm(forms.Form):
             (1, '< 5'),
             (2, '5 - 9'),
             (3, '> 9'),
-        )
+        ),
+    widget = forms.RadioSelect(),
     )
     purpose = forms.CharField(
         label='What is your main purpose for using this tool?',

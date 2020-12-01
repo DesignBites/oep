@@ -26,6 +26,41 @@
 			height: 100%;
 		}
 
+        @font-face {
+            font-family: 'GillSans';
+            src: url('{% static "fonts/GillSans.woff" %}');
+        }
+        @font-face {
+            font-family: 'GillSansSemiBold';
+            src: url('{% static "fonts/GillSans-SemiBold.woff" %}');
+        }
+        @font-face {
+            font-family: 'GillSansBold';
+            src: url('{% static "fonts/GillSans-Bold.woff" %}');
+        }
+        @font-face {
+            font-family: 'NimbusSans';
+            src: url('{% static "fonts/NimbusSans.woff" %}');
+        }
+
+        html, body {
+            font-family: NimbusSans, Arial, Helvetica, sans-serif;
+            letter-spacing: .025em;
+            color: #242847;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'GillSansSemiBold';
+            letter-spacing: .1em;
+            color: #242847;
+        }
+
+        h5, h6 {
+            font-family: 'GillSans';
+            letter-spacing: .1em;
+            color: #242847;
+        }
+
 		.wrapper {
 			display: flex;
 			height: 100%;
