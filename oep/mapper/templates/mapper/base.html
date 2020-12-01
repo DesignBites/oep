@@ -249,21 +249,21 @@
 						{% endif %}
 
 
-						<div class="nav-buttons">
+						<div class="row nav-buttons">
+							<div class="col">
 							{% if prev_page %}
-								<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" class="btn btn-outline-primary mr-2" id="btnPrev">
-									Back
+								<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" id="btnPrev">
+									<img src="{% static 'arrow_left_small.png' %}" width="50">
 								</a>
 							{% endif %}
+							</div>
+							<div class="col">
 							{% if next_page %}
-								<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" class="btn btn-primary" id="btnNext">
-									Continue
-								</a>
-							{% elif modal and not terms_ok %}
-								<a href="#" class="btn btn-primary" id="btnModal" data-toggle="modal" data-target="#{{ modal }}">
-									Data & privacy
+								<a class="float-right" href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" id="btnNext">
+									<img src="{% static 'arrow_right_small.png' %}" width="50">
 								</a>
 							{% endif %}
+							</div>
 						</div>
 
 					{% endblock %}

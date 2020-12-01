@@ -110,8 +110,9 @@ def organisation_form(request, **kwargs):
             form.save(request, form.cleaned_data)
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
-    reset_session(request)
-    form = OrganisationForm()
+    else:
+        reset_session(request)
+        form = OrganisationForm()
     kwargs.update({
         'form': form,
     })
