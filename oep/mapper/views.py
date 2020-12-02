@@ -441,12 +441,12 @@ def node_add(request, **kwargs):
                 similarities.append('working')
             if data.get('resources'):
                 similarities.append('resources')
-            custom = data.get('custom') and 1 or 0
+            if data.get('custom'):
+                similarities.append('custom')
             stakeholders[data['name']] = {
                 'interact': int(data['interact']),
                 'collaborate': int(data['collaborate']),
                 'similarities': similarities,
-                'custom': custom,
             }
             request.session['stakeholders'] = stakeholders
             if kwargs.get('next_page'):
@@ -480,15 +480,19 @@ def node_update(request):
                 similarities.append('working')
             if data.get('resources'):
                 similarities.append('resources')
-            custom = data.get('custom') and 1 or 0
+            if data.get('custom'):
+                similarities.append('custom')
             stakeholders[data['name']] = {
                 'interact': int(data['interact']),
                 'collaborate': int(data['collaborate']),
                 'similarities': similarities,
-                'custom': custom,
             }
             if data['name'] != data['original_name']:
-                del stakeholders[data['original_name']]
+                try:
+                    del stakeholders[data['original_name']]
+                except KeyError:
+                    # adding new node
+                    pass
             request.session['stakeholders'] = stakeholders
             return JsonResponse({
                 'stakeholders': stakeholders,
