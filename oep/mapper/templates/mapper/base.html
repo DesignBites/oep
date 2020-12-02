@@ -77,31 +77,6 @@
 			right: 0px;
         }
 
-		.wrapper {
-			display: flex;
-			height: 100%;
-			width: 100%;
-			align-items: stretch;
-
-			position: relative;
-			margin: 0 auto;
-		}
-		#filterSidebar {
-			min-width: 250px;
-			max-width: 250px;
-			height: 100%;
-		}
-		#filterSidebar.active {
-			margin-left: -250px;
-		}
-		#editSidebar {
-			min-width: 250px;
-			max-width: 250px;
-			height: 100%;
-		}
-		#editSidebar.active {
-			margin-left: -250px;
-		}
 </style>
 
     {% block head %}
@@ -111,16 +86,6 @@
 
 
 <body>
-
-
-{% block logo %}
-<div class="fixed-top" style="z-index: -1!important">
-	<a class="navbar-brand" data-toggle="modal" data-target="#confirmStartOver"
-	   href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}">
-		<img src="{% static 'mapper-logo.png' %}" width="100" class="ml-3 mt-2">
-	</a>
-</div>
-{% endblock %}
 
 
 {% block top %}
@@ -133,73 +98,81 @@
 {% endblock %}
 
 
-<div class="wrapper h-100">
+<div class="container-fluid h-100">
 
-	<div class="container-fluid h-100">
+	<div class="row h-100">
 
-		<div class="row h-100">
+		<div class="col-1 text-center">
 
-			<div class="col offset-1 mt-5">
+			<a class="navbar-brand" href="{% url 'mapper_index' %}">
+				<img src="{% static 'mapper-logo.png' %}" width="100" class="ml-3 mt-2">
+			</a>
 
-				{% for message in messages %}
+			{% block floating-menu %}
+			{% if not page_no %}
+			<div class="mt-5 ml-4" id="floating-menu">
+				{% include "mapper/floating_menu.html" %}
+			</div>
+			{% endif %}
+			{% endblock %}
 
-					<div class="alert alert-warning alert-dismissible mb-4">
-						{{ message }}
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
+		</div>
 
-				{% endfor %}
+		<div class="col mt-5">
 
-				{% block content %}
-				{% endblock %}
+			{% for message in messages %}
 
-				{% block floating-menu %}
-				{% if not page_no %}
-				<div class="fixed-bottom mb-4 ml-4" id="floating-menu">
-					{% include "mapper/floating_menu.html" %}
+				<div class="alert alert-warning alert-dismissible mb-4">
+					{{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				{% endif %}
-				{% endblock %}
+
+			{% endfor %}
+
+			{% block content %}
+			{% endblock %}
+
+		</div>
+
+		{% if page_no %}
+
+			{% block right %}
+
+			{# offset the sidebar #}
+			<div class="col-3"></div>
+
+			<div class="col-3" id="right-sidebar">
+
+				{% include "mapper/sidebar.html" %}
 
 			</div>
 
-			{% if page_no %}
+			{% endblock %}
 
-				{% block right %}
+		{% endif %}
 
-				{# offset the sidebar #}
-				<div class="col-3"></div>
+		<div class="col-3 d-none p-3" id="infoSidebar" style="z-index: 10000!important">
 
-				<div class="col-3" id="right-sidebar">
+			<div id="infoLegend" class="sidebarContent d-none">
+				{% include "mapper/info_legend.html" %}
+			</div>
 
-					{% include "mapper/sidebar.html" %}
+			<div id="infoFilter" class="sidebarContent d-none">
+				{% include "mapper/info_filter.html" %}
+			</div>
 
-				</div>
+			<div id="infoView" class="sidebarContent d-none">
+				{% include "mapper/info_view.html" %}
+			</div>
 
-				{% endblock %}
+			<div id="infoDownload" class="sidebarContent d-none">
+				{% include "mapper/info_download.html" %}
+			</div>
 
-			{% endif %}
-
-			<div class="col-3 d-none p-3" id="infoSidebar" style="z-index: 10000!important">
-
-				<div id="infoLegend" class="sidebarContent d-none">
-					{% include "mapper/info_legend.html" %}
-				</div>
-
-				<div id="infoFilter" class="sidebarContent d-none">
-					{% include "mapper/info_filter.html" %}
-				</div>
-
-				<div id="infoView" class="sidebarContent d-none">
-					{% include "mapper/info_view.html" %}
-				</div>
-
-				<div id="infoDownload" class="sidebarContent d-none">
-					{% include "mapper/info_download.html" %}
-				</div>
-
+			<div id="infoUpdate" class="sidebarContent d-none">
+				{% include "mapper/info_update.html" %}
 			</div>
 
 		</div>
@@ -508,9 +481,16 @@ $(document).ready(function() {
 
 	{% if stakeholder_form %}
 
-	// edit nodes
+	// update nodes
 
 	s.bind('clickNode', function(e) {
+
+		// show sidebar update form
+		$('.sidebarContent').addClass('d-none');
+		$('#infoSidebar').removeClass('d-none');
+		$('#infoUpdate').removeClass('d-none');
+		$('.menuButton').removeClass('active');
+
 		var $form = $('#nodeUpdateForm');
 
 		var node = e.data.node;

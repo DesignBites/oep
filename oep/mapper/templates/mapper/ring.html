@@ -115,14 +115,14 @@
 
 	s.bind('overNode', function(e) {
 		if (e.data.node.id != 0) {
-			e.data.node.label = e.data.node.fullLabel;
+			e.data.node.label = ' ' + e.data.node.fullLabel;
 			s.refresh();
 		}
 	});
 
 	s.bind('outNode', function(e) {
 		if (e.data.node.id != 0) {
-			e.data.node.label = e.data.node.shortLabel;
+			e.data.node.label = ' ' + e.data.node.shortLabel;
 			s.refresh();
 		}
 	});
