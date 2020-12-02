@@ -39,22 +39,7 @@
 {% block content %}
 
 <div class="container">
-
-	{% if title %}
-		<h2>{{ title }}</h2>
-	{% endif %}
-
-	{% if description %}
-		<p class="lead">
-			{{ description|linebreaks }}
-			{% if similarity_type == 'custom' %}
-				<strong>
-					{{ custom_similarity_parameter }}
-				</strong>
-			{% endif %}
-		</p>
-	{% endif %}
-
+	
 	<div class="row">
 		{% for node in nodes %}
 		<div class="col-6">
