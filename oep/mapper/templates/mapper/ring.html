@@ -20,7 +20,6 @@
 		height: 100%;
 	}
 	#canvas {
-		width: 600px; height: 600px;
 		background-image: url({% static 'ring_bg.svg' %});
 		background-position:center center;
 		background-size: 100% 100%;
@@ -33,7 +32,7 @@
 
 {% block content %}
 
-	<div id="canvas" class="w-100"></div>
+	<div id="canvas" class="w-100 h-100 mb-4"></div>
 
 {% endblock %}
 
@@ -52,6 +51,11 @@
 
 	var organization = {{ organization|safe|lower }};
 
+	var canvasWidth = $('#canvas').width();
+	var canvasHeight = $('#canvas').height();
+	
+	var multiplier = Math.min(canvasWidth, canvasHeight) / 600;
+
 	$.each(nodes, function(index, node) {
 
 		if (node.id == 0) {
@@ -67,8 +71,8 @@
 			label: ' ' + node.label,
 			fullLabel: node.fullLabel,
 			shortLabel: node.shortLabel,
-			x: node.x,
-			y: node.y,
+			x: node.x * multiplier,
+			y: node.y * multiplier,
 			size: node.size,
 			color: node.color,
 			type: 'circle',
