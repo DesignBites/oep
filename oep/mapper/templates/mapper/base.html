@@ -316,6 +316,8 @@ $(document).ready(function() {
 		}
 	});
 
+	console.log(stakeholders_filtered);
+
 	// initial filter state
 	var filter_state = {
 		interact: [1, 2, 3],
@@ -351,10 +353,12 @@ $(document).ready(function() {
 		});
 
 		s.graph.nodes().forEach(function(n) {
-			if (filtered.indexOf(n.label.trim()) !== -1) {
-				n.hidden = false;
-			} else if (n.id != 0) {
-				n.hidden = true;
+			if (n.id != 0) {
+				if (filtered.indexOf(n.fullLabel.trim()) !== -1) {
+					n.hidden = false;
+				} else {
+					n.hidden = true;
+				}
 			}
 		});
 
