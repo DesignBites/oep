@@ -735,6 +735,9 @@ FILTERS_DICT = {
 
 
 def page_view(request, page_no, workshop_slug=None):
+    if page_no == 0:
+        # last page shortcut
+        page_no = len(PAGES)
     try:
         page = PAGES[page_no-1]
     except IndexError:
