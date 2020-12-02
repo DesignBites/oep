@@ -187,91 +187,6 @@
 </div>
 
 
-
-<div class="modal" tabindex="-1" role="dialog" id="modalTerms">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Agree with the privacy terms</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>
-			You can download this map as an image (png), or as a json file to continue working on it later.
-		</p>
-		<p>
-			No identifiable data will be shared or published. <a href="#">Read more</a> about how we protect your data.
-		</p>
-		<p>
-			<input type="checkbox" id="checkTermsOK">
-			<label for="checkTermsOK">
-				I give permission for the data to be used for research purposes.
-			</label>
-		</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#" type="button" class="btn btn-primary disabled" id="exportJSONModalX" download="network.json">Download data</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal" tabindex="-1" role="dialog" id="modalSave">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Agree with the privacy terms</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>
-			You can download this map as an image (png), or as a data (json) file to continue working on it later.
-		</p>
-		<p>
-			Please agree with the <a href="#">data usage terms</a> and give permission for the data to be used for research purposes.
-		</p>
-		<p>
-			No identifiable data will be shared or published. <a href="#">Read more</a> about how we protect your data.
-		</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">I don't agree</button>
-        <button type="button" class="btn btn-primary" id="btnTermsOK">I agree</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal" tabindex="-1" role="dialog" id="confirmStartOver">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Are you sure you want to start over?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>
-			This will erase all your data.
-		</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="{% if workshop %}{% url 'mapper_index_workshop' workshop_slug=workshop.slug %}{% else %}{% url 'mapper_index' %}{% endif %}"
-		   class="btn btn-primary" id="btnConfirmStartOver">Yes, start over!</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 {% block js %}
 {% endblock %}
 
@@ -396,16 +311,6 @@ $(document).ready(function() {
 		apply_filters();
 
 	});
-
-
-    $('#filterSidebarCollapse').on('click', function () {
-        $('#filterSidebar').toggleClass('collapse');
-    });
-
-
-    $('#legendSidebarCollapse').on('click', function () {
-        $('#info-sidebar').toggleClass('d-none');
-    });
 
 
 	var termsOK = {{ terms_ok|lower }};
