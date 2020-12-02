@@ -265,7 +265,8 @@
 				{% block content %}
 				{% endblock %}
 
-				{% if show_menu %}
+				{% block floating-menu %}
+				{% if not page_no %}
 				<div class="fixed-bottom ml-5 float-right">
 
 					<div class="btn-group-vertical btn-group-lg mb-5 ">
@@ -294,9 +295,11 @@
 					</div>
 				</div>
 				{% endif %}
+				{% endblock %}
 
 			</div>
 
+			{% if page_no %}
 			{% block right %}
 			<div class="col-3 h-100" id="right-sidebar" style="background-color: #fcf2d7;">
 
@@ -328,6 +331,10 @@
 								<a class="float-right" href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" id="btnNext">
 									<img src="{% static 'arrow_right_small.png' %}" width="50">
 								</a>
+							{% elif page_no %}
+								<a href="{% url 'mapper_ring' %}" class="btn btn-lg btn-primary float-right">
+									Done
+								</a>
 							{% endif %}
 							</div>
 						</div>
@@ -338,6 +345,7 @@
 
 			</div>
 			{% endblock %}
+			{% endif %}
 
 		</div>
 

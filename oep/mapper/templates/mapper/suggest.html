@@ -17,17 +17,6 @@
 {% endblock %}
 
 
-{% block right-content %}
-	{% if title %}
-		<h4>{{ title }}</h4>
-	{% endif %}
-
-	{% if description %}
-		<p class="lead">{{ description|linebreaks }}</p>
-	{% endif %}
-{% endblock %}
-
-
 {% block content %}
 
 	<table class="table table-borderless">
@@ -83,6 +72,9 @@
 
 {% endblock %}
 
+
+{% block right %}
+{% endblock %}
 
 {% block top %}
 {% endblock %}
