@@ -69,7 +69,7 @@
 			right: 0px;
         }
 
-        #info-sidebar {
+        #infoSidebar {
         	background-color: #fc9966;
         	position: fixed;
 			height: 100%;
@@ -112,27 +112,6 @@
 
 <body>
 
-{% block top %}
-
-	<nav class="navbar navbar-expand-lg navbar-light">
-		<div class="container">
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarTopSupportedContent">
-
-				<ul class="navbar-nav mr-auto">
-				</ul>
-
-			</div>
-
-		</div>
-	</nav>
-
-{% endblock %}
-
 
 {% block logo %}
 <div class="fixed-top" style="z-index: -1!important">
@@ -144,125 +123,17 @@
 {% endblock %}
 
 
-{% block bottom %}
-
-	<nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
-		<div class="container">
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-				<ul class="navbar-nav {% if not show_menu %}d-none{% endif %}" id="bottomMenu">
-					<li class="nav-item dropup">
-						<a class="nav-link dropdown-toggle" href="#" id="newDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "Manage" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="newDropdown">
-							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#">
-								{% trans "Extend your map" %}
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" data-toggle="modal" data-target="#confirmStartOver">
-								{% trans "Start over" %}
-							</a>
-						</div>
-					</li>
-					<li class="nav-item dropup">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  {% trans "View" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="newDropdown">
-							<a class="dropdown-item" href="{% url 'mapper_ring' %}">
-								{% trans "Interaction circles" %}
-							</a>
-							<a class="dropdown-item" href="{% url 'mapper_venn' %}">
-								{% trans "Venn diagram" %}
-							</a>
-						</div>
-					</li>
-					<li class="nav-item dropup">
-						<a class="nav-link dropdown-toggle" href="#" id="saveDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{% trans "Save" %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="saveDropdown">
-							<a class="dropdown-item" href="#" id="exportJSON" download="network.json">
-								{% trans "Data (JSON)" %}
-							</a>
-							<a class="dropdown-item" href="#" id="exportPNG" download="network.png">
-								{% trans "Image (PNG)" %}
-							</a>
-						</div>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'mapper_add' %}">
-							{% trans "Add stakeholder" %}
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'mapper_suggest' %}">
-							{% trans "View suggestions" %}
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="filterSidebarCollapseX" href="#">
-							{% trans "Filter" %}
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="legendSidebarCollapseX" href="#">
-							{% trans "Legend" %}
-						</a>
-					</li>
-				</ul>
-
-			</div>
-
-		</div>
-	</nav>
+{% block top %}
 
 {% endblock %}
 
 
+{% block bottom %}
+
+{% endblock %}
+
 
 <div class="wrapper h-100">
-
-	<div id="filterSidebar" class="collapse bg-light h-100 sidebar">
-
-		{% include 'mapper/filter_form.html' %}
-
-	</div>
-
-
-	<div id="legendSidebar" class="collapse bg-light h-100 sidebar">
-
-		{% include 'mapper/legend.html' %}
-
-	</div>
-
-
-	{% if stakeholder_form %}
-	<div id="editSidebar" class="collapse bg-light h-100 sidebar">
-		<form id="nodeUpdateForm">
-
-			<h4>
-				Update stakeholder information
-			</h4>
-
-			{% csrf_token %}
-			{{ stakeholder_form|crispy }}
-			<button type="submit" class="btn btn-primary w-100">
-				Update map
-			</button>
-			<button type="button" id="buttonNodeDelete" class="btn btn-outline-danger w-100 mt-3">
-				Delete node
-			</button>
-
-		</form>
-	</div>
-	{% endif %}
 
 	<div class="container-fluid h-100">
 
@@ -295,59 +166,40 @@
 			</div>
 
 			{% if page_no %}
-			{% block right %}
 
-			{# offset the sidebar #}
-			<div class="col-3"></div>
+				{% block right %}
 
-			<div class="col-3" id="right-sidebar">
+				{# offset the sidebar #}
+				<div class="col-3"></div>
 
-				<div class="mt-3">
+				<div class="col-3" id="right-sidebar">
 
-					{% block right-content %}
-
-						{% if title %}
-							<h4>{{ title }}</h4>
-						{% endif %}
-
-						{% if description %}
-						<div class="">
-							{{ description|safe }}
-						</div>
-						{% endif %}
-
-
-						<div class="row nav-buttons mt-auto w-100" style="position: absolute; bottom: 20px;">
-							<div class="col">
-							{% if prev_page %}
-								<a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" id="btnPrev">
-									<img src="{% static 'arrow_left_small.png' %}" width="50">
-								</a>
-							{% endif %}
-							</div>
-							<div class="col">
-							{% if next_page %}
-								<a class="float-right" href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" id="btnNext">
-									<img src="{% static 'arrow_right_small.png' %}" width="50">
-								</a>
-							{% elif page_no %}
-								<a href="{% url 'mapper_ring' %}" class="btn btn-lg btn-primary float-right">
-									Done
-								</a>
-							{% endif %}
-							</div>
-						</div>
-
-					{% endblock %}
+					{% include "mapper/sidebar.html" %}
 
 				</div>
 
-			</div>
-			{% endblock %}
+				{% endblock %}
+
 			{% endif %}
 
-			<div class="col-3 d-none" id="info-sidebar">
-				
+			<div class="col-3 d-none p-3" id="infoSidebar" style="z-index: 10000!important">
+
+				<div id="infoLegend" class="sidebarContent d-none">
+					{% include "mapper/info_legend.html" %}
+				</div>
+
+				<div id="infoFilter" class="sidebarContent d-none">
+					{% include "mapper/info_filter.html" %}
+				</div>
+
+				<div id="infoView" class="sidebarContent d-none">
+					{% include "mapper/info_view.html" %}
+				</div>
+
+				<div id="infoDownload" class="sidebarContent d-none">
+					{% include "mapper/info_download.html" %}
+				</div>
+
 			</div>
 
 		</div>

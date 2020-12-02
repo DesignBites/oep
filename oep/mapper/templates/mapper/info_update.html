@@ -1,0 +1,20 @@
+{% if stakeholder_form %}
+
+    <h4>
+        Update stakeholder information
+    </h4>
+
+    <form id="nodeUpdateForm">
+
+        {% csrf_token %}
+        {{ stakeholder_form|crispy }}
+        <button type="submit" class="btn btn-primary w-100">
+            Update map
+        </button>
+        <button type="button" id="buttonNodeDelete" class="btn btn-outline-danger w-100 mt-3">
+            Delete node
+        </button>
+
+    </form>
+
+{% endif %}
