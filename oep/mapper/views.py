@@ -23,13 +23,28 @@ SESSION_VARIABLES = [
 ]
 
 
-def reset_session(request):
-    for key in SESSION_VARIABLES:
-        try:
-            del request.session[key]
-        except KeyError:
-            pass
-    return redirect(request.GET.get('next'))
+def approve_terms(request):
+    terms = request.GET.get('terms')
+    if terms:
+        if terms == 'yes':
+            request.session['terms_ok'] = True
+        else:
+            request.session['terms_ok'] = False
+        # reset session variables
+        for key in SESSION_VARIABLES:
+            try:
+                del request.session[key]
+            except KeyError:
+                pass
+        return redirect('mapper_page', page_no=1)
+    context = {}
+    page_info = PageInfo.objects.filter(page='terms').first()
+    if page_info:
+        context.update({
+            'title': page_info.title,
+            'description': page_info.description,
+        })
+    return render(request, 'mapper/terms.html', context)
 
 
 def index(request, workshop_slug=None):
@@ -40,26 +55,6 @@ def index(request, workshop_slug=None):
     context = {
         'workshop': workshop,
     }
-    page_info = PageInfo.objects.filter(page='index').first()
-    if page_info:
-        context.update({
-            'title': page_info.title,
-            'description': page_info.description,
-        })
-    if request.session.get('organization'):
-        messages.warning(
-            request,
-            mark_safe(
-                'We found an existing stakeholder map for <strong>"%(organization)s"</strong>. '
-                'To continue with this map <a href="%(url)s">click here</a>.' % {
-                    'organization': request.session['organization'].get('name'),
-                    'url': reverse(
-                        'mapper_page',
-                        kwargs={'page_no': request.session.get('last_page_no', 1)}
-                    )
-                }
-            )
-        )
     return render(request, 'mapper/index.html', context)
 
 
@@ -519,15 +514,6 @@ def map_extend(request):
     stakeholders = request.session.get('stakeholders', {})
     return render(request, 'mapper/suggest.html', {
         'graph': suggest_layout(stakeholders),
-    })
-
-
-@csrf_exempt
-def approve_terms(request):
-    ok = request.POST.get('ok', True)
-    request.session['terms_ok'] = ok
-    return JsonResponse({
-        'terms_ok': ok,
     })
 
 

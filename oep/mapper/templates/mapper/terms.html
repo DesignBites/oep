@@ -1,0 +1,62 @@
+{% extends 'mapper/base.html' %}
+{% load i18n static crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container">
+
+	{% if title %}
+		<h1>{{ title }}</h1>
+	{% endif %}
+
+	{% if description %}
+	<div class="lead">
+		{{ description|safe }}
+	</div>
+	{% endif %}
+
+
+	<div class="row text-center">
+
+		<div class="card-deck">
+
+			<div class="card bg-info">
+				<div class="card-body">
+					<h4 class="card-title">Accept cookies, and agree to saving anonymised data for research purposes</h4>
+				</div>
+				<div class="card-footer">
+					<a href="{% url 'mapper_terms' %}?terms=yes" class="btn card-link stretched-link">
+						<img src="{% static 'arrow_right_small.png' %}" width="60">
+					</a>
+				</div>
+			</div>
+
+			<div class="card bg-secondary">
+				<div class="card-body">
+					<h4 class="card-title">Accept cookies, and disagree to saving anonymised data for research purposes</h4>
+				</div>
+				<div class="card-footer">
+					<a href="{% url 'mapper_terms' %}?terms=no" class="btn card-link stretched-link">
+						<img src="{% static 'arrow_right_small.png' %}" width="60">
+					</a>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+{% endblock %}
+
+
+{% block right %}
+{% endblock %}
+
+{% block top %}
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}

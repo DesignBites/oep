@@ -16,12 +16,25 @@
 
 		<div class="card-deck">
 
+			{% if organization %}
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">I am continuing with "{{ organization.name }}".</h4>
+				</div>
+				<div class="card-footer">
+					<a href="{% url 'mapper_page' page_no=last_page_no %}" class="btn card-link stretched-link">
+						<img src="{% static 'arrow_right_small.png' %}" width="60">
+					</a>
+				</div>
+			</div>
+			{% endif %}
+
 			<div class="card">
 				<div class="card-body">
 					<h4 class="card-title">I am continuing a previously created stakeholder map.</h4>
 				</div>
 				<div class="card-footer">
-					<a href="{% url 'mapper_upload' %}" class="btn disabled card-link">
+					<a href="{% url 'mapper_upload' %}" class="btn card-link stretched-link">
 						<img src="{% static 'arrow_right_small.png' %}" width="60">
 					</a>
 				</div>
@@ -32,8 +45,7 @@
 					<h4 class="card-title">I am creating a new stakeholder map.</h4>
 				</div>
 				<div class="card-footer">
-					<a href="{% url 'mapper_reset' %}?next={% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=1 %}{% else %}{% url 'mapper_page' page_no=1 %}{% endif %}"
-					   class="btn disabled card-link">
+					<a href="{% url 'mapper_terms' %}" class="btn card-link stretched-link">
 						<img src="{% static 'arrow_right_small.png' %}" width="60">
 					</a>
 				</div>
@@ -48,49 +60,8 @@
 {% endblock %}
 
 
-{% block right-content %}
-
-	{{ block.super }}
-
-	<button class="btn btn-primary my-3 w-100 acceptBtn" id="acceptTerms">
-		Accept cookies, and agree to saving anonymised data for research purposes
-	</button>
-
-	<button class="btn btn-outline-primary my-3 w-100" id="acceptCookies">
-		Accept cookies, and disagree to saving anonymised data for research purposes
-	</button>
-
+{% block right %}
 {% endblock %}
-
-
-{% block js %}
-
-<script>
-
-	$(document).ready(function() {
-
-		$('#acceptTerms').click(function() {
-			$.post('{% url "mapper_approve_terms" %}', {'ok': true}, function(data) {
-				termsOK = true;
-				$('.card-link').removeClass('disabled');
-				$('#right-sidebar').addClass('d-none');
-			});
-		});
-
-		$('#acceptCookies').click(function() {
-			$.post('{% url "mapper_approve_terms" %}', {'ok': false}, function(data) {
-				termsOK = false;
-				$('.card-link').removeClass('disabled');
-				$('#right-sidebar').addClass('d-none');
-			});
-		});
-
-	});
-
-</script>
-
-{% endblock %}
-
 
 {% block top %}
 {% endblock %}
