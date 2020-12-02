@@ -61,6 +61,14 @@
             color: #242847;
         }
 
+        #right-sidebar {
+        	background-color: #fcf2d7;
+        	position: fixed;
+			height: 100%;
+			bottom: 0px;
+			right: 0px;
+        }
+
 		.wrapper {
 			display: flex;
 			height: 100%;
@@ -301,7 +309,8 @@
 
 			{% if page_no %}
 			{% block right %}
-			<div class="col-3 h-100" id="right-sidebar" style="background-color: #fcf2d7;">
+			<div class="col-3"></div>
+			<div class="col-3" id="right-sidebar">
 
 				<div class="mt-3">
 
