@@ -10,7 +10,7 @@
         </button>
     </h4>
 
-    <form id="nodeUpdatezForm">
+    <form id="nodeAddForm" class="nodeForm" method="post">
 
         {% csrf_token %}
         {{ stakeholder_form|crispy }}

@@ -428,44 +428,6 @@ class StakeholderForm(forms.Form):
             del self.fields['resources']
 
 
-def node_add(request, **kwargs):
-    if request.method == 'POST':
-        form = StakeholderForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            stakeholders = request.session.get('stakeholders', {})
-            similarities = []
-            if data.get('values'):
-                similarities.append('values')
-            if data.get('working'):
-                similarities.append('working')
-            if data.get('resources'):
-                similarities.append('resources')
-            if data.get('custom'):
-                similarities.append('custom')
-            stakeholders[data['name']] = {
-                'interact': int(data['interact']),
-                'collaborate': int(data['collaborate']),
-                'similarities': similarities,
-            }
-            request.session['stakeholders'] = stakeholders
-            if kwargs.get('next_page'):
-                return redirect('mapper_page', page_no=kwargs['next_page'])
-            else:
-                return redirect('mapper_ring')
-    else:
-        show_menu = kwargs == {}
-        form = StakeholderForm(
-            custom_similarity_parameter=request.session.get('custom_similarity_parameter'),
-            show_similarities=show_menu,
-        )
-    kwargs.update({
-        'form': form,
-        'show_menu': show_menu,
-    })
-    return render(request, 'mapper/add.html', kwargs)
-
-
 @csrf_exempt
 def node_update(request):
     if request.method == 'POST':
@@ -512,13 +474,6 @@ def node_delete(request):
         return JsonResponse({
             'stakeholders': stakeholders,
         })
-
-
-def map_extend(request):
-    stakeholders = request.session.get('stakeholders', {})
-    return render(request, 'mapper/suggest.html', {
-        'graph': suggest_layout(stakeholders),
-    })
 
 
 @csrf_exempt

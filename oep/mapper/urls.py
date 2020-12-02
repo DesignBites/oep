@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import index, connections_save, grid_save, upload_map, page_view, add_custom_similarity, \
-    ring_view, venn_view, suggest_view, node_add, node_update, node_delete, map_extend, approve_terms, \
-    map_save, approve_terms
+    ring_view, venn_view, suggest_view, node_update, node_delete, approve_terms, map_save
 
 
 urlpatterns = [
@@ -15,9 +14,6 @@ urlpatterns = [
     path('view/suggestions/', suggest_view, name='mapper_suggest'),
 
 #    path('view/param/', add_custom_similarity, name='mapper_add_parameter'),
-
-    path('map/add/', node_add, name='mapper_add'),
-    path('map/extend/', map_extend, name='mapper_extend'),
 
     path('terms/ok/', approve_terms, name='mapper_approve_terms'),
     path('save/', map_save, name='mapper_save'),

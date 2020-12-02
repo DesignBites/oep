@@ -498,21 +498,17 @@ $(document).ready(function() {
 
 	s.bind('clickNode', function(e) {
 
-		// show sidebar update form
-		$('.sidebarContent').addClass('d-none');
-		$('#infoSidebar').removeClass('d-none');
-		$('#infoUpdate').removeClass('d-none');
-		$('.menuButton').removeClass('active');
-
 		var $form = $('#nodeUpdateForm');
 
 		var node = e.data.node;
 
 		if (node.id == 0) return;
 
-		$('#filterSidebar').collapse('hide');
-
-        $('#editSidebar').collapse('show');
+		// show sidebar update form
+		$('.sidebarContent').addClass('d-none');
+		$('#infoSidebar').removeClass('d-none');
+		$('#infoUpdate').removeClass('d-none');
+		$('.menuButton').removeClass('active');
 
 		var name = node.fullLabel;
 		var stakeholder = stakeholders[name];
@@ -544,7 +540,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#nodeUpdateForm').submit(function(e) {
+	$('.nodeForm').submit(function(e) {
 		e.preventDefault();
 
 		//data = JSON.stringify($(this).serializeArray());
