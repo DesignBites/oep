@@ -136,22 +136,23 @@
 
 		</div>
 
-		{% if page_no %}
 
-			{% block right %}
+		{% block right %}
 
-			{# offset the sidebar #}
-			<div class="col-3"></div>
+			{% if page_no %}
+				{# offset the sidebar #}
+				<div class="col-3"></div>
 
-			<div class="col-3" id="right-sidebar">
+				<div class="col-3" id="right-sidebar">
 
-				{% include "mapper/sidebar.html" %}
+					{% include "mapper/sidebar.html" %}
 
-			</div>
+				</div>
 
-			{% endblock %}
+			{% endif %}
 
-		{% endif %}
+		{% endblock %}
+
 
 		<div class="col-3 d-none p-3" id="infoSidebar" style="z-index: 10000!important">
 
