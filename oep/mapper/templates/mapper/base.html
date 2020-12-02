@@ -275,6 +275,11 @@
 
 $(document).ready(function() {
 
+    $('.close[data-dismiss=sidebar]').click(function() {
+        $('#infoSidebar').addClass('d-none');
+        $('.menuButton').removeClass('active');
+    });
+
 	var stakeholders = {{ stakeholders|safe }};
 
 	var stakeholders_filtered = {
