@@ -37,12 +37,22 @@
 					These are stakeholders that you interact less with,
 					yet you have relatively more in common with, providing a good base for a collaboration.
 				</p>
-				{% for stakeholder in quadrants.q1 %}
+
+				{% for stakeholder in quadrants.q1|slice:":2" %}
 				<div class="">
 					<img src="{{ stakeholder.icon }}" width="50">
 					{{ stakeholder.name }}
 				</div>
 				{% endfor %}
+
+				<div class="moreSuggestions collapse">
+				{% for stakeholder in quadrants.q1|slice:"2:" %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+				</div>
 			</td>
 			<td class="border-bottom" width="50%">
 				<h4>
@@ -52,12 +62,22 @@
 					These are stakeholders that you interact less with, and that might complement your values,
 					ways of working or resources, sparking more creativity.
 				</p>
-				{% for stakeholder in quadrants.q2 %}
+
+				{% for stakeholder in quadrants.q2|slice:":2" %}
 				<div class="">
 					<img src="{{ stakeholder.icon }}" width="50">
 					{{ stakeholder.name }}
 				</div>
 				{% endfor %}
+
+				<div class="moreSuggestions collapse">
+				{% for stakeholder in quadrants.q2|slice:"2:" %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+				</div>
 			</td>
 			<td rowspan="2" style="vertical-align:middle;">
 				<span class="badge badge-primary ml-n5">LESS SIMILAR</span>
@@ -72,12 +92,22 @@
 					These are stakeholders that you interact more with and are relatively similar to you,
 					allowing for an easy start.
 				</p>
-				{% for stakeholder in quadrants.q3 %}
+
+				{% for stakeholder in quadrants.q3|slice:":2" %}
 				<div class="">
 					<img src="{{ stakeholder.icon }}" width="50">
 					{{ stakeholder.name }}
 				</div>
 				{% endfor %}
+
+				<div class="moreSuggestions collapse">
+				{% for stakeholder in quadrants.q3|slice:"2:" %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+				</div>
 			</td>
 			<td class="border-left">
 				<h4>
@@ -87,12 +117,23 @@
 					These are stakeholders that you interact more with and might complement your values,
 					ways of working or resources, sparking more creativity.
 				</p>
-				{% for stakeholder in quadrants.q4 %}
+
+				{% for stakeholder in quadrants.q4|slice:":2" %}
 				<div class="">
 					<img src="{{ stakeholder.icon }}" width="50">
 					{{ stakeholder.name }}
 				</div>
 				{% endfor %}
+
+				<div class="moreSuggestions collapse">
+				{% for stakeholder in quadrants.q4|slice:"2:" %}
+				<div class="">
+					<img src="{{ stakeholder.icon }}" width="50">
+					{{ stakeholder.name }}
+				</div>
+				{% endfor %}
+				</div>
+
 			</td>
 		</tr>
 		<tr>
@@ -126,13 +167,46 @@
 
 	</div>
 
-	<a href="{% url 'mapper_ring' %}" class="btn btn-primary m-4" style="position: fixed; bottom: 0px; right: 0px;">
-		RETURN
-	</a>
+	<div class="row mb-5" style="">
+
+		<div class="col">
+
+			<a id="showAll" download="stakeholders.pdf" type="button" class="btn btn-primary w-100"
+				data-toggle="collapse" data-target=".moreSuggestions">
+				SHOW ALL
+			</a>
+
+		</div>
+		<div class="col">
+
+			<a href="{% url 'mapper_ring' %}" class="btn btn-primary w-100">
+				RETURN
+			</a>
+
+		</div>
+	</div>
 
 </div>
 
 {% endblock %}
+
+
+{% block js %}
+
+<script>
+
+$(document).ready(function() {
+
+	$('#showAll').click(function() {
+
+	});
+
+});
+
+</script>
+
+{% endblock %}
+
 
 {% block top %}
 {% endblock %}
