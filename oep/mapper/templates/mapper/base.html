@@ -63,7 +63,6 @@
         }
 
         #right-sidebar {
-        	background-color: #F0D892;
         	position: fixed;
 			height: 100%;
 			bottom: 0px;
@@ -71,7 +70,6 @@
         }
 
         #infoSidebar {
-        	background-color: #EE986A;
         	position: fixed;
 			height: 100%;
 			bottom: 0px;
@@ -144,7 +142,7 @@
 				{# offset the sidebar #}
 				<div class="col-3"></div>
 
-				<div class="col-3" id="right-sidebar">
+				<div class="col-3 bg-warning" id="right-sidebar">
 
 					{% include "mapper/sidebar.html" %}
 
@@ -155,7 +153,7 @@
 		{% endblock %}
 
 
-		<div class="col-3 d-none p-3" id="infoSidebar" style="z-index: 10000!important">
+		<div class="bg-danger col-3 d-none p-3" id="infoSidebar" style="z-index: 10000!important">
 
 			<div id="infoAdd" class="sidebarContent d-none">
 				{% include "mapper/info_add.html" %}
