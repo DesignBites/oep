@@ -193,7 +193,7 @@ def venn_layout(stakeholders):
 
 
 def suggest_layout(stakeholders):
-    MAX_QUADRANT_POPULATION = 2
+    MAX_QUADRANT_POPULATION = 20
     # (collaborate, interact, similarity count)
     rules = {
         'q1': [
