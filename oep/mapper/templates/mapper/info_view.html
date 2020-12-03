@@ -1,3 +1,5 @@
+{% load static %}
+
 <h4>
     VIEWS
 
@@ -30,3 +32,65 @@
     <input type="checkbox" class="custom-control-input" id="switchNames" checked>
     <label class="custom-control-label" for="switchNames">Names</label>
 </div>
+
+
+<script>
+
+    $(document).ready(function() {
+
+        $('#switchBackground').click(function() {
+            if ($("#canvas").css('background-image') == 'none') {
+                $("#canvas").css('background-image', 'url({% static 'ring_bg.svg' %})');
+            } else {
+                $("#canvas").css('background-image', 'none');
+            }
+        });
+
+        var edgesHidden = false;
+        $('#switchLines').click(function() {
+            if (edgesHidden) {
+                s.graph.edges().forEach(function(edge) {
+                    edge.hidden = false;
+                });
+                edgesHidden = false;
+            } else {
+                s.graph.edges().forEach(function(edge) {
+                    edge.hidden = true;
+                });
+                edgesHidden = true
+            }
+            s.refresh();
+        });
+
+        var nodesHidden = false;
+        $('#switchNodes').click(function() {
+            if (nodesHidden) {
+                s.graph.nodes().forEach(function(node) {
+                    node.hidden = false;
+                });
+                nodesHidden = false;
+            } else {
+                s.graph.nodes().forEach(function(node) {
+                    node.hidden = true;
+                });
+                nodesHidden = true
+            }
+            s.refresh();
+        });
+
+        var labelsHidden = false;
+        $('#switchNames').click(function() {
+            if (labelsHidden) {
+                s.settings('drawLabels', true);
+                labelsHidden = false;
+            } else {
+                s.settings('drawLabels', false);
+                labelsHidden = true;
+            }
+            s.refresh();
+        });
+
+
+    });
+
+</script>
