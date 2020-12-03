@@ -32,7 +32,7 @@
 
 {% block content %}
 
-	<div id="canvas" class="w-100 h-100 mb-4"></div>
+	<div id="canvas" class="mb-4" style="width: 100%; height: 100%;"></div>
 
 {% endblock %}
 
@@ -51,10 +51,14 @@
 
 	var organization = {{ organization|safe|lower }};
 
-	var canvasWidth = $('#canvas').width();
-	var canvasHeight = $('#canvas').height();
-
+	$canvas = $('#canvas');
+	var canvasWidth = $canvas.width();
+	var canvasHeight = $canvas.height();
 	var multiplier = Math.min(canvasWidth, canvasHeight) / 600;
+
+	// do not resize canvas: (FIXME: jumps down when screen gets smaller due to the grid)
+	//$canvas.css('width', canvasWidth);
+	//$canvas.css('height', canvasHeight);
 
 	$.each(nodes, function(index, node) {
 
@@ -74,7 +78,7 @@
 			x: node.x * multiplier,
 			y: node.y * multiplier,
 			size: node.size,
-			color: node.color,
+			color: '#fff',
 			type: 'circle',
 			image: node.image
 		})
