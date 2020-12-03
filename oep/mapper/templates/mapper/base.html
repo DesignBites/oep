@@ -313,21 +313,11 @@ $(document).ready(function() {
 	});
 
 
-	var termsOK = {{ terms_ok|lower }};
-
 	function mapSave() {
 		$.post('{% url "mapper_save" %}', function(data) {
 			console.log(data);
 		});
 	};
-
-	$('#btnSave').click(function() {
-		if (termsOK) {
-			mapSave();
-		} else {
-			$('#modalSave').modal('show');
-		}
-	});
 
     $exportPNG.click(function() {
 		var src_base64 = s.renderers[0].snapshot({format: 'png', labels: true});

@@ -150,7 +150,18 @@ def upload_map(request):
     if request.method == 'POST':
         form = MapUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            map_data = json.loads(form.cleaned_data['map'].read())
+            try:
+                map_data = json.loads(form.cleaned_data['map'].read())
+            except json.decoder.JSONDecodeError:
+                messages.warning(
+                    request,
+                    mark_safe(
+                        'The file is not valid. Please start over here or <a href="%s">upload another file</a>.' % (
+                            reverse('mapper_upload'),
+                        ),
+                    ),
+                )
+                return redirect('mapper_page', page_no=1)
             for key in SESSION_VARIABLES:
                 value = map_data.get(key)
                 if value:
@@ -163,7 +174,14 @@ def upload_map(request):
             page_no = map_data.get('last_page_no', 1)
             return redirect('mapper_page', page_no=page_no)
         else:
-            messages.warning(request, 'The file is not valid. Please start over.')
+            messages.warning(
+                request,
+                mark_safe(
+                    'The file is not valid. Please start over here or <a href="%s">upload another file</a>.' % (
+                        reverse('mapper_upload'),
+                    ),
+                ),
+            )
             return redirect('mapper_page', page_no=1)
     return render(request, 'mapper/upload.html', {
         'form': MapUploadForm(),

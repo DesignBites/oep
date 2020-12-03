@@ -234,4 +234,5 @@ def suggest_layout(stakeholders):
                 continue
     return {
         'quadrants': dict(quadrants),
+        'initial_quadrant_population': 2,
     }
