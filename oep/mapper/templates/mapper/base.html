@@ -329,72 +329,9 @@ $(document).ready(function() {
 		}
 	});
 
-	function approveTerms() {
-		$.post('{% url "mapper_approve_terms" %}', function(data) {
-			termsOK = true;
-			mapSave();
-			$('#modalSave').modal('hide');
-		});
-	};
-
-	$('#btnTermsOK').click(function() {
-		approveTerms();
-	});
-
-	$('#saveDropdown').on('click', function (e) {
-		if (!termsOK) {
-			e.preventDefault();
-			$('#saveDropdown').dropdown('toggle');
-			$('#modalSave').modal('show');
-		} else {
-			mapSave();
-		}
-	})
-
-	$('#checkTermsOK').change(function() {
-		if (this.checked) {
-			approveTerms();
-			$('#exportJSONModal').removeClass('disabled');
-		} else {
-			$('#exportJSONModal').addClass('disabled');
-		}
-	});
-
-
-	var $exportPNG = $('#exportPNG');
-
-	if ((typeof s) == 'undefined') {
-		$exportPNG.addClass('disabled');
-	};
-
-
     $exportPNG.click(function() {
 		var src_base64 = s.renderers[0].snapshot({format: 'png', labels: true});
 		$exportPNG.attr('href', src_base64);
-    });
-
-
-	function downloadJSON($el) {
-		var data = btoa(
-			JSON.stringify({
-				organization: {{ organization|safe|lower }},
-				stakeholders: stakeholders,
-				{% if custom_similarity_parameter %}
-				custom_similarity_parameter: '{{ custom_similarity_parameter }}',
-				{% endif %}
-				last_page_no: {% if page_no %}{{ page_no }}{% else %}1{% endif %}
-			})
-		);
-        $el.attr('href', 'data:text/json;base64,' + data);
-	};
-
-    $('#exportJSON').click(function() {
-    	downloadJSON($(this));
-    });
-
-    $('#exportJSONModal').click(function() {
-    	downloadJSON($(this));
-    	$('#btnModal').hide();
     });
 
 

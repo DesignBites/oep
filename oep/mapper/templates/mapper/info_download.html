@@ -7,10 +7,19 @@
 </h4>
 
 
-By downloading, you agree to the data being used for research purposes.
-No identifiable data will ever be shared or published. Read more about how we protect your data.
+{% if not terms_ok %}
 
-<button type="button" class="btn btn-lg btn-outline-primary w-100 my-4" id="btnTermsOK">I agree</button>
+<div id="divTerms">
+
+    By downloading, you agree to the data being used for research purposes.
+    No identifiable data will ever be shared or published. Read more about how we protect your data.
+
+    <button type="button" class="btn btn-lg btn-outline-primary w-100 my-4" id="btnTermsOK">I agree</button>
+
+</div>
+
+{% endif %}
+
 
 <h5>
     CONTINUE LATER
@@ -30,18 +39,56 @@ No identifiable data will ever be shared or published. Read more about how we pr
 
 
 
-
-
 <div class="row">
+
     <div class="col">
-        <a id="exportJSONModal" download="network.json" type="button" class="btn btn-primary">
+
+        <a id="exportPDF" download="stakeholders.pdf" type="button" class="btn btn-primary disabled">
             SAVE A COPY (PDF)
         </a>
+
     </div>
     <div class="col">
-        <a id="exportJSONModal" download="network.json" type="button" class="btn btn-primary">
+
+        <a id="exportJSON" download="stakeholders.json" type="button" class="btn btn-primary {% if not terms_ok %}disabled{% endif %}">
             CONTINUE LATER (JSON)
         </a>
+
     </div>
 </div>
+
+
+<script>
+
+$(document).ready(function() {
+
+    var stakeholders = {{ stakeholders|safe }};
+
+	$('#btnTermsOK').click(function() {
+		$.get('{% url "mapper_terms" %}?terms=yes', function(data) {
+			termsOK = true;
+			$('#exportJSON').removeClass('disabled');
+			$('#divTerms').hide('fade');
+		});
+	});
+
+    $('#exportJSON').click(function() {
+
+		var data = btoa(
+			JSON.stringify({
+				organization: {{ organization|safe|lower }},
+				stakeholders: stakeholders,
+				{% if custom_similarity_parameter %}
+				custom_similarity_parameter: '{{ custom_similarity_parameter }}',
+				{% endif %}
+				last_page_no: {% if page_no %}{{ page_no }}{% else %}1{% endif %}
+			})
+		);
+        $(this).attr('href', 'data:text/json;base64,' + data);
+
+    });
+
+});
+
+</script>
 

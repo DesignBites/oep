@@ -29,6 +29,7 @@ def approve_terms(request):
         if terms == 'yes':
             request.session['terms_ok'] = True
         else:
+            terms = 'no'
             request.session['terms_ok'] = False
         # reset session variables
         for key in SESSION_VARIABLES:
@@ -36,7 +37,12 @@ def approve_terms(request):
                 del request.session[key]
             except KeyError:
                 pass
-        return redirect('mapper_page', page_no=1)
+        if request.is_ajax():
+            return JsonResponse({
+                'terms': terms,
+            })
+        else:
+            return redirect('mapper_page', page_no=1)
     context = {}
     page_info = PageInfo.objects.filter(page='terms').first()
     if page_info:

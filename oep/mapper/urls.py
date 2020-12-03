@@ -15,7 +15,6 @@ urlpatterns = [
 
 #    path('view/param/', add_custom_similarity, name='mapper_add_parameter'),
 
-    path('terms/ok/', approve_terms, name='mapper_approve_terms'),
     path('save/', map_save, name='mapper_save'),
     path('update/', node_update, name='mapper_node_update'),
     path('delete/', node_delete, name='mapper_node_delete'),
