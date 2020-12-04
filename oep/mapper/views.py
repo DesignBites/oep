@@ -744,9 +744,15 @@ def page_view(request, page_no, workshop_slug=None):
         prev_page = page_no - 1
     page_info = PageInfo.objects.filter(page=str(page_no)).first()
     if page_info:
+        if request.session.get('organization') and request.session['organization'].get('name'):
+            organization_name = request.session['organization']['name']
+        else:
+            organization_name = None
         context.update({
             'title': page_info.title,
-            'description': page_info.description,
+            'description': page_info.description % {
+                'organization_name': organization_name
+            },
         })
     context.update({
         'stakeholders': request.session.get('stakeholders', {}),
