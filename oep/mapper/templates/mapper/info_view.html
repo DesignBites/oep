@@ -23,10 +23,12 @@
     <label class="custom-control-label" for="switchLines">Lines</label>
 </div>
 
+{% comment %}
 <div class="custom-control custom-switch">
     <input type="checkbox" class="custom-control-input" id="switchNodes" checked>
     <label class="custom-control-label" for="switchNodes">Nodes</label>
 </div>
+{% endcomment %}
 
 <div class="custom-control custom-switch">
     <input type="checkbox" class="custom-control-input" id="switchNames" checked>
@@ -41,9 +43,17 @@
         $('#switchBackground').click(function() {
             if ($("#canvas").css('background-image') == 'none') {
                 $("#canvas").css('background-image', 'url({% static 'ring_bg.svg' %})');
+                s.graph.edges().forEach(function(edge) {
+                    edge.color = '#fff';
+                });
+                edgesHidden = false;
             } else {
                 $("#canvas").css('background-image', 'none');
+                s.graph.edges().forEach(function(edge) {
+                    edge.color = '#1b2648';
+                });
             }
+            s.refresh();
         });
 
         var edgesHidden = false;
