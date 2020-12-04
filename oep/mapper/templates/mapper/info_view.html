@@ -13,32 +13,88 @@
 </p>
 
 
-<div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="switchBackground" checked>
-    <label class="custom-control-label" for="switchBackground">Background</label>
+<div id="switchesCircle">
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchBackground" checked>
+        <label class="custom-control-label" for="switchBackground">Background</label>
+    </div>
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchLines" checked>
+        <label class="custom-control-label" for="switchLines">Lines</label>
+    </div>
+
+    {% comment %}
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchNodes" checked>
+        <label class="custom-control-label" for="switchNodes">Nodes</label>
+    </div>
+    {% endcomment %}
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchNames" checked>
+        <label class="custom-control-label" for="switchNames">Names</label>
+    </div>
+
 </div>
 
-<div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="switchLines" checked>
-    <label class="custom-control-label" for="switchLines">Lines</label>
+<div id="switchesVenn">
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchVennBackground" checked>
+        <label class="custom-control-label" for="switchVennBackground">Background</label>
+    </div>
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchVennNodes" checked>
+        <label class="custom-control-label" for="switchVennNodes">Nodes</label>
+    </div>
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="switchVennNames" checked>
+        <label class="custom-control-label" for="switchVennNames">Names</label>
+    </div>
+
 </div>
 
-{% comment %}
-<div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="switchNodes" checked>
-    <label class="custom-control-label" for="switchNodes">Nodes</label>
-</div>
-{% endcomment %}
 
-<div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="switchNames" checked>
-    <label class="custom-control-label" for="switchNames">Names</label>
-</div>
+<h5 class="mt-4">
+    SPHERE DIAGRAM
+</h5>
+
+<p>
+    The sphere diagram visualises relationships with your stakeholders.
+    From this overview, expand your mapping and use filters to identify potential collaborators.
+</p>
+
+
+<h5>
+    VENN DIAGRAM
+</h5>
+
+<p>
+    The Venn diagram groups stakeholders based on similarities.
+    Identify gaps to  better understand your map and keep expanding your network.
+</p>
+
+
+<a href="{% url 'mapper_venn' %}" class="btn btn-warning w-100" id="linkVenn">
+    SWITCH TO VENN DIAGRAM
+</a>
+
+<a href="{% url 'mapper_ring' %}" class="btn btn-warning w-100" id="linkCircles">
+    SWITCH TO SPHERE DIAGRAM
+</a>
 
 
 <script>
 
     $(document).ready(function() {
+
+        {% if graph %}
+
+        // swithes for circles
 
         $('#switchBackground').click(function() {
             if ($("#canvas").css('background-image') == 'none') {
@@ -46,7 +102,6 @@
                 s.graph.edges().forEach(function(edge) {
                     edge.color = '#fff';
                 });
-                edgesHidden = false;
             } else {
                 $("#canvas").css('background-image', 'none');
                 s.graph.edges().forEach(function(edge) {
@@ -99,6 +154,49 @@
             }
             s.refresh();
         });
+
+        {% endif %}
+
+
+        // switches for venn diagram
+
+        var bgHidden = false;
+        $('#switchVennBackground').click(function() {
+            if (bgHidden) {
+                $("#venn tr td[data-bg]").each(function() {
+                    $(this).addClass($(this).data('bg'));
+                });
+                bgHidden = false;
+            } else {
+                $("#venn tr td[data-bg]").each(function() {
+                    $(this).removeClass($(this).data('bg'));
+                });
+                bgHidden = true;
+            }
+        });
+
+        var iconsHidden = false;
+        $('#switchVennNodes').click(function() {
+            if (iconsHidden) {
+                $(".nodeIcon").css('visibility','visible');
+                iconsHidden = false;
+            } else {
+                $(".nodeIcon").css('visibility','hidden');
+                iconsHidden = true;
+            }
+        });
+
+        var namesHidden = false;
+        $('#switchVennNames').click(function() {
+            if (namesHidden) {
+                $(".nodeName").css('visibility','visible');
+                namesHidden = false;
+            } else {
+                $(".nodeName").css('visibility','hidden');
+                namesHidden = true;
+            }
+        });
+
 
 
     });
