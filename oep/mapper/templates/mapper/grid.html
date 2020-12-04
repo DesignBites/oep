@@ -46,14 +46,14 @@
 
 	<div class="row">
 
-		<div class="col-3">
+		<div class="col-3" id="nodeListCol">
 
 			<ul id="nodeList" class="list-group list-group-flush">
 			</ul>
 
 		</div>
 
-		<div class="col-9">
+		<div class="col">
 
 			<table class="table table-sm table-borderless" id="grid">
 				<tr>
@@ -83,13 +83,13 @@
 					<td class="vertical">
 						<span class="badge badge-warning">regularly</span>
 					</td>
-					<td data-interact="3" data-collaborate="3" class="border" width="33%">
+					<td data-interact="3" data-collaborate="3" class="border border-warning" width="33%">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="2" class="border" width="33%">
+					<td data-interact="3" data-collaborate="2" class="border border-warning" width="33%">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="3" data-collaborate="1" class="border" width="33%">
+					<td data-interact="3" data-collaborate="1" class="border border-warning" width="33%">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
@@ -97,13 +97,13 @@
 					<td class="vertical">
 						<span class="badge badge-warning">sometimes</span>
 					</td>
-					<td data-interact="2" data-collaborate="3" class="border">
+					<td data-interact="2" data-collaborate="3" class="border border-warning">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="2" data-collaborate="2" class="border">
+					<td data-interact="2" data-collaborate="2" class="border border-warning">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="2" data-collaborate="1" class="border">
+					<td data-interact="2" data-collaborate="1" class="border border-warning">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
@@ -111,13 +111,13 @@
 					<td class="vertical">
 						<span class="badge badge-warning">hardly ever</span>
 					</td>
-					<td data-interact="1" data-collaborate="3" class="border">
+					<td data-interact="1" data-collaborate="3" class="border border-warning">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="1" data-collaborate="2" class="border">
+					<td data-interact="1" data-collaborate="2" class="border border-warning">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
-					<td data-interact="1" data-collaborate="1" class="border">
+					<td data-interact="1" data-collaborate="1" class="border border-warning">
 						<ul class="list-group list-group-flush"></ul>
 					</td>
 				</tr>
@@ -141,7 +141,7 @@
 	$nodeList = $('#nodeList');
 
 	$.each(stakeholders, function(name, data) {
-		var li ='<li class="list-group-item stakeholder-node" data-id="' + name + '">' + name + '</li>';
+		var li ='<li class="list-group-item stakeholder-node border-bottom" data-id="' + name + '">' + name + '</li>';
 		if ('interact' in data) {
 			$('td[data-interact=' + data.interact + '][data-collaborate=' + data.collaborate + ']').find('ul').append(li);
 		} else {
@@ -152,7 +152,7 @@
 	$('.stakeholder-node').click(function(e) {
 		$('.stakeholder-node').removeClass('active');
 		$(this).addClass('active');
-		$('#grid td').addClass('border-warning');
+		$('#grid td').addClass('border-danger');
 		e.stopPropagation();
 	});
 
@@ -160,11 +160,14 @@
 		$node = $('.stakeholder-node.active');
 		$(this).find('ul').append($node);
 		$node.removeClass('active');
-		$('#grid td').removeClass('border-warning');
+		$('#grid td').removeClass('border-danger');
 		if ($('#nodeList li').length > 0) {
 			// if there are still items in the list, select the one at the top
 			$('#nodeList li').first().addClass('active');
-			$('#grid td').addClass('border-warning');
+			$('#grid td').addClass('border-danger');
+		}
+		if ($('#nodeList li').length == 0) {
+			$('#nodeListCol').addClass('d-none');
 		}
 	});
 
