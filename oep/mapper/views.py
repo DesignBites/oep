@@ -500,31 +500,6 @@ def node_delete(request):
         })
 
 
-@csrf_exempt
-def map_save(request):
-    map_session = request.session.get('organization')
-    if map_session:
-        stakeholders = request.session['stakeholders']
-        if map_session.get('id'):
-            m = Map.objects.get(id=map_session['id'])
-            m.stakeholders = stakeholders
-            m.save()
-        else:
-            m = Map.objects.create(**{
-                'name': map_session['name'],
-                'workshop': request.session.get('workshop'),
-                'is_own': map_session['is_own'],
-                'sector': get_object_or_404(Sector, id=map_session['sector']),
-                'size': map_session['size'],
-                'purpose': map_session.get('purpose'),
-                'stakeholders': stakeholders,
-                'own_parameter': request.session.get('custom_similarity_parameter'),
-            })
-            map_session['id'] = m.id
-            request.session.modified = True
-    return JsonResponse({})
-
-
 def map_view(request, **kwargs):
     layout = kwargs.get('layout')
     if layout:
@@ -731,6 +706,28 @@ def page_view(request, page_no, workshop_slug=None):
     except IndexError:
         raise Http404
     request.session['last_page_no'] = page_no
+    # save data if consent was given
+    if request.session.get('terms_ok'):
+        map_session = request.session.get('organization')
+        if map_session:
+            stakeholders = request.session.get('stakeholders', {})
+            if map_session.get('id'):
+                m = Map.objects.get(id=map_session['id'])
+                m.stakeholders = stakeholders
+                m.save()
+            else:
+                m = Map.objects.create(**{
+                    'name': map_session['name'],
+                    'workshop': request.session.get('workshop'),
+                    'is_own': map_session['is_own'],
+                    'sector': get_object_or_404(Sector, id=map_session['sector']),
+                    'size': map_session['size'],
+                    'purpose': map_session.get('purpose'),
+                    'stakeholders': stakeholders,
+                    'own_parameter': request.session.get('custom_similarity_parameter'),
+                })
+                map_session['id'] = m.id
+                request.session.modified = True
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name

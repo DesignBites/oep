@@ -343,12 +343,6 @@ $(document).ready(function() {
 	});
 
 
-	function mapSave() {
-		$.post('{% url "mapper_save" %}', function(data) {
-			console.log(data);
-		});
-	};
-
 	/*
     $exportPNG.click(function() {
 		var src_base64 = s.renderers[0].snapshot({format: 'png', labels: true});
