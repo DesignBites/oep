@@ -23,6 +23,31 @@ SESSION_VARIABLES = [
 ]
 
 
+def save_map(request):
+    # saves the map data in the session as a Map instance
+    if request.session.get('terms_ok'):
+        map_session = request.session.get('organization')
+        if map_session:
+            stakeholders = request.session.get('stakeholders', {})
+            if map_session.get('id'):
+                m = Map.objects.get(id=map_session['id'])
+                m.stakeholders = stakeholders
+                m.save()
+            else:
+                m = Map.objects.create(**{
+                    'name': map_session['name'],
+                    'workshop': request.session.get('workshop'),
+                    'is_own': map_session['is_own'],
+                    'sector': get_object_or_404(Sector, id=map_session['sector']),
+                    'size': map_session['size'],
+                    'purpose': map_session.get('purpose'),
+                    'stakeholders': stakeholders,
+                    'own_parameter': request.session.get('custom_similarity_parameter'),
+                })
+                map_session['id'] = m.id
+                request.session.modified = True
+
+
 def approve_terms(request):
     terms = request.GET.get('terms')
     if terms:
@@ -31,17 +56,20 @@ def approve_terms(request):
         else:
             terms = 'no'
             request.session['terms_ok'] = False
-        # reset session variables
-        for key in SESSION_VARIABLES:
-            try:
-                del request.session[key]
-            except KeyError:
-                pass
         if request.is_ajax():
+            # consent given at the download page
+            save_map(request)
             return JsonResponse({
                 'terms': terms,
             })
         else:
+            # consent given initially
+            # reset session variables
+            for key in SESSION_VARIABLES:
+                try:
+                    del request.session[key]
+                except KeyError:
+                    pass
             return redirect('mapper_page', page_no=1)
     context = {}
     page_info = PageInfo.objects.filter(page='terms').first()
@@ -706,28 +734,7 @@ def page_view(request, page_no, workshop_slug=None):
     except IndexError:
         raise Http404
     request.session['last_page_no'] = page_no
-    # save data if consent was given
-    if request.session.get('terms_ok'):
-        map_session = request.session.get('organization')
-        if map_session:
-            stakeholders = request.session.get('stakeholders', {})
-            if map_session.get('id'):
-                m = Map.objects.get(id=map_session['id'])
-                m.stakeholders = stakeholders
-                m.save()
-            else:
-                m = Map.objects.create(**{
-                    'name': map_session['name'],
-                    'workshop': request.session.get('workshop'),
-                    'is_own': map_session['is_own'],
-                    'sector': get_object_or_404(Sector, id=map_session['sector']),
-                    'size': map_session['size'],
-                    'purpose': map_session.get('purpose'),
-                    'stakeholders': stakeholders,
-                    'own_parameter': request.session.get('custom_similarity_parameter'),
-                })
-                map_session['id'] = m.id
-                request.session.modified = True
+    save_map()
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
