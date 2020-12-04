@@ -37,7 +37,7 @@ def save_map(request):
                 m = Map.objects.create(**{
                     'name': map_session['name'],
                     'workshop': request.session.get('workshop'),
-                    'is_own': map_session['is_own'],
+                    'is_own': map_session['is_own'] == 'true',
                     'sector': get_object_or_404(Sector, id=map_session['sector']),
                     'size': map_session['size'],
                     'purpose': map_session.get('purpose'),
@@ -156,8 +156,11 @@ def organisation_form(request, **kwargs):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
         if request.session.get('organization'):
+            organization_data = request.session.get('organization')
+            # convert JSON boolean to Python boolean
+            organization_data['is_own'] = organization_data['is_own'] == 'true'
             form = OrganisationForm(
-                request.session.get('organization')
+                organization_data
             )
         else:
             form = OrganisationForm()
