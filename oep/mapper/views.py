@@ -557,11 +557,6 @@ def picker_view(request, **kwargs):
         nodes.append(node)
         if similarity_type in similarities:
             similars.append(name)
-    page_description = kwargs.get('description')
-    if page_description:
-        kwargs['description'] = page_description % {
-            'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '#')
-        }
     kwargs.update({
         'nodes': nodes,
         'similars': similars,
@@ -755,7 +750,8 @@ def page_view(request, page_no, workshop_slug=None):
         context.update({
             'title': page_info.title,
             'description': page_info.description % {
-                'organization_name': organization_name
+                'organization_name': organization_name,
+                'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '#'),
             },
         })
     context.update({
