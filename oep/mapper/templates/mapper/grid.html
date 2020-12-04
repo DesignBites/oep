@@ -149,6 +149,10 @@
 		}
 	});
 
+	if ($('#nodeList li').length == 0) {
+		$('#nodeListCol').addClass('d-none');
+	}
+
 	$('.stakeholder-node').click(function(e) {
 		$('.stakeholder-node').removeClass('active');
 		$(this).addClass('active');
