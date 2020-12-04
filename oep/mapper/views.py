@@ -554,6 +554,11 @@ def picker_view(request, **kwargs):
         nodes.append(node)
         if similarity_type in similarities:
             similars.append(name)
+    page_description = kwargs.get('description')
+    if page_description:
+        kwargs['description'] = page_description % {
+            'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '#')
+        }
     kwargs.update({
         'nodes': nodes,
         'similars': similars,
