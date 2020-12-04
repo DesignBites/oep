@@ -1,11 +1,14 @@
 <table align="center" width="100%">
 
-    {% if stakeholder_form %}
+
 
     <tr>
         <td>
 
-            <button data-target="infoAdd" class="menuButton btn btn-lg btn-primary">
+            <button data-target="infoAdd"
+                class="menuButton btn btn-lg btn-primary"
+                {% if not stakeholder_form %}disabled{% endif %}
+            >
                 <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M32.48,24.37H24.37v8.11H19.78V24.37H11.67V19.78h8.11V11.67h4.59v8.11h8.11Z"/>
                 </svg>
@@ -14,7 +17,7 @@
         </td>
     </tr>
 
-    {% endif %}
+
 
 
     <tr>
@@ -28,13 +31,17 @@
                     </svg>
                 </button>
 
-                <button data-target="infoFilter" type="button" class="menuButton btn btn-primary">
+                <button data-target="infoFilter" type="button" class="menuButton btn btn-primary"
+                    {% if page_context == "suggestions" %}disabled{% endif %}
+                >
                     <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-funnel-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path class="cls-1" d="M8.18,11c0-.12.05-.25.08-.37A2.36,2.36,0,0,1,9.39,9.13a3.44,3.44,0,0,1,1.18-.47,5.16,5.16,0,0,1,.79-.05c3.12,0,6.23-.06,9.35-.06s6.3,0,9.45,0c1.24,0,2.48,0,3.72,0a3,3,0,0,1,2.41,1.2,2.55,2.55,0,0,1,.17,2.73,4.52,4.52,0,0,1-1,1.34L28,20.82c-.4.37-.79.73-1.18,1.11a.3.3,0,0,0-.08.21c0,1.73,0,3.47,0,5.2l0,3a.83.83,0,0,1-.27.64c-1.45,1.4-2.89,2.81-4.35,4.21-.59.57-1.22,1.1-1.81,1.67a1.42,1.42,0,0,1-1.84-.1.94.94,0,0,1-.19-.65c0-1.59-.07-3.18-.08-4.76,0-3.06,0-6.11,0-9.16a.38.38,0,0,0-.14-.31L12.3,16.54c-.93-.86-1.86-1.74-2.77-2.62a4.29,4.29,0,0,1-1.21-1.79c-.06-.2-.09-.41-.14-.61Z"/>
                     </svg>
                 </button>
 
-                <button data-target="infoView" type="button" class="menuButton btn btn-primary">
+                <button data-target="infoView" type="button" class="menuButton btn btn-primary"
+                    {% if page_context == "suggestions" %}disabled{% endif %}
+                >
                     <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path class="cls-1" d="M21.3,12.59h1.32a1.6,1.6,0,0,0,.29.05,14.54,14.54,0,0,1,5.85,1.62,20.72,20.72,0,0,1,8.43,8.42.41.41,0,0,1,0,.47,22,22,0,0,1-4.1,5.25A16.08,16.08,0,0,1,15.79,32a17,17,0,0,1-9-8.43L6.52,23v-.24a2.48,2.48,0,0,0,.19-.26,21.64,21.64,0,0,1,7.66-7.81,14.53,14.53,0,0,1,5.06-1.84C20.05,12.73,20.68,12.67,21.3,12.59Zm.64,3.87a6.23,6.23,0,0,0-6.41,6.31,6.23,6.23,0,0,0,6.39,6.47,6.24,6.24,0,0,0,6.41-6.32A6.25,6.25,0,0,0,21.94,16.46Z"/>
                         <path class="cls-1" d="M25.77,22.88A3.85,3.85,0,1,1,22.08,19,3.88,3.88,0,0,1,25.77,22.88Z"/>
