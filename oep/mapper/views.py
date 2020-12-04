@@ -763,6 +763,7 @@ def page_view(request, page_no, workshop_slug=None):
         'page_no': page_no,
         'next_page': next_page,
         'prev_page': prev_page,
+        'is_last': page_no == len(PAGES),
     })
     if workshop_slug:
         context.update({

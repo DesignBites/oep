@@ -139,7 +139,7 @@
 			</a>
 
 			{% block floating-menu %}
-			{% if not page_no %}
+			{% if is_last or not page_no %}
 			<div class="mt-5 ml-4" id="floating-menu">
 				{% include "mapper/floating_menu.html" %}
 			</div>

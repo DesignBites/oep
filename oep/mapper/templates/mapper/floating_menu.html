@@ -69,7 +69,7 @@
     <tr>
         <td>
 
-            <a href="{% url 'mapper_suggest' %}" class="btn btn-lg btn-primary bg-danger border-danger"
+            <a href="{% url 'mapper_suggest' %}" class="btn btn-lg btn-primary bg-danger border-danger menuButton"
                 data-toggle="tooltip" data-placement="right" title="SUGGEST COLLABORATORS"
             >
                 <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-star-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -84,7 +84,7 @@
     <tr>
         <td>
             {# to the last page #}
-            <a href="{% url 'mapper_page' page_no=0 %}" class="btn btn-lg btn-primary mt-4"
+            <a href="{% url 'mapper_page' page_no=0 %}" class="btn btn-lg btn-primary mt-4 menuButton"
                 data-toggle="tooltip" data-placement="right" title="RETURN TO THE QUESTIONS"
             >
                 <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -101,29 +101,42 @@
 
 $(document).ready(function() {
 
-    $sidebar = $('#infoSidebar');
+    {% if is_last %}
 
-	$('.menuButton').click(function() {
-	    $this = $(this);
-		$target = $('#' + $(this).data('target'));
-		console.log($target);
-	    if ($this.hasClass('active')) {
-	        // hide
-    		$sidebar.addClass('d-none');
-    		$this.removeClass('active');
-	    } else {
-	        // show
-    		$('.sidebarContent').addClass('d-none');
-	        $sidebar.removeClass('d-none');
-	        $target.removeClass('d-none');
-	        $('.menuButton').removeClass('active');
-    		$this.addClass('active');
-	    }
-	});
+        {# show the menu button tooltips #}
+
+        $('.menuButton').addClass('disabled');
+        $('.menuButton').prop('disabled', true);
+
+        $('[data-toggle="tooltip"]').tooltip('show');
+
+    {% else %}
+
+        $sidebar = $('#infoSidebar');
+
+        $('.menuButton').click(function() {
+            $this = $(this);
+            $target = $('#' + $(this).data('target'));
+            console.log($target);
+            if ($this.hasClass('active')) {
+                // hide
+                $sidebar.addClass('d-none');
+                $this.removeClass('active');
+            } else {
+                // show
+                $('.sidebarContent').addClass('d-none');
+                $sidebar.removeClass('d-none');
+                $target.removeClass('d-none');
+                $('.menuButton').removeClass('active');
+                $this.addClass('active');
+            }
+        });
+
+    {% endif %}
 
 
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     })
 
 });
