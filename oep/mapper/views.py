@@ -734,7 +734,7 @@ def page_view(request, page_no, workshop_slug=None):
     except IndexError:
         raise Http404
     request.session['last_page_no'] = page_no
-    save_map()
+    save_map(request)
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
