@@ -3304,7 +3304,7 @@ input[type="button"].btn-block {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 0 solid rgba(0, 0, 0, 0.125);
   border-radius: 0.5rem; }
   .card > hr {
     margin-right: 0;
@@ -3314,12 +3314,12 @@ input[type="button"].btn-block {
     border-bottom: inherit; }
     .card > .list-group:first-child {
       border-top-width: 0;
-      border-top-left-radius: calc(0.5rem - 1px);
-      border-top-right-radius: calc(0.5rem - 1px); }
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem; }
     .card > .list-group:last-child {
       border-bottom-width: 0;
-      border-bottom-right-radius: calc(0.5rem - 1px);
-      border-bottom-left-radius: calc(0.5rem - 1px); }
+      border-bottom-right-radius: 0.5rem;
+      border-bottom-left-radius: 0.5rem; }
 
 .card-body {
   flex: 1 1 auto;
@@ -3345,19 +3345,19 @@ input[type="button"].btn-block {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
+  background-color: #fff;
+  border-bottom: 0 solid rgba(0, 0, 0, 0.125); }
   .card-header:first-child {
-    border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0; }
+    border-radius: 0.5rem 0.5rem 0 0; }
   .card-header + .list-group .list-group-item:first-child {
     border-top: 0; }
 
 .card-footer {
   padding: 0.75rem 1.25rem;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-top: 1px solid rgba(0, 0, 0, 0.125); }
+  background-color: #fff;
+  border-top: 0 solid rgba(0, 0, 0, 0.125); }
   .card-footer:last-child {
-    border-radius: 0 0 calc(0.5rem - 1px) calc(0.5rem - 1px); }
+    border-radius: 0 0 0.5rem 0.5rem; }
 
 .card-header-tabs {
   margin-right: -0.625rem;
@@ -3385,13 +3385,13 @@ input[type="button"].btn-block {
 
 .card-img,
 .card-img-top {
-  border-top-left-radius: calc(0.5rem - 1px);
-  border-top-right-radius: calc(0.5rem - 1px); }
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem; }
 
 .card-img,
 .card-img-bottom {
-  border-bottom-right-radius: calc(0.5rem - 1px);
-  border-bottom-left-radius: calc(0.5rem - 1px); }
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem; }
 
 .card-deck .card {
   margin-bottom: 15px; }
@@ -3464,7 +3464,7 @@ input[type="button"].btn-block {
     border-top-right-radius: 0; }
   .accordion > .card > .card-header {
     border-radius: 0;
-    margin-bottom: -1px; }
+    margin-bottom: 0; }
 
 .breadcrumb {
   display: flex;
