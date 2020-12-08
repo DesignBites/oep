@@ -90,9 +90,9 @@
 
 <script>
 
-    $(document).ready(function() {
+$(document).ready(function() {
 
-        {% if graph %}
+    {% if graph %}
 
         // swithes for circles
 
@@ -155,8 +155,8 @@
             s.refresh();
         });
 
-        {% endif %}
 
+    {% else %}
 
         // Venn Diagram
 
@@ -201,8 +201,8 @@
             }
         });
 
+    {% endif %}
 
-
-    });
+});
 
 </script>
