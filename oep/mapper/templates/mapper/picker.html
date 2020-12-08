@@ -102,8 +102,6 @@
 
 			$(this).attr('src', '{% static "nodes/" %}' + letters.join('') + '.png');
 		}
-
-		console.log(similars);
 	});
 
 	$('#btnNext').click(function(e) {
@@ -126,11 +124,4 @@
 
 </script>
 
-{% endblock %}
-
-
-{% block top %}
-{% endblock %}
-
-{% block bottom %}
 {% endblock %}

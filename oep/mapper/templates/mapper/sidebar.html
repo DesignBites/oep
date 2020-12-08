@@ -14,27 +14,6 @@
         </div>
         {% endif %}
 
-        <div class="row nav-buttons mt-auto w-100" style="position: absolute; bottom: 20px;">
-            <div class="col">
-            {% if prev_page %}
-                <a href="{% url 'mapper_page' page_no=prev_page %}" id="btnPrev">
-                    <img src="{% static 'arrow_left_small.png' %}" width="50">
-                </a>
-            {% endif %}
-            </div>
-            <div class="col">
-            {% if next_page %}
-                <a class="float-right btnNext" href="{% url 'mapper_page' page_no=next_page %}">
-                    <img src="{% static 'arrow_right_small.png' %}" width="50">
-                </a>
-            {% elif page_no %}
-                <a href="{% url 'mapper_ring' %}" class="btn btn-lg btn-primary float-right">
-                    LET'S GO
-                </a>
-            {% endif %}
-            </div>
-        </div>
-
     {% endblock %}
 
 </div>

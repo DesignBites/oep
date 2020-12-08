@@ -166,6 +166,7 @@ def organisation_form(request, **kwargs):
             form = OrganisationForm()
     kwargs.update({
         'form': form,
+        'instructions_align': 'top',
     })
     return render(request, 'mapper/organisation_form.html', kwargs)
 
@@ -324,6 +325,7 @@ def add_stakeholders(request, **kwargs):
             field.initial = ','.join(initial_stakeholders)
     kwargs.update({
         'form': form,
+        'instructions_align': 'top',
     })
     return render(request, 'mapper/add_stakeholders.html', kwargs)
 
@@ -353,6 +355,7 @@ def add_custom_similarity(request, **kwargs):
         })
     kwargs.update({
         'form': form,
+        'instructions_align': 'top',
     })
     return render(request, 'mapper/add_custom_similarity.html', kwargs)
 
@@ -372,6 +375,7 @@ def ring_view(request, **kwargs):
             })
     kwargs.update({
         'graph': ring_layout(stakeholders),
+        'instructions_align': 'bottom',
     })
     if 'stakeholder_form' not in kwargs:
         kwargs.update({
@@ -538,10 +542,16 @@ def map_view(request, **kwargs):
         kwargs.update({
             'graph': layout(kwargs['stakeholders'])
         })
+    kwargs.update({
+        'instructions_align': 'bottom',
+    })
     return render(request, 'mapper/map.html', kwargs)
 
 
 def grid_view(request, **kwargs):
+    kwargs.update({
+        'instructions_align': 'top',
+    })
     return render(request, 'mapper/grid.html', kwargs)
 
 
@@ -564,6 +574,7 @@ def picker_view(request, **kwargs):
     kwargs.update({
         'nodes': nodes,
         'similars': similars,
+        'instructions_align': 'top',
     })
     return render(request, 'mapper/picker.html', kwargs)
 
@@ -581,7 +592,7 @@ PAGES = [
         'view': add_stakeholders,
         'context': {
             'batch_no': 1,
-        }
+        },
     },
     {
         'view': map_view,
@@ -646,7 +657,7 @@ PAGES = [
         'view': ring_view,
         'context': {
             'layout': ring_layout,
-           'stakeholder_form': StakeholderForm(),
+            'stakeholder_form': StakeholderForm(),
         },
     },
     {
