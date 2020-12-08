@@ -87,15 +87,7 @@
 <body>
 
 
-{% block top %}
-
-{% endblock %}
-
-
-{% block bottom %}
-
-{% endblock %}
-
+{% comment %}
 <div class="container-fluid h-100 d-md-none">
 
 	<div class="row">
@@ -126,16 +118,44 @@
 	</div>
 
 </div>
+{% endcomment %}
 
 
-<div class="container-fluid h-100 d-none d-md-block">
+{# mobile top bar #}
+
+{% block top %}
+
+<div class="container-fluid w-100 d-md-none {% if instructions_align == 'bottom' %}fixed-bottom mb-5{% endif %}">
+
+	<div class="row">
+
+	{% if page_no %}
+
+		<div class="bg-warning pl-3 pb-3 pr-3 w-100" id="top-sidebar">
+
+			{% include "mapper/sidebar.html" %}
+
+		</div>
+
+	{% endif %}
+
+	</div>
+
+</div>
+
+{% endblock %}
+
+{# end mobile top bar #}
+
+
+<div class="container-fluid h-100 {# d-none d-md-block #}">
 
 	<div class="row h-100">
 
 		<div class="col-1 text-center">
 
 			<a class="navbar-brand" href="{% url 'mapper_index' %}">
-				<img src="{% static 'mapper-logo-beta.png' %}" width="100" class="ml-3 mt-2">
+				<img src="{% static 'mapper-logo-beta.png' %}" width="80" class="ml-3 mt-2 {% if instructions_align == 'top' %}d-none d-md-block{% endif %}">
 			</a>
 
 			{% block floating-menu %}
@@ -171,15 +191,48 @@
 
 			{% if page_no %}
 				{# offset the sidebar #}
-				<div class="col-3"></div>
+				<div class="col-3 d-none d-md-block"></div>
 
-				<div class="col-3 bg-warning" id="right-sidebar">
+				<div class="col-3 bg-warning d-none d-md-block" id="right-sidebar">
 
 					{% include "mapper/sidebar.html" %}
 
 				</div>
 
 			{% endif %}
+
+		{% endblock %}
+
+
+		{% block bottom %}
+
+			{# nav buttons #}
+
+			{% if page_no %}
+
+				<div class="fixed-bottom bg-warning offset-md-9 p-2" id="bottom-sidebar">
+
+					{% if prev_page %}
+						<a href="{% url 'mapper_page' page_no=prev_page %}" id="btnPrev">
+							<img src="{% static 'arrow_left_small.png' %}" width="50">
+						</a>
+					{% endif %}
+
+					{% if next_page %}
+						<a class="float-right btnNext" href="{% url 'mapper_page' page_no=next_page %}">
+							<img src="{% static 'arrow_right_small.png' %}" width="50">
+						</a>
+					{% elif page_no %}
+						<a href="{% url 'mapper_ring' %}" class="btn btn-lg btn-primary float-right">
+							LET'S GO
+						</a>
+					{% endif %}
+
+				</div>
+
+			{% endif %}
+
+			{# end nav buttons for mobile #}
 
 		{% endblock %}
 
