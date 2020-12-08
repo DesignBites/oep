@@ -17,14 +17,13 @@
         <div class="row nav-buttons mt-auto w-100" style="position: absolute; bottom: 20px;">
             <div class="col">
             {% if prev_page %}
-                <a href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=prev_page %}{% else %}{% url 'mapper_page' page_no=prev_page %}{% endif %}" id="btnPrev">
                     <img src="{% static 'arrow_left_small.png' %}" width="50">
                 </a>
             {% endif %}
             </div>
             <div class="col">
             {% if next_page %}
-                <a class="float-right" href="{% if workshop %}{% url 'mapper_page_workshop' workshop_slug=workshop.slug page_no=next_page %}{% else %}{% url 'mapper_page' page_no=next_page %}{% endif %}" id="btnNext">
+                <a class="float-right btnNext" href="{% url 'mapper_page' page_no=next_page %}">
                     <img src="{% static 'arrow_right_small.png' %}" width="50">
                 </a>
             {% elif page_no %}
