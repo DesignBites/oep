@@ -202,6 +202,7 @@ def upload_map(request):
                         del request.session[key]
                     except KeyError:
                         pass
+            request.session.modified = True
             page_no = map_data.get('last_page_no', 1)
             return redirect('mapper_page', page_no=page_no)
         else:
@@ -732,7 +733,10 @@ def page_view(request, page_no, workshop_slug=None):
     except IndexError:
         raise Http404
     request.session['last_page_no'] = page_no
+
+    # save the current state to the database
     save_map(request)
+
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
         request.session['workshop'] = workshop.name
