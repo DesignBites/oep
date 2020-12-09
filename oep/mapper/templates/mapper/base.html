@@ -219,7 +219,7 @@
 					{% endif %}
 
 					{% if next_page %}
-						<a class="float-right btnNext" href="{% url 'mapper_page' page_no=next_page %}">
+						<a class="float-right" href="{% url 'mapper_page' page_no=next_page %}" id="btnNext">
 							<img src="{% static 'arrow_right_small.png' %}" width="50">
 						</a>
 					{% elif page_no %}
