@@ -133,6 +133,14 @@
 
 		<div class="bg-warning pl-3 pb-3 pr-3 w-100" id="top-sidebar">
 
+			{% if instructions_align == 'bottom' %}
+				<button type="button" class="close pt-2"
+					data-target="#top-sidebar"
+					data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+			{% endif %}
+
 			{% include "mapper/sidebar.html" %}
 
 		</div>
