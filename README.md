@@ -7,9 +7,9 @@ The stakeholder mapping tool guides you through a series of steps to identify po
 The mapper is built on top of [Django](https://djangoproject.com) framework. 
 
 `
-$ git clone git@github.com:onurmatik/oep.git
-$ cd oep/
-$ virtualenv env
-$ . env/bin/activate
+$ git clone git@github.com:onurmatik/oep.git  
+$ cd oep/  
+$ virtualenv env  
+$ . env/bin/activate  
 (env) $ pip install -r requirements.txt
 `
