@@ -18,7 +18,7 @@ And installing the requirements via `pip` into a `virtual environment`.
 $ cd oep/  
 $ python3 -m venv env  
 $ . env/bin/activate  
-(env) $ pip install -r requirements.txt
+(env) $ pip3 install -r requirements.txt
 ```
 
 Run the Django development server.
