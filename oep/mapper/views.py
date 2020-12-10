@@ -161,7 +161,7 @@ class OrganisationForm(forms.Form):
 
 def organisation_form(request, **kwargs):
     """
-    Displays the organization information form.
+    Displays the organization information form and updates organization information.
     """
     if request.method == 'POST':
         form = OrganisationForm(request.POST)
@@ -195,7 +195,7 @@ class MapUploadForm(forms.Form):
 
 def upload_map(request):
     """
-    Displays the map upload form.
+    Displays the map upload form and if valid, resets the session data as in the uploaded form.
     """
     if request.method == 'POST':
         form = MapUploadForm(request.POST, request.FILES)
