@@ -24,7 +24,11 @@ SESSION_VARIABLES = [
 
 
 def save_map(request):
-    # saves the map data in the session as a Map instance
+    """
+    Saves the map data in the session as a Map instance if the user has given consent.
+    Called initially by :view:`mapper.approve_terms` when the user gives consent.
+    Called by :view:`mapper.page_view` on every questionnaire page view.
+    """
     if request.session.get('terms_ok'):
         map_session = request.session.get('organization')
         if map_session:
@@ -49,6 +53,10 @@ def save_map(request):
 
 
 def approve_terms(request):
+    """
+    Takes a GET :param ´terms´:, either ´yes´ or ´no´.
+    Sets the boolean user consent session parameter :param ´terms_ok´:.
+    """
     terms = request.GET.get('terms')
     if terms:
         if terms == 'yes':
@@ -82,6 +90,10 @@ def approve_terms(request):
 
 
 def index(request, workshop_slug=None):
+    """
+    Displays the welcome page with options to start a new map or to continue an existing one.
+    If accessed via a workshop URL, sets the :param `workshop`: session parameter.
+    """
     workshop = None
     if workshop_slug:
         workshop = get_object_or_404(Workshop, slug=workshop_slug)
@@ -148,6 +160,9 @@ class OrganisationForm(forms.Form):
 
 
 def organisation_form(request, **kwargs):
+    """
+    Displays the organization information form.
+    """
     if request.method == 'POST':
         form = OrganisationForm(request.POST)
         if form.is_valid():
@@ -179,6 +194,9 @@ class MapUploadForm(forms.Form):
 
 
 def upload_map(request):
+    """
+    Displays the map upload form.
+    """
     if request.method == 'POST':
         form = MapUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -223,8 +241,17 @@ def upload_map(request):
 
 @csrf_exempt
 def connections_save(request):
-    # update similarities for the given type(s)
-    # e.g.: {'values': ['AAA', 'BBB']}
+    """
+    Creates or updates :param `similarities`: for each stakeholder.
+    ``similarities``
+        A dictionary of similarity types, holding a list of stakeholder names
+        that are similarity to the root organization in that type.
+        E.g.:
+        {
+            'values': ['Stakeholder A', 'Stakeholder B', ...],
+            'resources': ['Stakeholder B', 'Stakeholder C', ...],
+        }
+    """
     if request.is_ajax():
         data = json.loads(request.body)
         stakeholders = request.session.get('stakeholders', {})
@@ -251,6 +278,22 @@ def connections_save(request):
 
 @csrf_exempt
 def grid_save(request):
+    """
+    Creates or updates :param `interact`: and :param: `collaborate`: frequencies
+    of each stakeholder with the root organization.
+    ``interact``
+        An integer value between 1 - 3 indicating the frequency of interaction
+        of the root organization with each stakeholder.
+            - 1: Hardly ever
+            - 2: Sometimes
+            - 3: Regularly
+    ``collaborate``
+        An integer value between 1 - 3 indicating the frequency of collaboration
+        of the root organization with each stakeholder.
+            - 1: Never
+            - 2: Once or twice
+            - 3: Many times
+    """
     if request.is_ajax():
         stakeholders = request.session['stakeholders']
         data = json.loads(request.body)
@@ -579,7 +622,7 @@ def picker_view(request, **kwargs):
     return render(request, 'mapper/picker.html', kwargs)
 
 
-# the page flow
+# The page flow
 
 PAGES = [
     {
