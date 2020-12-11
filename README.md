@@ -21,6 +21,13 @@ $ . env/bin/activate
 (env) $ pip3 install -r requirements.txt
 ```
 
+Create the database and initialize with data.
+
+```
+$ python manage.py migrate
+$ python manage.py loaddata mapper.json
+```
+
 Run the Django development server.
 
 ```
