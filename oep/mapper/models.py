@@ -6,9 +6,9 @@ from slugify import slugify
 
 
 ORGANIZATION_SIZES = (
-    (1, _('Less than 5 employees')),
-    (2, _('5 - 9 employees')),
-    (3, _('10 or more employees')),
+    (1, _('Less than 20 employees')),
+    (2, _('20 - 200 employees')),
+    (3, _('More than 200 employees')),
 )
 
 
