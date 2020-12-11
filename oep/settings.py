@@ -1,6 +1,14 @@
 from pathlib import Path
 import os
 
+
+# Override in the settings_local.py
+SECRET_KEY = '*'
+
+
+BASE_SITE_URL = 'ec2-52-59-232-37.eu-central-1.compute.amazonaws.com'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
