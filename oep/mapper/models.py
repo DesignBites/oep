@@ -6,13 +6,16 @@ from slugify import slugify
 
 
 ORGANIZATION_SIZES = (
-    (1, _('Less than 20 employees')),
-    (2, _('20 - 200 employees')),
-    (3, _('More than 200 employees')),
+    (1, _('< 20')),
+    (2, _('20 - 200')),
+    (3, _('> 200')),
 )
 
 
 class Sector(models.Model):
+    """
+    Holds the sectors based on the ILO list.
+    """
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -20,6 +23,9 @@ class Sector(models.Model):
 
 
 class StakeholderType(models.Model):
+    """
+    Stores types of stakeholders and which batch they belong to.
+    """
     name = models.CharField(max_length=100)
     batch_no = models.PositiveSmallIntegerField()
     question = models.CharField(max_length=100)
@@ -36,6 +42,9 @@ class StakeholderType(models.Model):
 
 
 class Workshop(models.Model):
+    """
+    Stores a workshop name. :model:`mapper.Map` can be related to a workshop instance.
+    """
     name = models.CharField(max_length=100)
     slug = models.SlugField()
 
@@ -54,6 +63,9 @@ class Workshop(models.Model):
 
 
 class Map(models.Model):
+    """
+    Holds all the information regarding a stakeholder map created in one session.
+    """
     name = models.CharField(_('Name of the organization'), max_length=100)
     workshop = models.ForeignKey(Workshop, blank=True, null=True, on_delete=models.SET_NULL)
     is_own = models.BooleanField(
