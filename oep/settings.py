@@ -5,6 +5,7 @@ import os
 # Override in the settings_local.py
 SECRET_KEY = '*'
 
+DEBUG = True
 
 BASE_SITE_URL = 'localhost'
 
