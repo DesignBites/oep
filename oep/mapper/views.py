@@ -132,9 +132,9 @@ class OrganisationForm(forms.Form):
     size = forms.ChoiceField(
         label='What size is your organisation or team?',
         choices=(
-            (1, '< 5'),
-            (2, '5 - 9'),
-            (3, '> 9'),
+            (1, '< 20'),
+            (2, '20 - 200'),
+            (3, '> 200'),
         ),
         widget=forms.RadioSelect(),
     )
