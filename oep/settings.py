@@ -6,7 +6,7 @@ import os
 SECRET_KEY = '*'
 
 
-BASE_SITE_URL = 'ec2-52-59-232-37.eu-central-1.compute.amazonaws.com'
+BASE_SITE_URL = 'localhost'
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
