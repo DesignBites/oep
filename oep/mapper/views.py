@@ -52,6 +52,14 @@ def save_map(request):
                 request.session.modified = True
 
 
+def get_organization_name_from_session(request):
+    if request.session.get('organization') and request.session['organization'].get('name'):
+        organization_name = request.session['organization']['name']
+    else:
+        organization_name = ''
+    return organization_name
+
+
 def approve_terms(request):
     """
     Takes a GET :param ´terms´:, either ´yes´ or ´no´.
@@ -410,7 +418,9 @@ def ring_view(request, **kwargs):
         if page_info:
             kwargs.update({
                 'title': page_info.title,
-                'description': page_info.description,
+                'description': page_info.description % {
+                    'organization_name': get_organization_name_from_session(request),
+                },
             })
     kwargs.update({
         'graph': ring_layout(stakeholders),
@@ -437,7 +447,9 @@ def venn_view(request, **kwargs):
         if page_info:
             kwargs.update({
                 'title': page_info.title,
-                'description': page_info.description,
+                'description': page_info.description % {
+                    'organization_name': get_organization_name_from_session(request),
+                },
             })
     kwargs.update(venn_layout(stakeholders))
     if 'stakeholder_form' not in kwargs:
@@ -461,7 +473,9 @@ def suggest_view(request, **kwargs):
         if page_info:
             kwargs.update({
                 'title': page_info.title,
-                'description': page_info.description,
+                'description': page_info.description % {
+                    'organization_name': get_organization_name_from_session(request),
+                },
             })
     kwargs.update(suggest_layout(stakeholders))
     return render(request, 'mapper/suggest.html', kwargs)
@@ -800,14 +814,10 @@ def page_view(request, page_no, workshop_slug=None):
         prev_page = page_no - 1
     page_info = PageInfo.objects.filter(page=str(page_no)).first()
     if page_info:
-        if request.session.get('organization') and request.session['organization'].get('name'):
-            organization_name = request.session['organization']['name']
-        else:
-            organization_name = None
         context.update({
             'title': page_info.title,
             'description': page_info.description % {
-                'organization_name': organization_name,
+                'organization_name': get_organization_name_from_session(request),
                 'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '#'),
             },
         })
