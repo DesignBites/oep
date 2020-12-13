@@ -468,6 +468,7 @@ def suggest_view(request, **kwargs):
         # called via the menu
         kwargs.update({
             'show_menu': True,
+            'instructions_align': 'top',
         })
         page_info = PageInfo.objects.filter(page='suggestions').first()
         if page_info:
