@@ -10,7 +10,7 @@ from django.templatetags.static import static
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 from crispy_forms.helper import FormHelper
-from .models import Map, Sector, Workshop, StakeholderType, PageInfo
+from .models import Map, Sector, Workshop, StakeholderType, PageInfo, ORGANIZATION_SIZES
 from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout, get_node_icon_prefix, NODE_ICON_NAME
 
 
@@ -131,11 +131,7 @@ class OrganisationForm(forms.Form):
     )
     size = forms.ChoiceField(
         label='What size is your organisation or team?',
-        choices=(
-            (1, '< 20'),
-            (2, '20 - 200'),
-            (3, '> 200'),
-        ),
+        choices=ORGANIZATION_SIZES,
         widget=forms.RadioSelect(),
     )
     purpose = forms.CharField(
