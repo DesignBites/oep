@@ -126,7 +126,7 @@ class OrganisationForm(forms.Form):
     )
     sector = forms.ChoiceField(
         label='What is your key sector?',
-        help_text='Categories are obtained from the International Labour Organization.',
+        help_text=mark_safe('Categories are obtained from the <a href="https://www.ilo.org/global/industries-and-sectors/lang--en/index.htm">International Labour Organization</a>.'),
         choices=sector_choices,
     )
     size = forms.ChoiceField(
