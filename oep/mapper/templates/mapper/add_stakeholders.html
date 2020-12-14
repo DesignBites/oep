@@ -11,9 +11,9 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container-questions">
 
-	<form method="post" id="stakeholderForm">
+	<form method="post" id="stakeholderForm" max-width="500px">
 		{% csrf_token %}
 		{{ form|crispy }}
 	</form>

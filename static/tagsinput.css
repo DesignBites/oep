@@ -21,7 +21,7 @@
   box-shadow: none;
   outline: none;
   background-color: transparent;
-  padding: 0 6px;
+  padding: 1rem 1rem;
   margin: 0;
   width: auto;
   max-width: inherit;
@@ -41,8 +41,11 @@
   box-shadow: none;
 }
 .bootstrap-tagsinput .badge {
-  margin: 2px 4px;
-  padding:5px 8px;
+  margin: 0px 4px;
+  padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.3rem
 }
 .bootstrap-tagsinput .badge [data-role="remove"] {
   margin-left: 8px;
@@ -53,7 +56,8 @@
   padding: 0px 4px;
   background-color:rgba(0, 0, 0, 0.1);
   border-radius:50%;
-  font-size:13px
+  font-size:13px;
+      color: white
 }
 .bootstrap-tagsinput .badge [data-role="remove"]:hover:after {
 
