@@ -133,14 +133,22 @@ class OrganisationForm(forms.Form):
         required=False,
     )
     sector = forms.ChoiceField(
-        label='What is your key sector?',
+        label='What is the key sector of this organisation?',
         help_text=mark_safe('Categories are obtained from the <a href="https://www.ilo.org/global/industries-and-sectors/lang--en/index.htm">International Labour Organization</a>.'),
         choices=sector_choices,
     )
     size = forms.ChoiceField(
-        label='What size is your organisation or team?',
+        label='What size is this organisation?',
         choices=ORGANIZATION_SIZES,
         widget=forms.RadioSelect(),
+    )
+    location = forms.CharField(
+        label='What is the primary location of this organisation?',
+        required=False,
+        widget=forms.Textarea(attrs={
+            'placeholder': 'Describe which geographical area this organisation is active in.',
+            'rows': 1,
+        }),
     )
     purpose = forms.CharField(
         label='What is your main purpose for using this tool?',
