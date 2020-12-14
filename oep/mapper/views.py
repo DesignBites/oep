@@ -44,6 +44,7 @@ def save_map(request):
                     'is_own': map_session['is_own'] == 'true',
                     'sector': get_object_or_404(Sector, id=map_session['sector']),
                     'size': map_session['size'],
+                    'location': map_session['location'],
                     'purpose': map_session.get('purpose'),
                     'stakeholders': stakeholders,
                     'own_parameter': request.session.get('custom_similarity_parameter'),

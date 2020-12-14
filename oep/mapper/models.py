@@ -85,8 +85,9 @@ class Map(models.Model):
         _('Your primary purpose of using this tool'),
         blank=True, null=True,
     )
-    location = models.TextField(
+    location = models.CharField(
         _('The primary location of the organization'),
+        max_length=100,
         blank=True, null=True,
     )
     stakeholders = models.JSONField(blank=True, null=True)
