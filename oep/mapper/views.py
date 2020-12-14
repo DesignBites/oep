@@ -41,7 +41,7 @@ def save_map(request):
                 m = Map.objects.create(**{
                     'name': map_session['name'],
                     'workshop': request.session.get('workshop'),
-                    'is_own': map_session['is_own'] == 'true',
+                    'is_own': map_session['is_own'] in ['true', 'True'],
                     'sector': get_object_or_404(Sector, id=map_session['sector']),
                     'size': map_session['size'],
                     'location': map_session['location'],
@@ -186,7 +186,7 @@ def organisation_form(request, **kwargs):
         if request.session.get('organization'):
             organization_data = request.session.get('organization')
             # convert JSON boolean to Python boolean
-            organization_data['is_own'] = organization_data['is_own'] == 'true'
+            organization_data['is_own'] = organization_data['is_own'] in ['true', 'True']
             form = OrganisationForm(
                 organization_data
             )
