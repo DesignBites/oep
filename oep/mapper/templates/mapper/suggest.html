@@ -19,7 +19,9 @@
 
 {% block content %}
 
-	<table class="table table-borderless">
+	{# table for desktops #}
+
+	<table class="table table-borderless d-none d-md-block">
 		<tr>
 			<td colspan="4" align="center">
 				<span class="badge badge-primary">LESS CLOSE</span>
@@ -143,45 +145,195 @@
 		</tr>
 	</table>
 
+
+	{# div for mobile #}
+
+	<div class="d-md-none">
+
+		<div class="mb-3">
+
+			<h4>
+				Far friends
+			</h4>
+			<p>
+				These are stakeholders that you interact less with,
+				yet you have relatively more in common with, providing a good base for a collaboration.
+			</p>
+
+			{% for stakeholder in quadrants.q1|slice:":2" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+
+			<div class="moreSuggestions collapse">
+			{% for stakeholder in quadrants.q1|slice:"2:" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+			</div>
+
+		</div>
+
+
+		<div class="mb-3">
+
+			<h4>
+				Low-hanging fruit
+			</h4>
+			<p>
+				These are stakeholders that you interact more with and are relatively similar to you,
+				allowing for an easy start.
+			</p>
+
+			{% for stakeholder in quadrants.q3|slice:":2" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+
+			<div class="moreSuggestions collapse">
+			{% for stakeholder in quadrants.q3|slice:"2:" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+			</div>
+
+		</div>
+
+
+		<div class="mb-3">
+
+			<h4>
+				Over-looked potential
+			</h4>
+			<p>
+				These are stakeholders that you interact more with and might complement your values,
+				ways of working or resources, sparking more creativity.
+			</p>
+
+			{% for stakeholder in quadrants.q4|slice:":2" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+
+			<div class="moreSuggestions collapse">
+			{% for stakeholder in quadrants.q4|slice:"2:" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+			</div>
+
+		</div>
+
+
+		<div class="mb-3">
+
+			<h4>
+				Wild cards
+			</h4>
+			<p>
+				These are stakeholders that you interact less with, and that might complement your values,
+				ways of working or resources, sparking more creativity.
+			</p>
+
+			{% for stakeholder in quadrants.q2|slice:":2" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+
+			<div class="moreSuggestions collapse">
+			{% for stakeholder in quadrants.q2|slice:"2:" %}
+			<div class="">
+				<img src="{{ stakeholder.icon }}" width="50">
+				{{ stakeholder.name }}
+			</div>
+			{% endfor %}
+			</div>
+
+		</div>
+
+	</div>
+
+
+
 {% endblock %}
 
 
 {% block right %}
 
-{# offset sidebar #}
-<div class="col-3"></div>
+	{# offset the sidebar #}
+	<div class="col-3 d-none d-md-block"></div>
 
-<div class="col-3 bg-warning" id="right-sidebar">
+	<div class="col-3 bg-warning d-none d-md-block" id="right-sidebar">
 
-	<div class="mt-3">
+		{% include "mapper/sidebar.html" %}
 
-		{% if title %}
-			<h4>{{ title }}</h4>
-		{% endif %}
+		<div class="btn-group w-100">
 
-		{% if description %}
-		<div class="">
-			{{ description|safe }}
+			<a href="{% url 'mapper_suggest' %}" class="btn btn-primary mr-1">
+				NEW SUGGESTIONS
+			</a>
+
+			<a href="{% url 'mapper_ring' %}" class="btn btn-primary ml-1">
+				RETURN
+			</a>
+
 		</div>
-		{% endif %}
 
 	</div>
 
-	<div class="btn-group w-100">
+{% endblock %}
 
-		<a href="{% url 'mapper_suggest' %}" class="btn btn-primary mr-1">
-			NEW SUGGESTIONS
-		</a>
 
-		<a href="{% url 'mapper_ring' %}" class="btn btn-primary ml-1">
-			RETURN
-		</a>
+{# mobile top bar #}
+
+{% block top %}
+
+<div class="container-fluid w-100 d-md-none {% if instructions_align == 'bottom' %}fixed-bottom mb-5{% endif %}">
+
+	<div class="row">
+
+		<div class="bg-warning pl-3 pb-3 pr-3 w-100 collapse show" id="top-sidebar">
+
+			{% if instructions_align == 'bottom' %}
+				<button type="button" class="close pt-2"
+					data-target="#top-sidebar"
+					data-toggle="collapse"
+				>
+					<span aria-hidden="true">
+						<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+						  <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+						  <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+						</svg>
+					</span>
+					<span class="sr-only">Close</span>
+				</button>
+			{% endif %}
+
+			{% include "mapper/sidebar.html" %}
+
+		</div>
 
 	</div>
 
 </div>
 
 {% endblock %}
+
+{# end mobile top bar #}
 
 
 {% block floating-menu %}
@@ -190,11 +342,4 @@
 	{% include "mapper/floating_menu.html" %}
 </div>
 {% endwith %}
-{% endblock %}
-
-
-{% block top %}
-{% endblock %}
-
-{% block bottom %}
 {% endblock %}
