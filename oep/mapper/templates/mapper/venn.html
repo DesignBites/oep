@@ -9,6 +9,18 @@
 			height: 70px;
 			width: 25%;
 		}
+  	.vertical {
+		padding: 10px 3px 10px 3px;
+		white-space: nowrap;
+		writing-mode: tb-rl;
+		transform-origin: 50% 50%;
+		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		-o-transform: rotate(180deg);
+		transform: rotate(180deg);
+        }
+
 	</style>
 
 {% endblock %}
@@ -19,21 +31,37 @@
 	{# similarities: values, working, resources, custom #}
 
 	<table id="venn" class="" cellpadding="3">
+        <tr>
+			<td></td>
+            <td></td>
+            <td class="" colspan="5"><span class="text-danger">similar values</span></td>
+            <td></td>
+            <td class=""><span class="text-warning">similar ways of working</span></td>
+        </tr>
 		<tr>
-			<td class="" colspan="4"></td>
+            <td></td>
+			<td class="" colspan="6"></td>
 			<td class="bg-warning" data-bg="bg-warning" colspan="5"></td>
 			<td colspan="3"></td>
 		</tr>
+        <tr>
+            <td></td>
+			<td class="" colspan="6"></td>
+			<td class="bg-warning" data-bg="bg-warning"></td>
+			<td colspan="3"></td>       			
+            <td class="bg-warning" data-bg="bg-warning"></td>
+		</tr>
 		<tr>
-			<td class="bg-danger" data-bg="bg-danger" colspan="7"></td>
-			<td></td>
+            <td></td>
+			<td class="bg-danger" data-bg="bg-danger" colspan="9"></td>
+            <td></td>
 			<td class="bg-warning" data-bg="bg-warning"></td>
 			<td class="" colspan="3"></td>
 		</tr>
 		<tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
-			<td></td>
-			<td></td>
+			<td colspan="4"></td>
 			<td data-similarities="1000" class="stakeholder-container"></td>
 			<td class="bg-warning" data-bg="bg-warning"></td>
 			<td data-similarities="1100" class="stakeholder-container"></td>
@@ -45,14 +73,18 @@
 			<td></td>
 		</tr>
 		<tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
-			<td class="bg-info" data-bg="bg-info" colspan="10"></td>
+            <td></td>
+			<td class="bg-info" data-bg="bg-info" colspan="11"></td>
 			<td></td>
 		</tr>
 		<tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
+            <td></td>
 			<td class="bg-info" data-bg="bg-info"></td>
-			<td></td>
+			<td colspan="2"></td>
 			<td data-similarities="1010" class="stakeholder-container"></td>
 			<td class="bg-warning" data-bg="bg-warning"></td>
 			<td data-similarities="1110" class="stakeholder-container"></td>
@@ -64,13 +96,21 @@
 			<td></td>
 		</tr>
 		<tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
+            <td></td>
 			<td class="bg-info" data-bg="bg-info"></td>
-			<td class="bg-dark" data-bg="bg-dark" colspan="10"></td>
+            <td></td>
+			<td class="bg-dark" data-bg="bg-dark" colspan="11"></td>
 		</tr>
 		<tr>
+            <td><div class="vertical">
+			<span class="text-info">similar resources</span>
+		</div></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
+            <td></td>
 			<td class="bg-info" data-bg="bg-info"></td>
+            <td></td>
 			<td class="bg-dark" data-bg="bg-dark"></td>
 			<td data-similarities="1011" class="stakeholder-container"></td>
 			<td class="bg-warning" data-bg="bg-warning"></td>
@@ -80,16 +120,23 @@
 			<td class="bg-warning" data-bg="bg-warning"></td>
 			<td data-similarities="0011" class="stakeholder-container"></td>
 			<td class="bg-info" data-bg="bg-info"></td>
+            <td></td>
 			<td class="bg-dark" data-bg="bg-dark"></td>
 		</tr>
 		<tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
-			<td class="bg-info" data-bg="bg-info" colspan="10"></td>
+            <td></td>
+			<td class="bg-info" data-bg="bg-info" colspan="11"></td>
+            <td></td>
 			<td class="bg-dark" data-bg="bg-dark"></td>
 		</tr>
 		<tr>
+            <td><div class="vertical">
+			<span class="text-dark">{% if custom_similarity_parameter %}{{ custom_similarity_parameter }}{% else %}your parameter (not specified){% endif %}</span>
+                </div></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
-			<td class=""></td>
+			<td class="" colspan="3"></td>
 			<td class="bg-dark" data-bg="bg-dark"></td>
 			<td data-similarities="1001" class="stakeholder-container"></td>
 			<td class="bg-warning" data-bg="bg-warning"></td>
@@ -99,40 +146,45 @@
 			<td class="bg-warning" data-bg="bg-warning"></td>
 			<td data-similarities="0001" class="stakeholder-container"></td>
 			<td class=""></td>
+            <td></td>
 			<td class="bg-dark" data-bg="bg-dark"></td>
 		</tr>
 		<tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
-			<td></td>
-			<td class="bg-dark" data-bg="bg-dark" colspan="10"></td>
+            <td colspan="3"></td>
+			<td class="bg-dark" data-bg="bg-dark" colspan="11"></td>
 		</tr>
-		<tr>
+        <tr>
+            <td></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
-			<td class="" colspan="3"></td>
+			<td class="" colspan="5"></td>
+			<td class="bg-warning" data-bg="bg-warning"></td>
+			<td></td>
+        	<td class="bg-danger" data-bg="bg-warning"></td>
+			<td></td>
+            <td class="bg-warning" data-bg="bg-warning"></td>
+        </tr>
+		<tr>
+            <td></td>
+			<td class="bg-danger" data-bg="bg-danger"></td>
+			<td class="" colspan="5"></td>
 			<td class="bg-warning" data-bg="bg-warning" colspan="5"></td>
 			<td colspan="3"></td>
 		</tr>
 		<tr>
-			<td class="bg-danger" data-bg="bg-danger" colspan="7"></td>
+            <td></td>
+			<td class="bg-danger" data-bg="bg-danger"></td>
+			<td colspan="7"></td>
+            <td class="bg-danger" data-bg="bg-danger"></td>
+		</tr>
+        <tr>
+            <td></td>
+			<td class="bg-danger" data-bg="bg-danger" colspan="9"></td>
 			<td colspan="5"></td>
 		</tr>
 	</table>
 
-
-	<div class="row my-4">
-		<div class="col">
-			<span class="badge badge-danger w-100">values</span>
-		</div>
-		<div class="col">
-			<span class="badge badge-warning w-100">ways of working</span>
-		</div>
-		<div class="col">
-			<span class="badge badge-info w-100">resources</span>
-		</div>
-		<div class="col">
-			<span class="badge badge-dark w-100">{% if custom_similarity_parameter %}{{ custom_similarity_parameter }}{% else %}your parameter (not specified){% endif %}</span>
-		</div>
-	</div>
 
 {% endblock %}
 
