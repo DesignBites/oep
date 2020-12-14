@@ -145,7 +145,7 @@ class OrganisationForm(forms.Form):
     location = forms.CharField(
         label='What is the primary location of this organisation?',
         required=False,
-        widget=forms.Textarea(attrs={
+        widget=forms.TextInput(attrs={
             'placeholder': 'Describe which geographical area this organisation is active in.',
             'rows': 1,
         }),
