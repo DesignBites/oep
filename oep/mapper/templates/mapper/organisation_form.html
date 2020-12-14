@@ -4,13 +4,28 @@
 
 {% block head %}
 
-    <link href="{% static 'tagsinput.css' %}" rel="stylesheet">
+<style>
 
-	<style>
-		.custom-radio {
-			display: inline;
-		}
-	</style>
+	.custom-radio label:before {
+		display: none;
+		visibility: hidden;
+	}
+
+	.custom-radio {
+		display: inline;
+	}
+
+	input[type="radio"] + label {
+		margin-left: -24px;
+	}
+
+	input[type="radio"]:checked + label {
+		background-color: #1b2648;
+		border-color: #1b2648;
+		color: #fff;
+	}
+
+</style>
 
 {% endblock %}
 
@@ -23,7 +38,6 @@
 		{% for field in form %}
 			{{ field|as_crispy_field }}
 		{% endfor %}
-
 	</form>
 
 {% endblock %}
@@ -31,15 +45,15 @@
 
 {% block js %}
 
-    <script src="{% static 'tagsinput.js' %}"></script>
+<script>
 
-	<script>
+	$('.custom-radio label').addClass('btn btn-outline-primary');
 
-		$('#btnNext').click(function(e) {
-			e.preventDefault();
-			$('#organisationForm').submit();
-		});
+	$('#btnNext').click(function(e) {
+		e.preventDefault();
+		$('#organisationForm').submit();
+	});
 
-	</script>
+</script>
 
 {% endblock %}
