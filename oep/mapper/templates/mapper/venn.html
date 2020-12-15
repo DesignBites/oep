@@ -5,6 +5,10 @@
 {% block head %}
 
 	<style>
+        #venn td.label {
+        min-width: 35px;
+	}
+
 		#venn tr td.stakeholder-container {
 			height: 70px;
 			width: 25%;
@@ -111,7 +115,7 @@
             <td style="border-top-right-radius: 100%" class="bg-dark" data-bg="bg-dark"></td>
 		</tr>
 		<tr>
-            <td><div class="vertical">
+            <td class="label"><div class="vertical">
 			<span class="text-info">similar resources</span>
 		</div></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
@@ -141,7 +145,7 @@
 			<td class="bg-dark" data-bg="bg-dark"></td>
 		</tr>
 		<tr>
-            <td><div class="vertical">
+            <td class="label"><div class="vertical">
 			<span class="text-dark">{% if custom_similarity_parameter %}{{ custom_similarity_parameter }}{% else %}your parameter (not specified){% endif %}</span>
                 </div></td>
 			<td class="bg-danger" data-bg="bg-danger"></td>
