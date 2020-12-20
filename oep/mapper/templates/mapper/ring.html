@@ -49,7 +49,7 @@
 	var nodes = {% if graph.nodes %}{{ graph.nodes|safe }}{% else %}[]{% endif %};
 	var edges = {% if graph.edges %}{{ graph.edges|safe }}{% else %}[]{% endif %};
 
-	var organization = {{ organization|safe|lower }};
+	var organization = {{ organization|safe }};
 
 	$canvas = $('#canvas');
 	var canvasWidth = $canvas.width();
