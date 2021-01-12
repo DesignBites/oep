@@ -100,7 +100,7 @@ def ring_layout(stakeholders):
         'x': 0,
         'y': 0,
         'size': 10,
-        'color': '#f00',
+        'color': '#fff',
         'type': 'square',
         'image': {
             'url': static(NODE_ICON_NAME % 'O'),
@@ -146,7 +146,7 @@ def ring_layout(stakeholders):
                 'x': x * proximity * 55,
                 'y': y * proximity * 55,
                 'size': data['interact'] == 3 and central_size or 10,
-                'color': '#990',
+                'color': '#fff',
                 'image': {
                     'url': static(NODE_ICON_NAME % icon_prefix),
                     'scale': 3,
