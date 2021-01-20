@@ -9,7 +9,7 @@ The mapper is built on top of [Django](https://djangoproject.com) web framework 
 Easiest way to install the mapper is to clone it using `git`:
 
 ```
-$ git clone git@github.com:onurmatik/oep.git  
+$ git clone git@github.com:DesignBites/oep.git 
 ```
 
 And installing the requirements via `pip` into a `virtual environment`. 
