@@ -185,7 +185,7 @@
 
 	<div class="row h-100">
 
-		<div class="col-2 col-md-1 text-center">
+		<div class="col-2 col-md-1 text-center {% if instructions_align == 'top' %}d-none d-md-block{% endif %}">
 
 			<a class="navbar-brand" href="{% url 'mapper_index' %}">
 				<img src="{% static 'mapper-logo-beta.png' %}" width="80" class="ml-3 mt-2 {% if instructions_align == 'top' %}d-none d-md-block{% endif %}">
