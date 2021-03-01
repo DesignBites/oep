@@ -1,0 +1,238 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-01 18:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: oep/mapper/models.py:9
+msgid "< 20"
+msgstr ""
+
+#: oep/mapper/models.py:10
+msgid "20 - 200"
+msgstr ""
+
+#: oep/mapper/models.py:11
+msgid "> 200"
+msgstr ""
+
+#: oep/mapper/models.py:69
+msgid "Name of the organization"
+msgstr ""
+
+#: oep/mapper/models.py:72
+msgid "This is my own organization"
+msgstr ""
+
+#: oep/mapper/models.py:74
+msgid "Uncheck the box if you are mapping another organization's network"
+msgstr ""
+
+#: oep/mapper/models.py:77
+msgid "The sector of the organization"
+msgstr ""
+
+#: oep/mapper/models.py:81
+msgid "Size of the organization"
+msgstr ""
+
+#: oep/mapper/models.py:85
+msgid "Your primary purpose of using this tool"
+msgstr ""
+
+#: oep/mapper/models.py:89
+msgid "The primary location of the organization"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:32
+#: oep/mapper/templates/mapper/graph_view.html:24
+msgid "OEP Stakeholder Mapper"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:77
+msgid "Manage"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:81
+msgid "Add stakeholder"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:84
+msgid "Remove stakeholder"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:88
+msgid "Reset map"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:94
+#: oep/mapper/templates/mapper/graph_view.html:36
+msgid "Export"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:98
+msgid "Data (JSON)"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:101
+msgid "Image (PNG)"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:131
+msgid "Add a new stakeholder"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:147
+#: oep/mapper/templates/mapper/graph.html:225
+msgid "Close"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:149
+msgid "Add entity"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:166
+msgid "Welcome to the Stakeholder Mapper"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:176
+msgid ""
+"To support you in identifying and selecting potential collaborators, let’s "
+"start by getting to know you."
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:187
+#: oep/mapper/templates/mapper/graph.html:227
+msgid "Upload map"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:191
+msgid "Create map"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:209
+msgid "Upload an existing network map"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:245
+#, python-format
+msgid "%(group_name)s stakeholders"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:273
+msgid "Name of the stakeholder"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:283
+msgid "Add another"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:297
+msgid "Next"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:301
+msgid "Done"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:426
+msgid "Map created successfully!"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph.html:427
+msgid "Now click on the tabs to mark the stakeholders."
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph_view.html:40
+msgid "JSON"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph_view.html:43
+msgid "PNG"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph_view.html:49
+msgid "New"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph_view.html:53
+msgid "Stakeholder"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph_view.html:56
+msgid "Connection"
+msgstr ""
+
+#: oep/mapper/templates/mapper/graph_view.html:60
+msgid "Network map"
+msgstr ""
+
+#: oep/mapper/views.py:204
+msgid "Map file"
+msgstr ""
+
+#: oep/mapper/views.py:205
+msgid "Please select and upload the exported JSON file."
+msgstr ""
+
+#: oep/posts/views.py:27
+msgid "category"
+msgstr ""
+
+#: oep/posts/views.py:35
+msgid "tag"
+msgstr ""
+
+#: oep/posts/views.py:42 oep/posts/views.py:43
+msgid "popular"
+msgstr ""
+
+#: oep/posts/views.py:91
+msgid "No title provided"
+msgstr ""
+
+#: oep/posts/views.py:95
+msgid "No image provided"
+msgstr ""
+
+#: oep/posts/views.py:116
+msgid "A post with the same title already exists"
+msgstr ""
+
+#: oep/templates/events/events_page.html:55
+msgid "UPCOMING EVENTS"
+msgstr ""
+
+#: oep/templates/events/events_page.html:96
+msgid "PAST EVENTS"
+msgstr ""
+
+#: oep/templates/toolkits/toolkits_page.html:31
+msgid "Start now"
+msgstr ""
+
+#: oep/urls.py:29
+msgid "Design Bites"
+msgstr ""
+
+#: oep/urls.py:30
+msgid "Design Bites Administration"
+msgstr ""
+
+#: oep/urls.py:31
+msgid "Design Bites Management"
+msgstr ""
