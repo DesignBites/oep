@@ -32,7 +32,7 @@ msgstr ""
 
 #: oep/mapper/models.py:69
 msgid "Name of the organization"
-msgstr ""
+msgstr "Organisaation nimi"
 
 #: oep/mapper/models.py:72
 msgid "This is my own organization"
