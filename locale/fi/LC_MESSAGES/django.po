@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-01 18:55+0000\n"
+"POT-Creation-Date: 2021-03-02 08:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: oep/mapper/models.py:9
-msgid "< 20"
-msgstr ""
-
-#: oep/mapper/models.py:10
-msgid "20 - 200"
-msgstr ""
-
-#: oep/mapper/models.py:11
-msgid "> 200"
-msgstr ""
 
 #: oep/mapper/models.py:69
 msgid "Name of the organization"
@@ -225,14 +213,14 @@ msgstr ""
 msgid "Start now"
 msgstr ""
 
-#: oep/urls.py:29
+#: oep/urls.py:30
 msgid "Design Bites"
 msgstr ""
 
-#: oep/urls.py:30
+#: oep/urls.py:31
 msgid "Design Bites Administration"
 msgstr ""
 
-#: oep/urls.py:31
+#: oep/urls.py:32
 msgid "Design Bites Management"
 msgstr ""
