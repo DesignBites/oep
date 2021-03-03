@@ -504,14 +504,14 @@ class StakeholderForm(forms.Form):
         choices=(
             (3, 'Regularly'),
             (2, 'Sometimes'),
-            (1, 'Hardly ever'),
+            (1, 'Rarely'),
         )
     )
     collaborate = forms.ChoiceField(
         label='How often have you collaborated creatively with each other?',
         choices=(
-            (3, 'Many times'),
-            (2, 'Once or twice'),
+            (3, 'Often'),
+            (2, 'Seldom'),
             (1, 'Never'),
         )
     )
