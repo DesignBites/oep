@@ -281,18 +281,6 @@
 
 		{% include "mapper/sidebar.html" %}
 
-		<div class="btn-group w-100">
-
-			<a href="{% url 'mapper_suggest' %}" class="btn btn-primary mr-1">
-				NEW SUGGESTIONS
-			</a>
-
-			<a href="{% url 'mapper_ring' %}" class="btn btn-primary ml-1">
-				RETURN
-			</a>
-
-		</div>
-
 	</div>
 
 {% endblock %}
@@ -342,4 +330,15 @@
 	{% include "mapper/floating_menu.html" %}
 </div>
 {% endwith %}
+
+<script>
+
+	$(document).ready(function() {
+	
+		$('#goback').attr("href", "/mapper/view/circles/");
+	
+	});
+	
+	</script>
+
 {% endblock %}

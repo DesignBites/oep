@@ -247,13 +247,10 @@
 
 				<div class="fixed-bottom bg-warning offset-md-9 p-2" id="bottom-sidebar">
 
-					{% if prev_page %}
+					{% if next_page %}
 						<a href="{% url 'mapper_page' page_no=prev_page %}" id="btnPrev">
 							<img src="{% static 'arrow_left_small.png' %}" width="50">
 						</a>
-					{% endif %}
-
-					{% if next_page %}
 						<a class="float-right" href="{% url 'mapper_page' page_no=next_page %}" id="btnNext">
 							<img src="{% static 'arrow_right_small.png' %}" width="50">
 						</a>
