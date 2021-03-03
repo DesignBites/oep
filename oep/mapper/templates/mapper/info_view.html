@@ -9,7 +9,7 @@
 </h4>
 
 <p>
-    You can toggle visibility of elements, or view another diagram.
+    {% trans "You can toggle visibility of elements, or view another diagram." %}
 </p>
 
 
@@ -17,24 +17,24 @@
 
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchBackground" checked>
-        <label class="custom-control-label" for="switchBackground">Background</label>
+        <label class="custom-control-label" for="switchBackground">{% trans "Background" %}</label>
     </div>
 
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchLines" checked>
-        <label class="custom-control-label" for="switchLines">Lines</label>
+        <label class="custom-control-label" for="switchLines">{% trans "Lines" %}</label>
     </div>
 
     {% comment %}
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchNodes" checked>
-        <label class="custom-control-label" for="switchNodes">Nodes</label>
+        <label class="custom-control-label" for="switchNodes">{% trans "Nodes" %}</label>
     </div>
     {% endcomment %}
 
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchNames" checked>
-        <label class="custom-control-label" for="switchNames">Names</label>
+        <label class="custom-control-label" for="switchNames">{% trans "Names" %}</label>
     </div>
 
 </div>
@@ -43,48 +43,52 @@
 
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchVennBackground" checked>
-        <label class="custom-control-label" for="switchVennBackground">Background</label>
+        <label class="custom-control-label" for="switchVennBackground">{% trans "Background" %}</label>
     </div>
 
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchVennNodes" checked>
-        <label class="custom-control-label" for="switchVennNodes">Nodes</label>
+        <label class="custom-control-label" for="switchVennNodes">{% trans "Nodes" %}</label>
     </div>
 
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="switchVennNames" checked>
-        <label class="custom-control-label" for="switchVennNames">Names</label>
+        <label class="custom-control-label" for="switchVennNames">{% trans "Names" %}</label>
     </div>
 
 </div>
 
 
 <h5 class="mt-4">
-    SPHERE DIAGRAM
+    {% trans "SPHERE DIAGRAM" %}
 </h5>
 
 <p>
+    {% blocktrans %}
     The sphere diagram visualises relationships with your stakeholders.
     From this overview, expand your mapping and use filters to identify potential collaborators.
+    {% endblocktrans %}
 </p>
 
 
 <h5>
-    VENN DIAGRAM
+    {% trans "VENN DIAGRAM" %}
 </h5>
 
 <p>
+    {% blocktrans %}
     The Venn diagram groups stakeholders based on similarities.
-    Identify gaps to  better understand your map and keep expanding your network.
+    Identify gaps to better understand your map and keep expanding your network.
+    {% endblocktrans %}
 </p>
 
 
 <a href="{% url 'mapper_venn' %}" class="btn btn-warning w-100" id="linkVenn">
-    SWITCH TO VENN DIAGRAM
+    {% trans "SWITCH TO VENN DIAGRAM" %}
 </a>
 
 <a href="{% url 'mapper_ring' %}" class="btn btn-warning w-100" id="linkCircles">
-    SWITCH TO SPHERE DIAGRAM
+    {% trans "SWITCH TO SPHERE DIAGRAM" %}
 </a>
 
 

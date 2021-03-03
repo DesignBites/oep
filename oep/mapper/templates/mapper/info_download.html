@@ -11,8 +11,10 @@
 
 <div id="divTerms">
 
-    By downloading, you agree to the data being used for research purposes.
-    No identifiable data will ever be shared or published. Read more about how we protect your data.
+    {% blocktrans %}
+By downloading, you agree to the data being used for research purposes.
+No identifiable data will ever be shared or published. Read more about how we protect your data.
+    {% endblocktrans %}
 
     <button type="button" class="btn btn-lg btn-outline-primary w-100 my-4" id="btnTermsOK">I agree</button>
 
@@ -22,19 +24,22 @@
 
 
 <h5>
-    CONTINUE LATER
+    {% trans "CONTINUE LATER" %}
 </h5>
 
 <p>
-    If you wish to continue working on this mapping later, you can download this map as a json file. Next time, just upload the file and continue where you left off.
+    {% blocktrans %}
+    If you wish to continue working on this mapping later, you can download this map as a json file.
+    Next time, just upload the file and continue where you left off.
+    {% endblocktrans %}
 </p>
 
 <h5>
-    SAVE A COPY
+    {% trans "SAVE A COPY" %}
 </h5>
 
 <p>
-    If you are finished and just want to save a copy, you can download a pdf file of this current view.
+    {% trans "If you are finished and just want to save a copy, you can download a PDF file of this current view." %}
 </p>
 
 
@@ -44,14 +49,14 @@
     <div class="col">
 
         <a href="#" id="exportPDF" download="stakeholders.pdf" class="btn btn-primary disabled">
-            SAVE A COPY (PDF)
+            {% trans "SAVE A COPY (PDF)" %}
         </a>
 
     </div>
     <div class="col">
 
         <a href="#" id="exportJSON" download="stakeholders.json" class="btn btn-primary {% if not terms_ok %}disabled{% endif %}">
-            CONTINUE LATER (JSON)
+            {% trans "CONTINUE LATER (JSON)" %}
         </a>
 
     </div>

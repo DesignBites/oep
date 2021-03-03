@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-02 08:42+0000\n"
+"POT-Creation-Date: 2021-03-03 18:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,127 +46,460 @@ msgstr ""
 msgid "The primary location of the organization"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:32
-#: oep/mapper/templates/mapper/graph_view.html:24
-msgid "OEP Stakeholder Mapper"
+#: oep/mapper/templates/mapper/floating_menu.html:7
+#: oep/mapper/templates/mapper/info_add.html:6
+msgid "ADD STAKEHOLDER"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:77
-msgid "Manage"
+#: oep/mapper/templates/mapper/floating_menu.html:26
+msgid "SHOW LEGEND"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:81
-msgid "Add stakeholder"
+#: oep/mapper/templates/mapper/floating_menu.html:34
+msgid "APPLY FILTERS"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:84
-msgid "Remove stakeholder"
+#: oep/mapper/templates/mapper/floating_menu.html:43
+msgid "CHANGE DIAGRAM"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:88
-msgid "Reset map"
+#: oep/mapper/templates/mapper/floating_menu.html:53
+msgid "DOWNLOAD TO SAVE OR CONTINUE LATER"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:94
-#: oep/mapper/templates/mapper/graph_view.html:36
-msgid "Export"
+#: oep/mapper/templates/mapper/floating_menu.html:70
+msgid "SUGGEST COLLABORATORS"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:98
-msgid "Data (JSON)"
+#: oep/mapper/templates/mapper/floating_menu.html:85
+msgid "GO BACK"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:101
-msgid "Image (PNG)"
+#: oep/mapper/templates/mapper/grid.html:60
+msgid "We've collaborated creatively"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:131
-msgid "Add a new stakeholder"
+#: oep/mapper/templates/mapper/grid.html:67
+msgid "OFTEN"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:147
-#: oep/mapper/templates/mapper/graph.html:225
+#: oep/mapper/templates/mapper/grid.html:70
+msgid "SELDOM"
+msgstr ""
+
+#: oep/mapper/templates/mapper/grid.html:73
+#: oep/mapper/templates/mapper/info_filter.html:69
+msgid "NEVER"
+msgstr ""
+
+#: oep/mapper/templates/mapper/grid.html:78
+msgid "We interact"
+msgstr ""
+
+#: oep/mapper/templates/mapper/grid.html:81
+#: oep/mapper/templates/mapper/info_filter.html:31
+msgid "REGULARLY"
+msgstr ""
+
+#: oep/mapper/templates/mapper/grid.html:95
+#: oep/mapper/templates/mapper/info_filter.html:35
+msgid "SOMETIMES"
+msgstr ""
+
+#: oep/mapper/templates/mapper/grid.html:109
+msgid "RARELY"
+msgstr ""
+
+#: oep/mapper/templates/mapper/index.html:10
+msgid ""
+"\n"
+"\t\t<small class=\"d-block\">Welcome to the</small>\n"
+"\t\tSTAKEHOLDER MAPPING tool!\n"
+"\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/index.html:23
+#, python-format
+msgid "I am continuing with \"%(organization_name)s\"."
+msgstr ""
+
+#: oep/mapper/templates/mapper/index.html:35
+msgid "I am continuing a previously created stakeholder map."
+msgstr ""
+
+#: oep/mapper/templates/mapper/index.html:46
+msgid "I am creating a new stakeholder map."
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_add.html:18
+#: oep/mapper/templates/mapper/info_update.html:18
+msgid "Update map"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:14
+msgid ""
+"\n"
+"By downloading, you agree to the data being used for research purposes.\n"
+"No identifiable data will ever be shared or published. Read more about how "
+"we protect your data.\n"
+"    "
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:27
+msgid "CONTINUE LATER"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:31
+msgid ""
+"\n"
+"    If you wish to continue working on this mapping later, you can download "
+"this map as a json file.\n"
+"    Next time, just upload the file and continue where you left off.\n"
+"    "
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:38
+msgid "SAVE A COPY"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:42
+msgid ""
+"If you are finished and just want to save a copy, you can download a PDF "
+"file of this current view."
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:52
+msgid "SAVE A COPY (PDF)"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_download.html:59
+msgid "CONTINUE LATER (JSON)"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:4
+msgid "FILTERS"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:13
+msgid "Closeness"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:15
+msgid "interact with …"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:39
+msgid "HARDLY EVER"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:45
+msgid "have collaborated creatively with …"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:61
+msgid "MANY TIMES"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:65
+msgid "ONCE OR TWICE"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:75
+#: oep/mapper/templates/mapper/info_legend.html:59
+msgid "Similarities"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:78
+msgid "whose values are …"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:82
+#: oep/mapper/templates/mapper/info_filter.html:98
+#: oep/mapper/templates/mapper/info_filter.html:114
+msgid "SIMILAR"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:86
+#: oep/mapper/templates/mapper/info_filter.html:102
+#: oep/mapper/templates/mapper/info_filter.html:118
+#: oep/mapper/templates/mapper/info_filter.html:157
+msgid "EITHER"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:90
+#: oep/mapper/templates/mapper/info_filter.html:106
+#: oep/mapper/templates/mapper/info_filter.html:122
+msgid "DIFFERENT"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:94
+msgid "whose ways of working are …"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:110
+msgid "whose resources are …"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:126
+msgid "number of similarities"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:149
+msgid "Own parameter"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:150
+#, python-format
+msgid "for whom \"%(custom_similarity_parameter)s\" is …"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:153
+msgid "TRUE"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_filter.html:161
+msgid "FALSE"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:14
+msgid "Interactions"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:17
+msgid "Regularly"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:24
+msgid "Sometimes"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:30
+msgid "Hardly ever"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:37
+msgid "Collaborated creatively"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:40
+msgid "Many times"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:47
+msgid "Once or twice"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:53
+msgid "Never"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:61
+msgid "Values or goals"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:67
+msgid "Ways of working"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_legend.html:73
+msgid "Resources or skills"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_update.html:6
+msgid "Update stakeholder information"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_update.html:21
+msgid "Delete node"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:12
+msgid "You can toggle visibility of elements, or view another diagram."
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:20
+#: oep/mapper/templates/mapper/info_view.html:47
+msgid "Background"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:25
+msgid "Lines"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:38
+#: oep/mapper/templates/mapper/info_view.html:57
+msgid "Names"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:52
+msgid "Nodes"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:64
+msgid "SPHERE DIAGRAM"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:68
+msgid ""
+"\n"
+"    The sphere diagram visualises relationships with your stakeholders.\n"
+"    From this overview, expand your mapping and use filters to identify "
+"potential collaborators.\n"
+"    "
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:76
+msgid "VENN DIAGRAM"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:80
+msgid ""
+"\n"
+"    The Venn diagram groups stakeholders based on similarities.\n"
+"    Identify gaps to better understand your map and keep expanding your "
+"network.\n"
+"    "
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:88
+msgid "SWITCH TO VENN DIAGRAM"
+msgstr ""
+
+#: oep/mapper/templates/mapper/info_view.html:92
+msgid "SWITCH TO SPHERE DIAGRAM"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:27
+msgid "LESS CLOSE"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:32
+msgid "MORE SIMILAR"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:39
+msgid ""
+"\n"
+"\t\t\t\t\tThese are stakeholders that you interact less with,\n"
+"\t\t\t\t\tyet you have relatively more in common with, providing a good base "
+"for a collaboration.\n"
+"\t\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:63
+#: oep/mapper/templates/mapper/suggest.html:257
+msgid "Wild cards"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:66
+msgid ""
+"\n"
+"\t\t\t\t\tThese are stakeholders that you interact less with, and that might "
+"complement your values,\n"
+"\t\t\t\t\tways of working or resources, sparking more creativity.\n"
+"\t\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:95
+#: oep/mapper/templates/mapper/suggest.html:195
+msgid "Low-hanging fruit"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:98
+msgid ""
+"\n"
+"\t\t\t\t\tThese are stakeholders that you interact more with and are "
+"relatively similar to you,\n"
+"\t\t\t\t\tallowing for an easy start.\n"
+"\t\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:122
+#: oep/mapper/templates/mapper/suggest.html:226
+msgid "Over-looked potential"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:125
+msgid ""
+"\n"
+"\t\t\t\t\tThese are stakeholders that you interact more with and might "
+"complement your values,\n"
+"\t\t\t\t\tways of working or resources, sparking more creativity.\n"
+"\t\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:151
+msgid "MORE CLOSE"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:164
+msgid "Far friends"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:167
+msgid ""
+"\n"
+"\t\t\t\tThese are stakeholders that you interact less with,\n"
+"\t\t\t\tyet you have relatively more in common with, providing a good base "
+"for a collaboration.\n"
+"\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:198
+msgid ""
+"\n"
+"\t\t\t\tThese are stakeholders that you interact more with and are "
+"relatively similar to you,\n"
+"\t\t\t\tallowing for an easy start.\n"
+"\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:229
+msgid ""
+"\n"
+"\t\t\t\tThese are stakeholders that you interact more with and might "
+"complement your values,\n"
+"\t\t\t\tways of working or resources, sparking more creativity.\n"
+"\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:260
+msgid ""
+"\n"
+"\t\t\t\tThese are stakeholders that you interact less with, and that might "
+"complement your values,\n"
+"\t\t\t\tways of working or resources, sparking more creativity.\n"
+"\t\t\t\t"
+msgstr ""
+
+#: oep/mapper/templates/mapper/suggest.html:326
 msgid "Close"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:149
-msgid "Add entity"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:166
-msgid "Welcome to the Stakeholder Mapper"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:176
+#: oep/mapper/templates/mapper/terms.html:25
 msgid ""
-"To support you in identifying and selecting potential collaborators, let’s "
-"start by getting to know you."
+"Accept cookies, and agree to saving anonymised data for research purposes"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:187
-#: oep/mapper/templates/mapper/graph.html:227
-msgid "Upload map"
+#: oep/mapper/templates/mapper/terms.html:32
+msgid ""
+"Accept cookies, and disagree to saving anonymised data for research purposes"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:191
-msgid "Create map"
+#: oep/mapper/templates/mapper/upload.html:8
+msgid "Upload an existing map"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:209
-msgid "Upload an existing network map"
+#: oep/mapper/templates/mapper/upload.html:15
+msgid "Upload"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:245
-#, python-format
-msgid "%(group_name)s stakeholders"
+#: oep/mapper/templates/mapper/venn.html:40
+msgid "similar values"
 msgstr ""
 
-#: oep/mapper/templates/mapper/graph.html:273
-msgid "Name of the stakeholder"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:283
-msgid "Add another"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:297
-msgid "Next"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:301
-msgid "Done"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:426
-msgid "Map created successfully!"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph.html:427
-msgid "Now click on the tabs to mark the stakeholders."
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph_view.html:40
-msgid "JSON"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph_view.html:43
-msgid "PNG"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph_view.html:49
-msgid "New"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph_view.html:53
-msgid "Stakeholder"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph_view.html:56
-msgid "Connection"
-msgstr ""
-
-#: oep/mapper/templates/mapper/graph_view.html:60
-msgid "Network map"
+#: oep/mapper/templates/mapper/venn.html:42
+msgid "similar ways of working"
 msgstr ""
 
 #: oep/mapper/views.py:204
@@ -213,14 +546,14 @@ msgstr ""
 msgid "Start now"
 msgstr ""
 
-#: oep/urls.py:30
+#: oep/urls.py:32
 msgid "Design Bites"
 msgstr ""
 
-#: oep/urls.py:31
+#: oep/urls.py:33
 msgid "Design Bites Administration"
 msgstr ""
 
-#: oep/urls.py:32
+#: oep/urls.py:34
 msgid "Design Bites Management"
 msgstr ""

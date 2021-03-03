@@ -3,7 +3,7 @@
 {% if stakeholder_form %}
 
     <h4>
-        ADD STAKEHOLDER
+        {% trans "ADD STAKEHOLDER" %}
 
         <button type="button" class="close" data-dismiss="sidebar" aria-label="Close">
             <strong aria-hidden="true">&times;</strong>
@@ -15,7 +15,7 @@
         {% csrf_token %}
         {{ stakeholder_form|crispy }}
         <button type="submit" class="btn btn-primary w-100">
-            Update map
+            {% trans "Update map" %}
         </button>
 
     </form>

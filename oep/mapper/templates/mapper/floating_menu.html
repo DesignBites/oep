@@ -4,7 +4,7 @@
     <tr>
         <td>
 
-            <button data-target="infoAdd" data-toggle="tooltip" data-placement="right" title="ADD STAKEHOLDER"
+            <button data-target="infoAdd" data-toggle="tooltip" data-placement="right" title="{% trans "ADD STAKEHOLDER" %}"
                 class="menuButton btn btn-lg btn-primary"
                 {% if not stakeholder_form %}disabled{% endif %}
             >
@@ -23,7 +23,7 @@
             <div class="btn-group-vertical btn-group-lg my-4">
 
                 <button data-target="infoLegend" type="button" class="menuButton btn btn-primary"
-                    data-toggle="tooltip" data-placement="right" title="SHOW LEGEND"
+                    data-toggle="tooltip" data-placement="right" title="{% trans "SHOW LEGEND" %}"
                 >
                     <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-info-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path class="cls-1" d="M25.48,37.15H18.37v-20h7.11Zm-.57-24.68A2.84,2.84,0,0,1,24,14.58a3,3,0,0,1-4.69-.6A3,3,0,0,1,19,12.47a2.88,2.88,0,0,1,.86-2.1,2.81,2.81,0,0,1,2.11-.89,3,3,0,0,1,3,3Z"/>
@@ -31,7 +31,7 @@
                 </button>
 
                 <button data-target="infoFilter" type="button" class="menuButton btn btn-primary"
-                    data-toggle="tooltip" data-placement="right" title="APPLY FILTERS"
+                    data-toggle="tooltip" data-placement="right" title="{% trans "APPLY FILTERS" %}"
                     {% if page_context == "suggestions" %}disabled{% endif %}
                 >
                     <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-funnel-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
                 </button>
 
                 <button data-target="infoView" type="button" class="menuButton btn btn-primary"
-                    data-toggle="tooltip" data-placement="right" title="CHANGE DIAGRAM"
+                    data-toggle="tooltip" data-placement="right" title="{% trans "CHANGE DIAGRAM" %}"
                     {% if page_context == "suggestions" %}disabled{% endif %}
                 >
                     <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +50,7 @@
                 </button>
 
                 <button data-target="infoDownload" type="button" class="menuButton btn btn-primary"
-                    data-toggle="tooltip" data-placement="right" title="DOWNLOAD TO SAVE OR CONTINUE LATER"
+                    data-toggle="tooltip" data-placement="right" title="{% trans "DOWNLOAD TO SAVE OR CONTINUE LATER" %}"
                 >
                     <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.488" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <polygon class="cls-1" points="21.42 28.58 33.94 15.38 26.25 15.38 26.25 6.13 16.59 6.13 16.59 15.38 8.9 15.38 21.42 28.58"/>
@@ -67,7 +67,7 @@
         <td>
 
             <a href="{% url 'mapper_suggest' %}" class="btn btn-lg btn-primary bg-danger border-danger menuButton"
-                data-toggle="tooltip" data-placement="right" title="SUGGEST COLLABORATORS"
+                data-toggle="tooltip" data-placement="right" title="{% trans "SUGGEST COLLABORATORS" %}"
             >
                 <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-star-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path class="cls-1" d="M7.9,35.23c-.85-.72-.87-1.21-.07-2q7.29-7.27,14.57-14.55a8.35,8.35,0,0,1,.71-.58c-.94-.3-1.7-.55-2.46-.78-.49-.14-1-.37-.94-.91a1.8,1.8,0,0,1,.63-1.09c.78-.65,1.67-1.18,2.47-1.81a1.22,1.22,0,0,0,.42-.82c0-1.07,0-2.14,0-3.21a1.44,1.44,0,0,1,.56-1,1.29,1.29,0,0,1,1.1.15c.86.56,1.66,1.2,2.47,1.83a1,1,0,0,0,1.17.2,27.72,27.72,0,0,1,3-1,1.39,1.39,0,0,1,1.09.2,1.33,1.33,0,0,1,.22,1.09,30.07,30.07,0,0,1-1,3A1,1,0,0,0,32,15c.62.78,1.21,1.59,1.81,2.39a1,1,0,0,1-.89,1.81c-1.05,0-2.1,0-3.14,0a1.29,1.29,0,0,0-.82.43c-.6.77-1.15,1.58-1.7,2.39-.32.45-.65.84-1.27.72s-.71-.57-.85-1c-.22-.73-.46-1.46-.78-2.45a7.24,7.24,0,0,1-.52.76Q16.69,27.21,9.52,34.36c-.3.3-.62.58-.93.87Z"/><path class="cls-1" d="M16.32,11.46A3.45,3.45,0,0,0,13.9,9.32a3.52,3.52,0,0,0,2.37-2.41,3.55,3.55,0,0,0,2.2,2.35A3.65,3.65,0,0,0,16.32,11.46Z"/><path class="cls-1" d="M36.2,25.25a3.52,3.52,0,0,0-3.18.16,3.48,3.48,0,0,0,0-3.3,3.47,3.47,0,0,0,3.15.06A4,4,0,0,0,36.2,25.25Z"/><path class="cls-1" d="M29.37,28.21l-1.53,1.53L26.31,28.2l1.53-1.53Z"/><path class="cls-1" d="M28.75,7.82,27.24,6.27l1.53-1.53,1.51,1.55Z"/>
@@ -81,8 +81,8 @@
     <tr>
         <td>
             {# to the last page #}
-            <a href="{% url 'mapper_page' page_no=21 %}" id="goback" class="btn btn-lg btn-primary mt-4"
-                data-toggle="tooltip" data-placement="right" title="GO BACK"
+            <a href="{% url 'mapper_page' page_no=0 %}" class="btn btn-lg btn-primary mt-4"
+                data-toggle="tooltip" data-placement="right" title="{% trans "GO BACK" %}"
             >
                 <svg width="1em" height="1em" viewBox="8.11 8.11 32.48 32.48" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <polygon class="cls-1" points="7.37 21.53 22.42 35.8 22.42 27.04 32.96 27.04 32.96 16.02 22.42 16.02 22.42 7.26 7.37 21.53"/>

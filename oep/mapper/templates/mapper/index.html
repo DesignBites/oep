@@ -7,9 +7,10 @@
 <div class="container text-center" width=100%>
 
 	<h1 class="my-4 display-4" width=100%>
+		{% blocktrans %}
 		<small class="d-block">Welcome to the</small>
-		STAKEHOLDER MAPPING
-		tool!
+		STAKEHOLDER MAPPING tool!
+		{% endblocktrans %}
 	</h1>
 
 	<div class="row" width=100%>
@@ -19,7 +20,7 @@
 			{% if organization %}
 			<div class="card col-sm-12 mb-5">
 				<div class="card-body">
-					<h4 class="card-title">I am continuing with "{{ organization.name }}".</h4>
+					<h4 class="card-title">{% blocktrans with organization.name as organizaton_name %}I am continuing with "{{ organization_name }}".{% endblocktrans %}</h4>
 				</div>
 				<div class="card-footer">
 					<a href="{% url 'mapper_page' page_no=last_page_no %}" class="btn card-link stretched-link">
@@ -31,7 +32,7 @@
 
 			<div class="card col-sm-12 mb-5">
 				<div class="card-body">
-					<h4 class="card-title">I am continuing a previously created stakeholder map.</h4>
+					<h4 class="card-title">{% trans "I am continuing a previously created stakeholder map." %}</h4>
 				</div>
 				<div class="card-footer">
 					<a href="{% url 'mapper_upload' %}" class="btn card-link stretched-link">
@@ -42,7 +43,7 @@
 
 			<div class="card col-sm-12 mb-5">
 				<div class="card-body">
-					<h4 class="card-title">I am creating a new stakeholder map.</h4>
+					<h4 class="card-title">{% trans "I am creating a new stakeholder map." %}</h4>
 				</div>
 				<div class="card-footer">
 					<a href="{% url 'mapper_terms' %}" class="btn card-link stretched-link">

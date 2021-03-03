@@ -22,14 +22,14 @@
                 <div class="col-12 col-md-6 my-2 d-flex align-items-stretch">
                     <a href="{% url 'mapper_terms' %}?terms=yes" class="btn btn-lg btn-block btn-primary d-flex flex-sm-column align-items-center justify-content-left justify-content-sm-center">
                         <span>
-							Accept cookies, and agree to saving anonymised data for research purposes
+							{% trans "Accept cookies, and agree to saving anonymised data for research purposes" %}
 						</span>
                     </a>
                 </div>
                 <div class="col-12 col-md-6 my-2 d-flex align-items-stretch">
                     <a href="{% url 'mapper_terms' %}?terms=no" class="btn btn-lg btn-block btn-outline-primary d-flex flex-sm-column align-items-center justify-content-left justify-content-sm-center">
                         <span>
-							Accept cookies, and disagree to saving anonymised data for research purposes
+							{% trans "Accept cookies, and disagree to saving anonymised data for research purposes" %}
 						</span>
                     </a>
                 </div>

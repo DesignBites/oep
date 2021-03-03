@@ -24,20 +24,22 @@
 	<table class="table table-borderless d-none d-md-block">
 		<tr>
 			<td colspan="4" align="center">
-				<span class="badge badge-primary">LESS CLOSE</span>
+				<span class="badge badge-primary">{% trans "LESS CLOSE" %}</span>
 			</td>
 		</tr>
 		<tr>
 			<td rowspan="2" style="vertical-align: middle;">
-				<span class="badge badge-primary mr-n5">MORE SIMILAR</span>
+				<span class="badge badge-primary mr-n5">{% trans "MORE SIMILAR" %}</span>
 			</td>
 			<td class="border-right" width="50%">
 				<h5>
 					Far friends
 				</h5>
 				<p>
+					{% blocktrans %}
 					These are stakeholders that you interact less with,
 					yet you have relatively more in common with, providing a good base for a collaboration.
+					{% endblocktrans %}
 				</p>
 
 				{% for stakeholder in quadrants.q1|slice:":2" %}
@@ -58,11 +60,13 @@
 			</td>
 			<td class="border-bottom" width="50%">
 				<h5>
-					Wild cards
+					{% trans "Wild cards" %}
 				</h5>
 				<p>
+					{% blocktrans %}
 					These are stakeholders that you interact less with, and that might complement your values,
 					ways of working or resources, sparking more creativity.
+					{% endblocktrans %}
 				</p>
 
 				{% for stakeholder in quadrants.q2|slice:":2" %}
@@ -88,11 +92,13 @@
 		<tr>
 			<td class="border-top">
 				<h5>
-					Low-hanging fruit
+					{% trans "Low-hanging fruit" %}
 				</h5>
 				<p>
+					{% blocktrans %}
 					These are stakeholders that you interact more with and are relatively similar to you,
 					allowing for an easy start.
+					{% endblocktrans %}
 				</p>
 
 				{% for stakeholder in quadrants.q3|slice:":2" %}
@@ -113,11 +119,13 @@
 			</td>
 			<td class="border-left">
 				<h5>
-					Over-looked potential
+					{% trans "Over-looked potential" %}
 				</h5>
 				<p>
+					{% blocktrans %}
 					These are stakeholders that you interact more with and might complement your values,
 					ways of working or resources, sparking more creativity.
+					{% endblocktrans %}
 				</p>
 
 				{% for stakeholder in quadrants.q4|slice:":2" %}
@@ -140,7 +148,7 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
-				<span class="badge badge-primary">MORE CLOSE</span>
+				<span class="badge badge-primary">{% trans "MORE CLOSE" %}</span>
 			</td>
 		</tr>
 	</table>
@@ -153,11 +161,13 @@
 		<div class="mb-3">
 
 			<h4>
-				Far friends
+				{% trans "Far friends" %}
 			</h4>
 			<p>
+				{% blocktrans %}
 				These are stakeholders that you interact less with,
 				yet you have relatively more in common with, providing a good base for a collaboration.
+				{% endblocktrans %}
 			</p>
 
 			{% for stakeholder in quadrants.q1|slice:":2" %}
@@ -182,11 +192,13 @@
 		<div class="mb-3">
 
 			<h4>
-				Low-hanging fruit
+				{% trans "Low-hanging fruit" %}
 			</h4>
 			<p>
+				{% blocktrans %}
 				These are stakeholders that you interact more with and are relatively similar to you,
 				allowing for an easy start.
+				{% endblocktrans %}
 			</p>
 
 			{% for stakeholder in quadrants.q3|slice:":2" %}
@@ -211,11 +223,13 @@
 		<div class="mb-3">
 
 			<h4>
-				Over-looked potential
+				{% trans "Over-looked potential" %}
 			</h4>
 			<p>
+				{% blocktrans %}
 				These are stakeholders that you interact more with and might complement your values,
 				ways of working or resources, sparking more creativity.
+				{% endblocktrans %}
 			</p>
 
 			{% for stakeholder in quadrants.q4|slice:":2" %}
@@ -240,11 +254,13 @@
 		<div class="mb-3">
 
 			<h4>
-				Wild cards
+				{% trans "Wild cards" %}
 			</h4>
 			<p>
+				{% blocktrans %}
 				These are stakeholders that you interact less with, and that might complement your values,
 				ways of working or resources, sparking more creativity.
+				{% endblocktrans %}
 			</p>
 
 			{% for stakeholder in quadrants.q2|slice:":2" %}
@@ -307,7 +323,7 @@
 						  <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
 						</svg>
 					</span>
-					<span class="sr-only">Close</span>
+					<span class="sr-only">{% trans "Close" %}</span>
 				</button>
 			{% endif %}
 
