@@ -103,9 +103,10 @@ class WorkshopAdmin(admin.ModelAdmin):
 class PageInfoModelAdminForm(ModelForm):
     class Meta:
         model = PageInfo
-        fields = ['page', 'title', 'description']
+        fields = ['page', 'title', 'title_fi', 'description', 'description_fi']
         widgets = {
             'description': TrumbowygWidget(),
+            'description_fi': TrumbowygWidget(),
         }
 
 
