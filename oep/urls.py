@@ -20,6 +20,8 @@ urlpatterns = [
     path('documents/', include(wagtaildocs_urls)),
 
     path('trumbowyg/', include('trumbowyg.urls')),
+
+    path('', include(wagtail_urls)),
 ]
 
 urlpatterns += i18n_patterns(
