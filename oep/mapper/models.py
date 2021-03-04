@@ -28,7 +28,6 @@ class StakeholderType(models.Model):
     Stores types of stakeholders and which batch they belong to.
     """
     name = models.CharField(max_length=100)
-    name_fi = models.CharField('Name (Finnish)', max_length=100, blank=True, null=True)
     batch_no = models.PositiveSmallIntegerField()
     question = models.CharField(max_length=100)
     question_fi = models.CharField('Question (Finnish)', max_length=100, blank=True, null=True)
