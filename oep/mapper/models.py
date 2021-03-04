@@ -17,6 +17,7 @@ class Sector(models.Model):
     Holds the sectors based on the ILO list.
     """
     name = models.CharField(max_length=100)
+    name_fi = models.CharField('Name (Finnish)', max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -27,9 +28,12 @@ class StakeholderType(models.Model):
     Stores types of stakeholders and which batch they belong to.
     """
     name = models.CharField(max_length=100)
+    name_fi = models.CharField('Name (Finnish)', max_length=100, blank=True, null=True)
     batch_no = models.PositiveSmallIntegerField()
     question = models.CharField(max_length=100)
+    question_fi = models.CharField('Question (Finnish)', max_length=100, blank=True, null=True)
     description = models.CharField(max_length=500, blank=True, null=True)
+    description_fi = models.CharField('Description (Finnish)', max_length=500, blank=True, null=True)
     order = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -103,7 +107,9 @@ class Map(models.Model):
 class PageInfo(models.Model):
     page = models.CharField('Page number or name', max_length=20, db_index=True)
     title = models.CharField(max_length=500, blank=True, null=True)
+    title_fi = models.CharField('Title (Finnish)', max_length=500, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    description_fi = models.TextField('Description (Finnish)', blank=True, null=True)
 
     def __str__(self):
         return str(self.page)
