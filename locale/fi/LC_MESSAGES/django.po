@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-03 18:17+0000\n"
+"POT-Creation-Date: 2021-03-08 21:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,32 +18,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: oep/mapper/models.py:69
+#: oep/mapper/models.py:72
 msgid "Name of the organization"
 msgstr "Organisaation nimi"
 
-#: oep/mapper/models.py:72
+#: oep/mapper/models.py:75
 msgid "This is my own organization"
 msgstr ""
 
-#: oep/mapper/models.py:74
+#: oep/mapper/models.py:77
 msgid "Uncheck the box if you are mapping another organization's network"
 msgstr ""
 
-#: oep/mapper/models.py:77
+#: oep/mapper/models.py:80
 msgid "The sector of the organization"
 msgstr ""
 
-#: oep/mapper/models.py:81
+#: oep/mapper/models.py:84
 msgid "Size of the organization"
 msgstr ""
 
-#: oep/mapper/models.py:85
+#: oep/mapper/models.py:88
 msgid "Your primary purpose of using this tool"
 msgstr ""
 
-#: oep/mapper/models.py:89
+#: oep/mapper/models.py:92
 msgid "The primary location of the organization"
+msgstr ""
+
+#: oep/mapper/templates/mapper/add_custom_similarity.html:46
+msgid "You did not specify a custom similarity parameter. Are you sure?"
+msgstr ""
+
+#: oep/mapper/templates/mapper/add_stakeholders.html:56
+msgid "You did not specify any stakeholders. Are you sure?"
 msgstr ""
 
 #: oep/mapper/templates/mapper/floating_menu.html:7
@@ -80,15 +88,17 @@ msgid "We've collaborated creatively"
 msgstr ""
 
 #: oep/mapper/templates/mapper/grid.html:67
+#: oep/mapper/templates/mapper/info_filter.html:36
 msgid "OFTEN"
 msgstr ""
 
 #: oep/mapper/templates/mapper/grid.html:70
+#: oep/mapper/templates/mapper/info_filter.html:40
 msgid "SELDOM"
 msgstr ""
 
 #: oep/mapper/templates/mapper/grid.html:73
-#: oep/mapper/templates/mapper/info_filter.html:69
+#: oep/mapper/templates/mapper/info_filter.html:44
 msgid "NEVER"
 msgstr ""
 
@@ -97,16 +107,17 @@ msgid "We interact"
 msgstr ""
 
 #: oep/mapper/templates/mapper/grid.html:81
-#: oep/mapper/templates/mapper/info_filter.html:31
+#: oep/mapper/templates/mapper/info_filter.html:19
 msgid "REGULARLY"
 msgstr ""
 
 #: oep/mapper/templates/mapper/grid.html:95
-#: oep/mapper/templates/mapper/info_filter.html:35
+#: oep/mapper/templates/mapper/info_filter.html:23
 msgid "SOMETIMES"
 msgstr ""
 
 #: oep/mapper/templates/mapper/grid.html:109
+#: oep/mapper/templates/mapper/info_filter.html:27
 msgid "RARELY"
 msgstr ""
 
@@ -136,7 +147,7 @@ msgstr ""
 msgid "Update map"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:14
+#: oep/mapper/templates/mapper/info_download.html:16
 msgid ""
 "\n"
 "By downloading, you agree to the data being used for research purposes.\n"
@@ -145,34 +156,34 @@ msgid ""
 "    "
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:27
+#: oep/mapper/templates/mapper/info_download.html:29
 msgid "CONTINUE LATER"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:31
+#: oep/mapper/templates/mapper/info_download.html:33
 msgid ""
 "\n"
-"    If you wish to continue working on this mapping later, you can download "
-"this map as a json file.\n"
-"    Next time, just upload the file and continue where you left off.\n"
+"If you wish to continue working on this mapping later, you can download this "
+"map as a json file.\n"
+"Next time, just upload the file and continue where you left off.\n"
 "    "
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:38
+#: oep/mapper/templates/mapper/info_download.html:40
 msgid "SAVE A COPY"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:42
+#: oep/mapper/templates/mapper/info_download.html:44
 msgid ""
 "If you are finished and just want to save a copy, you can download a PDF "
 "file of this current view."
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:52
+#: oep/mapper/templates/mapper/info_download.html:54
 msgid "SAVE A COPY (PDF)"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_download.html:59
+#: oep/mapper/templates/mapper/info_download.html:61
 msgid "CONTINUE LATER (JSON)"
 msgstr ""
 
@@ -188,76 +199,64 @@ msgstr ""
 msgid "interact with …"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:39
-msgid "HARDLY EVER"
-msgstr ""
-
-#: oep/mapper/templates/mapper/info_filter.html:45
+#: oep/mapper/templates/mapper/info_filter.html:32
 msgid "have collaborated creatively with …"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:61
-msgid "MANY TIMES"
-msgstr ""
-
-#: oep/mapper/templates/mapper/info_filter.html:65
-msgid "ONCE OR TWICE"
-msgstr ""
-
-#: oep/mapper/templates/mapper/info_filter.html:75
+#: oep/mapper/templates/mapper/info_filter.html:49
 #: oep/mapper/templates/mapper/info_legend.html:59
 msgid "Similarities"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:78
+#: oep/mapper/templates/mapper/info_filter.html:52
 msgid "whose values are …"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:82
-#: oep/mapper/templates/mapper/info_filter.html:98
-#: oep/mapper/templates/mapper/info_filter.html:114
+#: oep/mapper/templates/mapper/info_filter.html:56
+#: oep/mapper/templates/mapper/info_filter.html:72
+#: oep/mapper/templates/mapper/info_filter.html:88
 msgid "SIMILAR"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:86
-#: oep/mapper/templates/mapper/info_filter.html:102
-#: oep/mapper/templates/mapper/info_filter.html:118
-#: oep/mapper/templates/mapper/info_filter.html:157
+#: oep/mapper/templates/mapper/info_filter.html:60
+#: oep/mapper/templates/mapper/info_filter.html:76
+#: oep/mapper/templates/mapper/info_filter.html:92
+#: oep/mapper/templates/mapper/info_filter.html:131
 msgid "EITHER"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:90
-#: oep/mapper/templates/mapper/info_filter.html:106
-#: oep/mapper/templates/mapper/info_filter.html:122
+#: oep/mapper/templates/mapper/info_filter.html:64
+#: oep/mapper/templates/mapper/info_filter.html:80
+#: oep/mapper/templates/mapper/info_filter.html:96
 msgid "DIFFERENT"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:94
+#: oep/mapper/templates/mapper/info_filter.html:68
 msgid "whose ways of working are …"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:110
+#: oep/mapper/templates/mapper/info_filter.html:84
 msgid "whose resources are …"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:126
+#: oep/mapper/templates/mapper/info_filter.html:100
 msgid "number of similarities"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:149
+#: oep/mapper/templates/mapper/info_filter.html:123
 msgid "Own parameter"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:150
+#: oep/mapper/templates/mapper/info_filter.html:124
 #, python-format
 msgid "for whom \"%(custom_similarity_parameter)s\" is …"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:153
+#: oep/mapper/templates/mapper/info_filter.html:127
 msgid "TRUE"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_filter.html:161
+#: oep/mapper/templates/mapper/info_filter.html:135
 msgid "FALSE"
 msgstr ""
 
@@ -289,7 +288,7 @@ msgstr ""
 msgid "Once or twice"
 msgstr ""
 
-#: oep/mapper/templates/mapper/info_legend.html:53
+#: oep/mapper/templates/mapper/info_legend.html:53 oep/mapper/views.py:519
 msgid "Never"
 msgstr ""
 
@@ -355,8 +354,8 @@ msgstr ""
 #: oep/mapper/templates/mapper/info_view.html:80
 msgid ""
 "\n"
-"    The Venn diagram groups stakeholders based on similarities.\n"
-"    Identify gaps to better understand your map and keep expanding your "
+"The Venn diagram groups stakeholders based on similarities.\n"
+"Identify gaps to better understand your map and keep expanding your "
 "network.\n"
 "    "
 msgstr ""
@@ -380,9 +379,9 @@ msgstr ""
 #: oep/mapper/templates/mapper/suggest.html:39
 msgid ""
 "\n"
-"\t\t\t\t\tThese are stakeholders that you interact less with,\n"
-"\t\t\t\t\tyet you have relatively more in common with, providing a good base "
-"for a collaboration.\n"
+"These are stakeholders that you interact less with,\n"
+"yet you have relatively more in common with, providing a good base for a "
+"collaboration.\n"
 "\t\t\t\t\t"
 msgstr ""
 
@@ -394,9 +393,9 @@ msgstr ""
 #: oep/mapper/templates/mapper/suggest.html:66
 msgid ""
 "\n"
-"\t\t\t\t\tThese are stakeholders that you interact less with, and that might "
+"These are stakeholders that you interact less with, and that might "
 "complement your values,\n"
-"\t\t\t\t\tways of working or resources, sparking more creativity.\n"
+"ways of working or resources, sparking more creativity.\n"
 "\t\t\t\t\t"
 msgstr ""
 
@@ -408,9 +407,9 @@ msgstr ""
 #: oep/mapper/templates/mapper/suggest.html:98
 msgid ""
 "\n"
-"\t\t\t\t\tThese are stakeholders that you interact more with and are "
-"relatively similar to you,\n"
-"\t\t\t\t\tallowing for an easy start.\n"
+"These are stakeholders that you interact more with and are relatively "
+"similar to you,\n"
+"allowing for an easy start.\n"
 "\t\t\t\t\t"
 msgstr ""
 
@@ -422,9 +421,9 @@ msgstr ""
 #: oep/mapper/templates/mapper/suggest.html:125
 msgid ""
 "\n"
-"\t\t\t\t\tThese are stakeholders that you interact more with and might "
-"complement your values,\n"
-"\t\t\t\t\tways of working or resources, sparking more creativity.\n"
+"These are stakeholders that you interact more with and might complement your "
+"values,\n"
+"ways of working or resources, sparking more creativity.\n"
 "\t\t\t\t\t"
 msgstr ""
 
@@ -439,18 +438,18 @@ msgstr ""
 #: oep/mapper/templates/mapper/suggest.html:167
 msgid ""
 "\n"
-"\t\t\t\tThese are stakeholders that you interact less with,\n"
-"\t\t\t\tyet you have relatively more in common with, providing a good base "
-"for a collaboration.\n"
+"These are stakeholders that you interact less with,\n"
+"yet you have relatively more in common with, providing a good base for a "
+"collaboration.\n"
 "\t\t\t\t"
 msgstr ""
 
 #: oep/mapper/templates/mapper/suggest.html:198
 msgid ""
 "\n"
-"\t\t\t\tThese are stakeholders that you interact more with and are "
-"relatively similar to you,\n"
-"\t\t\t\tallowing for an easy start.\n"
+"These are stakeholders that you interact more with and are relatively "
+"similar to you,\n"
+"allowing for an easy start.\n"
 "\t\t\t\t"
 msgstr ""
 
@@ -502,12 +501,140 @@ msgstr ""
 msgid "similar ways of working"
 msgstr ""
 
-#: oep/mapper/views.py:204
-msgid "Map file"
+#: oep/mapper/templates/mapper/venn.html:119
+msgid "similar resources"
+msgstr ""
+
+#: oep/mapper/templates/mapper/venn.html:149
+msgid "your parameter (not specified)"
+msgstr ""
+
+#: oep/mapper/views.py:125
+msgid "Which organization are you making a stakeholder map of?"
+msgstr ""
+
+#: oep/mapper/views.py:126
+#, fuzzy
+#| msgid "Name of the organization"
+msgid "Input name of organisation or team"
+msgstr "Organisaation nimi"
+
+#: oep/mapper/views.py:129
+msgid "Is this your own organisation or team?"
+msgstr ""
+
+#: oep/mapper/views.py:131
+msgid "Yes"
+msgstr ""
+
+#: oep/mapper/views.py:132
+msgid "No"
+msgstr ""
+
+#: oep/mapper/views.py:138
+msgid "What is the key sector of this organisation?"
+msgstr ""
+
+#: oep/mapper/views.py:139
+msgid ""
+"Categories are obtained from the <a href=\"https://www.ilo.org/global/"
+"industries-and-sectors/lang--en/index.htm\">International Labour "
+"Organization</a>."
+msgstr ""
+
+#: oep/mapper/views.py:143
+#, fuzzy
+#| msgid "Name of the organization"
+msgid "What size is this organisation?"
+msgstr "Organisaation nimi"
+
+#: oep/mapper/views.py:148
+msgid "What is the primary location of this organisation?"
+msgstr ""
+
+#: oep/mapper/views.py:151
+msgid "Describe which geographical area this organisation is active in."
+msgstr ""
+
+#: oep/mapper/views.py:156
+msgid "What is your main purpose for using this tool?"
+msgstr ""
+
+#: oep/mapper/views.py:159
+msgid ""
+"Describe why you are here, what you hope to get out of it. This helps us "
+"developing the tool better."
 msgstr ""
 
 #: oep/mapper/views.py:205
+msgid "Map file"
+msgstr ""
+
+#: oep/mapper/views.py:206
 msgid "Please select and upload the exported JSON file."
+msgstr ""
+
+#: oep/mapper/views.py:223 oep/mapper/views.py:245
+#, python-format
+msgid ""
+"The file is not valid. Please start over here or <a href=\"%s\">upload "
+"another file</a>."
+msgstr ""
+
+#: oep/mapper/views.py:515
+msgid "How often have you collaborated creatively with each other?"
+msgstr ""
+
+#: oep/mapper/views.py:517
+msgid "Often"
+msgstr ""
+
+#: oep/mapper/views.py:518
+msgid "Seldom"
+msgstr ""
+
+#: oep/mapper/views.py:523
+msgid "We have similar values"
+msgstr ""
+
+#: oep/mapper/views.py:527
+msgid "We have similar ways of working"
+msgstr ""
+
+#: oep/mapper/views.py:531
+msgid "We have similar resources and skills"
+msgstr ""
+
+#: oep/mapper/views.py:779
+msgid "Frequency of interactions"
+msgstr ""
+
+#: oep/mapper/views.py:781
+msgid "often"
+msgstr ""
+
+#: oep/mapper/views.py:782
+msgid "regularly"
+msgstr ""
+
+#: oep/mapper/views.py:783
+msgid "hardly ever"
+msgstr ""
+
+#: oep/mapper/views.py:787 oep/mapper/views.py:795
+msgid "Depth of collaborations"
+msgstr ""
+
+#: oep/mapper/views.py:789
+msgid "many"
+msgstr ""
+
+#: oep/mapper/views.py:790 oep/mapper/views.py:798
+msgid "once or twice"
+msgstr ""
+
+#: oep/mapper/views.py:791 oep/mapper/views.py:799
+msgid "never"
 msgstr ""
 
 #: oep/posts/views.py:27
@@ -546,14 +673,14 @@ msgstr ""
 msgid "Start now"
 msgstr ""
 
-#: oep/urls.py:32
+#: oep/urls.py:34
 msgid "Design Bites"
 msgstr ""
 
-#: oep/urls.py:33
+#: oep/urls.py:35
 msgid "Design Bites Administration"
 msgstr ""
 
-#: oep/urls.py:34
+#: oep/urls.py:36
 msgid "Design Bites Management"
 msgstr ""
