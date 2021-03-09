@@ -24,9 +24,9 @@ urlpatterns = [
     path('', include(wagtail_urls)),
 ]
 
-urlpatterns += i18n_patterns(
-    path('', include(wagtail_urls)),
-)
+#urlpatterns += i18n_patterns(
+#    path('', include(wagtail_urls)),
+#)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
