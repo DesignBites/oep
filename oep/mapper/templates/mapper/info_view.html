@@ -1,7 +1,7 @@
-{% load static %}
+{% load static i18n %}
 
 <h4>
-    VIEWS
+    {% trans "VIEWS" %}
 
     <button type="button" class="close" data-dismiss="sidebar" aria-label="Close">
         <strong aria-hidden="true">&times;</strong>
@@ -77,8 +77,8 @@
 
 <p>
     {% blocktrans %}
-    The Venn diagram groups stakeholders based on similarities.
-    Identify gaps to better understand your map and keep expanding your network.
+The Venn diagram groups stakeholders based on similarities.
+Identify gaps to better understand your map and keep expanding your network.
     {% endblocktrans %}
 </p>
 

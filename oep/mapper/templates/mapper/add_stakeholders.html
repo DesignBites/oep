@@ -53,7 +53,7 @@
 
 			if (isEmpty) {
 				if (!confirmed) {
-					if (!confirm('You did not specify any stakeholders. Are you sure?')) {
+					if (!confirm('{% trans "You did not specify any stakeholders. Are you sure?" %}')) {
 						e.preventDefault();
 					}
 				}

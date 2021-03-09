@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import mark_safe
 from django.templatetags.static import static
 from django.http import JsonResponse
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, get_language_from_request
 from crispy_forms.helper import FormHelper
 from .models import Map, Sector, Workshop, StakeholderType, PageInfo, ORGANIZATION_SIZES
 from .layouts import circular_layout, ring_layout, venn_layout, suggest_layout, get_node_icon_prefix, NODE_ICON_NAME
@@ -91,9 +91,10 @@ def approve_terms(request):
     context = {}
     page_info = PageInfo.objects.filter(page='terms').first()
     if page_info:
+        lang = get_language_from_request(request)
         context.update({
-            'title': page_info.title,
-            'description': page_info.description,
+            'title': lang == 'fi' and page_info.title_fi or page_info.title,
+            'description': lang == 'fi' and page_info.description_fi or page_info.description,
         })
     return render(request, 'mapper/terms.html', context)
 
@@ -121,42 +122,42 @@ def sector_choices():
 
 class OrganisationForm(forms.Form):
     name = forms.CharField(
-        label='Which organization are you making a stakeholder map of?',
-        widget=forms.TextInput(attrs={'placeholder': 'Input name of organisation or team'}),
+        label=_('Which organization are you making a stakeholder map of?'),
+        widget=forms.TextInput(attrs={'placeholder': _('Input name of organisation or team')}),
     )
     is_own = forms.ChoiceField(
-        label='Is this your own organisation or team?',
+        label=_('Is this your own organisation or team?'),
         choices=(
-            (True, 'Yes'),
-            (False, 'No'),
+            (True, _('Yes')),
+            (False, _('No')),
         ),
         widget=forms.RadioSelect(),
         required=False,
     )
     sector = forms.ChoiceField(
-        label='What is the key sector of this organisation?',
-        help_text=mark_safe('Categories are obtained from the <a href="https://www.ilo.org/global/industries-and-sectors/lang--en/index.htm">International Labour Organization</a>.'),
+        label=_('What is the key sector of this organisation?'),
+        help_text=mark_safe(_('Categories are obtained from the <a href="https://www.ilo.org/global/industries-and-sectors/lang--en/index.htm">International Labour Organization</a>.')),
         choices=sector_choices,
     )
     size = forms.ChoiceField(
-        label='What size is this organisation?',
+        label=_('What size is this organisation?'),
         choices=ORGANIZATION_SIZES,
         widget=forms.RadioSelect(),
     )
     location = forms.CharField(
-        label='What is the primary location of this organisation?',
+        label=_('What is the primary location of this organisation?'),
         required=False,
         widget=forms.TextInput(attrs={
-            'placeholder': 'Describe which geographical area this organisation is active in.',
+            'placeholder': _('Describe which geographical area this organisation is active in.'),
             'rows': 1,
         }),
     )
     purpose = forms.CharField(
-        label='What is your main purpose for using this tool?',
+        label=_('What is your main purpose for using this tool?'),
         required=False,
         widget=forms.Textarea(attrs={
-            'placeholder': 'Describe why you are here, what you hope to get out of it. '
-                           'This helps us developing the tool better.',
+            'placeholder': _('Describe why you are here, what you hope to get out of it. '
+                             'This helps us developing the tool better.'),
             'rows': 2,
         }),
     )
@@ -219,7 +220,7 @@ def upload_map(request):
                 messages.warning(
                     request,
                     mark_safe(
-                        'The file is not valid. Please start over here or <a href="%s">upload another file</a>.' % (
+                        _('The file is not valid. Please start over here or <a href="%s">upload another file</a>.') % (
                             reverse('mapper_upload'),
                         ),
                     ),
@@ -241,7 +242,7 @@ def upload_map(request):
             messages.warning(
                 request,
                 mark_safe(
-                    'The file is not valid. Please start over here or <a href="%s">upload another file</a>.' % (
+                    _('The file is not valid. Please start over here or <a href="%s">upload another file</a>.') % (
                         reverse('mapper_upload'),
                     ),
                 ),
@@ -425,9 +426,10 @@ def ring_view(request, **kwargs):
         })
         page_info = PageInfo.objects.filter(page='circles').first()
         if page_info:
+            lang = get_language_from_request(request)
             kwargs.update({
-                'title': page_info.title,
-                'description': page_info.description % {
+                'title': lang == 'fi' and page_info.title_fi or page_info.title,
+                'description': lang == 'fi' and page_info.description_fi or page_info.description % {
                     'organization_name': get_organization_name_from_session(request),
                 },
             })
@@ -454,9 +456,10 @@ def venn_view(request, **kwargs):
         })
         page_info = PageInfo.objects.filter(page='venn').first()
         if page_info:
+            lang = get_language_from_request(request)
             kwargs.update({
-                'title': page_info.title,
-                'description': page_info.description % {
+                'title': lang == 'fi' and page_info.title_fi or page_info.title,
+                'description': lang == 'fi' and page_info.description_fi or page_info.description % {
                     'organization_name': get_organization_name_from_session(request),
                 },
             })
@@ -481,9 +484,10 @@ def suggest_view(request, **kwargs):
         })
         page_info = PageInfo.objects.filter(page='suggestions').first()
         if page_info:
+            lang = get_language_from_request(request)
             kwargs.update({
-                'title': page_info.title,
-                'description': page_info.description % {
+                'title': lang == 'fi' and page_info.title_fi or page_info.title,
+                'description': lang == 'fi' and page_info.description_fi or page_info.description % {
                     'organization_name': get_organization_name_from_session(request),
                 },
             })
@@ -508,23 +512,23 @@ class StakeholderForm(forms.Form):
         )
     )
     collaborate = forms.ChoiceField(
-        label='How often have you collaborated creatively with each other?',
+        label=_('How often have you collaborated creatively with each other?'),
         choices=(
-            (3, 'Often'),
-            (2, 'Seldom'),
-            (1, 'Never'),
+            (3, _('Often')),
+            (2, _('Seldom')),
+            (1, _('Never')),
         )
     )
     values = forms.BooleanField(
-        label='We have similar values',
+        label=_('We have similar values'),
         required=False,
     )
     working = forms.BooleanField(
-        label='We have similar ways of working',
+        label=_('We have similar ways of working'),
         required=False,
     )
     resources = forms.BooleanField(
-        label='We have similar resources and skills',
+        label=_('We have similar resources and skills'),
         required=False,
     )
     custom = forms.BooleanField(
@@ -772,27 +776,27 @@ PAGES = [
 
 FILTERS_DICT = {
     'interact': {
-        'title': 'Frequency of interactions',
+        'title': _('Frequency of interactions'),
         'options': (
-            (3, 'often'),
-            (2, 'regularly'),
-            (1, 'hardly ever'),
+            (3, _('often')),
+            (2, _('regularly')),
+            (1, _('hardly ever')),
         ),
     },
     'collaborate': {
-        'title': 'Depth of collaborations',
+        'title': _('Depth of collaborations'),
         'options': (
-            (3, 'many'),
-            (2, 'once or twice'),
-            (1, 'never'),
+            (3, _('many')),
+            (2, _('once or twice')),
+            (1, _('never')),
         ),
     },
     'similarity': {
-        'title': 'Depth of collaborations',
+        'title': _('Depth of collaborations'),
         'options': (
             ('values', ''),
-            (2, 'once or twice'),
-            (1, 'never'),
+            (2, _('once or twice')),
+            (1, _('never')),
         )
     },
 }
@@ -824,9 +828,10 @@ def page_view(request, page_no, workshop_slug=None):
         prev_page = page_no - 1
     page_info = PageInfo.objects.filter(page=str(page_no)).first()
     if page_info:
+        lang = get_language_from_request(request)
         context.update({
-            'title': page_info.title,
-            'description': page_info.description % {
+            'title': lang == 'fi' and page_info.title_fi or page_info.title,
+            'description': lang == 'fi' and page_info.description_fi or page_info.description % {
                 'organization_name': get_organization_name_from_session(request),
                 'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '#'),
             },

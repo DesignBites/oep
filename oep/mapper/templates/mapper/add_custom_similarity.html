@@ -43,7 +43,7 @@
 			if (isEmpty) {
 
 				if (!confirmed) {
-					if (!confirm('You did not specify a custom similarity parameter. Are you sure?')) {
+					if (!confirm('{% trans "You did not specify a custom similarity parameter. Are you sure?" %}')) {
 						e.preventDefault();
 					}
 				}
