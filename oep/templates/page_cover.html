@@ -1,4 +1,7 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags i18n %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
 
 
 <div class="container-fluid bg" style="background-image: url('{{ bg_img.url }}');">
@@ -9,13 +12,21 @@
 		<br><br><br><br>
 
 		<h1 class="display-2 mb-4 w-75">
-			{{ page.header|richtext }}
+			{% if LANGUAGE_CODE == 'fi' and page.header_fi %}
+				{{ page.header_fi|richtext }}
+			{% else %}
+				{{ page.header|richtext }}
+			{% endif %}
 		</h1>
 
 		<br><br>
 
 		<div class="my-4 w-75">
-			{{ page.text|richtext }}
+			{% if LANGUAGE_CODE == 'fi' and page.text_fi %}
+				{{ page.text_fi|richtext }}
+			{% else %}
+				{{ page.text|richtext }}
+			{% endif %}
 		</div>
 
 		<br><br><br><br>

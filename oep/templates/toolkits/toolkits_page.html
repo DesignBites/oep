@@ -2,6 +2,9 @@
 {% load wagtailcore_tags wagtailimages_tags i18n static %}
 
 
+{% get_current_language as LANGUAGE_CODE %}
+
+
 {% block content %}
 
 {% image page.cover_photo scale-100 as bg_img %}
@@ -19,11 +22,19 @@
 				<div class="col">
 
 					<h1 class="display-4 mb-4">
-						{{ toolkit.header|richtext }}
+						{% if LANGUAGE_CODE == 'fi' and toolkit.header_fi %}
+							{{ toolkit.header_fi|richtext }}
+						{% else %}
+							{{ toolkit.header|richtext }}
+						{% endif %}
 					</h1>
 
 					<div class="my-4">
-						{{ toolkit.excerpt|richtext }}
+						{% if LANGUAGE_CODE == 'fi' and toolkit.excerpt_fi %}
+							{{ toolkit.excerpt_fi|richtext }}
+						{% else %}
+							{{ toolkit.excerpt|richtext }}
+						{% endif %}
 					</div>
 
 					<div class="my-4">

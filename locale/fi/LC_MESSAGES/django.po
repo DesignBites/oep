@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-08 21:50+0000\n"
+"POT-Creation-Date: 2021-03-09 21:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,88 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: oep/blog/models.py:24 oep/pages/models.py:38 oep/pages/models.py:75
+#: oep/pages/models.py:116 oep/toolkits/models.py:17 oep/toolkits/models.py:34
+msgid "Header (English)"
+msgstr ""
+
+#: oep/blog/models.py:25 oep/pages/models.py:39 oep/pages/models.py:76
+#: oep/pages/models.py:117 oep/toolkits/models.py:18 oep/toolkits/models.py:35
+msgid "Header (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:26 oep/events/models.py:69 oep/pages/models.py:40
+#: oep/pages/models.py:46 oep/pages/models.py:77 oep/pages/models.py:118
+#: oep/toolkits/models.py:19 oep/toolkits/models.py:46
+msgid "Text (English)"
+msgstr ""
+
+#: oep/blog/models.py:27 oep/events/models.py:76 oep/pages/models.py:41
+#: oep/pages/models.py:47 oep/pages/models.py:78 oep/pages/models.py:119
+#: oep/toolkits/models.py:20 oep/toolkits/models.py:47
+msgid "Text (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:58
+msgid "Name (English)"
+msgstr ""
+
+#: oep/blog/models.py:59
+msgid "Name (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:72
+msgid "blog categories"
+msgstr ""
+
+#: oep/blog/models.py:92 oep/events/models.py:28
+msgid "Heading (English)"
+msgstr ""
+
+#: oep/blog/models.py:93 oep/events/models.py:29
+msgid "Heading (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:94 oep/events/models.py:30
+msgid "Paragraph (English)"
+msgstr ""
+
+#: oep/blog/models.py:95 oep/events/models.py:31
+msgid "Paragraph (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:136
+msgid "Body (English)"
+msgstr ""
+
+#: oep/blog/models.py:146
+msgid "Body (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:161 oep/events/models.py:88
+msgid "Excerpt (English)"
+msgstr ""
+
+#: oep/blog/models.py:161
+msgid "Please aim for approximately 200 characters."
+msgstr ""
+
+#: oep/blog/models.py:162 oep/events/models.py:89 oep/toolkits/models.py:42
+msgid "Excerpt (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:181
+msgid "Post information"
+msgstr ""
+
+#: oep/blog/models.py:187 oep/events/models.py:108
+msgid "Meta info"
+msgstr ""
+
+#: oep/events/models.py:100
+msgid "Event information"
+msgstr ""
 
 #: oep/mapper/models.py:72
 msgid "Name of the organization"
@@ -637,6 +719,48 @@ msgstr ""
 msgid "never"
 msgstr ""
 
+#: oep/pages/models.py:50
+msgid "Link text (English)"
+msgstr ""
+
+#: oep/pages/models.py:51
+msgid "Link text (Finnish)"
+msgstr ""
+
+#: oep/pages/models.py:82 oep/pages/models.py:122 oep/toolkits/models.py:60
+#: oep/toolkits/models.py:61 oep/toolkits/models.py:68
+#: oep/toolkits/models.py:69
+msgid "Title (English)"
+msgstr ""
+
+#: oep/pages/models.py:83 oep/pages/models.py:123
+msgid "Title (Finnish)"
+msgstr ""
+
+#: oep/pages/models.py:85
+msgid "Bio (English)"
+msgstr ""
+
+#: oep/pages/models.py:86
+msgid "Bio (Finnish)"
+msgstr ""
+
+#: oep/pages/models.py:91
+msgid "Footer (English)"
+msgstr ""
+
+#: oep/pages/models.py:92
+msgid "Footer (Finnish)"
+msgstr ""
+
+#: oep/pages/models.py:125
+msgid "Description (English"
+msgstr ""
+
+#: oep/pages/models.py:126 oep/toolkits/models.py:64 oep/toolkits/models.py:72
+msgid "Description (Finnish)"
+msgstr ""
+
 #: oep/posts/views.py:27
 msgid "category"
 msgstr ""
@@ -661,16 +785,40 @@ msgstr ""
 msgid "A post with the same title already exists"
 msgstr ""
 
-#: oep/templates/events/events_page.html:55
+#: oep/templates/blog/blog_page.html:127
+msgid "INSTAGRAM POSTS"
+msgstr ""
+
+#: oep/templates/blog/blog_post_page.html:124
+msgid "RELATED CONTENT"
+msgstr ""
+
+#: oep/templates/events/events_page.html:66
 msgid "UPCOMING EVENTS"
 msgstr ""
 
-#: oep/templates/events/events_page.html:96
+#: oep/templates/events/events_page.html:115
 msgid "PAST EVENTS"
 msgstr ""
 
-#: oep/templates/toolkits/toolkits_page.html:31
+#: oep/templates/pages/about_page.html:16
+msgid "MEET THE TEAM"
+msgstr ""
+
+#: oep/templates/toolkits/toolkits_page.html:42
 msgid "Start now"
+msgstr ""
+
+#: oep/toolkits/models.py:37
+msgid "Excerpt"
+msgstr ""
+
+#: oep/toolkits/models.py:44
+msgid "This text will appear on the toolkits index page."
+msgstr ""
+
+#: oep/toolkits/models.py:63 oep/toolkits/models.py:71
+msgid "Description (English)"
 msgstr ""
 
 #: oep/urls.py:34

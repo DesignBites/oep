@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from wagtail.core.models import Page, Orderable, ClusterableModel
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
@@ -24,8 +25,10 @@ class EventsPage(Page):
 
 
 class CommonBlocks(blocks.StreamBlock):
-    heading = blocks.CharBlock(group="Common", form_classname="full title")
-    paragraph = blocks.RichTextBlock(group="Common")
+    heading = blocks.CharBlock(label=_('Heading (English)'), group="Common", form_classname="full title")
+    heading_fi = blocks.CharBlock(label=_('Heading (Finnish)'), group="Common", form_classname="full title", required=False)
+    paragraph = blocks.RichTextBlock(label=_('Paragraph (English)'), group="Common")
+    paragraph_fi = blocks.RichTextBlock(label=_('Paragraph (Finnish)'), group="Common", required=False)
     image = ImageChooserBlock(group="Common")
 
 
@@ -63,7 +66,14 @@ class EventPage(Page):
         ('image', ImageChooserBlock()),
         ('quote', blocks.BlockQuoteBlock()),
         ('columns', ColumnBlocks(form_classname="full")),
-    ])
+    ], verbose_name=_('Text (English)'))
+    text_fi = StreamField([
+        ('heading', blocks.RichTextBlock()),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+        ('quote', blocks.BlockQuoteBlock()),
+        ('columns', ColumnBlocks(form_classname="full")),
+    ], blank=True, null=True, verbose_name=_('Text (Finnish)'))
     time = models.DateTimeField()
     location = models.CharField(max_length=300)
     pinned = models.BooleanField(default=False)
@@ -75,7 +85,8 @@ class EventPage(Page):
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
     )
-    excerpt = RichTextField(blank=True)
+    excerpt = RichTextField(_('Excerpt (English)'), blank=True)
+    excerpt_fi = RichTextField(_('Excerpt (Finnish)'), blank=True)
 
     search_fields = Page.search_fields + [
         index.SearchField('text'),
@@ -86,13 +97,15 @@ class EventPage(Page):
             FieldPanel('time'),
             FieldPanel('location'),
             FieldPanel('pinned'),
-        ], heading="Event information"),
+        ], heading=_("Event information")),
         StreamFieldPanel('text'),
+        StreamFieldPanel('text_fi'),
         MultiFieldPanel([
             ImageChooserPanel('cover_photo'),
             FieldPanel('excerpt'),
+            FieldPanel('excerpt_fi'),
             ImageChooserPanel('thumbnail'),
-        ], heading="Meta info"),
+        ], heading=_("Meta info")),
     ]
 
     def save(self, **kwargs):
@@ -105,3 +118,9 @@ class EventPage(Page):
             if block.block_type == 'heading':
                 return block.value
         return self.title
+
+    def get_title_fi(self):
+        for block in self.text_fi:
+            if block.block_type == 'heading':
+                return block.value
+        return self.get_title()

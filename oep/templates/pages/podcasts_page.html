@@ -2,6 +2,9 @@
 {% load i18n static wagtailcore_tags wagtailimages_tags wagtailembeds_tags %}
 
 
+{% get_current_language as LANGUAGE_CODE %}
+
+
 {% block content %}
 
 {% image page.photo scale-100 as bg_img %}
@@ -31,11 +34,19 @@
 
 				<div class="card-body">
 					<h4 class="card-title mt-3">
-						{{ podcast.value.title|upper }}
+						{% if LANGUAGE_CODE == 'fi' and podcast.value.title_fi %}
+							{{ podcast.value.title_fi|upper }}
+						{% else %}
+							{{ podcast.value.title|upper }}
+						{% endif %}
 					</h4>
 
 					<div class="mt-3 text-justify">
-						{{ podcast.value.description|richtext }}
+						{% if LANGUAGE_CODE == 'fi' and podcast.value.description_fi %}
+							{{ podcast.value.description_fi|richtext }}
+						{% else %}
+							{{ podcast.value.description|richtext }}
+						{% endif %}
 					</div>
 				</div>
 

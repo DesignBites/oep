@@ -2,6 +2,9 @@
 {% load wagtailcore_tags wagtailimages_tags i18n %}
 
 
+{% get_current_language as LANGUAGE_CODE %}
+
+
 {% block content %}
 
 {% with pinned_event=page.get_pinned_event %}
@@ -19,14 +22,22 @@
 
 			<a href="{{ pinned_event.url }}" class="text-decoration-none">
 				<h1 class="display-2 mb-4 w-75">
-					{{ pinned_event.get_title|upper|richtext }}
+					{% if LANGUAGE_CODE == 'fi' %}
+						{{ pinned_event.get_title_fi|upper|richtext }}
+					{% else %}
+						{{ pinned_event.get_title|upper|richtext }}
+					{% endif %}
 				</h1>
 			</a>
 
 			<br><br>
 
 			<div class="my-4">
-				{{ pinned_event.excerpt|richtext }}
+				{% if LANGUAGE_CODE == 'fi' and pinned_event.excerpt_fi %}
+					{{ pinned_event.excerpt_fi|richtext }}
+				{% else %}
+					{{ pinned_event.excerpt|richtext }}
+				{% endif %}
 				<br><br>
 				{{ pinned_event.time }}
 				<br>
@@ -68,11 +79,19 @@
 
 						<div class="card-body">
 							<h4 class="card-title mt-3">
-								{{ event.title|upper }}
+								{% if LANGUAGE_CODE == 'fi' and event.title_fi %}
+									{{ event.title_fi|upper }}
+								{% else %}
+									{{ event.title|upper }}
+								{% endif %}
 							</h4>
 
 							<div class="mt-3 text-justify">
-								{{ event.excerpt|richtext }}
+								{% if LANGUAGE_CODE == 'fi' and event.excerpt_fi %}
+									{{ event.excerpt_fi|richtext }}
+								{% else %}
+									{{ event.excerpt|richtext }}
+								{% endif %}
 							</div>
 						</div>
 
@@ -109,11 +128,19 @@
 
 						<div class="card-body">
 							<h4 class="card-title mt-3">
-								{{ event.title|upper }}
+								{% if LANGUAGE_CODE == 'fi' and event.title_fi %}
+									{{ event.title_fi|upper }}
+								{% else %}
+									{{ event.title|upper }}
+								{% endif %}
 							</h4>
 
 							<div class="mt-3 text-justify">
-								{{ event.excerpt|richtext }}
+								{% if LANGUAGE_CODE == 'fi' and event.excerpt_fi %}
+									{{ event.excerpt_fi|richtext }}
+								{% else %}
+									{{ event.excerpt|richtext }}
+								{% endif %}
 							</div>
 						</div>
 

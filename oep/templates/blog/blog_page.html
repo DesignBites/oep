@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailembeds_tags static i18n %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
 
 
 {% block content %}
@@ -28,7 +31,11 @@
 					</div>
 
 					<h2 class="col-10 text-center my-5">
-						{{ category|upper }}
+						{% if LANGUAGE_CODE == 'fi' and category.name_fi %}
+							{{ category.name_fi|upper }}
+						{% else %}
+							{{ category.name|upper }}
+						{% endif %}
 					</h2>
 
 					<div class="col-1">
@@ -64,9 +71,19 @@
 							<img class="card-img-top img-fluid" src="{{ post_img.url }}" alt="{{ post.title }}">
 						  </a>
 						<div class="card-body">
-						  <h4 class="card-title">{{ post.title|upper }}</h4>
+						  <h4 class="card-title">
+							  {% if LANGUAGE_CODE == 'fi' and post.title_fi %}
+								  {{ post.title_fi|upper }}
+							  {% else %}
+								  {{ post.title|upper }}
+							  {% endif %}
+						  </h4>
 						  <div class="card-text text-justify">
-							  {{ post.excerpt|richtext }}
+							  {% if LANGUAGE_CODE == 'fi' and post.excerpt_fi %}
+								  {{ post.excerpt_fi|richtext }}
+							  {% else %}
+								  {{ post.excerpt|richtext }}
+							  {% endif %}
 						  </div>
 						</div>
 					  </div>
@@ -89,6 +106,69 @@
 		{% endwith %}
 
 	{% endfor %}
+
+
+
+			{% if instagram_posts %}
+
+		    <div id="carousel-instagram" class="carousel slide carousel-multi-item" data-ride="carousel" data-touch="true">
+
+				<div class="row controls-top">
+
+					<div class="col-1">
+					{% if instagram_posts|length > 3 %}
+						<a class="btn-floating" href="#carousel-instagram" data-slide="prev">
+							<img class="carousel-left my-5" data-target="carousel-instagram" src="{% static 'arrow_left_small.png' %}" width="40">
+						</a>
+					{% endif %}
+					</div>
+
+					<h2 class="col-10 text-center my-5">
+						{% trans "INSTAGRAM POSTS" %}
+					</h2>
+
+					<div class="col-1">
+					{% if instagram_posts|length > 3 %}
+						<a class="btn-floating" href="#carousel-instagram" data-slide="next">
+							<img class="carousel-right my-5 float-right" data-target="carousel-instagram" src="{% static 'arrow_right_small.png' %}" width="40">
+						</a>
+					{% endif %}
+					</div>
+
+				</div>
+
+
+				<div class="carousel-inner" role="listbox">
+
+				{% for post in instagram_posts %}
+
+					{% if forloop.counter0|divisibleby:3 %}
+						{% if not forloop.first %}
+								</div>
+							</div>
+						{% endif %}
+
+						<div class="carousel-item {% if forloop.first %}active{% endif %}">
+							<div class="row">
+					{% endif %}
+
+					<div class="col-md-4 {% if not forloop.counter0|divisibleby:3 %}clearfix d-none d-md-block{% endif %}">
+						{% embed post.url %}
+					</div>
+
+					{% if forloop.last %}
+							</div>
+						</div>
+					{% endif %}
+
+				{% endfor %}
+
+				</div>
+
+			</div>
+
+
+			{% endif %}
 
 
 </div>

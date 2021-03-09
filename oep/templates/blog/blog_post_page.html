@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static i18n %}
 
-{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 
 {% block content %}
@@ -8,7 +10,11 @@
 
 <div class="container">
     <h1 class="my-5 text-center">
-        {{ page.title }}
+        {% if LANGUAGE_CODE == 'fi' and page.title_fi %}
+            {{ page.title_fi }}
+        {% else %}
+            {{ page.title }}
+        {% endif %}
     </h1>
 </div>
 
@@ -35,26 +41,55 @@
         </div>
         {% endif %}
 
-        {% for block in page.body %}
-            <section class="block-{{ block.block_type }} my-4">
-            {% if block.block_type == 'heading' %}
-                <h3 style="font-size: 2.5em">{{ block.value|upper|richtext }}</h3>
-            {% elif block.block_type == 'image' %}
-                {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
-            {% elif block.block_type == 'quote' %}
-                <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
-                    <h4 class="mb-0 mx-md-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
-                        {{ block.value.quote|richtext }}
-                    </h4>
-                    {% if block.value.source %}
-                        <footer class="small mx-5" style="color: #242847;">{{ block.value.source }}</footer>
-                    {% endif %}
-                </blockquote>
-            {% else %}
-                {% include_block block %}
-            {% endif %}
-            </section>
-        {% endfor %}
+        {% if LANGUAGE_CODE == 'fi' and page.body_fi %}
+
+            {% for block in page.body_fi %}
+                <section class="block-{{ block.block_type }} my-4">
+                {% if block.block_type == 'heading' %}
+                    <h3 style="font-size: 2.5em">{{ block.value|upper|richtext }}</h3>
+                {% elif block.block_type == 'image' %}
+                    {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
+                {% elif block.block_type == 'quote' %}
+                    <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
+                        <h4 class="mb-0 mx-md-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
+                            {{ block.value.quote|richtext }}
+                        </h4>
+                        {% if block.value.source %}
+                            <footer class="small mx-5" style="color: #242847;">{{ block.value.source }}</footer>
+                        {% endif %}
+                    </blockquote>
+                {% else %}
+                    {% include_block block %}
+                {% endif %}
+                </section>
+            {% endfor %}
+
+        {% else %}
+
+            {% for block in page.body %}
+                <section class="block-{{ block.block_type }} my-4">
+                {% if block.block_type == 'heading' %}
+                    <h3 style="font-size: 2.5em">{{ block.value|upper|richtext }}</h3>
+                {% elif block.block_type == 'image' %}
+                    {% image block.value width-1200 class="image-fluid mw-100 h-auto" %}
+                {% elif block.block_type == 'quote' %}
+                    <blockquote class="blockquote text-center mx-5" style="line-height: 1em;">
+                        <h4 class="mb-0 mx-md-5" style="font-family: GillSans; color: #DE6C5D; line-height: 1.7em;">
+                            {{ block.value.quote|richtext }}
+                        </h4>
+                        {% if block.value.source %}
+                            <footer class="small mx-5" style="color: #242847;">{{ block.value.source }}</footer>
+                        {% endif %}
+                    </blockquote>
+                {% else %}
+                    {% include_block block %}
+                {% endif %}
+                </section>
+            {% endfor %}
+
+        {% endif %}
+
+
     </article>
 
     {% comment %}
@@ -85,7 +120,7 @@
 					</div>
 
 					<h2 class="col-10 text-center my-5">
-						RELATED CONTENT
+						{% trans "RELATED CONTENT" %}
 					</h2>
 
 					<div class="col-1">
@@ -121,7 +156,15 @@
 
                             <h6 class="w-100 text-center mt-4 mb-3" style="font-family: GillSansBold;">
 
-                                {{ page.get_category|upper }}
+                                {% with page.get_category as cat %}
+
+                                    {% if LANGUAGE_CODE == 'fi' and cat.name_fi %}
+                                        {{ cat.name_fi|upper }}
+                                    {% else %}
+                                        {{ cat.name|upper }}
+                                    {% endif %}
+
+                                {% endwith %}
 
                             </h6>
 
@@ -130,9 +173,19 @@
                                 <img class="card-img-top img-fluid" src="{{ post_img.url }}" alt="{{ post.title }}">
                               </a>
                             <div class="card-body">
-                              <h4 class="card-title">{{ post.title|upper }}</h4>
+                              <h4 class="card-title">
+                                  {% if LANGUAGE_CODE == 'fi' and post.title_fi %}
+                                      {{ post.title_fi|upper }}
+                                  {% else %}
+                                      {{ post.title|upper }}
+                                  {% endif %}
+                              </h4>
                               <p class="card-text text-justify">
-                                  {{ post.excerpt|richtext }}
+                                  {% if LANGUAGE_CODE == 'fi' and post.excerpt_fi %}
+                                      {{ post.excerpt_fi|richtext }}
+                                  {% else %}
+                                      {{ post.excerpt|richtext }}
+                                  {% endif %}
                               </p>
                             </div>
                           </div>

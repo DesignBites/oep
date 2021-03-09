@@ -2,6 +2,9 @@
 {% load i18n static wagtailcore_tags wagtailimages_tags %}
 
 
+{% get_current_language as LANGUAGE_CODE %}
+
+
 {% block content %}
 
 {% image page.photo scale-100 as bg_img %}
@@ -23,7 +26,11 @@
 			<br><br><br><br>
 
 			<h1 class="display-4 mb-4">
-				{{ section.value.heading|richtext }}
+				{% if LANGUAGE_CODE == 'fi' and section.value.heading_fi %}
+					{{ section.value.heading_fi|richtext }}
+				{% else %}
+					{{ section.value.heading|richtext }}
+				{% endif %}
 			</h1>
 
 			<br><br>
@@ -36,14 +43,22 @@
 		<div class="row my-4">
 
 			<div class="col">
-				{{ section.value.text }}
+				{% if LANGUAGE_CODE == 'fi' and section.value.heading_fi %}
+					{{ section.value.text_fi }}
+				{% else %}
+					{{ section.value.text }}
+				{% endif %}
 			</div>
 
 			{% if section.value.link %}
 			<div class="col">
 				<a href="{{ section.value.link.url }}" class="d-flex align-items-center lead text-decoration-none" style="font-family: GillSansSemiBold; letter-spacing: .1em; color: #242847;">
 					{% if section.value.link_text %}
-						{{ section.value.link_text }}
+						{% if LANGUAGE_CODE == 'fi' and section.value.link_text_fi %}
+							{{ section.value.link_text_fi }}
+						{% else %}
+							{{ section.value.link_text }}
+						{% endif %}
 					{% else %}
 						{{ section.value.link.title }}
 					{% endif %}
