@@ -8,7 +8,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>{% block title %}{{ page.title }}{% endblock %}</title>
+    {% get_current_language as LANGUAGE_CODE %}
+
+    <title>
+        {% block title %}
+            {% if LANGUAGE_CODE == 'fi' and page.title_fi %}
+                {{ page.title_fi }}
+            {% else %}
+                {{ page.title }}
+            {% endif %}
+        {% endblock %}
+    </title>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WT2W7LKDGS"></script>
@@ -187,7 +197,13 @@
                 {% for nav_page in nav_pages %}
                 <li class="nav-item ml-4 {% if request.path|slice:':5' == nav_page.url|slice:':5' %}active{% endif %}">
                     <a href="{{ nav_page.url }}" class="nav-link pt-3 pb-3 font-weight-bolder {% if request.path|slice:':5' == nav_page.url|slice:':5' %}border-bottom border-dark{% endif %}"
-                       style="border-width:3px!important;">{{ nav_page.title|upper }}</a>
+                       style="border-width:3px!important;">
+                        {% if LANGUAGE_CODE == 'fi' and nav_page.title_fi %}
+                            {{ nav_page.title_fi|upper }}
+                        {% else %}
+                            {{ nav_page.title|upper }}
+                        {% endif %}
+                    </a>
                 </li>
                 {% endfor %}
 

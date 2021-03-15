@@ -12,7 +12,12 @@ from wagtailcolumnblocks.blocks import ColumnsBlock
 
 
 class EventsPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     max_count = 1
+
+    content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
+    ]
 
     def get_pinned_event(self):
         return EventPage.objects.filter(pinned=True).live().first()
@@ -60,6 +65,7 @@ class ColumnBlocks(blocks.StreamBlock):
 
 
 class EventPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     text = StreamField([
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock()),
@@ -93,6 +99,7 @@ class EventPage(Page):
     ]
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         MultiFieldPanel([
             FieldPanel('time'),
             FieldPanel('location'),

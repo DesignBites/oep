@@ -10,6 +10,7 @@ from wagtail.core import blocks
 
 
 class ToolkitsPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     cover_photo = models.ForeignKey(
         'wagtailimages.Image', null=True,
         on_delete=models.SET_NULL, related_name='+',
@@ -22,6 +23,7 @@ class ToolkitsPage(Page):
     max_count = 1
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         ImageChooserPanel('cover_photo'),
         FieldPanel('header'),
         FieldPanel('header_fi'),
@@ -31,6 +33,7 @@ class ToolkitsPage(Page):
 
 
 class ToolkitPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     header = RichTextField(_('Header (English)'), max_length=500)
     header_fi = RichTextField(_('Header (Finnish)'), max_length=500, blank=True, null=True)
     excerpt = RichTextField(
@@ -75,6 +78,7 @@ class ToolkitPage(Page):
     ])
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         MultiFieldPanel([
             FieldPanel('header'),
             FieldPanel('header_fi'),

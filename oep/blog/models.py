@@ -16,6 +16,7 @@ from wagtailcolumnblocks.blocks import ColumnsBlock
 
 
 class BlogPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     photo = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
@@ -29,6 +30,7 @@ class BlogPage(Page):
     max_count = 1
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         ImageChooserPanel('photo'),
         FieldPanel('header'),
         FieldPanel('header_fi'),
@@ -124,6 +126,7 @@ class ColumnBlocks(blocks.StreamBlock):
 
 
 class BlogPostPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     body = StreamField([
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock()),
@@ -170,6 +173,7 @@ class BlogPostPage(Page):
     ]
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         StreamFieldPanel('body'),
         StreamFieldPanel('body_fi'),
         MultiFieldPanel([

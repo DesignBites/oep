@@ -30,6 +30,7 @@ def register_external_link(features):
 
 
 class HomePage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     photo = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
@@ -55,6 +56,7 @@ class HomePage(Page):
     max_count = 1
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         MultiFieldPanel([
             ImageChooserPanel('photo'),
             FieldPanel('header'),
@@ -67,6 +69,7 @@ class HomePage(Page):
 
 
 class AboutPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     photo = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
@@ -94,6 +97,7 @@ class AboutPage(Page):
     max_count = 1
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         MultiFieldPanel([
             ImageChooserPanel('photo'),
             FieldPanel('header'),
@@ -108,6 +112,7 @@ class AboutPage(Page):
 
 
 class PodcastsPage(Page):
+    title_fi = models.CharField(_('Title (Finnish)'), max_length=200, blank=True, null=True)
     photo = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True,
         on_delete=models.SET_NULL, related_name='+',
@@ -131,6 +136,7 @@ class PodcastsPage(Page):
     max_count = 1
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_fi'),
         MultiFieldPanel([
             ImageChooserPanel('photo'),
             FieldPanel('header'),
