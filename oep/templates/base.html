@@ -208,6 +208,11 @@
                         {% endif %}
                     </a>
                 </li>
+                {% endwith %}
+                {% endfor %}
+
+                {% endwith %}
+
                 <li class="nav-item ml-4 {% if request.path|slice:':5' == nav_page.url|slice:':5' %}active{% endif %}">
         {% for language in languages %}
             {% if language.code != LANGUAGE_CODE %}
@@ -218,10 +223,6 @@
             {% endif %}
         {% endfor %}
                 </li>
-                {% endwith %}
-                {% endfor %}
-
-                {% endwith %}
 
                 {% endblock %}
             </ul>
