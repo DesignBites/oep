@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 22:07+0000\n"
+"POT-Creation-Date: 2021-03-17 07:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,85 +18,92 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: oep/blog/models.py:24 oep/pages/models.py:38 oep/pages/models.py:75
-#: oep/pages/models.py:116 oep/toolkits/models.py:17 oep/toolkits/models.py:34
+#: oep/blog/models.py:19 oep/blog/models.py:129 oep/events/models.py:15
+#: oep/events/models.py:68 oep/pages/models.py:33 oep/pages/models.py:72
+#: oep/pages/models.py:86 oep/pages/models.py:115 oep/pages/models.py:128
+#: oep/toolkits/models.py:13 oep/toolkits/models.py:36
+msgid "Title (Finnish)"
+msgstr ""
+
+#: oep/blog/models.py:25 oep/pages/models.py:39 oep/pages/models.py:78
+#: oep/pages/models.py:121 oep/toolkits/models.py:18 oep/toolkits/models.py:37
 msgid "Header (English)"
 msgstr ""
 
-#: oep/blog/models.py:25 oep/pages/models.py:39 oep/pages/models.py:76
-#: oep/pages/models.py:117 oep/toolkits/models.py:18 oep/toolkits/models.py:35
+#: oep/blog/models.py:26 oep/pages/models.py:40 oep/pages/models.py:79
+#: oep/pages/models.py:122 oep/toolkits/models.py:19 oep/toolkits/models.py:38
 msgid "Header (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:26 oep/events/models.py:69 oep/pages/models.py:40
-#: oep/pages/models.py:46 oep/pages/models.py:77 oep/pages/models.py:118
-#: oep/toolkits/models.py:19 oep/toolkits/models.py:46
+#: oep/blog/models.py:27 oep/events/models.py:75 oep/pages/models.py:41
+#: oep/pages/models.py:47 oep/pages/models.py:80 oep/pages/models.py:123
+#: oep/toolkits/models.py:20 oep/toolkits/models.py:49
 msgid "Text (English)"
 msgstr ""
 
-#: oep/blog/models.py:27 oep/events/models.py:76 oep/pages/models.py:41
-#: oep/pages/models.py:47 oep/pages/models.py:78 oep/pages/models.py:119
-#: oep/toolkits/models.py:20 oep/toolkits/models.py:47
+#: oep/blog/models.py:28 oep/events/models.py:82 oep/pages/models.py:42
+#: oep/pages/models.py:48 oep/pages/models.py:81 oep/pages/models.py:124
+#: oep/toolkits/models.py:21 oep/toolkits/models.py:50
 msgid "Text (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:58
+#: oep/blog/models.py:60
 msgid "Name (English)"
 msgstr ""
 
-#: oep/blog/models.py:59
+#: oep/blog/models.py:61
 msgid "Name (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:72
+#: oep/blog/models.py:74
 msgid "blog categories"
 msgstr ""
 
-#: oep/blog/models.py:92 oep/events/models.py:28
+#: oep/blog/models.py:94 oep/events/models.py:33
 msgid "Heading (English)"
 msgstr ""
 
-#: oep/blog/models.py:93 oep/events/models.py:29
+#: oep/blog/models.py:95 oep/events/models.py:34
 msgid "Heading (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:94 oep/events/models.py:30
+#: oep/blog/models.py:96 oep/events/models.py:35
 msgid "Paragraph (English)"
 msgstr ""
 
-#: oep/blog/models.py:95 oep/events/models.py:31
+#: oep/blog/models.py:97 oep/events/models.py:36
 msgid "Paragraph (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:136
+#: oep/blog/models.py:139
 msgid "Body (English)"
 msgstr ""
 
-#: oep/blog/models.py:146
+#: oep/blog/models.py:149
 msgid "Body (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:161 oep/events/models.py:88
+#: oep/blog/models.py:164 oep/events/models.py:94
 msgid "Excerpt (English)"
 msgstr ""
 
-#: oep/blog/models.py:161
+#: oep/blog/models.py:164
 msgid "Please aim for approximately 200 characters."
 msgstr ""
 
-#: oep/blog/models.py:162 oep/events/models.py:89 oep/toolkits/models.py:42
+#: oep/blog/models.py:165 oep/events/models.py:95 oep/toolkits/models.py:45
 msgid "Excerpt (Finnish)"
 msgstr ""
 
-#: oep/blog/models.py:181
+#: oep/blog/models.py:185
 msgid "Post information"
 msgstr ""
 
-#: oep/blog/models.py:187 oep/events/models.py:108
+#: oep/blog/models.py:191 oep/events/models.py:115
 msgid "Meta info"
 msgstr ""
 
-#: oep/events/models.py:100
+#: oep/events/models.py:107
 msgid "Event information"
 msgstr ""
 
@@ -727,45 +734,41 @@ msgstr ""
 msgid "never"
 msgstr ""
 
-#: oep/pages/models.py:50
+#: oep/pages/models.py:51
 msgid "Link text (English)"
 msgstr ""
 
-#: oep/pages/models.py:51
+#: oep/pages/models.py:52
 msgid "Link text (Finnish)"
 msgstr ""
 
-#: oep/pages/models.py:82 oep/pages/models.py:122 oep/toolkits/models.py:60
-#: oep/toolkits/models.py:61 oep/toolkits/models.py:68
-#: oep/toolkits/models.py:69
+#: oep/pages/models.py:85 oep/pages/models.py:127 oep/toolkits/models.py:63
+#: oep/toolkits/models.py:64 oep/toolkits/models.py:71
+#: oep/toolkits/models.py:72
 msgid "Title (English)"
 msgstr ""
 
-#: oep/pages/models.py:83 oep/pages/models.py:123
-msgid "Title (Finnish)"
-msgstr ""
-
-#: oep/pages/models.py:85
+#: oep/pages/models.py:88
 msgid "Bio (English)"
 msgstr ""
 
-#: oep/pages/models.py:86
+#: oep/pages/models.py:89
 msgid "Bio (Finnish)"
 msgstr ""
 
-#: oep/pages/models.py:91
+#: oep/pages/models.py:94
 msgid "Footer (English)"
 msgstr ""
 
-#: oep/pages/models.py:92
+#: oep/pages/models.py:95
 msgid "Footer (Finnish)"
 msgstr ""
 
-#: oep/pages/models.py:125
+#: oep/pages/models.py:130
 msgid "Description (English"
 msgstr ""
 
-#: oep/pages/models.py:126 oep/toolkits/models.py:64 oep/toolkits/models.py:72
+#: oep/pages/models.py:131 oep/toolkits/models.py:67 oep/toolkits/models.py:75
 msgid "Description (Finnish)"
 msgstr ""
 
@@ -793,6 +796,10 @@ msgstr ""
 msgid "A post with the same title already exists"
 msgstr ""
 
+#: oep/templates/base.html:238
+msgid "CONTACT US"
+msgstr ""
+
 #: oep/templates/blog/blog_page.html:127
 msgid "INSTAGRAM POSTS"
 msgstr ""
@@ -817,15 +824,15 @@ msgstr ""
 msgid "Start now"
 msgstr ""
 
-#: oep/toolkits/models.py:37
+#: oep/toolkits/models.py:40
 msgid "Excerpt"
 msgstr ""
 
-#: oep/toolkits/models.py:44
+#: oep/toolkits/models.py:47
 msgid "This text will appear on the toolkits index page."
 msgstr ""
 
-#: oep/toolkits/models.py:63 oep/toolkits/models.py:71
+#: oep/toolkits/models.py:66 oep/toolkits/models.py:74
 msgid "Description (English)"
 msgstr ""
 
