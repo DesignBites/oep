@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-17 07:44+0000\n"
+"POT-Creation-Date: 2021-03-18 10:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,8 +136,11 @@ msgid "The primary location of the organization"
 msgstr "Organisaation toimipaikka"
 
 #: oep/mapper/templates/mapper/add_custom_similarity.html:46
-msgid "You did not specify a custom similarity parameter. Are you sure?"
-msgstr "Et luonut omaa mittaria sidosryhmien luokitteluun kartalla. Oletko varma ettet halua lisätä tätä?"
+#, fuzzy
+msgid ""
+"You did not create your own variable to filter stakeholders on your map. Are "
+"you sure?"
+msgstr "Et lisännyt sidosryhmiä. Oletko varma?"
 
 #: oep/mapper/templates/mapper/add_stakeholders.html:56
 msgid "You did not specify any stakeholders. Are you sure?"
@@ -247,7 +250,10 @@ msgid ""
 "No identifiable data will ever be shared or published. Read more about how "
 "we protect your data.\n"
 "    "
-msgstr "Lataamalla hyväksyt, että tietoja voidaan hyödyntää tutkimuskäytössä. Käyttäjäkohtaisia tunnistettavia tietoja ei jaeta eikä julkaista. Lue lisää yksityisyyden ja tietojen suojaamisesta."
+msgstr ""
+"Lataamalla hyväksyt, että tietoja voidaan hyödyntää tutkimuskäytössä. "
+"Käyttäjäkohtaisia tunnistettavia tietoja ei jaeta eikä julkaista. Lue lisää "
+"yksityisyyden ja tietojen suojaamisesta."
 
 #: oep/mapper/templates/mapper/info_download.html:29
 msgid "CONTINUE LATER"
@@ -260,7 +266,10 @@ msgid ""
 "map as a json file.\n"
 "Next time, just upload the file and continue where you left off.\n"
 "    "
-msgstr "Jos haluat jatkaa kartoittamista myöhemmin, voit tallentaa tämän kartan json-tiedostomuodossa. Seuraavalla kerralla lataa tiedostosi ja jatka siitä mihin jäit."
+msgstr ""
+"Jos haluat jatkaa kartoittamista myöhemmin, voit tallentaa tämän kartan json-"
+"tiedostomuodossa. Seuraavalla kerralla lataa tiedostosi ja jatka siitä mihin "
+"jäit."
 
 #: oep/mapper/templates/mapper/info_download.html:40
 msgid "SAVE A COPY"
@@ -270,7 +279,9 @@ msgstr "TALLENNA KOPIO"
 msgid ""
 "If you are finished and just want to save a copy, you can download a PDF "
 "file of this current view."
-msgstr "Jos olet lopettanut ja haluat tallentaa kopion, voit ladata tästä näkymästä PDF-tiedoston."
+msgstr ""
+"Jos olet lopettanut ja haluat tallentaa kopion, voit ladata tästä näkymästä "
+"PDF-tiedoston."
 
 #: oep/mapper/templates/mapper/info_download.html:54
 msgid "SAVE A COPY (PDF)"
@@ -402,7 +413,8 @@ msgid "Update stakeholder information"
 msgstr "Päivitä sidosryhmän tiedot"
 
 #: oep/mapper/templates/mapper/info_update.html:21
-msgid "Delete node"
+#, fuzzy
+msgid "Delete stakeholder"
 msgstr "Poista sidosryhmä"
 
 #: oep/mapper/templates/mapper/info_view.html:4
@@ -411,7 +423,8 @@ msgstr "NÄKYMÄT"
 
 #: oep/mapper/templates/mapper/info_view.html:12
 msgid "You can toggle visibility of elements, or view another diagram."
-msgstr "Voit vaihtaa/muuttaa elementtien näkyvyyttä tai katsoa toista kaaviota."
+msgstr ""
+"Voit vaihtaa/muuttaa elementtien näkyvyyttä tai katsoa toista kaaviota."
 
 #: oep/mapper/templates/mapper/info_view.html:20
 #: oep/mapper/templates/mapper/info_view.html:47
@@ -442,7 +455,10 @@ msgid ""
 "    From this overview, expand your mapping and use filters to identify "
 "potential collaborators.\n"
 "    "
-msgstr "Ympyräkaavio kuvaa suhteitasi sidosryhmiesi kanssa. Laajenna tätä verkostosi yleiskatsausta ja käytä suodattimia löytääksesi potentiaalisia yhteistyökumppaneita."
+msgstr ""
+"Ympyräkaavio kuvaa suhteitasi sidosryhmiesi kanssa. Laajenna tätä verkostosi "
+"yleiskatsausta ja käytä suodattimia löytääksesi potentiaalisia "
+"yhteistyökumppaneita."
 
 #: oep/mapper/templates/mapper/info_view.html:76
 msgid "VENN DIAGRAM"
@@ -455,7 +471,10 @@ msgid ""
 "Identify gaps to better understand your map and keep expanding your "
 "network.\n"
 "    "
-msgstr "Venn-diagrammi ryhmittelee sidosryhmäsi samankaltaisuuden perusteella. Voit ymmärtää paremmin karttaasi ja laajentaa verkostoasi tunnistamalla puuttuvia elementtejä."
+msgstr ""
+"Venn-diagrammi ryhmittelee sidosryhmäsi samankaltaisuuden perusteella. Voit "
+"ymmärtää paremmin karttaasi ja laajentaa verkostoasi tunnistamalla puuttuvia "
+"elementtejä."
 
 #: oep/mapper/templates/mapper/info_view.html:88
 msgid "SWITCH TO VENN DIAGRAM"
@@ -480,7 +499,10 @@ msgid ""
 "yet you have relatively more in common with, providing a good base for a "
 "collaboration.\n"
 "\t\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta teillä on suhteellisesti enemmän yhdistäviä tekijöitä. Tämä on hyvä lähtökohta yhteistyölle."
+msgstr ""
+"Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta teillä on "
+"suhteellisesti enemmän yhdistäviä tekijöitä. Tämä on hyvä lähtökohta "
+"yhteistyölle."
 
 #: oep/mapper/templates/mapper/suggest.html:63
 #: oep/mapper/templates/mapper/suggest.html:257
@@ -494,7 +516,10 @@ msgid ""
 "complement your values,\n"
 "ways of working or resources, sparking more creativity.\n"
 "\t\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta he voivat täydentää arvojasi, työskentelytapojasi, resursseja, ja näin lisätä luovuutta."
+msgstr ""
+"Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta he voivat "
+"täydentää arvojasi, työskentelytapojasi, resursseja, ja näin lisätä "
+"luovuutta."
 
 #: oep/mapper/templates/mapper/suggest.html:95
 #: oep/mapper/templates/mapper/suggest.html:195
@@ -508,7 +533,9 @@ msgid ""
 "similar to you,\n"
 "allowing for an easy start.\n"
 "\t\t\t\t\t"
-msgstr "Nämä sidosryhmät ovat jokseenkin samankaltaisia ja olet läheisesti tekemisissä heidän kanssaan jo nyt. Tästä on hyvä aloittaa yhteistyö."
+msgstr ""
+"Nämä sidosryhmät ovat jokseenkin samankaltaisia ja olet läheisesti "
+"tekemisissä heidän kanssaan jo nyt. Tästä on hyvä aloittaa yhteistyö."
 
 #: oep/mapper/templates/mapper/suggest.html:122
 #: oep/mapper/templates/mapper/suggest.html:226
@@ -522,7 +549,10 @@ msgid ""
 "values,\n"
 "ways of working or resources, sparking more creativity.\n"
 "\t\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet läheisesti tekemisissä, ja he voivat täydentää arvojasi, työskentelytapojasi, resursseja, ja näin lisätä luovuutta."
+msgstr ""
+"Näiden sidosryhmien kanssa olet läheisesti tekemisissä, ja he voivat "
+"täydentää arvojasi, työskentelytapojasi, resursseja, ja näin lisätä "
+"luovuutta."
 
 #: oep/mapper/templates/mapper/suggest.html:151
 msgid "MORE CLOSE"
@@ -539,7 +569,9 @@ msgid ""
 "yet you have relatively more in common with, providing a good base for a "
 "collaboration.\n"
 "\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta heillä on suhteessa enemmän yhteistä kanssasi.  Tämä on hyvä pohja yhteistyölle."
+msgstr ""
+"Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta heillä on "
+"suhteessa enemmän yhteistä kanssasi.  Tämä on hyvä pohja yhteistyölle."
 
 #: oep/mapper/templates/mapper/suggest.html:198
 msgid ""
@@ -548,7 +580,9 @@ msgid ""
 "similar to you,\n"
 "allowing for an easy start.\n"
 "\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet enemmän tekemisissä ja he ovat suhteellisesti samankaltaisia kanssasi. Tämä on hyvä lähtökohta yhteistyölle."
+msgstr ""
+"Näiden sidosryhmien kanssa olet enemmän tekemisissä ja he ovat "
+"suhteellisesti samankaltaisia kanssasi. Tämä on hyvä lähtökohta yhteistyölle."
 
 #: oep/mapper/templates/mapper/suggest.html:229
 msgid ""
@@ -557,7 +591,9 @@ msgid ""
 "complement your values,\n"
 "\t\t\t\tways of working or resources, sparking more creativity.\n"
 "\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet enemmän tekemisissä ja he voivat lisätä luovuutta täydentämällä arvojasi, työskentelytapojasi tai resursseja. "
+msgstr ""
+"Näiden sidosryhmien kanssa olet enemmän tekemisissä ja he voivat lisätä "
+"luovuutta täydentämällä arvojasi, työskentelytapojasi tai resursseja. "
 
 #: oep/mapper/templates/mapper/suggest.html:260
 msgid ""
@@ -566,7 +602,9 @@ msgid ""
 "complement your values,\n"
 "\t\t\t\tways of working or resources, sparking more creativity.\n"
 "\t\t\t\t"
-msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta he voivat lisätä luovuutta täydentämällä arvojasi, työskentelytapojasi tai resursseja. "
+msgstr ""
+"Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta he voivat lisätä "
+"luovuutta täydentämällä arvojasi, työskentelytapojasi tai resursseja. "
 
 #: oep/mapper/templates/mapper/suggest.html:326
 msgid "Close"
@@ -575,12 +613,16 @@ msgstr "Läheinen"
 #: oep/mapper/templates/mapper/terms.html:25
 msgid ""
 "Accept cookies, and agree to saving anonymised data for research purposes"
-msgstr "Hyväksyn evästeet ja sallin anonyymin tietojen tallentamisen tutkimustarkoituksiin."
+msgstr ""
+"Hyväksyn evästeet ja sallin anonyymin tietojen tallentamisen "
+"tutkimustarkoituksiin."
 
 #: oep/mapper/templates/mapper/terms.html:32
 msgid ""
 "Accept cookies, and disagree to saving anonymised data for research purposes"
-msgstr "Hyväksyn evästeet, mutta en salli anonyymia tietojen tallentamista tutkimustarkoituksiin."
+msgstr ""
+"Hyväksyn evästeet, mutta en salli anonyymia tietojen tallentamista "
+"tutkimustarkoituksiin."
 
 #: oep/mapper/templates/mapper/upload.html:8
 msgid "Upload an existing map"
@@ -661,7 +703,9 @@ msgstr "Mikä on ensisijainen tarkoituksesi käyttää työkalua? "
 msgid ""
 "Describe why you are here, what you hope to get out of it. This helps us "
 "developing the tool better."
-msgstr "Kuvaile miksi olet täällä ja mitä toivot saavasi työkalusta - tämä auttaa meitä kehittämään siitä paremman."
+msgstr ""
+"Kuvaile miksi olet täällä ja mitä toivot saavasi työkalusta - tämä auttaa "
+"meitä kehittämään siitä paremman."
 
 #: oep/mapper/views.py:205
 msgid "Map file"
@@ -676,7 +720,9 @@ msgstr "Valitse ja lataa tallennettu JSON-tiedosto."
 msgid ""
 "The file is not valid. Please start over here or <a href=\"%s\">upload "
 "another file</a>."
-msgstr "Tämä tiedosto ei ole soveltuva. Aloita uudestaan tästä ja lataa toinen tiedosto. "
+msgstr ""
+"Tämä tiedosto ei ole soveltuva. Aloita uudestaan tästä ja lataa toinen "
+"tiedosto. "
 
 #: oep/mapper/views.py:515
 msgid "How often have you collaborated creatively with each other?"
@@ -796,7 +842,7 @@ msgstr "Ei kuvaa"
 msgid "A post with the same title already exists"
 msgstr "Tämä otsikko on jo käytössä toisessa julkaisussa "
 
-#: oep/templates/base.html:238
+#: oep/templates/base.html:253
 msgid "CONTACT US"
 msgstr "Ota yhteyttä"
 
@@ -847,3 +893,8 @@ msgstr "Design Bites Ylläpito"
 #: oep/urls.py:36
 msgid "Design Bites Management"
 msgstr ""
+
+#~ msgid "You did not specify a custom similarity parameter. Are you sure?"
+#~ msgstr ""
+#~ "Et luonut omaa mittaria sidosryhmien luokitteluun kartalla. Oletko varma "
+#~ "ettet halua lisätä tätä?"
