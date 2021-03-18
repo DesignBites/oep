@@ -23,7 +23,7 @@ msgstr ""
 #: oep/pages/models.py:86 oep/pages/models.py:115 oep/pages/models.py:128
 #: oep/toolkits/models.py:13 oep/toolkits/models.py:36
 msgid "Title (Finnish)"
-msgstr ""
+msgstr "Otsikko (suomi)"
 
 #: oep/blog/models.py:25 oep/pages/models.py:39 oep/pages/models.py:78
 #: oep/pages/models.py:121 oep/toolkits/models.py:18 oep/toolkits/models.py:37
