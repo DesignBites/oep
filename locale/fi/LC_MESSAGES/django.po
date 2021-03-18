@@ -28,84 +28,84 @@ msgstr ""
 #: oep/blog/models.py:25 oep/pages/models.py:39 oep/pages/models.py:78
 #: oep/pages/models.py:121 oep/toolkits/models.py:18 oep/toolkits/models.py:37
 msgid "Header (English)"
-msgstr ""
+msgstr "Tunniste (englanti)"
 
 #: oep/blog/models.py:26 oep/pages/models.py:40 oep/pages/models.py:79
 #: oep/pages/models.py:122 oep/toolkits/models.py:19 oep/toolkits/models.py:38
 msgid "Header (Finnish)"
-msgstr ""
+msgstr "Tunniste (suomi)"
 
 #: oep/blog/models.py:27 oep/events/models.py:75 oep/pages/models.py:41
 #: oep/pages/models.py:47 oep/pages/models.py:80 oep/pages/models.py:123
 #: oep/toolkits/models.py:20 oep/toolkits/models.py:49
 msgid "Text (English)"
-msgstr ""
+msgstr "Teksti (englanti)"
 
 #: oep/blog/models.py:28 oep/events/models.py:82 oep/pages/models.py:42
 #: oep/pages/models.py:48 oep/pages/models.py:81 oep/pages/models.py:124
 #: oep/toolkits/models.py:21 oep/toolkits/models.py:50
 msgid "Text (Finnish)"
-msgstr ""
+msgstr "Teksti (suomi)"
 
 #: oep/blog/models.py:60
 msgid "Name (English)"
-msgstr ""
+msgstr "Nimi (englanti)"
 
 #: oep/blog/models.py:61
 msgid "Name (Finnish)"
-msgstr ""
+msgstr "Nimi (suomi)"
 
 #: oep/blog/models.py:74
 msgid "blog categories"
-msgstr ""
+msgstr "blogikategoriat"
 
 #: oep/blog/models.py:94 oep/events/models.py:33
 msgid "Heading (English)"
-msgstr ""
+msgstr "Otsikko (englanti)"
 
 #: oep/blog/models.py:95 oep/events/models.py:34
 msgid "Heading (Finnish)"
-msgstr ""
+msgstr "Otsikko (suomi)"
 
 #: oep/blog/models.py:96 oep/events/models.py:35
 msgid "Paragraph (English)"
-msgstr ""
+msgstr "Kappale (englanti)"
 
 #: oep/blog/models.py:97 oep/events/models.py:36
 msgid "Paragraph (Finnish)"
-msgstr ""
+msgstr "Kappale (suomi)"
 
 #: oep/blog/models.py:139
 msgid "Body (English)"
-msgstr ""
+msgstr "Sisältö (englanti)"
 
 #: oep/blog/models.py:149
 msgid "Body (Finnish)"
-msgstr ""
+msgstr "Sisältö (suomi)"
 
 #: oep/blog/models.py:164 oep/events/models.py:94
 msgid "Excerpt (English)"
-msgstr ""
+msgstr "Ote (englanti)"
 
 #: oep/blog/models.py:164
 msgid "Please aim for approximately 200 characters."
-msgstr ""
+msgstr "200 merkkiä käytettävissä."
 
 #: oep/blog/models.py:165 oep/events/models.py:95 oep/toolkits/models.py:45
 msgid "Excerpt (Finnish)"
-msgstr ""
+msgstr "Katkelma (suomi)"
 
 #: oep/blog/models.py:185
 msgid "Post information"
-msgstr ""
+msgstr "Julkaisun tiedot"
 
 #: oep/blog/models.py:191 oep/events/models.py:115
 msgid "Meta info"
-msgstr ""
+msgstr "Metadata"
 
 #: oep/events/models.py:107
 msgid "Event information"
-msgstr ""
+msgstr "Tapahtumainfo"
 
 #: oep/mapper/models.py:72
 msgid "Name of the organization"
@@ -113,102 +113,102 @@ msgstr "Organisaation nimi"
 
 #: oep/mapper/models.py:75
 msgid "This is my own organization"
-msgstr ""
+msgstr "Työskentelen tässä organisaatiossa"
 
 #: oep/mapper/models.py:77
 msgid "Uncheck the box if you are mapping another organization's network"
-msgstr ""
+msgstr "Jos kartoitat toisen organisaation verkostoa, poista ruudun valinta"
 
 #: oep/mapper/models.py:80
 msgid "The sector of the organization"
-msgstr ""
+msgstr "Organisaation toimiala"
 
 #: oep/mapper/models.py:84
 msgid "Size of the organization"
-msgstr ""
+msgstr "Organisaation koko"
 
 #: oep/mapper/models.py:88
 msgid "Your primary purpose of using this tool"
-msgstr ""
+msgstr "Työkalun ensisijainen käyttötarkoitus"
 
 #: oep/mapper/models.py:92
 msgid "The primary location of the organization"
-msgstr ""
+msgstr "Organisaation toimipaikka"
 
 #: oep/mapper/templates/mapper/add_custom_similarity.html:46
 msgid "You did not specify a custom similarity parameter. Are you sure?"
-msgstr ""
+msgstr "Et luonut omaa mittaria sidosryhmien luokitteluun kartalla. Oletko varma ettet halua lisätä tätä?"
 
 #: oep/mapper/templates/mapper/add_stakeholders.html:56
 msgid "You did not specify any stakeholders. Are you sure?"
-msgstr ""
+msgstr "Et lisännyt sidosryhmiä. Oletko varma?"
 
 #: oep/mapper/templates/mapper/floating_menu.html:7
 #: oep/mapper/templates/mapper/info_add.html:6
 msgid "ADD STAKEHOLDER"
-msgstr ""
+msgstr "LISÄÄ SIDOSRYHMÄ"
 
 #: oep/mapper/templates/mapper/floating_menu.html:26
 msgid "SHOW LEGEND"
-msgstr ""
+msgstr "NÄYTÄ SELITE"
 
 #: oep/mapper/templates/mapper/floating_menu.html:34
 msgid "APPLY FILTERS"
-msgstr ""
+msgstr "ASETA SUODATTIMET"
 
 #: oep/mapper/templates/mapper/floating_menu.html:43
 msgid "CHANGE DIAGRAM"
-msgstr ""
+msgstr "VAIHDA NÄKYMÄ"
 
 #: oep/mapper/templates/mapper/floating_menu.html:53
 msgid "DOWNLOAD TO SAVE OR CONTINUE LATER"
-msgstr ""
+msgstr "LATAA TIEDOSTO TALLENTAAKSESI TAI JATKAAKSESI MYÖHEMMIN "
 
 #: oep/mapper/templates/mapper/floating_menu.html:70
 msgid "SUGGEST COLLABORATORS"
-msgstr ""
+msgstr "EHDOTA YHTEISTYÖKUMPPANEITA"
 
 #: oep/mapper/templates/mapper/floating_menu.html:85
 msgid "GO BACK"
-msgstr ""
+msgstr "PALAA"
 
 #: oep/mapper/templates/mapper/grid.html:60
 msgid "We've collaborated creatively"
-msgstr ""
+msgstr "Olemme tehneet luovaa yhteistyötä"
 
 #: oep/mapper/templates/mapper/grid.html:67
 #: oep/mapper/templates/mapper/info_filter.html:36
 msgid "OFTEN"
-msgstr ""
+msgstr "USEIN"
 
 #: oep/mapper/templates/mapper/grid.html:70
 #: oep/mapper/templates/mapper/info_filter.html:40
 msgid "SELDOM"
-msgstr ""
+msgstr "HARVOIN"
 
 #: oep/mapper/templates/mapper/grid.html:73
 #: oep/mapper/templates/mapper/info_filter.html:44
 msgid "NEVER"
-msgstr ""
+msgstr "EI KOSKAAN"
 
 #: oep/mapper/templates/mapper/grid.html:78
 msgid "We interact"
-msgstr ""
+msgstr "Olemme vuorovaikutuksessa"
 
 #: oep/mapper/templates/mapper/grid.html:81
 #: oep/mapper/templates/mapper/info_filter.html:19
 msgid "REGULARLY"
-msgstr ""
+msgstr "SÄÄNNÖLLISESTI"
 
 #: oep/mapper/templates/mapper/grid.html:95
 #: oep/mapper/templates/mapper/info_filter.html:23
 msgid "SOMETIMES"
-msgstr ""
+msgstr "JOSKUS"
 
 #: oep/mapper/templates/mapper/grid.html:109
 #: oep/mapper/templates/mapper/info_filter.html:27
 msgid "RARELY"
-msgstr ""
+msgstr "HARVOIN"
 
 #: oep/mapper/templates/mapper/index.html:10
 msgid ""
@@ -216,29 +216,29 @@ msgid ""
 "\t\t<small class=\"d-block\">Welcome to the</small>\n"
 "\t\tSTAKEHOLDER MAPPING tool!\n"
 "\t\t"
-msgstr ""
+msgstr "SIDOSRYHMIEN KARTOITTAMISTYÖKALU"
 
 #: oep/mapper/templates/mapper/index.html:23
 #, python-format
 msgid "I am continuing with \"%(organization_name)s\"."
-msgstr ""
+msgstr "Jatkan \"%(organization_name)s\"."
 
 #: oep/mapper/templates/mapper/index.html:35
 msgid "I am continuing a previously created stakeholder map."
-msgstr ""
+msgstr "Jatkan aiemmin luotua sidosryhmäkarttaa."
 
 #: oep/mapper/templates/mapper/index.html:46
 msgid "I am creating a new stakeholder map."
-msgstr ""
+msgstr "Luon uuden sidosryhmäkartan."
 
 #: oep/mapper/templates/mapper/info_add.html:18
 #: oep/mapper/templates/mapper/info_update.html:18
 msgid "Update map"
-msgstr ""
+msgstr "Päivitä kartta"
 
 #: oep/mapper/templates/mapper/info_download.html:4
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: oep/mapper/templates/mapper/info_download.html:16
 msgid ""
@@ -247,11 +247,11 @@ msgid ""
 "No identifiable data will ever be shared or published. Read more about how "
 "we protect your data.\n"
 "    "
-msgstr ""
+msgstr "Lataamalla hyväksyt, että tietoja voidaan hyödyntää tutkimuskäytössä. Käyttäjäkohtaisia tunnistettavia tietoja ei jaeta eikä julkaista. Lue lisää yksityisyyden ja tietojen suojaamisesta."
 
 #: oep/mapper/templates/mapper/info_download.html:29
 msgid "CONTINUE LATER"
-msgstr ""
+msgstr "JATKA MYÖHEMMIN"
 
 #: oep/mapper/templates/mapper/info_download.html:33
 msgid ""
@@ -260,56 +260,56 @@ msgid ""
 "map as a json file.\n"
 "Next time, just upload the file and continue where you left off.\n"
 "    "
-msgstr ""
+msgstr "Jos haluat jatkaa kartoittamista myöhemmin, voit tallentaa tämän kartan json-tiedostomuodossa. Seuraavalla kerralla lataa tiedostosi ja jatka siitä mihin jäit."
 
 #: oep/mapper/templates/mapper/info_download.html:40
 msgid "SAVE A COPY"
-msgstr ""
+msgstr "TALLENNA KOPIO"
 
 #: oep/mapper/templates/mapper/info_download.html:44
 msgid ""
 "If you are finished and just want to save a copy, you can download a PDF "
 "file of this current view."
-msgstr ""
+msgstr "Jos olet lopettanut ja haluat tallentaa kopion, voit ladata tästä näkymästä PDF-tiedoston."
 
 #: oep/mapper/templates/mapper/info_download.html:54
 msgid "SAVE A COPY (PDF)"
-msgstr ""
+msgstr "TALLENNA KOPIO (PDF)"
 
 #: oep/mapper/templates/mapper/info_download.html:61
 msgid "CONTINUE LATER (JSON)"
-msgstr ""
+msgstr "JATKA MYÖHEMMIN (JSON)"
 
 #: oep/mapper/templates/mapper/info_filter.html:4
 msgid "FILTERS"
-msgstr ""
+msgstr "SUODATTIMET"
 
 #: oep/mapper/templates/mapper/info_filter.html:13
 msgid "Closeness"
-msgstr ""
+msgstr "Läheisyys"
 
 #: oep/mapper/templates/mapper/info_filter.html:15
 msgid "interact with …"
-msgstr ""
+msgstr "yhteistyössä..."
 
 #: oep/mapper/templates/mapper/info_filter.html:32
 msgid "have collaborated creatively with …"
-msgstr ""
+msgstr "olemme tehneet luovaa yhteistyötä"
 
 #: oep/mapper/templates/mapper/info_filter.html:49
 #: oep/mapper/templates/mapper/info_legend.html:59
 msgid "Similarities"
-msgstr ""
+msgstr "Samankaltaisuuksia"
 
 #: oep/mapper/templates/mapper/info_filter.html:52
 msgid "whose values are …"
-msgstr ""
+msgstr "jonka arvot ovat..."
 
 #: oep/mapper/templates/mapper/info_filter.html:56
 #: oep/mapper/templates/mapper/info_filter.html:72
 #: oep/mapper/templates/mapper/info_filter.html:88
 msgid "SIMILAR"
-msgstr ""
+msgstr "SAMANKALTAINEN"
 
 #: oep/mapper/templates/mapper/info_filter.html:60
 #: oep/mapper/templates/mapper/info_filter.html:76
@@ -322,118 +322,118 @@ msgstr ""
 #: oep/mapper/templates/mapper/info_filter.html:80
 #: oep/mapper/templates/mapper/info_filter.html:96
 msgid "DIFFERENT"
-msgstr ""
+msgstr "ERILAINEN"
 
 #: oep/mapper/templates/mapper/info_filter.html:68
 msgid "whose ways of working are …"
-msgstr ""
+msgstr "jonka työskenlytavat ovat..."
 
 #: oep/mapper/templates/mapper/info_filter.html:84
 msgid "whose resources are …"
-msgstr ""
+msgstr "jonka resusrssit ovat..."
 
 #: oep/mapper/templates/mapper/info_filter.html:100
 msgid "number of similarities"
-msgstr ""
+msgstr "samankaltaisuuksien määrä"
 
 #: oep/mapper/templates/mapper/info_filter.html:123
 msgid "Own parameter"
-msgstr ""
+msgstr "oma muuttuja"
 
 #: oep/mapper/templates/mapper/info_filter.html:124
 #, python-format
 msgid "for whom \"%(custom_similarity_parameter)s\" is …"
-msgstr ""
+msgstr "jolle \"%(custom_similarity_parameter)s\" on..."
 
 #: oep/mapper/templates/mapper/info_filter.html:127
 msgid "TRUE"
-msgstr ""
+msgstr "TOSI"
 
 #: oep/mapper/templates/mapper/info_filter.html:135
 msgid "FALSE"
-msgstr ""
+msgstr "EPÄTOSI"
 
 #: oep/mapper/templates/mapper/info_legend.html:14
 msgid "Interactions"
-msgstr ""
+msgstr "vuorovaikutus"
 
 #: oep/mapper/templates/mapper/info_legend.html:17
 msgid "Regularly"
-msgstr ""
+msgstr "Säännöllisesti"
 
 #: oep/mapper/templates/mapper/info_legend.html:24
 msgid "Sometimes"
-msgstr ""
+msgstr "Joskus"
 
 #: oep/mapper/templates/mapper/info_legend.html:30
 msgid "Hardly ever"
-msgstr ""
+msgstr "Tuskin koskaan"
 
 #: oep/mapper/templates/mapper/info_legend.html:37
 msgid "Collaborated creatively"
-msgstr ""
+msgstr "Tehnyt luovaa yhteistyötä"
 
 #: oep/mapper/templates/mapper/info_legend.html:40
 msgid "Many times"
-msgstr ""
+msgstr "Monta kertaa"
 
 #: oep/mapper/templates/mapper/info_legend.html:47
 msgid "Once or twice"
-msgstr ""
+msgstr "Kerran tai pari"
 
 #: oep/mapper/templates/mapper/info_legend.html:53 oep/mapper/views.py:519
 msgid "Never"
-msgstr ""
+msgstr "Ei koskaan"
 
 #: oep/mapper/templates/mapper/info_legend.html:61
 msgid "Values or goals"
-msgstr ""
+msgstr "Arvot tai tavoitteet"
 
 #: oep/mapper/templates/mapper/info_legend.html:67
 msgid "Ways of working"
-msgstr ""
+msgstr "Työskentelytavat"
 
 #: oep/mapper/templates/mapper/info_legend.html:73
 msgid "Resources or skills"
-msgstr ""
+msgstr "Resurssit tai taidot"
 
 #: oep/mapper/templates/mapper/info_update.html:6
 msgid "Update stakeholder information"
-msgstr ""
+msgstr "Päivitä sidosryhmän tiedot"
 
 #: oep/mapper/templates/mapper/info_update.html:21
 msgid "Delete node"
-msgstr ""
+msgstr "Poista sidosryhmä"
 
 #: oep/mapper/templates/mapper/info_view.html:4
 msgid "VIEWS"
-msgstr ""
+msgstr "NÄKYMÄT"
 
 #: oep/mapper/templates/mapper/info_view.html:12
 msgid "You can toggle visibility of elements, or view another diagram."
-msgstr ""
+msgstr "Voit vaihtaa/muuttaa elementtien näkyvyyttä tai katsoa toista kaaviota."
 
 #: oep/mapper/templates/mapper/info_view.html:20
 #: oep/mapper/templates/mapper/info_view.html:47
 msgid "Background"
-msgstr ""
+msgstr "Tausta"
 
 #: oep/mapper/templates/mapper/info_view.html:25
 msgid "Lines"
-msgstr ""
+msgstr "Viivat"
 
 #: oep/mapper/templates/mapper/info_view.html:38
 #: oep/mapper/templates/mapper/info_view.html:57
 msgid "Names"
-msgstr ""
+msgstr "Nimet"
 
 #: oep/mapper/templates/mapper/info_view.html:52
 msgid "Nodes"
-msgstr ""
+msgstr "Noodit"
 
 #: oep/mapper/templates/mapper/info_view.html:64
 msgid "SPHERE DIAGRAM"
-msgstr ""
+msgstr "YMPYRÄKAAVIO"
 
 #: oep/mapper/templates/mapper/info_view.html:68
 msgid ""
@@ -442,11 +442,11 @@ msgid ""
 "    From this overview, expand your mapping and use filters to identify "
 "potential collaborators.\n"
 "    "
-msgstr ""
+msgstr "Ympyräkaavio kuvaa suhteitasi sidosryhmiesi kanssa. Laajenna tätä verkostosi yleiskatsausta ja käytä suodattimia löytääksesi potentiaalisia yhteistyökumppaneita."
 
 #: oep/mapper/templates/mapper/info_view.html:76
 msgid "VENN DIAGRAM"
-msgstr ""
+msgstr "VENN-DIAGRAMMI"
 
 #: oep/mapper/templates/mapper/info_view.html:80
 msgid ""
@@ -455,23 +455,23 @@ msgid ""
 "Identify gaps to better understand your map and keep expanding your "
 "network.\n"
 "    "
-msgstr ""
+msgstr "Venn-diagrammi ryhmittelee sidosryhmäsi samankaltaisuuden perusteella. Voit ymmärtää paremmin karttaasi ja laajentaa verkostoasi tunnistamalla puuttuvia elementtejä."
 
 #: oep/mapper/templates/mapper/info_view.html:88
 msgid "SWITCH TO VENN DIAGRAM"
-msgstr ""
+msgstr "VAIHDA VENN-DIAGRAMMIKSI"
 
 #: oep/mapper/templates/mapper/info_view.html:92
 msgid "SWITCH TO SPHERE DIAGRAM"
-msgstr ""
+msgstr "VAIHDA YMPYRÄKAAVIOKSI"
 
 #: oep/mapper/templates/mapper/suggest.html:27
 msgid "LESS CLOSE"
-msgstr ""
+msgstr "EI NIIN LÄHEINEN"
 
 #: oep/mapper/templates/mapper/suggest.html:32
 msgid "MORE SIMILAR"
-msgstr ""
+msgstr "SAMANKALTAISEMPI"
 
 #: oep/mapper/templates/mapper/suggest.html:39
 msgid ""
@@ -480,12 +480,12 @@ msgid ""
 "yet you have relatively more in common with, providing a good base for a "
 "collaboration.\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta teillä on suhteellisesti enemmän yhdistäviä tekijöitä. Tämä on hyvä lähtökohta yhteistyölle."
 
 #: oep/mapper/templates/mapper/suggest.html:63
 #: oep/mapper/templates/mapper/suggest.html:257
 msgid "Wild cards"
-msgstr ""
+msgstr "Villit kortit"
 
 #: oep/mapper/templates/mapper/suggest.html:66
 msgid ""
@@ -494,12 +494,12 @@ msgid ""
 "complement your values,\n"
 "ways of working or resources, sparking more creativity.\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta he voivat täydentää arvojasi, työskentelytapojasi, resursseja, ja näin lisätä luovuutta."
 
 #: oep/mapper/templates/mapper/suggest.html:95
 #: oep/mapper/templates/mapper/suggest.html:195
 msgid "Low-hanging fruit"
-msgstr ""
+msgstr "Helposti aloitettavat"
 
 #: oep/mapper/templates/mapper/suggest.html:98
 msgid ""
@@ -508,12 +508,12 @@ msgid ""
 "similar to you,\n"
 "allowing for an easy start.\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "Nämä sidosryhmät ovat jokseenkin samankaltaisia ja olet läheisesti tekemisissä heidän kanssaan jo nyt. Tästä on hyvä aloittaa yhteistyö."
 
 #: oep/mapper/templates/mapper/suggest.html:122
 #: oep/mapper/templates/mapper/suggest.html:226
 msgid "Over-looked potential"
-msgstr ""
+msgstr "Huomiotta jääneet mahdollisuudet"
 
 #: oep/mapper/templates/mapper/suggest.html:125
 msgid ""
@@ -522,15 +522,15 @@ msgid ""
 "values,\n"
 "ways of working or resources, sparking more creativity.\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet läheisesti tekemisissä, ja he voivat täydentää arvojasi, työskentelytapojasi, resursseja, ja näin lisätä luovuutta."
 
 #: oep/mapper/templates/mapper/suggest.html:151
 msgid "MORE CLOSE"
-msgstr ""
+msgstr "LÄHEMPÄNÄ"
 
 #: oep/mapper/templates/mapper/suggest.html:164
 msgid "Far friends"
-msgstr ""
+msgstr "Kaukaiset ystävät"
 
 #: oep/mapper/templates/mapper/suggest.html:167
 msgid ""
@@ -539,7 +539,7 @@ msgid ""
 "yet you have relatively more in common with, providing a good base for a "
 "collaboration.\n"
 "\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta heillä on suhteessa enemmän yhteistä kanssasi.  Tämä on hyvä pohja yhteistyölle."
 
 #: oep/mapper/templates/mapper/suggest.html:198
 msgid ""
@@ -548,7 +548,7 @@ msgid ""
 "similar to you,\n"
 "allowing for an easy start.\n"
 "\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet enemmän tekemisissä ja he ovat suhteellisesti samankaltaisia kanssasi. Tämä on hyvä lähtökohta yhteistyölle."
 
 #: oep/mapper/templates/mapper/suggest.html:229
 msgid ""
@@ -557,7 +557,7 @@ msgid ""
 "complement your values,\n"
 "\t\t\t\tways of working or resources, sparking more creativity.\n"
 "\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet enemmän tekemisissä ja he voivat lisätä luovuutta täydentämällä arvojasi, työskentelytapojasi tai resursseja. "
 
 #: oep/mapper/templates/mapper/suggest.html:260
 msgid ""
@@ -566,275 +566,275 @@ msgid ""
 "complement your values,\n"
 "\t\t\t\tways of working or resources, sparking more creativity.\n"
 "\t\t\t\t"
-msgstr ""
+msgstr "Näiden sidosryhmien kanssa olet vähemmän tekemisissä, mutta he voivat lisätä luovuutta täydentämällä arvojasi, työskentelytapojasi tai resursseja. "
 
 #: oep/mapper/templates/mapper/suggest.html:326
 msgid "Close"
-msgstr ""
+msgstr "Läheinen"
 
 #: oep/mapper/templates/mapper/terms.html:25
 msgid ""
 "Accept cookies, and agree to saving anonymised data for research purposes"
-msgstr ""
+msgstr "Hyväksyn evästeet ja sallin anonyymin tietojen tallentamisen tutkimustarkoituksiin."
 
 #: oep/mapper/templates/mapper/terms.html:32
 msgid ""
 "Accept cookies, and disagree to saving anonymised data for research purposes"
-msgstr ""
+msgstr "Hyväksyn evästeet, mutta en salli anonyymia tietojen tallentamista tutkimustarkoituksiin."
 
 #: oep/mapper/templates/mapper/upload.html:8
 msgid "Upload an existing map"
-msgstr ""
+msgstr "Lataa olemassa oleva kartta"
 
 #: oep/mapper/templates/mapper/upload.html:15
 msgid "Upload"
-msgstr ""
+msgstr "Lataa "
 
 #: oep/mapper/templates/mapper/venn.html:40
 msgid "similar values"
-msgstr ""
+msgstr "samankaltaiset arvot"
 
 #: oep/mapper/templates/mapper/venn.html:42
 msgid "similar ways of working"
-msgstr ""
+msgstr "samankaltaiset työskentelytavat"
 
 #: oep/mapper/templates/mapper/venn.html:119
 msgid "similar resources"
-msgstr ""
+msgstr "samankaltaiset resurssit"
 
 #: oep/mapper/templates/mapper/venn.html:149
 msgid "your parameter (not specified)"
-msgstr ""
+msgstr "oma muuttujasi (ei määritelty)"
 
 #: oep/mapper/views.py:125
 msgid "Which organization are you making a stakeholder map of?"
-msgstr ""
+msgstr "Mille organisaatiolle teet sidosryhmäkarttaa?"
 
 #: oep/mapper/views.py:126
 #, fuzzy
 #| msgid "Name of the organization"
 msgid "Input name of organisation or team"
-msgstr "Organisaation nimi"
+msgstr "Syötä organisaation tai tiimin nimi"
 
 #: oep/mapper/views.py:129
 msgid "Is this your own organisation or team?"
-msgstr ""
+msgstr "Työskenteletkö tässä organisaatiossa tai tiimissä?"
 
 #: oep/mapper/views.py:131
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: oep/mapper/views.py:132
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: oep/mapper/views.py:138
 msgid "What is the key sector of this organisation?"
-msgstr ""
+msgstr "Mikä on organisaation päätoimiala?"
 
 #: oep/mapper/views.py:139
 msgid ""
 "Categories are obtained from the <a href=\"https://www.ilo.org/global/"
 "industries-and-sectors/lang--en/index.htm\">International Labour "
 "Organization</a>."
-msgstr ""
+msgstr "Kategoriat International Labour Organization -luokituksen mukaan"
 
 #: oep/mapper/views.py:143
 #, fuzzy
 #| msgid "Name of the organization"
 msgid "What size is this organisation?"
-msgstr "Organisaation nimi"
+msgstr "Mikä on organisaation koko?"
 
 #: oep/mapper/views.py:148
 msgid "What is the primary location of this organisation?"
-msgstr ""
+msgstr "Mikä on organisaation sijainti?"
 
 #: oep/mapper/views.py:151
 msgid "Describe which geographical area this organisation is active in."
-msgstr ""
+msgstr "Kuvaile millä maantieteellisellä alueella organisaatio on aktiivinen. "
 
 #: oep/mapper/views.py:156
 msgid "What is your main purpose for using this tool?"
-msgstr ""
+msgstr "Mikä on ensisijainen tarkoituksesi käyttää työkalua? "
 
 #: oep/mapper/views.py:159
 msgid ""
 "Describe why you are here, what you hope to get out of it. This helps us "
 "developing the tool better."
-msgstr ""
+msgstr "Kuvaile miksi olet täällä ja mitä toivot saavasi työkalusta - tämä auttaa meitä kehittämään siitä paremman."
 
 #: oep/mapper/views.py:205
 msgid "Map file"
-msgstr ""
+msgstr "Karttatiedosto"
 
 #: oep/mapper/views.py:206
 msgid "Please select and upload the exported JSON file."
-msgstr ""
+msgstr "Valitse ja lataa tallennettu JSON-tiedosto."
 
 #: oep/mapper/views.py:223 oep/mapper/views.py:245
 #, python-format
 msgid ""
 "The file is not valid. Please start over here or <a href=\"%s\">upload "
 "another file</a>."
-msgstr ""
+msgstr "Tämä tiedosto ei ole soveltuva. Aloita uudestaan tästä ja lataa toinen tiedosto. "
 
 #: oep/mapper/views.py:515
 msgid "How often have you collaborated creatively with each other?"
-msgstr ""
+msgstr "Kuinka usein olette tehneet luovaa yhteistyötä keskenänne?"
 
 #: oep/mapper/views.py:517
 msgid "Often"
-msgstr ""
+msgstr "Usein"
 
 #: oep/mapper/views.py:518
 msgid "Seldom"
-msgstr ""
+msgstr "Harvoin"
 
 #: oep/mapper/views.py:523
 msgid "We have similar values"
-msgstr ""
+msgstr "Meillä on samankaltaisia arvoja"
 
 #: oep/mapper/views.py:527
 msgid "We have similar ways of working"
-msgstr ""
+msgstr "Meillä on samankaltaisia työskentelytapoja"
 
 #: oep/mapper/views.py:531
 msgid "We have similar resources and skills"
-msgstr ""
+msgstr "Meillä on samankaltaisia resursseja ja taitoja"
 
 #: oep/mapper/views.py:779
 msgid "Frequency of interactions"
-msgstr ""
+msgstr "Vuorovaikutuksen yleisyys"
 
 #: oep/mapper/views.py:781
 msgid "often"
-msgstr ""
+msgstr "usein"
 
 #: oep/mapper/views.py:782
 msgid "regularly"
-msgstr ""
+msgstr "säännöllisesti"
 
 #: oep/mapper/views.py:783
 msgid "hardly ever"
-msgstr ""
+msgstr "tuskin koskaan"
 
 #: oep/mapper/views.py:787 oep/mapper/views.py:795
 msgid "Depth of collaborations"
-msgstr ""
+msgstr "Yhteistyön syvyys"
 
 #: oep/mapper/views.py:789
 msgid "many"
-msgstr ""
+msgstr "useita"
 
 #: oep/mapper/views.py:790 oep/mapper/views.py:798
 msgid "once or twice"
-msgstr ""
+msgstr "kerran tai pari"
 
 #: oep/mapper/views.py:791 oep/mapper/views.py:799
 msgid "never"
-msgstr ""
+msgstr "ei koskaan"
 
 #: oep/pages/models.py:51
 msgid "Link text (English)"
-msgstr ""
+msgstr "Yhdistetty teksti (englanti)"
 
 #: oep/pages/models.py:52
 msgid "Link text (Finnish)"
-msgstr ""
+msgstr "Yhdistetty teksti (suomi)"
 
 #: oep/pages/models.py:85 oep/pages/models.py:127 oep/toolkits/models.py:63
 #: oep/toolkits/models.py:64 oep/toolkits/models.py:71
 #: oep/toolkits/models.py:72
 msgid "Title (English)"
-msgstr ""
+msgstr "Otsikko (englanti)"
 
 #: oep/pages/models.py:88
 msgid "Bio (English)"
-msgstr ""
+msgstr "Biografia (englanti)"
 
 #: oep/pages/models.py:89
 msgid "Bio (Finnish)"
-msgstr ""
+msgstr "Biografia (suomi)"
 
 #: oep/pages/models.py:94
 msgid "Footer (English)"
-msgstr ""
+msgstr "Alatunniste (englanti)"
 
 #: oep/pages/models.py:95
 msgid "Footer (Finnish)"
-msgstr ""
+msgstr "Alatunniste (suomi)"
 
 #: oep/pages/models.py:130
 msgid "Description (English"
-msgstr ""
+msgstr "Selitys (englanti)"
 
 #: oep/pages/models.py:131 oep/toolkits/models.py:67 oep/toolkits/models.py:75
 msgid "Description (Finnish)"
-msgstr ""
+msgstr "Selitys (suomi)"
 
 #: oep/posts/views.py:27
 msgid "category"
-msgstr ""
+msgstr "kategoria"
 
 #: oep/posts/views.py:35
 msgid "tag"
-msgstr ""
+msgstr "merkintä"
 
 #: oep/posts/views.py:42 oep/posts/views.py:43
 msgid "popular"
-msgstr ""
+msgstr "suosittu"
 
 #: oep/posts/views.py:91
 msgid "No title provided"
-msgstr ""
+msgstr "Ei otsikkoa"
 
 #: oep/posts/views.py:95
 msgid "No image provided"
-msgstr ""
+msgstr "Ei kuvaa"
 
 #: oep/posts/views.py:116
 msgid "A post with the same title already exists"
-msgstr ""
+msgstr "Tämä otsikko on jo käytössä toisessa julkaisussa "
 
 #: oep/templates/base.html:238
 msgid "CONTACT US"
-msgstr ""
+msgstr "Ota yhteyttä"
 
 #: oep/templates/blog/blog_page.html:127
 msgid "INSTAGRAM POSTS"
-msgstr ""
+msgstr "INSTAGRAM-JULKAISUT"
 
 #: oep/templates/blog/blog_post_page.html:124
 msgid "RELATED CONTENT"
-msgstr ""
+msgstr "AIHEESEEN LIITTYVÄ SISÄLTÖ"
 
 #: oep/templates/events/events_page.html:66
 msgid "UPCOMING EVENTS"
-msgstr ""
+msgstr "TULEVAT TAPAHTUMAT"
 
 #: oep/templates/events/events_page.html:115
 msgid "PAST EVENTS"
-msgstr ""
+msgstr "MENNEET TAPAHTUMAT"
 
 #: oep/templates/pages/about_page.html:16
 msgid "MEET THE TEAM"
-msgstr ""
+msgstr "TIIMIESITTELY"
 
 #: oep/templates/toolkits/toolkits_page.html:42
 msgid "Start now"
-msgstr ""
+msgstr "Aloita nyt"
 
 #: oep/toolkits/models.py:40
 msgid "Excerpt"
-msgstr ""
+msgstr "Katkelma"
 
 #: oep/toolkits/models.py:47
 msgid "This text will appear on the toolkits index page."
-msgstr ""
+msgstr "Tämä teksti näkyy työkalujen aloitussivulla "
 
 #: oep/toolkits/models.py:66 oep/toolkits/models.py:74
 msgid "Description (English)"
-msgstr ""
+msgstr "Selitys (englanti)"
 
 #: oep/urls.py:34
 msgid "Design Bites"
@@ -842,7 +842,7 @@ msgstr ""
 
 #: oep/urls.py:35
 msgid "Design Bites Administration"
-msgstr ""
+msgstr "Design Bites Ylläpito"
 
 #: oep/urls.py:36
 msgid "Design Bites Management"
