@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-18 10:34+0000\n"
+"POT-Creation-Date: 2021-03-19 11:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,32 +146,36 @@ msgstr "Et lisännyt sidosryhmiä. Oletko varma?"
 msgid "You did not specify any stakeholders. Are you sure?"
 msgstr "Et lisännyt sidosryhmiä. Oletko varma?"
 
-#: oep/mapper/templates/mapper/floating_menu.html:7
+#: oep/mapper/templates/mapper/base.html:261
+msgid "LET'S GO"
+msgstr ""
+
+#: oep/mapper/templates/mapper/floating_menu.html:9
 #: oep/mapper/templates/mapper/info_add.html:6
 msgid "ADD STAKEHOLDER"
 msgstr "LISÄÄ SIDOSRYHMÄ"
 
-#: oep/mapper/templates/mapper/floating_menu.html:26
+#: oep/mapper/templates/mapper/floating_menu.html:28
 msgid "SHOW LEGEND"
 msgstr "NÄYTÄ SELITE"
 
-#: oep/mapper/templates/mapper/floating_menu.html:34
+#: oep/mapper/templates/mapper/floating_menu.html:36
 msgid "APPLY FILTERS"
 msgstr "ASETA SUODATTIMET"
 
-#: oep/mapper/templates/mapper/floating_menu.html:43
+#: oep/mapper/templates/mapper/floating_menu.html:45
 msgid "CHANGE DIAGRAM"
 msgstr "VAIHDA NÄKYMÄ"
 
-#: oep/mapper/templates/mapper/floating_menu.html:53
+#: oep/mapper/templates/mapper/floating_menu.html:55
 msgid "DOWNLOAD TO SAVE OR CONTINUE LATER"
 msgstr "LATAA TIEDOSTO TALLENTAAKSESI TAI JATKAAKSESI MYÖHEMMIN "
 
-#: oep/mapper/templates/mapper/floating_menu.html:70
+#: oep/mapper/templates/mapper/floating_menu.html:72
 msgid "SUGGEST COLLABORATORS"
 msgstr "EHDOTA YHTEISTYÖKUMPPANEITA"
 
-#: oep/mapper/templates/mapper/floating_menu.html:85
+#: oep/mapper/templates/mapper/floating_menu.html:87
 msgid "GO BACK"
 msgstr "PALAA"
 
