@@ -427,9 +427,10 @@ def ring_view(request, **kwargs):
         page_info = PageInfo.objects.filter(page='circles').first()
         if page_info:
             lang = get_language_from_request(request)
+            description = lang == 'fi' and page_info.description_fi or page_info.description
             kwargs.update({
                 'title': lang == 'fi' and page_info.title_fi or page_info.title,
-                'description': lang == 'fi' and page_info.description_fi or page_info.description % {
+                'description': description % {
                     'organization_name': get_organization_name_from_session(request),
                 },
             })
@@ -457,9 +458,10 @@ def venn_view(request, **kwargs):
         page_info = PageInfo.objects.filter(page='venn').first()
         if page_info:
             lang = get_language_from_request(request)
+            description = lang == 'fi' and page_info.description_fi or page_info.description
             kwargs.update({
                 'title': lang == 'fi' and page_info.title_fi or page_info.title,
-                'description': lang == 'fi' and page_info.description_fi or page_info.description % {
+                'description': description % {
                     'organization_name': get_organization_name_from_session(request),
                 },
             })
@@ -485,9 +487,10 @@ def suggest_view(request, **kwargs):
         page_info = PageInfo.objects.filter(page='suggestions').first()
         if page_info:
             lang = get_language_from_request(request)
+            description = lang == 'fi' and page_info.description_fi or page_info.description
             kwargs.update({
                 'title': lang == 'fi' and page_info.title_fi or page_info.title,
-                'description': lang == 'fi' and page_info.description_fi or page_info.description % {
+                'description': description % {
                     'organization_name': get_organization_name_from_session(request),
                 },
             })
@@ -829,9 +832,10 @@ def page_view(request, page_no, workshop_slug=None):
     page_info = PageInfo.objects.filter(page=str(page_no)).first()
     if page_info:
         lang = get_language_from_request(request)
+        description = lang == 'fi' and page_info.description_fi or page_info.description
         context.update({
             'title': lang == 'fi' and page_info.title_fi or page_info.title,
-            'description': lang == 'fi' and page_info.description_fi or page_info.description % {
+            'description': description % {
                 'organization_name': get_organization_name_from_session(request),
                 'custom_similarity_parameter': request.session.get('custom_similarity_parameter', '#'),
             },

@@ -20,7 +20,7 @@
 			{% if organization %}
 			<div class="card col-sm-12 mb-5">
 				<div class="card-body">
-					<h4 class="card-title">{% blocktrans with organization.name as organizaton_name %}I am continuing with "{{ organization_name }}".{% endblocktrans %}</h4>
+					<h4 class="card-title">{% blocktrans %}I am continuing with "{{ organization_name }}".{% endblocktrans %}</h4>
 				</div>
 				<div class="card-footer">
 					<a href="{% url 'mapper_page' page_no=last_page_no %}" class="btn card-link stretched-link">
