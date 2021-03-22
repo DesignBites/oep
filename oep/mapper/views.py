@@ -322,7 +322,7 @@ def grid_save(request):
 
 
 class StakeholderBatchForm(forms.Form):
-    def __init__(self, batch_no, *args, **kwargs):
+    def __init__(self, batch_no, lang=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         stakeholder_types = StakeholderType.objects.filter(batch_no=batch_no)
         i = 1
@@ -336,8 +336,8 @@ class StakeholderBatchForm(forms.Form):
                     'autofocus': 'autofocus'
                 })
             self.fields[stakeholder_type.name] = forms.CharField(
-                label=stakeholder_type.question,
-                help_text=stakeholder_type.description,
+                label=lang=='fi' and stakeholder_type.question_fi or stakeholder_type.question,
+                help_text=lang=='fi' and stakeholder_type.description_fi or stakeholder_type.description,
                 required=False,
                 widget=forms.TextInput(attrs=attrs),
             )
@@ -371,7 +371,8 @@ def add_stakeholders(request, **kwargs):
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
-        form = StakeholderBatchForm(batch_no)
+        lang = get_language_from_request(request)
+        form = StakeholderBatchForm(batch_no, lang)
         stakeholders = kwargs.get('stakeholders', {})
         for field in form:
             initial_stakeholders = []
