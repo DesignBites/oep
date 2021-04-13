@@ -61,7 +61,7 @@ class ToolkitPage(Page):
     tools = StreamField([
         ('tool', blocks.StructBlock([
             ('title', blocks.CharBlock(label=_('Title (English)'))),
-            ('title_fi', blocks.CharBlock(label=_('Title (English)'), required=False)),
+            ('title_fi', blocks.CharBlock(label=_('Title (Finnish)'), required=False)),
             ('thumbnail', ImageChooserBlock()),
             ('description', blocks.RichTextBlock(label=_('Description (English)'), required=False)),
             ('description_fi', blocks.RichTextBlock(label=_('Description (Finnish)'), required=False)),
@@ -69,11 +69,12 @@ class ToolkitPage(Page):
         ])),
         ('doc', blocks.StructBlock([
             ('title', blocks.CharBlock(label=_('Title (English)'))),
-            ('title_fi', blocks.CharBlock(label=_('Title (English)'), required=False)),
+            ('title_fi', blocks.CharBlock(label=_('Title (Finnish)'), required=False)),
             ('thumbnail', ImageChooserBlock()),
             ('description', blocks.RichTextBlock(label=_('Description (English)'), required=False)),
             ('description_fi', blocks.RichTextBlock(label=_('Description (Finnish)'), required=False)),
-            ('file', DocumentChooserBlock(required=False)),
+            ('file', DocumentChooserBlock(label=_('File (English)'), required=False)),
+            ('file_fi', DocumentChooserBlock(label=_('File (Finnish)'), required=False)),
         ]))
     ])
 
