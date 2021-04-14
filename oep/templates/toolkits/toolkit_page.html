@@ -22,7 +22,7 @@
 
 				{% if tool.block_type == 'tool' %}
 
-					{% if LANGUAGE_CODE == 'fi' and tool.value.file_fi %}
+					{% if LANGUAGE_CODE == 'fi' and tool.value.url_fi %}
 						<a href="{{ tool.value.url_fi }}" class="stretched-link">
 							{% image tool.value.thumbnail fill-350x240 class="img-fluid" %}
 						</a>
