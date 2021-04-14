@@ -65,7 +65,8 @@ class ToolkitPage(Page):
             ('thumbnail', ImageChooserBlock()),
             ('description', blocks.RichTextBlock(label=_('Description (English)'), required=False)),
             ('description_fi', blocks.RichTextBlock(label=_('Description (Finnish)'), required=False)),
-            ('url', blocks.URLBlock(required=False)),
+            ('url', blocks.URLBlock(label=_('Link (English)'), required=False)),
+            ('url_fi', blocks.URLBlock(label=_('Link (Finnish)'), required=False)),
         ])),
         ('doc', blocks.StructBlock([
             ('title', blocks.CharBlock(label=_('Title (English)'))),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-10 10:56+0000\n"
+"POT-Creation-Date: 2021-04-14 07:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: oep/events/models.py:68 oep/pages/models.py:33 oep/pages/models.py:72
 #: oep/pages/models.py:86 oep/pages/models.py:115 oep/pages/models.py:128
 #: oep/toolkits/models.py:13 oep/toolkits/models.py:36
-#: oep/toolkits/models.py:64 oep/toolkits/models.py:72
+#: oep/toolkits/models.py:64 oep/toolkits/models.py:73
 msgid "Title (Finnish)"
 msgstr "Otsikko (suomi)"
 
@@ -656,8 +656,8 @@ msgid ""
 "The file is not valid. Please start over here or <a href=\"%s\">upload "
 "another file</a>."
 msgstr ""
-"Tämä tiedosto ei ole soveltuva. Aloita uudestaan tästä ja <a href=\"%s\">lataa toinen "
-"tiedosto</a>."
+"Tämä tiedosto ei ole soveltuva. Aloita uudestaan tästä ja <a href=\"%s"
+"\">lataa toinen tiedosto</a>."
 
 #: oep/mapper/views.py:519
 msgid "How often have you collaborated creatively with each other?"
@@ -724,7 +724,7 @@ msgid "Link text (Finnish)"
 msgstr "Yhdistetty teksti (suomi)"
 
 #: oep/pages/models.py:85 oep/pages/models.py:127 oep/toolkits/models.py:63
-#: oep/toolkits/models.py:71
+#: oep/toolkits/models.py:72
 msgid "Title (English)"
 msgstr "Otsikko (englanti)"
 
@@ -748,7 +748,7 @@ msgstr "Alatunniste (suomi)"
 msgid "Description (English"
 msgstr "Selitys (englanti)"
 
-#: oep/pages/models.py:131 oep/toolkits/models.py:67 oep/toolkits/models.py:75
+#: oep/pages/models.py:131 oep/toolkits/models.py:67 oep/toolkits/models.py:76
 msgid "Description (Finnish)"
 msgstr "Selitys (suomi)"
 
@@ -812,15 +812,23 @@ msgstr "Katkelma"
 msgid "This text will appear on the toolkits index page."
 msgstr "Tämä teksti näkyy työkalujen aloitussivulla "
 
-#: oep/toolkits/models.py:66 oep/toolkits/models.py:74
+#: oep/toolkits/models.py:66 oep/toolkits/models.py:75
 msgid "Description (English)"
 msgstr "Selitys (englanti)"
 
-#: oep/toolkits/models.py:76
+#: oep/toolkits/models.py:68
+msgid "Link (English)"
+msgstr "Linkki (englanti)"
+
+#: oep/toolkits/models.py:69
+msgid "Link (Finnish)"
+msgstr "Linkki (suomi)"
+
+#: oep/toolkits/models.py:77
 msgid "File (English)"
 msgstr "Tiedosto (englanti)"
 
-#: oep/toolkits/models.py:77
+#: oep/toolkits/models.py:78
 msgid "File (Finnish)"
 msgstr "Tiedosto (suomi)"
 
