@@ -3,9 +3,15 @@
 *.sqlite3
 *.pyc
 /env*
+/venv*
 /media/
 /docs/
 /data/
 /whoosh_index/
+/node_modules/
 *.conf
 settings_local.py
+package*.json
+__pycache__
+bin/
+lib/
