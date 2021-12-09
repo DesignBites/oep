@@ -351,7 +351,8 @@ class StakeholderBatchForm(forms.Form):
     def save(self, request, cleaned_data):
         stakeholders = request.session.get('stakeholders') or {}
         for stakeholder_type in cleaned_data.keys():
-            for name in cleaned_data[stakeholder_type].split(','):
+            #for name in cleaned_data[stakeholder_type].split(','):
+            for name in cleaned_data[stakeholder_type][1].split(','):
                 name = name.strip()
                 if name:
                     if name in stakeholders:
@@ -366,10 +367,18 @@ def add_stakeholders(request, **kwargs):
     batch_no = kwargs['batch_no']
     if request.method == 'POST':
         form = StakeholderBatchForm(batch_no, request.POST)
+        """
         if form.is_valid():
             form.save(request, form.cleaned_data)
             if kwargs.get('page_no'):
                 return redirect('mapper_page', page_no=kwargs['page_no']+1)
+        """
+        # patch
+        data = dict(request.POST)
+        del data['csrfmiddlewaretoken']
+        form.save(request, data)
+        if kwargs.get('page_no'):
+            return redirect('mapper_page', page_no=kwargs['page_no']+1)
     else:
         lang = get_language_from_request(request)
         form = StakeholderBatchForm(batch_no, lang)
