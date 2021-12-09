@@ -169,6 +169,9 @@ WAGTAIL_SITE_NAME = 'Design Bites'
 #WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
 
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 try:
     from .settings_local import *
 except ImportError:

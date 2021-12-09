@@ -127,7 +127,7 @@ class PodcastsPage(Page):
             ('title', blocks.CharBlock(label=_('Title (English)'))),
             ('title_fi', blocks.CharBlock(label=_('Title (Finnish)'), required=False)),
             ('thumbnail', ImageChooserBlock(required=False)),
-            ('description', blocks.RichTextBlock(label=_('Description (English'), required=False)),
+            ('description', blocks.RichTextBlock(label=_('Description (English)'), required=False)),
             ('description_fi', blocks.RichTextBlock(label=_('Description (Finnish)'), required=False)),
             ('url', blocks.URLBlock(required=False)),
         ]))
